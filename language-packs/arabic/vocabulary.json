@@ -50,12 +50,12 @@
       "id": "colors",
       "title": "Farben",
       "words": [
-        { "id": "color_red", "arabic": "أَحْمَر", "german": "rot", "transliteration": "aḥmar", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
-        { "id": "color_blue", "arabic": "أَزْرَق", "german": "blau", "transliteration": "azraq", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
-        { "id": "color_yellow", "arabic": "أَصْفَر", "german": "gelb", "transliteration": "aṣfar", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
-        { "id": "color_green", "arabic": "أَخْضَر", "german": "grün", "transliteration": "akhḍar", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
-        { "id": "color_black", "arabic": "أَسْوَد", "german": "schwarz", "transliteration": "aswad", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
-        { "id": "color_white", "arabic": "أَبْيَض", "german": "weiß", "transliteration": "abyaḍ", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null }
+        { "id": "color_red", "arabic": "أَحْمَر", "arabic_feminine": "حَمْرَاء", "german": "rot", "transliteration": "aḥmar", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
+        { "id": "color_blue", "arabic": "أَزْرَق", "arabic_feminine": "زَرْقَاء", "german": "blau", "transliteration": "azraq", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
+        { "id": "color_yellow", "arabic": "أَصْفَر", "arabic_feminine": "صَفْرَاء", "german": "gelb", "transliteration": "aṣfar", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
+        { "id": "color_green", "arabic": "أَخْضَر", "arabic_feminine": "خَضْرَاء", "german": "grün", "transliteration": "akhḍar", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
+        { "id": "color_black", "arabic": "أَسْوَد", "arabic_feminine": "سَوْدَاء", "german": "schwarz", "transliteration": "aswad", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
+        { "id": "color_white", "arabic": "أَبْيَض", "arabic_feminine": "بَيْضَاء", "german": "weiß", "transliteration": "abyaḍ", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null }
       ]
     },
     {

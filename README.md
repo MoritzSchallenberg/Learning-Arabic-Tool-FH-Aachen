@@ -80,15 +80,22 @@ Enthalten:
   Übungstypen (Buchstaben erkennen, Buchstaben eingeben) (Lektion 2)
 - Grundwortschatz I: ~38 Wörter in 5 Themenbereichen, Karteikarten-Modus in beide Richtungen
   plus optionaler Aussprache-Selbsteinschätzung (Lektion 3)
+- Grundgrammatik I: bestimmter Artikel الـ, Personalpronomen, Demonstrativpronomen mit
+  Genus-Kongruenz, einfache Nominalsätze mit Adjektiv-Kongruenz — bewusst auf diese 4 gut
+  abgesicherten Themen begrenzt, siehe Hinweis in `language-packs/arabic/grammar.json` (Lektion 4)
 - Aussprache und Hörverständnis I: gehörtes Wort einer Übersetzung zuordnen (Multiple-Choice)
   sowie Diktat-Schreiben mit/ohne Umschrift-Hilfe, inkl. normaler/langsamer Wiedergabe,
   eigene Schwierigkeitsverfolgung für die Fähigkeit "Hörverständnis" (Lektion 5)
+- Echte, mit der App ausgelieferte Aussprache-Audiodateien (siehe Architektur-Abschnitt)
 - Lokale JSON-Speicherung von Fortschritt und Einstellungen
 
 **Noch nicht enthalten** (spätere Versionen, siehe Roadmap in der ursprünglichen
-Systembeschreibung): Lektionen 4, 6-11 (Grammatik, Grundwortschatz II, Lesen/Schreiben,
-Prüfungen), physische Arabic-(101)-Tastaturübersicht/-umschaltung, Transliterationsmodus als
-echte Eingabemethode, Fachwortpakete, Mehrsprachigkeit über Arabisch hinaus. In Lektion 5 fehlen
+Systembeschreibung): Lektionen 6-11 (Grundwortschatz II, weiterführende Grammatik,
+Lesen/Schreiben, Prüfungen), weiterführende Grammatikthemen aus Lektion 4 (Adjektive allgemein,
+Präpositionen, Besitzverbindungen, Fragen, Verneinung — ausgelassen, da bei anlautendem
+Hamza/Alif ohne muttersprachliche Prüfung Fehlerrisiko bestünde), physische
+Arabic-(101)-Tastaturübersicht/-umschaltung, Transliterationsmodus als echte Eingabemethode,
+Fachwortpakete, Mehrsprachigkeit über Arabisch hinaus. In Lektion 5 fehlen
 außerdem die bild- und satzbasierten Aufgabentypen aus der Spec (Stufe 4 "Audio in einem
 vollständigen Satz", "richtiges Bild auswählen") mangels Bild-/Satzdaten, sowie
 Buchstaben-Hörübungen (isolierte Buchstaben werden auch von echten TTS-Aufnahmen unzuverlässig

@@ -1,0 +1,48 @@
+{
+  "note": "Grundgrammatik I (Lektion 4) — bewusst auf 4 gut abgesicherte Themen begrenzt. Wörter mit anlautendem Hamza/Alif (z. B. Familienwörter أب، أم، ابن) werden bei der Artikel-Verschmelzung ausgespart, da dort Diakritika-Feinheiten (hamzat al-wasl) ohne muttersprachliche Prüfung fehleranfällig wären.",
+  "sections": [
+    {
+      "id": "definite_article",
+      "title": "Der bestimmte Artikel الـ",
+      "explanation": "Ein Substantiv ohne الـ ist unbestimmt (\"ein Haus\" bzw. einfach \"Haus\"). Mit الـ davor wird es bestimmt (\"das Haus\"). Die Schreibweise ist immer einfach: الـ wird direkt vor das Wort gesetzt.",
+      "example": {
+        "indefinite": "بَيْت",
+        "indefinite_meaning": "ein Haus / Haus",
+        "definite": "الْبَيْت",
+        "definite_meaning": "das Haus"
+      },
+      "practice_category": "food_drink"
+    },
+    {
+      "id": "personal_pronouns",
+      "title": "Personalpronomen",
+      "explanation": "Die wichtigsten Personalpronomen im Singular und Plural.",
+      "pronouns": [
+        { "id": "ana", "arabic": "أَنَا", "german": "ich" },
+        { "id": "anta", "arabic": "أَنْتَ", "german": "du (männlich)" },
+        { "id": "anti", "arabic": "أَنْتِ", "german": "du (weiblich)" },
+        { "id": "huwa", "arabic": "هُوَ", "german": "er" },
+        { "id": "hiya", "arabic": "هِيَ", "german": "sie" },
+        { "id": "nahnu", "arabic": "نَحْنُ", "german": "wir" }
+      ]
+    },
+    {
+      "id": "demonstratives",
+      "title": "Demonstrativpronomen",
+      "explanation": "هَذَا wird bei männlichen Substantiven verwendet, هَذِهِ bei weiblichen — das Demonstrativpronomen richtet sich nach dem Geschlecht des Substantivs.",
+      "masculine": { "arabic": "هَذَا", "german": "dieser / dieses" },
+      "feminine": { "arabic": "هَذِهِ", "german": "diese" },
+      "practice_category": "family"
+    },
+    {
+      "id": "nominal_sentences",
+      "title": "Einfache Nominalsätze mit Adjektiv",
+      "explanation": "Im Präsens gibt es im Arabischen kein eigenes Verb für \"sein\". \"Das Brot ist rot\" wird direkt gebildet: bestimmtes Substantiv + unbestimmtes Adjektiv. Das Adjektiv muss dabei im Geschlecht mit dem Substantiv übereinstimmen (z. B. أَحْمَر männlich, حَمْرَاء weiblich).",
+      "example": {
+        "sentence": "الْخُبْز أَحْمَر",
+        "translation": "Das Brot ist rot (Beispielsatz zum Üben der Struktur, nicht unbedingt sinnvoll)"
+      },
+      "practice_category": "food_drink"
+    }
+  ]
+}

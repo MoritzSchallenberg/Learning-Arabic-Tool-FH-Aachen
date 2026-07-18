@@ -65,6 +65,7 @@ function loadLanguagePack(languageId) {
     lessons: readJsonFile(path.join(packDir, 'lessons.json'), null),
     vocabulary: readJsonFile(path.join(packDir, 'vocabulary.json'), null),
     keyboard: readJsonFile(path.join(packDir, 'keyboard.json'), null),
+    grammar: readJsonFile(path.join(packDir, 'grammar.json'), null),
     tutorials: {
       introduction: readJsonFile(path.join(packDir, 'tutorials', 'introduction.json'), null),
       keyboard: readJsonFile(path.join(packDir, 'tutorials', 'keyboard.json'), null)

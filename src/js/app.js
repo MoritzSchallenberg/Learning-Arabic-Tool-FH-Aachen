@@ -10,6 +10,7 @@ const App = (() => {
     onboarding: OnboardingView,
     keyboard_tutorial: KeyboardTutorialView,
     alphabet: AlphabetView,
+    grammar_1: GrammarView,
     vocabulary_1: VocabularyView,
     listening_1: ListeningView
   };
