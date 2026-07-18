@@ -1,0 +1,45 @@
+{
+  "sections": [
+    {
+      "id": 1,
+      "title": "Schreibrichtung",
+      "type": "direction_demo",
+      "text": "Arabische Eingabefelder sind rechtsbündig. Der Cursor beginnt auf der rechten Seite des Eingabefeldes.",
+      "letter": "ب"
+    },
+    {
+      "id": 2,
+      "title": "Einzelne Buchstaben eingeben",
+      "type": "single_letter_practice",
+      "text": "Finde den gesuchten Buchstaben auf der virtuellen arabischen Tastatur und tippe ihn an. Eine Übersicht für die physische Tastaturbelegung (z. B. Arabic (101)) folgt in einer späteren Version.",
+      "letter": "ب"
+    },
+    {
+      "id": 3,
+      "title": "Verbundene Buchstaben",
+      "type": "connected_letters_demo",
+      "text": "Buchstaben verbinden sich beim Schreiben automatisch. Du musst dafür keine besonderen Anfangs- oder Endformen auswählen — es werden immer die normalen Buchstaben eingegeben.",
+      "sequence": ["ب", "ي", "ت"],
+      "result": "بيت"
+    },
+    {
+      "id": 4,
+      "title": "Vokalzeichen",
+      "type": "diacritics_table",
+      "text": "Diese kurzen Vokalzeichen kommen besonders häufig vor:"
+    },
+    {
+      "id": 5,
+      "title": "Übungswort",
+      "type": "practice_word",
+      "word": "بَيْت",
+      "meaning": "Haus"
+    },
+    {
+      "id": 6,
+      "title": "Eingabemodus auswählen",
+      "type": "input_mode_selection",
+      "text": "Welche Eingabehilfe möchtest du verwenden? Die Auswahl kann später jederzeit in den Einstellungen geändert werden."
+    }
+  ]
+}

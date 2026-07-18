@@ -1,0 +1,33 @@
+{
+  "note": "Nur die normalen Unicode-Grundbuchstaben werden gespeichert (keine getrennten Anfangs-/Mittel-/Endform-Codepoints). Die Kontextformen werden beim Anzeigen aus 'letter' + Tatweel-Verbindungszeichen (U+0640) erzeugt, siehe src/js/views/alphabet.js.",
+  "letters": [
+    { "id": "alif", "letter": "ا", "name": "Alif", "joining": "right", "sound": "langer a-Laut / Träger des Hamza", "example_word": "بَاب", "example_meaning": "Tür" },
+    { "id": "ba", "letter": "ب", "name": "Bāʾ", "joining": "dual", "sound": "wie deutsches „b“", "example_word": "بَيْت", "example_meaning": "Haus" },
+    { "id": "ta", "letter": "ت", "name": "Tāʾ", "joining": "dual", "sound": "wie deutsches „t“", "example_word": "تُفَّاح", "example_meaning": "Apfel" },
+    { "id": "tha", "letter": "ث", "name": "Thāʾ", "joining": "dual", "sound": "stimmloses „th“ wie engl. think", "example_word": "ثَلْج", "example_meaning": "Schnee / Eis" },
+    { "id": "jim", "letter": "ج", "name": "Jīm", "joining": "dual", "sound": "wie „dsch“ in Dschungel", "example_word": "جَبَل", "example_meaning": "Berg" },
+    { "id": "ha_emph", "letter": "ح", "name": "Ḥāʾ", "joining": "dual", "sound": "stark gehauchtes h, tief im Rachen", "example_word": "حَلِيب", "example_meaning": "Milch" },
+    { "id": "kha", "letter": "خ", "name": "Khāʾ", "joining": "dual", "sound": "wie „ch“ in Bach", "example_word": "خُبْز", "example_meaning": "Brot" },
+    { "id": "dal", "letter": "د", "name": "Dāl", "joining": "right", "sound": "wie deutsches „d“", "example_word": "دَفْتَر", "example_meaning": "Heft" },
+    { "id": "dhal", "letter": "ذ", "name": "Dhāl", "joining": "right", "sound": "stimmhaftes „th“ wie engl. this", "example_word": "ذَهَب", "example_meaning": "Gold" },
+    { "id": "ra", "letter": "ر", "name": "Rāʾ", "joining": "right", "sound": "gerolltes r", "example_word": "رَجُل", "example_meaning": "Mann" },
+    { "id": "zay", "letter": "ز", "name": "Zāy", "joining": "right", "sound": "stimmhaftes s wie in Sonne", "example_word": "زَيْت", "example_meaning": "Öl" },
+    { "id": "sin", "letter": "س", "name": "Sīn", "joining": "dual", "sound": "wie deutsches scharfes s (Fass)", "example_word": "سَيَّارَة", "example_meaning": "Auto" },
+    { "id": "shin", "letter": "ش", "name": "Shīn", "joining": "dual", "sound": "wie deutsches „sch“", "example_word": "شَمْس", "example_meaning": "Sonne" },
+    { "id": "sad", "letter": "ص", "name": "Ṣād", "joining": "dual", "sound": "emphatisches (kehliges) s", "example_word": "صُورَة", "example_meaning": "Bild" },
+    { "id": "dad", "letter": "ض", "name": "Ḍād", "joining": "dual", "sound": "emphatisches d", "example_word": "ضَوْء", "example_meaning": "Licht" },
+    { "id": "ta_emph", "letter": "ط", "name": "Ṭāʾ", "joining": "dual", "sound": "emphatisches t", "example_word": "طَاوِلَة", "example_meaning": "Tisch" },
+    { "id": "za_emph", "letter": "ظ", "name": "Ẓāʾ", "joining": "dual", "sound": "emphatisches th/z", "example_word": "ظُهْر", "example_meaning": "Mittag" },
+    { "id": "ain", "letter": "ع", "name": "ʿAyn", "joining": "dual", "sound": "Kehllaut ohne deutsches Äquivalent", "example_word": "عَيْن", "example_meaning": "Auge" },
+    { "id": "ghain", "letter": "غ", "name": "Ghayn", "joining": "dual", "sound": "wie franz. „r“ (im Rachen gerollt)", "example_word": "غُرْفَة", "example_meaning": "Zimmer" },
+    { "id": "fa", "letter": "ف", "name": "Fāʾ", "joining": "dual", "sound": "wie deutsches „f“", "example_word": "فِيل", "example_meaning": "Elefant" },
+    { "id": "qaf", "letter": "ق", "name": "Qāf", "joining": "dual", "sound": "kehliges k, weiter hinten als ك", "example_word": "قَلَم", "example_meaning": "Stift" },
+    { "id": "kaf", "letter": "ك", "name": "Kāf", "joining": "dual", "sound": "wie deutsches „k“", "example_word": "كِتَاب", "example_meaning": "Buch" },
+    { "id": "lam", "letter": "ل", "name": "Lām", "joining": "dual", "sound": "wie deutsches „l“", "example_word": "لَيْمُون", "example_meaning": "Zitrone" },
+    { "id": "mim", "letter": "م", "name": "Mīm", "joining": "dual", "sound": "wie deutsches „m“", "example_word": "مَدْرَسَة", "example_meaning": "Schule" },
+    { "id": "nun", "letter": "ن", "name": "Nūn", "joining": "dual", "sound": "wie deutsches „n“", "example_word": "نَجْمَة", "example_meaning": "Stern" },
+    { "id": "ha", "letter": "ه", "name": "Hāʾ", "joining": "dual", "sound": "wie deutsches „h“", "example_word": "هَاتِف", "example_meaning": "Telefon" },
+    { "id": "waw", "letter": "و", "name": "Wāw", "joining": "right", "sound": "wie deutsches „w“ / langer u-Laut", "example_word": "وَرْدَة", "example_meaning": "Rose" },
+    { "id": "ya", "letter": "ي", "name": "Yāʾ", "joining": "dual", "sound": "wie deutsches „j“ / langer i-Laut", "example_word": "يَد", "example_meaning": "Hand" }
+  ]
+}

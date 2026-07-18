@@ -1,0 +1,49 @@
+{
+  "name": "learning-arabic-tool",
+  "productName": "Learning Arabic Tool",
+  "version": "0.1.0",
+  "description": "Modularer, lokal laufender Vokabel- und Sprachtrainer. Erstes Sprachmodul: Arabisch (Hocharabisch/MSA).",
+  "main": "main.js",
+  "author": "Moritz Schallenberg",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux",
+    "build": "electron-builder -mwl"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "de.fhaachen.learningarabictool",
+    "productName": "Learning Arabic Tool",
+    "directories": {
+      "output": "dist"
+    },
+    "publish": {
+      "provider": "github"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "language-packs/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.education"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "Education"
+    }
+  }
+}

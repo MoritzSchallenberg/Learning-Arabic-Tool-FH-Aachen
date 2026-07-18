@@ -1,0 +1,36 @@
+{
+  "steps": [
+    {
+      "id": "welcome",
+      "type": "welcome",
+      "title": "Willkommen beim Arabisch-Modul",
+      "text": "Arabisch wird von rechts nach links geschrieben. Viele Buchstaben verbinden sich innerhalb eines Wortes automatisch miteinander.",
+      "example": { "german": "Haus", "arabic": "بَيْت" }
+    },
+    {
+      "id": "input_mode_choice",
+      "type": "input_mode_choice",
+      "title": "Eingabemodus wählen",
+      "text": "In dieser Version steht die virtuelle arabische Tastatur zur Verfügung. Weitere Eingabemodi (physische Tastaturbelegung, Transliteration) folgen in einer späteren Version."
+    },
+    {
+      "id": "tts_test",
+      "type": "tts_test",
+      "title": "Tonausgabe testen",
+      "text": "Drücke den Lautsprecher, um ein arabisches Wort zu hören.",
+      "sample_word": { "arabic": "بَيْت", "german": "Haus" }
+    },
+    {
+      "id": "repetition_info",
+      "type": "repetition_info",
+      "title": "Wie die Wiederholung funktioniert",
+      "text": "Richtige Antworten senken die Schwierigkeit einer Karte, Tippfehler oder fehlende Vokalzeichen erhöhen sie leicht, falsche Antworten stärker. Schwierige Karten erscheinen dadurch häufiger."
+    },
+    {
+      "id": "diacritics_choice",
+      "type": "diacritics_choice",
+      "title": "Vokalzeichen anzeigen?",
+      "text": "Sollen kurze Vokalzeichen (Fatha, Kasra, Damma, ...) zu Beginn angezeigt werden? Das kann später jederzeit in den Einstellungen geändert werden."
+    }
+  ]
+}

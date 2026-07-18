@@ -1,0 +1,74 @@
+{
+  "note": "Startwortschatz für Lektion 3 (Grundwortschatz I), von der KI zusammengestellt anhand von gängigem modernem Hocharabisch (MSA) — vor produktivem Einsatz durch eine Person mit Arabischkenntnissen gegenlesen lassen (siehe README).",
+  "categories": [
+    {
+      "id": "greetings",
+      "title": "Begrüßungen",
+      "words": [
+        { "id": "greet_hallo", "arabic": "مَرْحَبًا", "german": "Hallo", "transliteration": "marḥaban", "part_of_speech": "Ausdruck", "gender": null, "plural": null },
+        { "id": "greet_salam", "arabic": "السَّلَامُ عَلَيْكُم", "german": "Friede sei mit dir (Gruß)", "transliteration": "as-salāmu ʿalaykum", "part_of_speech": "Ausdruck", "gender": null, "plural": null },
+        { "id": "greet_morning", "arabic": "صَبَاح الْخَيْر", "german": "Guten Morgen", "transliteration": "ṣabāḥ al-khayr", "part_of_speech": "Ausdruck", "gender": null, "plural": null },
+        { "id": "greet_evening", "arabic": "مَسَاء الْخَيْر", "german": "Guten Abend", "transliteration": "masāʾ al-khayr", "part_of_speech": "Ausdruck", "gender": null, "plural": null },
+        { "id": "greet_bye", "arabic": "مَع السَّلَامَة", "german": "Auf Wiedersehen", "transliteration": "maʿa as-salāma", "part_of_speech": "Ausdruck", "gender": null, "plural": null },
+        { "id": "greet_thanks", "arabic": "شُكْرًا", "german": "Danke", "transliteration": "shukran", "part_of_speech": "Ausdruck", "gender": null, "plural": null },
+        { "id": "greet_please", "arabic": "مِنْ فَضْلِك", "german": "Bitte", "transliteration": "min faḍlik", "part_of_speech": "Ausdruck", "gender": null, "plural": null },
+        { "id": "greet_yes", "arabic": "نَعَم", "german": "Ja", "transliteration": "naʿam", "part_of_speech": "Ausdruck", "gender": null, "plural": null },
+        { "id": "greet_no", "arabic": "لَا", "german": "Nein", "transliteration": "lā", "part_of_speech": "Ausdruck", "gender": null, "plural": null }
+      ]
+    },
+    {
+      "id": "family",
+      "title": "Familie",
+      "words": [
+        { "id": "family_father", "arabic": "أَب", "german": "Vater", "transliteration": "ab", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "آبَاء" },
+        { "id": "family_mother", "arabic": "أُم", "german": "Mutter", "transliteration": "umm", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "أُمَّهَات" },
+        { "id": "family_brother", "arabic": "أَخ", "german": "Bruder", "transliteration": "akh", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "إِخْوَة" },
+        { "id": "family_sister", "arabic": "أُخْت", "german": "Schwester", "transliteration": "ukht", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "أَخَوَات" },
+        { "id": "family_son", "arabic": "اِبْن", "german": "Sohn", "transliteration": "ibn", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَبْنَاء" },
+        { "id": "family_daughter", "arabic": "اِبْنَة", "german": "Tochter", "transliteration": "ibna", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "بَنَات" },
+        { "id": "family_grandfather", "arabic": "جَدّ", "german": "Großvater", "transliteration": "jadd", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَجْدَاد" },
+        { "id": "family_grandmother", "arabic": "جَدَّة", "german": "Großmutter", "transliteration": "jadda", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "جَدَّات" }
+      ]
+    },
+    {
+      "id": "numbers",
+      "title": "Zahlen 1-10",
+      "words": [
+        { "id": "num_1", "arabic": "وَاحِد", "german": "eins", "transliteration": "wāḥid", "part_of_speech": "Zahlwort", "gender": null, "plural": null },
+        { "id": "num_2", "arabic": "اِثْنَان", "german": "zwei", "transliteration": "ithnān", "part_of_speech": "Zahlwort", "gender": null, "plural": null },
+        { "id": "num_3", "arabic": "ثَلَاثَة", "german": "drei", "transliteration": "thalātha", "part_of_speech": "Zahlwort", "gender": null, "plural": null },
+        { "id": "num_4", "arabic": "أَرْبَعَة", "german": "vier", "transliteration": "arbaʿa", "part_of_speech": "Zahlwort", "gender": null, "plural": null },
+        { "id": "num_5", "arabic": "خَمْسَة", "german": "fünf", "transliteration": "khamsa", "part_of_speech": "Zahlwort", "gender": null, "plural": null },
+        { "id": "num_6", "arabic": "سِتَّة", "german": "sechs", "transliteration": "sitta", "part_of_speech": "Zahlwort", "gender": null, "plural": null },
+        { "id": "num_7", "arabic": "سَبْعَة", "german": "sieben", "transliteration": "sabʿa", "part_of_speech": "Zahlwort", "gender": null, "plural": null },
+        { "id": "num_8", "arabic": "ثَمَانِيَة", "german": "acht", "transliteration": "thamāniya", "part_of_speech": "Zahlwort", "gender": null, "plural": null },
+        { "id": "num_9", "arabic": "تِسْعَة", "german": "neun", "transliteration": "tisʿa", "part_of_speech": "Zahlwort", "gender": null, "plural": null },
+        { "id": "num_10", "arabic": "عَشَرَة", "german": "zehn", "transliteration": "ʿashara", "part_of_speech": "Zahlwort", "gender": null, "plural": null }
+      ]
+    },
+    {
+      "id": "colors",
+      "title": "Farben",
+      "words": [
+        { "id": "color_red", "arabic": "أَحْمَر", "german": "rot", "transliteration": "aḥmar", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
+        { "id": "color_blue", "arabic": "أَزْرَق", "german": "blau", "transliteration": "azraq", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
+        { "id": "color_yellow", "arabic": "أَصْفَر", "german": "gelb", "transliteration": "aṣfar", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
+        { "id": "color_green", "arabic": "أَخْضَر", "german": "grün", "transliteration": "akhḍar", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
+        { "id": "color_black", "arabic": "أَسْوَد", "german": "schwarz", "transliteration": "aswad", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
+        { "id": "color_white", "arabic": "أَبْيَض", "german": "weiß", "transliteration": "abyaḍ", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null }
+      ]
+    },
+    {
+      "id": "food_drink",
+      "title": "Essen und Trinken",
+      "words": [
+        { "id": "food_bread", "arabic": "خُبْز", "german": "Brot", "transliteration": "khubz", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": null },
+        { "id": "food_water", "arabic": "مَاء", "german": "Wasser", "transliteration": "māʾ", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": null },
+        { "id": "food_milk", "arabic": "حَلِيب", "german": "Milch", "transliteration": "ḥalīb", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": null },
+        { "id": "food_apple", "arabic": "تُفَّاح", "german": "Apfel", "transliteration": "tuffāḥ", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": null },
+        { "id": "food_coffee", "arabic": "قَهْوَة", "german": "Kaffee", "transliteration": "qahwa", "part_of_speech": "Substantiv", "gender": "feminin", "plural": null },
+        { "id": "food_tea", "arabic": "شَاي", "german": "Tee", "transliteration": "shāy", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": null }
+      ]
+    }
+  ]
+}

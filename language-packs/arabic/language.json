@@ -1,0 +1,30 @@
+{
+  "language": "ar",
+  "name": "Arabisch",
+  "variant": "Modernes Hocharabisch (MSA)",
+  "direction": "rtl",
+  "default_keyboard": "arabic_101",
+  "available_input_modes": [
+    "virtual_keyboard",
+    "transliteration",
+    "assisted_layout",
+    "system_layout"
+  ],
+  "implemented_input_modes": [
+    "virtual_keyboard"
+  ],
+  "special_characters": [
+    "ء", "أ", "إ", "آ", "ؤ", "ئ", "ة", "ى", "لا"
+  ],
+  "diacritics": [
+    { "symbol": "َ", "name": "Fatha", "sound": "kurzer a-Laut" },
+    { "symbol": "ِ", "name": "Kasra", "sound": "kurzer i-Laut" },
+    { "symbol": "ُ", "name": "Damma", "sound": "kurzer u-Laut" },
+    { "symbol": "ْ", "name": "Sukun", "sound": "kein Vokal" },
+    { "symbol": "ّ", "name": "Schadda", "sound": "Verdopplung des Konsonanten" },
+    { "symbol": "ً", "name": "Tanwin Fath", "sound": "an" },
+    { "symbol": "ٍ", "name": "Tanwin Kasr", "sound": "in" },
+    { "symbol": "ٌ", "name": "Tanwin Damm", "sound": "un" }
+  ],
+  "tts_lang": "ar-SA"
+}
