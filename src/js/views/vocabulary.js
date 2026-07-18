@@ -118,7 +118,7 @@ const VocabularyView = (() => {
 
     const speakBtn = container.querySelector('#vocab-speak');
     if (speakBtn) {
-      speakBtn.addEventListener('click', () => TTS.speak(word.arabic, 'ar-SA').catch(() => {}));
+      speakBtn.addEventListener('click', () => AudioPlayer.speak(word.arabic, 'ar-SA', { audioKey: `vocabulary/${word.id}` }).catch(() => {}));
     }
 
     container.querySelector('#vocab-check').addEventListener('click', () => {

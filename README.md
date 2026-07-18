@@ -57,9 +57,14 @@ automatisch ein GitHub-Release-Entwurf mit allen drei Installern angelegt.
   Bidirectional Algorithm sowie die arabische Zeichenverbindung (isoliert/Anfang/Mitte/Ende)
   nativ. In den Sprachdaten werden nur normale Unicode-Grundbuchstaben gespeichert, nie
   getrennte Kontextform-Zeichen.
-- **Aussprache:** Web Speech API (`speechSynthesis`) — einzige installationsfreie TTS-Option.
-  Ob und welche arabische Stimme verfügbar ist, hängt vom Betriebssystem ab; ist keine
-  passende Stimme installiert, bleibt die Wiedergabe stumm (kein Absturz).
+- **Aussprache:** Echte, mit der App ausgelieferte Audiodateien (`language-packs/arabic/audio/`,
+  erzeugt mit `espeak-ng` über `scripts/generate_audio.py`, je Wort/Buchstaben-Beispielwort in
+  normaler und langsamer Geschwindigkeit). Das entspricht Stufe 2 ("im Sprachpaket enthaltene
+  Aufnahme") aus der Systembeschreibung und funktioniert garantiert auf jedem Gerät, unabhängig
+  davon, ob das Betriebssystem eine arabische TTS-Stimme mitbringt. Web Speech API
+  (`speechSynthesis`) bleibt als Rückfallebene für Inhalte ohne generierte Audiodatei
+  (`src/js/audioPlayer.js`); ob diese Rückfallebene klingt, hängt vom Betriebssystem ab.
+  Die espeak-ng-Stimme klingt hörbar synthetisch, keine menschliche Aufnahme.
 - **Schwierigkeitsanpassung:** pro Karte und pro Fähigkeit getrennt (`arabic_to_german`,
   `german_to_arabic`, `pronunciation`, ...). Richtige Antworten senken die Schwierigkeit,
   Tippfehler/fehlende Vokalzeichen erhöhen sie leicht, falsche Antworten stärker; nach
@@ -86,8 +91,22 @@ Prüfungen), physische Arabic-(101)-Tastaturübersicht/-umschaltung, Translitera
 echte Eingabemethode, Fachwortpakete, Mehrsprachigkeit über Arabisch hinaus. In Lektion 5 fehlen
 außerdem die bild- und satzbasierten Aufgabentypen aus der Spec (Stufe 4 "Audio in einem
 vollständigen Satz", "richtiges Bild auswählen") mangels Bild-/Satzdaten, sowie
-Buchstaben-Hörübungen — Text-to-Speech spricht isolierte Buchstaben unzuverlässig aus, das
-braucht später echte Audioaufnahmen statt TTS.
+Buchstaben-Hörübungen (isolierte Buchstaben werden auch von echten TTS-Aufnahmen unzuverlässig
+ausgesprochen — das braucht später von Muttersprachler:innen eingesprochene Audiodateien statt
+einer synthetischen Stimme).
+
+### Audiodateien neu erzeugen/erweitern
+
+```bash
+sudo apt-get install -y espeak-ng   # einmalig, nur für dieses Skript
+python3 scripts/generate_audio.py
+```
+
+Das Skript liest `vocabulary.json`/`keyboard.json` und erzeugt fehlende bzw. aktualisiert
+vorhandene WAV-Dateien unter `language-packs/arabic/audio/`. Einfach erneut ausführen, wenn
+Vokabular ergänzt wird — vorhandene Dateien können jederzeit 1:1 durch bessere Aufnahmen
+(z. B. von einem hochwertigeren KI-Dienst oder echten Sprecher:innen) mit demselben Dateinamen
+ersetzt werden, ohne Code zu ändern.
 
 ## Wichtiger Hinweis zu den Inhalten
 
@@ -100,7 +119,8 @@ Unterricht) sollte der Inhalt von jemandem mit Arabischkenntnissen gegengelesen 
 
 ## Bekannte Einschränkungen
 
-- Ob TTS-Wiedergabe funktioniert, hängt von den auf dem jeweiligen Gerät installierten
-  Sprachstimmen ab (Windows/macOS bringen häufig, aber nicht garantiert, arabische Stimmen mit).
+- Für Vokabeln/Buchstaben ohne generierte Audiodatei (z. B. neu hinzugefügte Inhalte vor dem
+  nächsten `generate_audio.py`-Lauf) greift die App auf `speechSynthesis` zurück — ob das
+  hörbar ist, hängt dann wieder vom Betriebssystem ab.
 - macOS-Installer (`.dmg`) lassen sich zuverlässig nur auf einem echten Mac oder über den
   GitHub-Actions-Workflow bauen, nicht direkt unter Windows/Linux.

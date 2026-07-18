@@ -58,7 +58,7 @@ const AlphabetView = (() => {
     });
 
     container.querySelector('#alphabet-speak').addEventListener('click', () => {
-      TTS.speak(selected.example_word, 'ar-SA').catch(() => {});
+      AudioPlayer.speak(selected.example_word, 'ar-SA', { audioKey: `letters/${selected.id}` }).catch(() => {});
     });
 
     container.querySelector('#alphabet-start-exercise').addEventListener('click', () => {

@@ -73,6 +73,20 @@ function loadLanguagePack(languageId) {
   return pack;
 }
 
+const AUDIO_KEY_PATTERN = /^[a-zA-Z0-9_/-]+$/;
+
+function loadAudio(languageId, audioKey) {
+  if (!AUDIO_KEY_PATTERN.test(audioKey)) return null;
+  const audioDir = path.join(LANGUAGE_PACKS_DIR, languageId, 'audio');
+  const audioPath = path.join(audioDir, `${audioKey}.wav`);
+  if (!audioPath.startsWith(audioDir + path.sep)) return null;
+  try {
+    return fs.readFileSync(audioPath).toString('base64');
+  } catch (err) {
+    return null;
+  }
+}
+
 function listInstalledLanguages() {
   if (!fs.existsSync(LANGUAGE_PACKS_DIR)) return [];
   return fs.readdirSync(LANGUAGE_PACKS_DIR, { withFileTypes: true })
@@ -85,6 +99,7 @@ function registerIpcHandlers() {
   ipcMain.handle('user-data:save', (_event, key, data) => saveUserData(key, data));
   ipcMain.handle('language-pack:load', (_event, languageId) => loadLanguagePack(languageId));
   ipcMain.handle('language-pack:list', () => listInstalledLanguages());
+  ipcMain.handle('language-pack:audio', (_event, languageId, audioKey) => loadAudio(languageId, audioKey));
 }
 
 function createWindow() {

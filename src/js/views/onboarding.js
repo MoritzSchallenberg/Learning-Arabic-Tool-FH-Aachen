@@ -53,7 +53,8 @@ const OnboardingView = (() => {
     if (speakBtn) {
       const word = step.example ? step.example.arabic : step.sample_word.arabic;
       speakBtn.addEventListener('click', () => {
-        TTS.speak(word, 'ar-SA').catch(() => {
+        // بَيْت ist identisch mit dem Beispielwort des Buchstabens ب — dieselbe Audiodatei.
+        AudioPlayer.speak(word, 'ar-SA', { audioKey: 'letters/ba' }).catch(() => {
           speakBtn.title = 'Keine arabische Stimme auf diesem System gefunden.';
         });
       });

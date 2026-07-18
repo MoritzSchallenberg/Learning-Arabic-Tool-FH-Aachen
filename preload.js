@@ -14,5 +14,6 @@ contextBridge.exposeInMainWorld('api', {
   saveStatistics: (data) => ipcRenderer.invoke('user-data:save', 'statistics', data),
 
   loadLanguagePack: (languageId) => ipcRenderer.invoke('language-pack:load', languageId),
-  listLanguagePacks: () => ipcRenderer.invoke('language-pack:list')
+  listLanguagePacks: () => ipcRenderer.invoke('language-pack:list'),
+  loadAudio: (languageId, audioKey) => ipcRenderer.invoke('language-pack:audio', languageId, audioKey)
 });

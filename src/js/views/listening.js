@@ -86,7 +86,7 @@ const ListeningView = (() => {
   }
 
   function playWord(word, slow) {
-    return TTS.speak(word.arabic, 'ar-SA', { slow }).catch(() => {});
+    return AudioPlayer.speak(word.arabic, 'ar-SA', { slow, audioKey: `vocabulary/${word.id}` }).catch(() => {});
   }
 
   function multipleChoiceOptions(correctWord) {
