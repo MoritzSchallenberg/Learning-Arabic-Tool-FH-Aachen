@@ -51,8 +51,9 @@ automatisch ein GitHub-Release-Entwurf mit allen drei Installern angelegt.
   Nutzerdatenverzeichnis (`app.getPath('userData')/user_data/*.json`), getrennt von den
   Sprachinhalten in `language-packs/`.
 - **Sprachpakete:** Jede Sprache liegt als eigenständiger Ordner unter `language-packs/<sprache>/`
-  (`language.json`, `lessons.json`, `vocabulary.json`, `keyboard.json`, `tutorials/`). Weitere
-  Sprachen lassen sich später ergänzen, ohne die Hauptanwendung umzubauen.
+  (`language.json`, `lessons.json`, `vocabulary.json`, `keyboard.json`, `grammar.json`,
+  `grammar_2.json`, `grammar_3.json`, `reading.json`, `tutorials/`). Weitere Sprachen lassen sich
+  später ergänzen, ohne die Hauptanwendung umzubauen.
 - **RTL/Bidi:** Kein selbstgebauter Algorithmus — Chromium implementiert den Unicode
   Bidirectional Algorithm sowie die arabische Zeichenverbindung (isoliert/Anfang/Mitte/Ende)
   nativ. In den Sprachdaten werden nur normale Unicode-Grundbuchstaben gespeichert, nie
@@ -71,42 +72,35 @@ automatisch ein GitHub-Release-Entwurf mit allen drei Installern angelegt.
   Tippfehler/fehlende Vokalzeichen erhöhen sie leicht, falsche Antworten stärker; nach
   mehrfach falscher Antwort wird eine Karte für eine Intensivwiederholung markiert.
 
-## Umfang dieser Version (V1)
+## Umfang dieser Version
 
-Enthalten:
+**Alle 12 Lektionen der ursprünglichen Roadmap (0-11) sind jetzt vorhanden**, aber nicht alle im
+vollen dort beschriebenen Umfang — bei linguistisch riskanteren Themen wurde bewusst gekürzt,
+statt Inhalte ohne muttersprachliche Prüfung zu raten. Details je Lektion:
 
-- Einführungstutorial (Lektion 0)
-- Tastatur- und Eingabetutorial mit virtueller arabischer Tastatur (Lektion 1)
-- Alphabetlektion mit allen 28 Buchstaben, Kontextformen, Ausspracheerklärung und zwei
-  Übungstypen (Buchstaben erkennen, Buchstaben eingeben) (Lektion 2)
-- Grundwortschatz I: ~38 Wörter in 5 Themenbereichen, Karteikarten-Modus in beide Richtungen
-  plus optionaler Aussprache-Selbsteinschätzung (Lektion 3)
-- Grundgrammatik I: bestimmter Artikel الـ, Personalpronomen, Demonstrativpronomen mit
-  Genus-Kongruenz, einfache Nominalsätze mit Adjektiv-Kongruenz — bewusst auf diese 4 gut
-  abgesicherten Themen begrenzt, siehe Hinweis in `language-packs/arabic/grammar.json` (Lektion 4)
-- Aussprache und Hörverständnis I: gehörtes Wort einer Übersetzung zuordnen (Multiple-Choice)
-  sowie Diktat-Schreiben mit/ohne Umschrift-Hilfe, inkl. normaler/langsamer Wiedergabe,
-  eigene Schwierigkeitsverfolgung für die Fähigkeit "Hörverständnis" (Lektion 5)
-- Echte, mit der App ausgelieferte Aussprache-Audiodateien (siehe Architektur-Abschnitt)
-- Grundwortschatz II: weitere ~32 Wörter in 5 Themenbereichen (Wohnung, Kleidung, Körper,
-  Wetter, Tageszeiten), gleicher Karteikarten-Modus wie Lektion 3 (Lektion 6)
-- Statistik-Ansicht (📊 in der Seitenleiste): Anzahl geübter Karten, Karten in
-  Intensivwiederholung, durchschnittliche Schwierigkeit je Bereich (Vokabular, Buchstaben,
-  Grammatik) als Balken plus Detailtabelle
-- Lokale JSON-Speicherung von Fortschritt und Einstellungen
+| # | Lektion | Umfang |
+|---|---|---|
+| 0 | Einführung | Vollständig |
+| 1 | Tastatur-Tutorial | Vollständig (virtuelle Tastatur; physische Arabic-101-Belegung fehlt, siehe unten) |
+| 2 | Alphabet | Alle 28 Buchstaben, Kontextformen, 2 von 6 Übungstypen |
+| 3 | Grundwortschatz I | ~38 Wörter, 5 Themen, Karteikarten beide Richtungen |
+| 4 | Grundgrammatik I | Nur 4 Themen (Artikel, Pronomen, Demonstrativa, Nominalsatz+Adjektiv) — Präpositionen, Besitzverbindungen, Fragen, Verneinung ausgelassen |
+| 5 | Hörverständnis I | 2 von 6 Übungstypen (Übersetzung zuordnen, Diktat); Bild-/Satzaufgaben und Buchstaben-Hörübungen fehlen |
+| 6 | Grundwortschatz II | ~32 weitere Wörter, 5 Themen |
+| 7 | Grundgrammatik II | Nur reguläre Verbformen EINES Beispielverbs (Gegenwart/Vergangenheit), Präsens-Verneinung, 3 Konjunktionen — unregelmäßige/schwache Verben ausgelassen |
+| 8 | Erweiterter Wortschatz | 2 Themen (Hochschule, Technik), ~12 Wörter — kein installierbares Fachwortpaket-System |
+| 9 | Erweiterte Grammatik | **Nur** Relativpronomen (الذي/التي) — Verbstämme II-X, Passiv, Partizipien, Bedingungssätze, komplexe Besitzverbindungen, unregelmäßige/schwache/Hamza-Verben bewusst NICHT enthalten (zu hohes Fehlerrisiko ohne Prüfung) |
+| 10 | Lesen und Schreiben | 1 kurzer Text (nur bereits geprüfter Wortschatz + 1 neue, sehr einfache Präposition في), 2 von 6 Übungstypen (Leseverständnis, Wortreihenfolge) — Diktat, Fehlerkorrektur, Übersetzung, freie Textproduktion fehlen (ohne echte Sprachprüfung nicht sinnvoll automatisch bewertbar) |
+| 11 | Wiederholung & Prüfung | Gemischtes Quiz aus Buchstaben/Vokabular/Grammatik-Pronomen, gewichtet nach Schwierigkeit — reine Rekombination, keine neuen Inhalte |
 
-**Noch nicht enthalten** (spätere Versionen, siehe Roadmap in der ursprünglichen
-Systembeschreibung): Lektionen 7-11 (weiterführende Grammatik, Lesen/Schreiben, Prüfungen),
-weiterführende Grammatikthemen aus Lektion 4 (Adjektive allgemein,
-Präpositionen, Besitzverbindungen, Fragen, Verneinung — ausgelassen, da bei anlautendem
-Hamza/Alif ohne muttersprachliche Prüfung Fehlerrisiko bestünde), physische
-Arabic-(101)-Tastaturübersicht/-umschaltung, Transliterationsmodus als echte Eingabemethode,
-Fachwortpakete, Mehrsprachigkeit über Arabisch hinaus. In Lektion 5 fehlen
-außerdem die bild- und satzbasierten Aufgabentypen aus der Spec (Stufe 4 "Audio in einem
-vollständigen Satz", "richtiges Bild auswählen") mangels Bild-/Satzdaten, sowie
-Buchstaben-Hörübungen (isolierte Buchstaben werden auch von echten TTS-Aufnahmen unzuverlässig
-ausgesprochen — das braucht später von Muttersprachler:innen eingesprochene Audiodateien statt
-einer synthetischen Stimme).
+Zusätzlich vorhanden: echte ausgelieferte Aussprache-Audiodateien (espeak-ng oder ElevenLabs, s.
+Architektur-Abschnitt), Statistik-Ansicht (📊), pro Fähigkeit getrennte Schwierigkeitsanpassung,
+lokale JSON-Speicherung.
+
+**Weiterhin nicht enthalten** (siehe Roadmap "Version 2/3/4" in der ursprünglichen
+Systembeschreibung): physische Arabic-(101)-Tastaturübersicht/-umschaltung, Transliterationsmodus
+als echte Eingabemethode, installierbare Fachwortpakete, weitere Dialekte, weitere Sprachen
+außer Arabisch, Editor für eigene Sprachpakete.
 
 ### Audiodateien neu erzeugen/erweitern
 

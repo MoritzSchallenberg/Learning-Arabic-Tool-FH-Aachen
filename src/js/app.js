@@ -13,7 +13,12 @@ const App = (() => {
     grammar_1: { view: GrammarView },
     vocabulary_1: { view: VocabularyView, arg: 3 },
     listening_1: { view: ListeningView },
-    vocabulary_2: { view: VocabularyView, arg: 6 }
+    vocabulary_2: { view: VocabularyView, arg: 6 },
+    grammar_2: { view: GrammarAdvancedView },
+    vocabulary_advanced: { view: VocabularyView, arg: 8 },
+    grammar_advanced: { view: GrammarExtendedView },
+    reading_writing: { view: ReadingView },
+    review_exam: { view: ExamView }
   };
 
   function renderLessonList() {

@@ -1,0 +1,59 @@
+{
+  "note": "Grundgrammatik II (Lektion 7) — beschränkt auf reguläre (\"gesunde\") Verbformen des Beispielverbs كَتَبَ (kataba, schreiben), da unregelmäßige/schwache Verben (hohle, verdoppelte, Hamza-Verben) deutlich fehleranfälliger sind. Vergangenheitsverneinung mit لَمْ + Jussiv wird nur erklärt, nicht abgefragt (Jussiv-Bildung ist bei anderen Verbklassen komplexer als hier gezeigt).",
+  "verb": {
+    "infinitive_meaning": "schreiben (Beispielverb: كَتَبَ)",
+    "past": {
+      "ana": "كَتَبْتُ",
+      "anta": "كَتَبْتَ",
+      "anti": "كَتَبْتِ",
+      "huwa": "كَتَبَ",
+      "hiya": "كَتَبَتْ",
+      "nahnu": "كَتَبْنَا"
+    },
+    "present": {
+      "ana": "أَكْتُبُ",
+      "anta": "تَكْتُبُ",
+      "anti": "تَكْتُبِينَ",
+      "huwa": "يَكْتُبُ",
+      "hiya": "تَكْتُبُ",
+      "nahnu": "نَكْتُبُ"
+    }
+  },
+  "pronoun_labels": {
+    "ana": "أنا (ich)",
+    "anta": "أنتَ (du, m.)",
+    "anti": "أنتِ (du, f.)",
+    "huwa": "هو (er)",
+    "hiya": "هي (sie)",
+    "nahnu": "نحن (wir)"
+  },
+  "sections": [
+    {
+      "id": "present_tense",
+      "title": "Verbformen: Gegenwart",
+      "explanation": "Im Präsens bekommt der Verbstamm je nach Person eine Vorsilbe (und manchmal zusätzlich eine Endung). Beispiel: كَتَبَ (schreiben)."
+    },
+    {
+      "id": "past_tense",
+      "title": "Verbformen: Vergangenheit",
+      "explanation": "Im Perfekt/Vergangenheit bekommt der Verbstamm je nach Person nur eine Endung, keine Vorsilbe."
+    },
+    {
+      "id": "negation",
+      "title": "Verneinung von Verben",
+      "explanation": "Präsens wird mit لَا direkt vor dem Verb verneint: لَا أَكْتُبُ (ich schreibe nicht). Die Vergangenheit wird formell mit لَمْ + einer leicht veränderten Verbform (Jussiv) verneint — das wird hier nur gezeigt, nicht abgefragt, da die Jussiv-Bildung bei anderen Verben komplexer ist.",
+      "example_negation": "لَا أَكْتُبُ",
+      "example_past_negation_reference": "لَمْ أَكْتُبْ"
+    },
+    {
+      "id": "conjunctions",
+      "title": "Konjunktionen & reguläre Pluralbildung",
+      "explanation": "Häufige Konjunktionen verbinden zwei Wörter oder Sätze. Außerdem: der regelmäßige männliche Plural endet oft auf ـُونَ, der regelmäßige weibliche Plural auf ـَات (z. B. مُدَرِّسَة → مُدَرِّسَات, Lehrerin → Lehrerinnen). Viele Substantive haben aber unregelmäßige (\"gebrochene\") Plurale, wie du schon bei den Vokabeln gesehen hast.",
+      "conjunctions": [
+        { "id": "and", "arabic": "وَ", "german": "und" },
+        { "id": "or", "arabic": "أَوْ", "german": "oder" },
+        { "id": "but", "arabic": "لَكِنْ", "german": "aber" }
+      ]
+    }
+  ]
+}

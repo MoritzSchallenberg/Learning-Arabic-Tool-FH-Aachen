@@ -1,0 +1,52 @@
+{
+  "note": "Lesen und Schreiben (Lektion 10) — der Text besteht ausschließlich aus bereits an anderer Stelle eingeführtem Wortschatz/Grammatik (Demonstrativpronomen, Nominalsatz mit Adjektiv-Kongruenz) plus einem einzigen neuen, aber sehr einfachen und unveränderlichen Wort: der Präposition في (in/an). Nur 2 der 6 in der Spec genannten Aufgabentypen sind umgesetzt (Leseverständnis, Wörter in Reihenfolge bringen) — Diktat, Fehlerkorrektur, Übersetzung und freie Textproduktion fehlen mangels Bewertungsmöglichkeit ohne echte Sprachprüfung.",
+  "sentences": [
+    {
+      "id": "s1",
+      "arabic": "هَذَا بَيْتٌ.",
+      "german": "Das ist ein Haus.",
+      "options": [
+        { "text": "Das ist ein Haus.", "correct": true },
+        { "text": "Das Haus ist weiß.", "correct": false },
+        { "text": "Das ist eine Universität.", "correct": false },
+        { "text": "Der Student schreibt.", "correct": false }
+      ]
+    },
+    {
+      "id": "s2",
+      "arabic": "الْبَيْتُ أَبْيَضُ.",
+      "german": "Das Haus ist weiß.",
+      "words": ["الْبَيْتُ", "أَبْيَضُ."],
+      "options": [
+        { "text": "Das Haus ist weiß.", "correct": true },
+        { "text": "Das Haus ist rot.", "correct": false },
+        { "text": "Das ist ein Haus.", "correct": false },
+        { "text": "Die Studentin ist an der Universität.", "correct": false }
+      ]
+    },
+    {
+      "id": "s3",
+      "arabic": "هَذِهِ جَامِعَةٌ.",
+      "german": "Das ist eine Universität.",
+      "options": [
+        { "text": "Das ist eine Universität.", "correct": true },
+        { "text": "Das ist ein Haus.", "correct": false },
+        { "text": "Der Professor schreibt.", "correct": false },
+        { "text": "Das Haus ist groß.", "correct": false }
+      ]
+    },
+    {
+      "id": "s4",
+      "arabic": "الطَّالِبُ فِي الْجَامِعَةِ.",
+      "german": "Der Student ist an der Universität.",
+      "words": ["الطَّالِبُ", "فِي", "الْجَامِعَةِ."],
+      "options": [
+        { "text": "Der Student ist an der Universität.", "correct": true },
+        { "text": "Der Student ist im Haus.", "correct": false },
+        { "text": "Die Studentin schreibt.", "correct": false },
+        { "text": "Das ist ein Student.", "correct": false }
+      ]
+    }
+  ],
+  "reorder_sentence_ids": ["s2", "s4"]
+}

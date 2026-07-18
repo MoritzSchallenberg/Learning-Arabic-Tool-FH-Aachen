@@ -1,5 +1,5 @@
 {
-  "note": "Wortschatz für Lektion 3 (Grundwortschatz I, \"lesson\": 3) und Lektion 6 (Grundwortschatz II, \"lesson\": 6), von der KI zusammengestellt anhand von gängigem modernem Hocharabisch (MSA) — vor produktivem Einsatz durch eine Person mit Arabischkenntnissen gegenlesen lassen (siehe README).",
+  "note": "Wortschatz für Lektion 3 (Grundwortschatz I, \"lesson\": 3), Lektion 6 (Grundwortschatz II, \"lesson\": 6) und Lektion 8 (Erweiterter Wortschatz, \"lesson\": 8), von der KI zusammengestellt anhand von gängigem modernem Hocharabisch (MSA) — vor produktivem Einsatz durch eine Person mit Arabischkenntnissen gegenlesen lassen (siehe README).",
   "categories": [
     {
       "id": "greetings",
@@ -140,6 +140,32 @@
         { "id": "time_night", "arabic": "لَيْل", "german": "Nacht", "transliteration": "layl", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": null },
         { "id": "time_day", "arabic": "يَوْم", "german": "Tag", "transliteration": "yawm", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَيَّام" },
         { "id": "time_week", "arabic": "أُسْبُوع", "german": "Woche", "transliteration": "usbūʿ", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَسَابِيع" }
+      ]
+    },
+    {
+      "id": "university",
+      "title": "Hochschule",
+      "lesson": 8,
+      "words": [
+        { "id": "uni_university", "arabic": "جَامِعَة", "german": "Universität", "transliteration": "jāmiʿa", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "جَامِعَات" },
+        { "id": "uni_student_m", "arabic": "طَالِب", "german": "Student", "transliteration": "ṭālib", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "طُلَّاب" },
+        { "id": "uni_student_f", "arabic": "طَالِبَة", "german": "Studentin", "transliteration": "ṭāliba", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "طَالِبَات" },
+        { "id": "uni_professor", "arabic": "أُسْتَاذ", "german": "Professor / Lehrer", "transliteration": "ustādh", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَسَاتِذَة" },
+        { "id": "uni_lecture", "arabic": "مُحَاضَرَة", "german": "Vorlesung", "transliteration": "muḥāḍara", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "مُحَاضَرَات" },
+        { "id": "uni_exam", "arabic": "اِمْتِحَان", "german": "Prüfung", "transliteration": "imtiḥān", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "اِمْتِحَانَات" },
+        { "id": "uni_library", "arabic": "مَكْتَبَة", "german": "Bibliothek", "transliteration": "maktaba", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "مَكْتَبَات" }
+      ]
+    },
+    {
+      "id": "technology",
+      "title": "Technik",
+      "lesson": 8,
+      "words": [
+        { "id": "tech_computer", "arabic": "حَاسُوب", "german": "Computer", "transliteration": "ḥāsūb", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "حَوَاسِيب" },
+        { "id": "tech_phone", "arabic": "هَاتِف", "german": "Telefon", "transliteration": "hātif", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "هَوَاتِف" },
+        { "id": "tech_internet", "arabic": "إِنْتَرْنِت", "german": "Internet", "transliteration": "intarnit", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": null },
+        { "id": "tech_screen", "arabic": "شَاشَة", "german": "Bildschirm", "transliteration": "shāsha", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "شَاشَات" },
+        { "id": "tech_program", "arabic": "بَرْنَامَج", "german": "Programm", "transliteration": "barnāmaj", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "بَرَامِج" }
       ]
     }
   ]

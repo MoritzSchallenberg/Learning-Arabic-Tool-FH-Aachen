@@ -46,31 +46,31 @@
       "id": 7,
       "key": "grammar_2",
       "title": "Grundgrammatik II",
-      "status": "coming_soon"
+      "status": "active"
     },
     {
       "id": 8,
       "key": "vocabulary_advanced",
       "title": "Erweiterter Wortschatz",
-      "status": "coming_soon"
+      "status": "active"
     },
     {
       "id": 9,
       "key": "grammar_advanced",
       "title": "Erweiterte Grammatik",
-      "status": "coming_soon"
+      "status": "active"
     },
     {
       "id": 10,
       "key": "reading_writing",
       "title": "Lesen und Schreiben",
-      "status": "coming_soon"
+      "status": "active"
     },
     {
       "id": 11,
       "key": "review_exam",
       "title": "Wiederholung und Prüfung",
-      "status": "coming_soon"
+      "status": "active"
     }
   ]
 }

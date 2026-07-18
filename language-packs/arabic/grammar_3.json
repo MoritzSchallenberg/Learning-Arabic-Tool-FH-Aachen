@@ -1,0 +1,14 @@
+{
+  "note": "Erweiterte Grammatik (Lektion 9) — bewusst auf Relativpronomen begrenzt. Verbstämme II-X, Passiv, Partizipien, Bedingungssätze, komplexe Besitzverbindungen, unregelmäßige/schwache/Hamza-Verben und komplexere Zahlwörter sind NICHT enthalten, da diese Themen ohne muttersprachliche Prüfung ein zu hohes Fehlerrisiko hätten (siehe README).",
+  "sections": [
+    {
+      "id": "relative_pronouns",
+      "title": "Relativpronomen",
+      "explanation": "الَّذِي (alladhī) steht nach einem bestimmten männlichen Substantiv, الَّتِي (allatī) nach einem bestimmten weiblichen Substantiv. Nach einem UNbestimmten Substantiv entfällt das Relativpronomen ganz — dieses Thema wird hier nur an bestimmten Substantiven geübt.",
+      "masculine": { "arabic": "الَّذِي", "german": "der / welcher" },
+      "feminine": { "arabic": "الَّتِي", "german": "die / welche" },
+      "example_masculine": { "sentence": "الطَّالِبُ الَّذِي يَكْتُبُ", "translation": "der Student, der schreibt" },
+      "example_feminine": { "sentence": "الطَّالِبَةُ الَّتِي تَكْتُبُ", "translation": "die Studentin, die schreibt" }
+    }
+  ]
+}
