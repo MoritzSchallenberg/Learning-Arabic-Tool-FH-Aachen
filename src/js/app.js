@@ -10,7 +10,8 @@ const App = (() => {
     onboarding: OnboardingView,
     keyboard_tutorial: KeyboardTutorialView,
     alphabet: AlphabetView,
-    vocabulary_1: VocabularyView
+    vocabulary_1: VocabularyView,
+    listening_1: ListeningView
   };
 
   function renderLessonList() {

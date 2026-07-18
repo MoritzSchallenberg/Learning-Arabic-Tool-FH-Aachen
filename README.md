@@ -75,13 +75,19 @@ Enthalten:
   Übungstypen (Buchstaben erkennen, Buchstaben eingeben) (Lektion 2)
 - Grundwortschatz I: ~38 Wörter in 5 Themenbereichen, Karteikarten-Modus in beide Richtungen
   plus optionaler Aussprache-Selbsteinschätzung (Lektion 3)
+- Aussprache und Hörverständnis I: gehörtes Wort einer Übersetzung zuordnen (Multiple-Choice)
+  sowie Diktat-Schreiben mit/ohne Umschrift-Hilfe, inkl. normaler/langsamer Wiedergabe,
+  eigene Schwierigkeitsverfolgung für die Fähigkeit "Hörverständnis" (Lektion 5)
 - Lokale JSON-Speicherung von Fortschritt und Einstellungen
 
 **Noch nicht enthalten** (spätere Versionen, siehe Roadmap in der ursprünglichen
-Systembeschreibung): Lektionen 4-11 (Grammatik, Hörverständnis, Lesen/Schreiben, Prüfungen),
-physische Arabic-(101)-Tastaturübersicht/-umschaltung, Transliterationsmodus als echte
-Eingabemethode, Fachwortpakete, Bild-basierte Vokabelkarten, Mehrsprachigkeit über Arabisch
-hinaus.
+Systembeschreibung): Lektionen 4, 6-11 (Grammatik, Grundwortschatz II, Lesen/Schreiben,
+Prüfungen), physische Arabic-(101)-Tastaturübersicht/-umschaltung, Transliterationsmodus als
+echte Eingabemethode, Fachwortpakete, Mehrsprachigkeit über Arabisch hinaus. In Lektion 5 fehlen
+außerdem die bild- und satzbasierten Aufgabentypen aus der Spec (Stufe 4 "Audio in einem
+vollständigen Satz", "richtiges Bild auswählen") mangels Bild-/Satzdaten, sowie
+Buchstaben-Hörübungen — Text-to-Speech spricht isolierte Buchstaben unzuverlässig aus, das
+braucht später echte Audioaufnahmen statt TTS.
 
 ## Wichtiger Hinweis zu den Inhalten
 
