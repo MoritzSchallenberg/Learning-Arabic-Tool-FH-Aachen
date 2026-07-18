@@ -37,6 +37,10 @@ const AppState = (() => {
     await window.api.saveProgress(progress);
   }
 
+  function getAllCards() {
+    return progress[currentLanguageId].cards;
+  }
+
   async function getLanguagePack(languageId = currentLanguageId) {
     if (!languagePackCache[languageId]) {
       languagePackCache[languageId] = await window.api.loadLanguagePack(languageId);
@@ -50,6 +54,7 @@ const AppState = (() => {
     updateSettings,
     getCard,
     persistProgress,
+    getAllCards,
     getLanguagePack,
     get currentLanguageId() {
       return currentLanguageId;

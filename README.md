@@ -87,6 +87,9 @@ Enthalten:
   sowie Diktat-Schreiben mit/ohne Umschrift-Hilfe, inkl. normaler/langsamer Wiedergabe,
   eigene Schwierigkeitsverfolgung für die Fähigkeit "Hörverständnis" (Lektion 5)
 - Echte, mit der App ausgelieferte Aussprache-Audiodateien (siehe Architektur-Abschnitt)
+- Statistik-Ansicht (📊 in der Seitenleiste): Anzahl geübter Karten, Karten in
+  Intensivwiederholung, durchschnittliche Schwierigkeit je Bereich (Vokabular, Buchstaben,
+  Grammatik) als Balken plus Detailtabelle
 - Lokale JSON-Speicherung von Fortschritt und Einstellungen
 
 **Noch nicht enthalten** (spätere Versionen, siehe Roadmap in der ursprünglichen

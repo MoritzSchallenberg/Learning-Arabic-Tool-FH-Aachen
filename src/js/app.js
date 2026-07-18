@@ -57,6 +57,12 @@ const App = (() => {
     SettingsView.mount(contentEl);
   }
 
+  function navigateToStatistics() {
+    currentKey = null;
+    renderLessonList();
+    StatisticsView.mount(contentEl);
+  }
+
   async function init() {
     await AppState.init();
     const pack = await AppState.getLanguagePack();
@@ -64,11 +70,12 @@ const App = (() => {
     renderLessonList();
 
     document.getElementById('nav-settings').addEventListener('click', navigateToSettings);
+    document.getElementById('nav-stats').addEventListener('click', navigateToStatistics);
 
     navigateTo('onboarding');
   }
 
-  return { init, navigateTo, navigateToSettings };
+  return { init, navigateTo, navigateToSettings, navigateToStatistics };
 })();
 
 window.addEventListener('DOMContentLoaded', () => {
