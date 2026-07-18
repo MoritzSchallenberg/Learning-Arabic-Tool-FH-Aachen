@@ -1,9 +1,10 @@
 {
-  "note": "Startwortschatz für Lektion 3 (Grundwortschatz I), von der KI zusammengestellt anhand von gängigem modernem Hocharabisch (MSA) — vor produktivem Einsatz durch eine Person mit Arabischkenntnissen gegenlesen lassen (siehe README).",
+  "note": "Wortschatz für Lektion 3 (Grundwortschatz I, \"lesson\": 3) und Lektion 6 (Grundwortschatz II, \"lesson\": 6), von der KI zusammengestellt anhand von gängigem modernem Hocharabisch (MSA) — vor produktivem Einsatz durch eine Person mit Arabischkenntnissen gegenlesen lassen (siehe README).",
   "categories": [
     {
       "id": "greetings",
       "title": "Begrüßungen",
+      "lesson": 3,
       "words": [
         { "id": "greet_hallo", "arabic": "مَرْحَبًا", "german": "Hallo", "transliteration": "marḥaban", "part_of_speech": "Ausdruck", "gender": null, "plural": null },
         { "id": "greet_salam", "arabic": "السَّلَامُ عَلَيْكُم", "german": "Friede sei mit dir (Gruß)", "transliteration": "as-salāmu ʿalaykum", "part_of_speech": "Ausdruck", "gender": null, "plural": null },
@@ -19,6 +20,7 @@
     {
       "id": "family",
       "title": "Familie",
+      "lesson": 3,
       "words": [
         { "id": "family_father", "arabic": "أَب", "german": "Vater", "transliteration": "ab", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "آبَاء" },
         { "id": "family_mother", "arabic": "أُم", "german": "Mutter", "transliteration": "umm", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "أُمَّهَات" },
@@ -33,6 +35,7 @@
     {
       "id": "numbers",
       "title": "Zahlen 1-10",
+      "lesson": 3,
       "words": [
         { "id": "num_1", "arabic": "وَاحِد", "german": "eins", "transliteration": "wāḥid", "part_of_speech": "Zahlwort", "gender": null, "plural": null },
         { "id": "num_2", "arabic": "اِثْنَان", "german": "zwei", "transliteration": "ithnān", "part_of_speech": "Zahlwort", "gender": null, "plural": null },
@@ -49,6 +52,7 @@
     {
       "id": "colors",
       "title": "Farben",
+      "lesson": 3,
       "words": [
         { "id": "color_red", "arabic": "أَحْمَر", "arabic_feminine": "حَمْرَاء", "german": "rot", "transliteration": "aḥmar", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
         { "id": "color_blue", "arabic": "أَزْرَق", "arabic_feminine": "زَرْقَاء", "german": "blau", "transliteration": "azraq", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
@@ -61,6 +65,7 @@
     {
       "id": "food_drink",
       "title": "Essen und Trinken",
+      "lesson": 3,
       "words": [
         { "id": "food_bread", "arabic": "خُبْز", "german": "Brot", "transliteration": "khubz", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": null },
         { "id": "food_water", "arabic": "مَاء", "german": "Wasser", "transliteration": "māʾ", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": null },
@@ -68,6 +73,73 @@
         { "id": "food_apple", "arabic": "تُفَّاح", "german": "Apfel", "transliteration": "tuffāḥ", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": null },
         { "id": "food_coffee", "arabic": "قَهْوَة", "german": "Kaffee", "transliteration": "qahwa", "part_of_speech": "Substantiv", "gender": "feminin", "plural": null },
         { "id": "food_tea", "arabic": "شَاي", "german": "Tee", "transliteration": "shāy", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": null }
+      ]
+    },
+    {
+      "id": "housing",
+      "title": "Wohnung",
+      "lesson": 6,
+      "words": [
+        { "id": "housing_house", "arabic": "بَيْت", "german": "Haus", "transliteration": "bayt", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "بُيُوت" },
+        { "id": "housing_room", "arabic": "غُرْفَة", "german": "Zimmer", "transliteration": "ghurfa", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "غُرَف" },
+        { "id": "housing_kitchen", "arabic": "مَطْبَخ", "german": "Küche", "transliteration": "maṭbakh", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "مَطَابِخ" },
+        { "id": "housing_bathroom", "arabic": "حَمَّام", "german": "Bad", "transliteration": "ḥammām", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "حَمَّامَات" },
+        { "id": "housing_door", "arabic": "بَاب", "german": "Tür", "transliteration": "bāb", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَبْوَاب" },
+        { "id": "housing_window", "arabic": "نَافِذَة", "german": "Fenster", "transliteration": "nāfidha", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "نَوَافِذ" },
+        { "id": "housing_bed", "arabic": "سَرِير", "german": "Bett", "transliteration": "sarīr", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَسِرَّة" },
+        { "id": "housing_table", "arabic": "طَاوِلَة", "german": "Tisch", "transliteration": "ṭāwila", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "طَاوِلَات" }
+      ]
+    },
+    {
+      "id": "clothing",
+      "title": "Kleidung",
+      "lesson": 6,
+      "words": [
+        { "id": "clothing_shirt", "arabic": "قَمِيص", "german": "Hemd", "transliteration": "qamīṣ", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "قُمْصَان" },
+        { "id": "clothing_pants", "arabic": "بَنْطَلُون", "german": "Hose", "transliteration": "banṭalūn", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "بَنْطَلُونَات" },
+        { "id": "clothing_shoe", "arabic": "حِذَاء", "german": "Schuh", "transliteration": "ḥidhāʾ", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَحْذِيَة" },
+        { "id": "clothing_coat", "arabic": "مِعْطَف", "german": "Mantel", "transliteration": "miʿṭaf", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "مَعَاطِف" },
+        { "id": "clothing_hat", "arabic": "قُبَّعَة", "german": "Hut", "transliteration": "qubbaʿa", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "قُبَّعَات" }
+      ]
+    },
+    {
+      "id": "body",
+      "title": "Körper",
+      "lesson": 6,
+      "words": [
+        { "id": "body_head", "arabic": "رَأْس", "german": "Kopf", "transliteration": "raʾs", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "رُؤُوس" },
+        { "id": "body_hand", "arabic": "يَد", "german": "Hand", "transliteration": "yad", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "أَيْدٍ" },
+        { "id": "body_eye", "arabic": "عَيْن", "german": "Auge", "transliteration": "ʿayn", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "عُيُون" },
+        { "id": "body_nose", "arabic": "أَنْف", "german": "Nase", "transliteration": "anf", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أُنُوف" },
+        { "id": "body_mouth", "arabic": "فَم", "german": "Mund", "transliteration": "fam", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَفْوَاه" },
+        { "id": "body_foot", "arabic": "قَدَم", "german": "Fuß", "transliteration": "qadam", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "أَقْدَام" }
+      ]
+    },
+    {
+      "id": "weather",
+      "title": "Wetter",
+      "lesson": 6,
+      "words": [
+        { "id": "weather_sun", "arabic": "شَمْس", "german": "Sonne", "transliteration": "shams", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "شُمُوس" },
+        { "id": "weather_rain", "arabic": "مَطَر", "german": "Regen", "transliteration": "maṭar", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَمْطَار" },
+        { "id": "weather_snow", "arabic": "ثَلْج", "german": "Schnee", "transliteration": "thalj", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": null },
+        { "id": "weather_wind", "arabic": "رِيح", "german": "Wind", "transliteration": "rīḥ", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "رِيَاح" },
+        { "id": "weather_cloud", "arabic": "غَيْم", "german": "Wolke", "transliteration": "ghaym", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "غُيُوم" },
+        { "id": "weather_hot", "arabic": "حَار", "german": "heiß", "transliteration": "ḥārr", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null },
+        { "id": "weather_cold", "arabic": "بَارِد", "german": "kalt", "transliteration": "bārid", "part_of_speech": "Adjektiv", "gender": "maskulin", "plural": null }
+      ]
+    },
+    {
+      "id": "times_of_day",
+      "title": "Tageszeiten",
+      "lesson": 6,
+      "words": [
+        { "id": "time_morning", "arabic": "صَبَاح", "german": "Morgen", "transliteration": "ṣabāḥ", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": null },
+        { "id": "time_noon", "arabic": "ظُهْر", "german": "Mittag", "transliteration": "ẓuhr", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": null },
+        { "id": "time_evening", "arabic": "مَسَاء", "german": "Abend", "transliteration": "masāʾ", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": null },
+        { "id": "time_night", "arabic": "لَيْل", "german": "Nacht", "transliteration": "layl", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": null },
+        { "id": "time_day", "arabic": "يَوْم", "german": "Tag", "transliteration": "yawm", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَيَّام" },
+        { "id": "time_week", "arabic": "أُسْبُوع", "german": "Woche", "transliteration": "usbūʿ", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَسَابِيع" }
       ]
     }
   ]

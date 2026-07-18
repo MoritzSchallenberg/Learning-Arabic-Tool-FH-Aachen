@@ -58,13 +58,14 @@ automatisch ein GitHub-Release-Entwurf mit allen drei Installern angelegt.
   nativ. In den Sprachdaten werden nur normale Unicode-Grundbuchstaben gespeichert, nie
   getrennte Kontextform-Zeichen.
 - **Aussprache:** Echte, mit der App ausgelieferte Audiodateien (`language-packs/arabic/audio/`,
-  erzeugt mit `espeak-ng` über `scripts/generate_audio.py`, je Wort/Buchstaben-Beispielwort in
-  normaler und langsamer Geschwindigkeit). Das entspricht Stufe 2 ("im Sprachpaket enthaltene
-  Aufnahme") aus der Systembeschreibung und funktioniert garantiert auf jedem Gerät, unabhängig
-  davon, ob das Betriebssystem eine arabische TTS-Stimme mitbringt. Web Speech API
-  (`speechSynthesis`) bleibt als Rückfallebene für Inhalte ohne generierte Audiodatei
-  (`src/js/audioPlayer.js`); ob diese Rückfallebene klingt, hängt vom Betriebssystem ab.
-  Die espeak-ng-Stimme klingt hörbar synthetisch, keine menschliche Aufnahme.
+  je Wort/Buchstaben-Beispielwort in normaler und langsamer Geschwindigkeit). Das entspricht
+  Stufe 2 ("im Sprachpaket enthaltene Aufnahme") aus der Systembeschreibung und funktioniert
+  garantiert auf jedem Gerät, unabhängig davon, ob das Betriebssystem eine arabische TTS-Stimme
+  mitbringt. Zwei Wege, die Dateien zu erzeugen (siehe unten): kostenlos/offline mit `espeak-ng`
+  (klingt synthetisch) oder über die ElevenLabs-API (deutlich natürlicher, kostenloses
+  Kontingent reicht für diesen Wortschatz). Web Speech API (`speechSynthesis`) bleibt als
+  Rückfallebene für Inhalte ohne generierte Audiodatei (`src/js/audioPlayer.js`); ob diese
+  Rückfallebene klingt, hängt vom Betriebssystem ab.
 - **Schwierigkeitsanpassung:** pro Karte und pro Fähigkeit getrennt (`arabic_to_german`,
   `german_to_arabic`, `pronunciation`, ...). Richtige Antworten senken die Schwierigkeit,
   Tippfehler/fehlende Vokalzeichen erhöhen sie leicht, falsche Antworten stärker; nach
@@ -87,14 +88,16 @@ Enthalten:
   sowie Diktat-Schreiben mit/ohne Umschrift-Hilfe, inkl. normaler/langsamer Wiedergabe,
   eigene Schwierigkeitsverfolgung für die Fähigkeit "Hörverständnis" (Lektion 5)
 - Echte, mit der App ausgelieferte Aussprache-Audiodateien (siehe Architektur-Abschnitt)
+- Grundwortschatz II: weitere ~32 Wörter in 5 Themenbereichen (Wohnung, Kleidung, Körper,
+  Wetter, Tageszeiten), gleicher Karteikarten-Modus wie Lektion 3 (Lektion 6)
 - Statistik-Ansicht (📊 in der Seitenleiste): Anzahl geübter Karten, Karten in
   Intensivwiederholung, durchschnittliche Schwierigkeit je Bereich (Vokabular, Buchstaben,
   Grammatik) als Balken plus Detailtabelle
 - Lokale JSON-Speicherung von Fortschritt und Einstellungen
 
 **Noch nicht enthalten** (spätere Versionen, siehe Roadmap in der ursprünglichen
-Systembeschreibung): Lektionen 6-11 (Grundwortschatz II, weiterführende Grammatik,
-Lesen/Schreiben, Prüfungen), weiterführende Grammatikthemen aus Lektion 4 (Adjektive allgemein,
+Systembeschreibung): Lektionen 7-11 (weiterführende Grammatik, Lesen/Schreiben, Prüfungen),
+weiterführende Grammatikthemen aus Lektion 4 (Adjektive allgemein,
 Präpositionen, Besitzverbindungen, Fragen, Verneinung — ausgelassen, da bei anlautendem
 Hamza/Alif ohne muttersprachliche Prüfung Fehlerrisiko bestünde), physische
 Arabic-(101)-Tastaturübersicht/-umschaltung, Transliterationsmodus als echte Eingabemethode,
@@ -107,15 +110,29 @@ einer synthetischen Stimme).
 
 ### Audiodateien neu erzeugen/erweitern
 
+Beide Skripte lesen `vocabulary.json`/`keyboard.json` und **überspringen standardmäßig bereits
+vorhandene Dateien** (spart Zeit bzw. API-Kontingent, überschreibt keine bereits ersetzten
+besseren Aufnahmen versehentlich) — mit `--force` alle neu erzeugen.
+
+**Kostenlos/offline (espeak-ng, synthetisch):**
 ```bash
 sudo apt-get install -y espeak-ng   # einmalig, nur für dieses Skript
-python3 scripts/generate_audio.py
+python3 scripts/generate_audio.py [--force]
 ```
 
-Das Skript liest `vocabulary.json`/`keyboard.json` und erzeugt fehlende bzw. aktualisiert
-vorhandene WAV-Dateien unter `language-packs/arabic/audio/`. Einfach erneut ausführen, wenn
-Vokabular ergänzt wird — vorhandene Dateien können jederzeit 1:1 durch bessere Aufnahmen
-(z. B. von einem hochwertigeren KI-Dienst oder echten Sprecher:innen) mit demselben Dateinamen
+**Natürlicher klingend (ElevenLabs-API, kostenloses Kontingent reicht für diesen Wortschatz):**
+```bash
+export ELEVENLABS_API_KEY="dein-api-key"      # elevenlabs.io → Profil → API Keys
+python3 scripts/generate_audio_elevenlabs.py [--force]
+```
+Der Free-Tier darf über die API nur Stimmen aus "My Voices" nutzen (nicht jede Stimme aus der
+Voice Library) — nutzbare Voice-IDs abfragen mit:
+```bash
+python3 -c "import requests,os; r=requests.get('https://api.elevenlabs.io/v1/voices', headers={'xi-api-key': os.environ['ELEVENLABS_API_KEY']}); [print(v['voice_id'],'-',v['name']) for v in r.json()['voices']]"
+```
+
+Einfach erneut ausführen, wenn Vokabular ergänzt wird. Vorhandene Dateien können auch jederzeit
+manuell 1:1 durch bessere Aufnahmen (z. B. echte Sprecher:innen) mit demselben Dateinamen
 ersetzt werden, ohne Code zu ändern.
 
 ## Wichtiger Hinweis zu den Inhalten

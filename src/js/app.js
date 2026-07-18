@@ -7,12 +7,13 @@ const App = (() => {
   let currentKey = null;
 
   const VIEW_BY_KEY = {
-    onboarding: OnboardingView,
-    keyboard_tutorial: KeyboardTutorialView,
-    alphabet: AlphabetView,
-    grammar_1: GrammarView,
-    vocabulary_1: VocabularyView,
-    listening_1: ListeningView
+    onboarding: { view: OnboardingView },
+    keyboard_tutorial: { view: KeyboardTutorialView },
+    alphabet: { view: AlphabetView },
+    grammar_1: { view: GrammarView },
+    vocabulary_1: { view: VocabularyView, arg: 3 },
+    listening_1: { view: ListeningView },
+    vocabulary_2: { view: VocabularyView, arg: 6 }
   };
 
   function renderLessonList() {
@@ -45,9 +46,9 @@ const App = (() => {
       return;
     }
 
-    const view = VIEW_BY_KEY[key];
-    if (view) {
-      view.mount(contentEl);
+    const entry = VIEW_BY_KEY[key];
+    if (entry) {
+      entry.view.mount(contentEl, entry.arg);
     }
   }
 

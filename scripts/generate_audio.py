@@ -14,12 +14,17 @@ Die Stimme (espeak-ng "ar") klingt synthetisch/robotisch, keine menschliche Aufn
 vor produktivem Einsatz idealerweise durch echte Aufnahmen ersetzen. Erneut ausführen,
 wenn Vokabular/Buchstaben-Beispielwörter ergänzt werden.
 
-Aufruf: python3 scripts/generate_audio.py
+Überspringt standardmäßig bereits vorhandene Dateien (z. B. mit besserer Qualität über
+generate_audio_elevenlabs.py erzeugt) — mit --force werden alle Dateien neu erzeugt.
+
+Aufruf: python3 scripts/generate_audio.py [--force]
 """
 import json
 import subprocess
 import sys
 from pathlib import Path
+
+FORCE = "--force" in sys.argv
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 PACK_DIR = REPO_ROOT / "language-packs" / "arabic"
@@ -54,13 +59,22 @@ def load_json(path):
 
 def generate_for_entries(entries, subdir):
     generated = 0
+    skipped = 0
     for entry_id, text in entries:
         normal_path = AUDIO_DIR / subdir / f"{entry_id}.wav"
         slow_path = AUDIO_DIR / subdir / f"{entry_id}_slow.wav"
+
+        if not FORCE and normal_path.exists() and slow_path.exists():
+            skipped += 1
+            continue
+
         synthesize(text, normal_path, NORMAL_SPEED_WPM)
         synthesize(text, slow_path, SLOW_SPEED_WPM)
         generated += 2
         print(f"  {subdir}/{entry_id}.wav (+ _slow) — \"{text}\"")
+
+    if skipped:
+        print(f"  ({skipped} bereits vorhanden, übersprungen — mit --force erzwingen)")
     return generated
 
 

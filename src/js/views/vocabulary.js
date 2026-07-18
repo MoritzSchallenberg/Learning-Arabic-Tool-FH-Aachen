@@ -157,10 +157,10 @@ const VocabularyView = (() => {
     });
   }
 
-  async function mount(container) {
+  async function mount(container, lesson = 3) {
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
     const pack = await AppState.getLanguagePack();
-    categories = pack.vocabulary.categories;
+    categories = pack.vocabulary.categories.filter((c) => c.lesson === lesson);
     allWords = categories.flatMap((c) => c.words.map((w) => ({ ...w, categoryId: c.id })));
     renderCategoryPicker(container);
   }
