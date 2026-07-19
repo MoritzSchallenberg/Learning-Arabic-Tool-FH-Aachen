@@ -1,5 +1,5 @@
 {
-  "note": "Wortschatz für Lektion 3 (Grundwortschatz I, \"lesson\": 3), Lektion 6 (Grundwortschatz II, \"lesson\": 6) und Lektion 8 (Erweiterter Wortschatz, \"lesson\": 8), von der KI zusammengestellt anhand von gängigem modernem Hocharabisch (MSA) — vor produktivem Einsatz durch eine Person mit Arabischkenntnissen gegenlesen lassen (siehe README).",
+  "note": "Wortschatz für Lektion 3 (Grundwortschatz I, \"lesson\": 3), Lektion 6 (Grundwortschatz II, \"lesson\": 6) und Lektion 8 (Erweiterter Wortschatz, \"lesson\": 8), von der KI zusammengestellt anhand von gängigem modernem Hocharabisch (MSA) — vor produktivem Einsatz durch eine Person mit Arabischkenntnissen gegenlesen lassen (siehe README). Verben (Kategorie \"simple_verbs\") werden in der in Wörterbüchern üblichen Zitierform (3. Person maskulin Singular Vergangenheit) angegeben, nicht als Infinitiv, den es im Arabischen so nicht gibt.",
   "categories": [
     {
       "id": "greetings",
@@ -166,6 +166,127 @@
         { "id": "tech_internet", "arabic": "إِنْتَرْنِت", "german": "Internet", "transliteration": "intarnit", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": null },
         { "id": "tech_screen", "arabic": "شَاشَة", "german": "Bildschirm", "transliteration": "shāsha", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "شَاشَات" },
         { "id": "tech_program", "arabic": "بَرْنَامَج", "german": "Programm", "transliteration": "barnāmaj", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "بَرَامِج" }
+      ]
+    },
+    {
+      "id": "animals",
+      "title": "Tiere",
+      "lesson": 3,
+      "words": [
+        { "id": "animal_cat", "arabic": "قِطّ", "german": "Katze", "transliteration": "qiṭṭ", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "قِطَط" },
+        { "id": "animal_dog", "arabic": "كَلْب", "german": "Hund", "transliteration": "kalb", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "كِلَاب" },
+        { "id": "animal_horse", "arabic": "حِصَان", "german": "Pferd", "transliteration": "ḥiṣān", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَحْصِنَة" },
+        { "id": "animal_lion", "arabic": "أَسَد", "german": "Löwe", "transliteration": "asad", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أُسُود" },
+        { "id": "animal_bird", "arabic": "طَائِر", "german": "Vogel", "transliteration": "ṭāʾir", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "طُيُور" },
+        { "id": "animal_fish", "arabic": "سَمَك", "german": "Fisch", "transliteration": "samak", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَسْمَاك" },
+        { "id": "animal_rabbit", "arabic": "أَرْنَب", "german": "Hase", "transliteration": "arnab", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَرَانِب" },
+        { "id": "animal_chicken", "arabic": "دَجَاجَة", "german": "Huhn", "transliteration": "dajāja", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "دَجَاج" },
+        { "id": "animal_cow", "arabic": "بَقَرَة", "german": "Kuh", "transliteration": "baqara", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "بَقَر" },
+        { "id": "animal_mouse", "arabic": "فَأْر", "german": "Maus", "transliteration": "faʾr", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "فِئْرَان" }
+      ]
+    },
+    {
+      "id": "places",
+      "title": "Orte",
+      "lesson": 3,
+      "words": [
+        { "id": "place_city", "arabic": "مَدِينَة", "german": "Stadt", "transliteration": "madīna", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "مُدُن" },
+        { "id": "place_village", "arabic": "قَرْيَة", "german": "Dorf", "transliteration": "qarya", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "قُرًى" },
+        { "id": "place_street", "arabic": "شَارِع", "german": "Straße", "transliteration": "shāriʿ", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "شَوَارِع" },
+        { "id": "place_restaurant", "arabic": "مَطْعَم", "german": "Restaurant", "transliteration": "maṭʿam", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "مَطَاعِم" },
+        { "id": "place_hospital", "arabic": "مُسْتَشْفَى", "german": "Krankenhaus", "transliteration": "mustashfā", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "مُسْتَشْفَيَات" },
+        { "id": "place_station", "arabic": "مَحَطَّة", "german": "Bahnhof", "transliteration": "maḥaṭṭa", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "مَحَطَّات" },
+        { "id": "place_office", "arabic": "مَكْتَب", "german": "Büro", "transliteration": "maktab", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "مَكَاتِب" },
+        { "id": "place_mosque", "arabic": "مَسْجِد", "german": "Moschee", "transliteration": "masjid", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "مَسَاجِد" }
+      ]
+    },
+    {
+      "id": "question_words",
+      "title": "Fragewörter",
+      "lesson": 3,
+      "words": [
+        { "id": "q_who", "arabic": "مَنْ", "german": "wer", "transliteration": "man", "part_of_speech": "Fragewort", "gender": null, "plural": null },
+        { "id": "q_what", "arabic": "مَاذَا", "german": "was", "transliteration": "mādhā", "part_of_speech": "Fragewort", "gender": null, "plural": null },
+        { "id": "q_where", "arabic": "أَيْنَ", "german": "wo", "transliteration": "ayna", "part_of_speech": "Fragewort", "gender": null, "plural": null },
+        { "id": "q_when", "arabic": "مَتَى", "german": "wann", "transliteration": "matā", "part_of_speech": "Fragewort", "gender": null, "plural": null },
+        { "id": "q_how", "arabic": "كَيْفَ", "german": "wie", "transliteration": "kayfa", "part_of_speech": "Fragewort", "gender": null, "plural": null },
+        { "id": "q_why", "arabic": "لِمَاذَا", "german": "warum", "transliteration": "limādhā", "part_of_speech": "Fragewort", "gender": null, "plural": null },
+        { "id": "q_howmany", "arabic": "كَمْ", "german": "wie viel / wie viele", "transliteration": "kam", "part_of_speech": "Fragewort", "gender": null, "plural": null }
+      ]
+    },
+    {
+      "id": "simple_verbs",
+      "title": "Einfache Verben",
+      "lesson": 3,
+      "words": [
+        { "id": "verb_go", "arabic": "ذَهَبَ", "german": "gehen", "transliteration": "dhahaba", "part_of_speech": "Verb (3. Pers. m. Vergangenheit)", "gender": null, "plural": null },
+        { "id": "verb_study", "arabic": "دَرَسَ", "german": "lernen / studieren", "transliteration": "darasa", "part_of_speech": "Verb (3. Pers. m. Vergangenheit)", "gender": null, "plural": null },
+        { "id": "verb_play", "arabic": "لَعِبَ", "german": "spielen", "transliteration": "laʿiba", "part_of_speech": "Verb (3. Pers. m. Vergangenheit)", "gender": null, "plural": null },
+        { "id": "verb_live", "arabic": "سَكَنَ", "german": "wohnen", "transliteration": "sakana", "part_of_speech": "Verb (3. Pers. m. Vergangenheit)", "gender": null, "plural": null },
+        { "id": "verb_understand", "arabic": "فَهِمَ", "german": "verstehen", "transliteration": "fahima", "part_of_speech": "Verb (3. Pers. m. Vergangenheit)", "gender": null, "plural": null },
+        { "id": "verb_work", "arabic": "عَمِلَ", "german": "arbeiten", "transliteration": "ʿamila", "part_of_speech": "Verb (3. Pers. m. Vergangenheit)", "gender": null, "plural": null },
+        { "id": "verb_eat", "arabic": "أَكَلَ", "german": "essen", "transliteration": "akala", "part_of_speech": "Verb (3. Pers. m. Vergangenheit)", "gender": null, "plural": null },
+        { "id": "verb_drink", "arabic": "شَرِبَ", "german": "trinken", "transliteration": "shariba", "part_of_speech": "Verb (3. Pers. m. Vergangenheit)", "gender": null, "plural": null }
+      ]
+    },
+    {
+      "id": "professions",
+      "title": "Berufe",
+      "lesson": 3,
+      "words": [
+        { "id": "job_doctor", "arabic": "طَبِيب", "german": "Arzt", "transliteration": "ṭabīb", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَطِبَّاء" },
+        { "id": "job_engineer", "arabic": "مُهَنْدِس", "german": "Ingenieur", "transliteration": "muhandis", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "مُهَنْدِسُون" },
+        { "id": "job_teacher", "arabic": "مُعَلِّم", "german": "Lehrer", "transliteration": "muʿallim", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "مُعَلِّمُون" },
+        { "id": "job_nurse", "arabic": "مُمَرِّضَة", "german": "Krankenschwester", "transliteration": "mumarriḍa", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "مُمَرِّضَات" },
+        { "id": "job_police", "arabic": "شُرْطِي", "german": "Polizist", "transliteration": "shurṭī", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "شُرْطَة" },
+        { "id": "job_cook", "arabic": "طَبَّاخ", "german": "Koch", "transliteration": "ṭabbākh", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "طَبَّاخُون" },
+        { "id": "job_driver", "arabic": "سَائِق", "german": "Fahrer", "transliteration": "sāʾiq", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "سَائِقُون" }
+      ]
+    },
+    {
+      "id": "transportation",
+      "title": "Verkehr",
+      "lesson": 6,
+      "words": [
+        { "id": "transport_car", "arabic": "سَيَّارَة", "german": "Auto", "transliteration": "sayyāra", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "سَيَّارَات" },
+        { "id": "transport_bus", "arabic": "حَافِلَة", "german": "Bus", "transliteration": "ḥāfila", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "حَافِلَات" },
+        { "id": "transport_train", "arabic": "قِطَار", "german": "Zug", "transliteration": "qiṭār", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "قِطَارَات" },
+        { "id": "transport_plane", "arabic": "طَائِرَة", "german": "Flugzeug", "transliteration": "ṭāʾira", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "طَائِرَات" },
+        { "id": "transport_bike", "arabic": "دَرَّاجَة", "german": "Fahrrad", "transliteration": "darrāja", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "دَرَّاجَات" },
+        { "id": "transport_ship", "arabic": "سَفِينَة", "german": "Schiff", "transliteration": "safīna", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "سُفُن" }
+      ]
+    },
+    {
+      "id": "shopping",
+      "title": "Einkaufen",
+      "lesson": 6,
+      "words": [
+        { "id": "shop_money", "arabic": "نُقُود", "german": "Geld", "transliteration": "nuqūd", "part_of_speech": "Substantiv (Pluraletantum)", "gender": null, "plural": null },
+        { "id": "shop_price", "arabic": "سِعْر", "german": "Preis", "transliteration": "siʿr", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَسْعَار" },
+        { "id": "shop_store", "arabic": "مَحَلّ", "german": "Laden / Geschäft", "transliteration": "maḥall", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "مَحَلَّات" },
+        { "id": "shop_bag", "arabic": "كِيس", "german": "Tüte / Beutel", "transliteration": "kīs", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَكْيَاس" }
+      ]
+    },
+    {
+      "id": "leisure",
+      "title": "Freizeit",
+      "lesson": 6,
+      "words": [
+        { "id": "leisure_film", "arabic": "فِيلْم", "german": "Film", "transliteration": "fīlm", "part_of_speech": "Substantiv", "gender": "maskulin", "plural": "أَفْلَام" },
+        { "id": "leisure_music", "arabic": "مُوسِيقَى", "german": "Musik", "transliteration": "mūsīqā", "part_of_speech": "Substantiv", "gender": "feminin", "plural": null },
+        { "id": "leisure_sport", "arabic": "رِيَاضَة", "german": "Sport", "transliteration": "riyāḍa", "part_of_speech": "Substantiv", "gender": "feminin", "plural": null },
+        { "id": "leisure_game", "arabic": "لُعْبَة", "german": "Spiel", "transliteration": "luʿba", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "أَلْعَاب" }
+      ]
+    },
+    {
+      "id": "school_items",
+      "title": "Schulsachen",
+      "lesson": 6,
+      "words": [
+        { "id": "school_bag", "arabic": "حَقِيبَة", "german": "Tasche / Rucksack", "transliteration": "ḥaqība", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "حَقَائِب" },
+        { "id": "school_board", "arabic": "سَبُّورَة", "german": "Tafel", "transliteration": "sabbūra", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "سَبُّورَات" },
+        { "id": "school_eraser", "arabic": "مِمْحَاة", "german": "Radiergummi", "transliteration": "mimḥāh", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "مَمَاحٍ" },
+        { "id": "school_ruler", "arabic": "مِسْطَرَة", "german": "Lineal", "transliteration": "misṭara", "part_of_speech": "Substantiv", "gender": "feminin", "plural": "مَسَاطِر" }
       ]
     }
   ]

@@ -4,73 +4,85 @@
       "id": 0,
       "key": "onboarding",
       "title": "Einführung in die arabische Sprache",
-      "status": "active"
+      "status": "active",
+      "intro": "Kurzer Ablauf: Begrüßung → Eingabemodus wählen → Tonausgabe testen → Wiederholungslogik erklärt → Vokalzeichen-Einstellung wählen."
     },
     {
       "id": 1,
       "key": "keyboard_tutorial",
       "title": "Tastatur- und Eingabetutorial",
-      "status": "active"
+      "status": "active",
+      "intro": "Ablauf: Schreibrichtung → virtuelle Tastatur ausprobieren → verbundene Buchstaben → Vokalzeichen-Tabelle → Übungswort tippen → Eingabemodus final wählen."
     },
     {
       "id": 2,
       "key": "alphabet",
       "title": "Das arabische Alphabet",
-      "status": "active"
+      "status": "active",
+      "intro": "Ablauf: Erst die 28 Buchstaben in der Übersicht ansehen (Formen, Aussprache, Beispielwort), danach in der Übung Namen erkennen und Buchstaben eintippen."
     },
     {
       "id": 3,
       "key": "vocabulary_1",
       "title": "Grundwortschatz I",
-      "status": "active"
+      "status": "active",
+      "intro": "Ablauf: Zuerst Vokabeln lernen (Karteikarten in beide Richtungen: Arabisch→Deutsch und Deutsch→Arabisch), danach optional die eigene Aussprache selbst einschätzen."
     },
     {
       "id": 4,
       "key": "grammar_1",
       "title": "Grundgrammatik I",
-      "status": "active"
+      "status": "active",
+      "intro": "Ablauf: Je Thema erst eine kurze Erklärung lesen, danach direkt dazu üben. Themen: bestimmter Artikel, Personalpronomen, Demonstrativpronomen, Nominalsatz mit Adjektiv."
     },
     {
       "id": 5,
       "key": "listening_1",
       "title": "Aussprache und Hörverständnis I",
-      "status": "active"
+      "status": "active",
+      "intro": "Ablauf: Übungstyp wählen (Wort einer Übersetzung zuordnen ODER Diktat schreiben), dann Themenbereich wählen und loshören."
     },
     {
       "id": 6,
       "key": "vocabulary_2",
       "title": "Grundwortschatz II",
-      "status": "active"
+      "status": "active",
+      "intro": "Ablauf: Wie Grundwortschatz I — zuerst Vokabeln in einem Themenbereich lernen, danach optional Aussprache einschätzen."
     },
     {
       "id": 7,
       "key": "grammar_2",
       "title": "Grundgrammatik II",
-      "status": "active"
+      "status": "active",
+      "intro": "Ablauf: Je Thema erst Erklärung + Verbtabelle ansehen, danach dazu üben. Themen: Verbformen Gegenwart, Verbformen Vergangenheit, Verneinung, Konjunktionen."
     },
     {
       "id": 8,
       "key": "vocabulary_advanced",
       "title": "Erweiterter Wortschatz",
-      "status": "active"
+      "status": "active",
+      "intro": "Ablauf: Wie Grundwortschatz I/II, diesmal zu den Themen Hochschule und Technik."
     },
     {
       "id": 9,
       "key": "grammar_advanced",
       "title": "Erweiterte Grammatik",
-      "status": "active"
+      "status": "active",
+      "intro": "Ablauf: Erklärung zu Relativpronomen lesen, danach direkt dazu üben."
     },
     {
       "id": 10,
       "key": "reading_writing",
       "title": "Lesen und Schreiben",
-      "status": "active"
+      "status": "active",
+      "intro": "Ablauf: Zuerst einen kurzen Text lesen und Verständnisfragen beantworten, danach Wörter aus dem Text in die richtige Reihenfolge bringen."
     },
     {
       "id": 11,
       "key": "review_exam",
       "title": "Wiederholung und Prüfung",
-      "status": "active"
+      "status": "active",
+      "intro": "Das ist der Test: Zuerst in den anderen Lektionen Vokabeln und Grammatik lernen, dann hier ein gemischtes Quiz aus allem Gelernten bearbeiten — schwächere Bereiche kommen häufiger dran."
     }
   ]
 }

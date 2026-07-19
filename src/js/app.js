@@ -51,10 +51,25 @@ const App = (() => {
       return;
     }
 
-    const entry = VIEW_BY_KEY[key];
-    if (entry) {
-      entry.view.mount(contentEl, entry.arg);
-    }
+    renderLessonIntro(lesson);
+  }
+
+  function renderLessonIntro(lesson) {
+    contentEl.innerHTML = `
+      <div class="view">
+        <h1>${lesson.title}</h1>
+        <div class="card">
+          <p class="lead" style="margin:0;">${lesson.intro || ''}</p>
+        </div>
+        <button class="btn" id="lesson-start">Los geht's</button>
+      </div>
+    `;
+    contentEl.querySelector('#lesson-start').addEventListener('click', () => {
+      const entry = VIEW_BY_KEY[lesson.key];
+      if (entry) {
+        entry.view.mount(contentEl, entry.arg);
+      }
+    });
   }
 
   function navigateToSettings() {

@@ -83,10 +83,10 @@ statt Inhalte ohne muttersprachliche Prüfung zu raten. Details je Lektion:
 | 0 | Einführung | Vollständig |
 | 1 | Tastatur-Tutorial | Vollständig (virtuelle Tastatur; physische Arabic-101-Belegung fehlt, siehe unten) |
 | 2 | Alphabet | Alle 28 Buchstaben, Kontextformen, 2 von 6 Übungstypen |
-| 3 | Grundwortschatz I | ~38 Wörter, 5 Themen, Karteikarten beide Richtungen |
+| 3 | Grundwortschatz I | ~90 Wörter, 10 Themen, Karteikarten beide Richtungen |
 | 4 | Grundgrammatik I | Nur 4 Themen (Artikel, Pronomen, Demonstrativa, Nominalsatz+Adjektiv) — Präpositionen, Besitzverbindungen, Fragen, Verneinung ausgelassen |
 | 5 | Hörverständnis I | 2 von 6 Übungstypen (Übersetzung zuordnen, Diktat); Bild-/Satzaufgaben und Buchstaben-Hörübungen fehlen |
-| 6 | Grundwortschatz II | ~32 weitere Wörter, 5 Themen |
+| 6 | Grundwortschatz II | ~44 weitere Wörter, 9 Themen |
 | 7 | Grundgrammatik II | Nur reguläre Verbformen EINES Beispielverbs (Gegenwart/Vergangenheit), Präsens-Verneinung, 3 Konjunktionen — unregelmäßige/schwache Verben ausgelassen |
 | 8 | Erweiterter Wortschatz | 2 Themen (Hochschule, Technik), ~12 Wörter — kein installierbares Fachwortpaket-System |
 | 9 | Erweiterte Grammatik | **Nur** Relativpronomen (الذي/التي) — Verbstämme II-X, Passiv, Partizipien, Bedingungssätze, komplexe Besitzverbindungen, unregelmäßige/schwache/Hamza-Verben bewusst NICHT enthalten (zu hohes Fehlerrisiko ohne Prüfung) |
@@ -95,7 +95,13 @@ statt Inhalte ohne muttersprachliche Prüfung zu raten. Details je Lektion:
 
 Zusätzlich vorhanden: echte ausgelieferte Aussprache-Audiodateien (espeak-ng oder ElevenLabs, s.
 Architektur-Abschnitt), Statistik-Ansicht (📊), pro Fähigkeit getrennte Schwierigkeitsanpassung,
-lokale JSON-Speicherung.
+lokale JSON-Speicherung, sowie ein kurzer **Info-Screen vor jeder Lektion** (Titel + Ablauf, z. B.
+"zuerst Vokabeln lernen, danach Aussprache einschätzen"), bevor es mit "Los geht's" zur eigentlichen
+Lektion geht.
+
+Der Wortschatz umfasst aktuell **141 Wörter** (Lektionen 3/6/8 zusammen) — geplant ist eine
+schrittweise Erweiterung auf 200-300, in weiteren, jeweils sorgfältig geprüften Schritten statt
+in einem großen, ungeprüften Sprung.
 
 **Weiterhin nicht enthalten** (siehe Roadmap "Version 2/3/4" in der ursprünglichen
 Systembeschreibung): physische Arabic-(101)-Tastaturübersicht/-umschaltung, Transliterationsmodus
