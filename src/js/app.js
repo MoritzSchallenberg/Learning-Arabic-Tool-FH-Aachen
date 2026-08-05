@@ -9,6 +9,9 @@ const App = (() => {
   let courses = [];
   let currentKey = null;
   let pack = null;
+  // P0.2: wird von der jeweils gemounteten View gesetzt (z. B. um offene ExerciseGuard-Timer
+  // abzubrechen), und IMMER aufgerufen, bevor eine andere View/Ansicht gemountet wird.
+  let currentCleanup = null;
 
   const STATUS_CLASS = {
     not_started: 'grey',
@@ -47,6 +50,24 @@ const App = (() => {
     reading_writing: { view: ReadingView },
     review_exam: { view: ExamView }
   };
+
+  // P0.2: von Views aufgerufen (typischerweise in mount()), um eine Aufräumfunktion zu
+  // hinterlegen, die beim Verlassen der Ansicht ausgeführt wird (z. B. offene Timer/Guards
+  // abbrechen). Ein erneuter Aufruf ersetzt eine vorher registrierte Funktion für dieselbe View.
+  function registerCleanup(fn) {
+    currentCleanup = fn;
+  }
+
+  function runCleanup() {
+    if (currentCleanup) {
+      try {
+        currentCleanup();
+      } catch (err) {
+        // Aufräumen darf die Navigation nie verhindern.
+      }
+      currentCleanup = null;
+    }
+  }
 
   function findLessonMeta(key) {
     return lessons.find((l) => l.key === key);
@@ -92,6 +113,7 @@ const App = (() => {
     const lesson = findLessonMeta(key);
     if (!lesson) return;
 
+    runCleanup();
     currentKey = key;
     renderLessonList();
 
@@ -127,12 +149,14 @@ const App = (() => {
   }
 
   function navigateToSettings() {
+    runCleanup();
     currentKey = null;
     renderLessonList();
     SettingsView.mount(contentEl);
   }
 
   function navigateToStatistics() {
+    runCleanup();
     currentKey = null;
     renderLessonList();
     StatisticsView.mount(contentEl);
@@ -151,7 +175,7 @@ const App = (() => {
     navigateTo('onboarding');
   }
 
-  return { init, navigateTo, navigateToSettings, navigateToStatistics };
+  return { init, navigateTo, navigateToSettings, navigateToStatistics, registerCleanup };
 })();
 
 window.addEventListener('DOMContentLoaded', () => {

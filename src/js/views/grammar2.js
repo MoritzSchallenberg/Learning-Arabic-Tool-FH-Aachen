@@ -1,12 +1,22 @@
 // Lektion 7: Grundgrammatik II (Spec-Kapitel "Lektion 7").
 // Bewusst auf reguläre Verbformen eines einzigen Beispielverbs (كَتَبَ) begrenzt — siehe
 // Hinweis in grammar_2.json zu ausgesparten unregelmäßigen/schwachen Verbklassen.
+//
+// P0.2: jede Aufgabe läuft über einen ExerciseGuard (Mehrfachklick-Schutz + Timer-Aufräumung
+// beim Verlassen der View).
 
 const GrammarAdvancedView = (() => {
   let data = null;
   let sectionIndex = 0;
   let container = null;
+  let activeGuard = null;
   const PRONOUN_KEYS = ['ana', 'anta', 'anti', 'huwa', 'hiya', 'nahnu'];
+
+  function freshGuard() {
+    if (activeGuard) activeGuard.destroy();
+    activeGuard = ExerciseGuard.create();
+    return activeGuard;
+  }
 
   function pickRandomOrder(arr) {
     const copy = [...arr];
@@ -48,14 +58,17 @@ const GrammarAdvancedView = (() => {
   }
 
   function renderVerbExercise(section, tense, skill) {
+    const guard = freshGuard();
     const queue = pickRandomOrder(PRONOUN_KEYS);
     let index = 0;
 
     function renderTask(body) {
       if (index >= queue.length) {
+        guard.complete();
         body.innerHTML = `<p class="feedback correct">Übung abgeschlossen.</p>`;
         return;
       }
+      guard.nextTask();
       const key = queue[index];
       body.innerHTML = `
         ${renderVerbTable(tense)}
@@ -70,6 +83,7 @@ const GrammarAdvancedView = (() => {
       const input = body.querySelector('#g2-input');
       VirtualKeyboard.mount(body.querySelector('#g2-keyboard'), input, { showDiacritics: true, showSpecial: false });
       body.querySelector('#g2-check').addEventListener('click', () => {
+        if (!guard.submit()) return;
         const expected = data.verb[tense][key];
         const result = evaluateArabicAnswer(expected, input.value.trim());
         const feedbackEl = body.querySelector('#g2-feedback');
@@ -78,11 +92,13 @@ const GrammarAdvancedView = (() => {
           ? (result === 'correct_no_diacritics' ? 'Richtig, aber ohne Vokalzeichen.' : 'Richtig!')
           : `Nicht ganz. Richtig wäre: ${expected}`;
         feedbackEl.className = 'feedback ' + (isCorrect ? 'correct' : (result === 'typo' ? 'typo' : 'wrong'));
+        guard.showFeedback();
         const card = AppState.getCard(`verb_kataba_${key}`);
         adjustDifficulty(card, skill, isCorrect ? 'correct' : result);
         AppState.persistProgress();
         index += 1;
-        setTimeout(() => renderTask(body), 1200);
+        guard.transitioning();
+        guard.setTimeout(() => renderTask(body), 1200);
       });
     }
 
@@ -91,14 +107,17 @@ const GrammarAdvancedView = (() => {
   }
 
   function renderNegation(section) {
+    const guard = freshGuard();
     const queue = pickRandomOrder(PRONOUN_KEYS);
     let index = 0;
 
     function renderTask(body) {
       if (index >= queue.length) {
+        guard.complete();
         body.innerHTML = `<p class="feedback correct">Übung abgeschlossen.</p>`;
         return;
       }
+      guard.nextTask();
       const key = queue[index];
       const presentForm = data.verb.present[key];
       body.innerHTML = `
@@ -117,6 +136,7 @@ const GrammarAdvancedView = (() => {
       const input = body.querySelector('#g2-input');
       VirtualKeyboard.mount(body.querySelector('#g2-keyboard'), input, { showDiacritics: true, showSpecial: false });
       body.querySelector('#g2-check').addEventListener('click', () => {
+        if (!guard.submit()) return;
         const expected = `لا ${presentForm}`;
         const result = evaluateArabicAnswer(expected, input.value.trim());
         const feedbackEl = body.querySelector('#g2-feedback');
@@ -125,11 +145,13 @@ const GrammarAdvancedView = (() => {
           ? (result === 'correct_no_diacritics' ? 'Richtig, aber ohne Vokalzeichen.' : 'Richtig!')
           : `Nicht ganz. Richtig wäre: ${expected}`;
         feedbackEl.className = 'feedback ' + (isCorrect ? 'correct' : (result === 'typo' ? 'typo' : 'wrong'));
+        guard.showFeedback();
         const card = AppState.getCard(`verb_kataba_${key}`);
         adjustDifficulty(card, 'grammar_negation', isCorrect ? 'correct' : result);
         AppState.persistProgress();
         index += 1;
-        setTimeout(() => renderTask(body), 1200);
+        guard.transitioning();
+        guard.setTimeout(() => renderTask(body), 1200);
       });
     }
 
@@ -138,6 +160,7 @@ const GrammarAdvancedView = (() => {
   }
 
   function renderConjunctions(section) {
+    const guard = freshGuard();
     const queue = pickRandomOrder(section.conjunctions);
     let index = 0;
 
@@ -147,9 +170,11 @@ const GrammarAdvancedView = (() => {
 
     function renderTask(body) {
       if (index >= queue.length) {
+        guard.complete();
         body.innerHTML = `<p class="feedback correct">Übung abgeschlossen.</p>`;
         return;
       }
+      guard.nextTask();
       const item = queue[index];
       const opts = options(item);
       body.innerHTML = `
@@ -165,15 +190,18 @@ const GrammarAdvancedView = (() => {
         btn.className = 'btn secondary arabic-text';
         btn.textContent = opt.arabic;
         btn.addEventListener('click', () => {
+          if (!guard.submit()) return;
           const correct = opt.id === item.id;
           const feedbackEl = body.querySelector('#g2-feedback');
           feedbackEl.textContent = correct ? 'Richtig!' : `Falsch. Richtig wäre: ${item.arabic}`;
           feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+          guard.showFeedback();
           const card = AppState.getCard(`conjunction_${item.id}`);
           adjustDifficulty(card, 'grammar', correct ? 'correct' : 'wrong');
           AppState.persistProgress();
           index += 1;
-          setTimeout(() => renderTask(body), 900);
+          guard.transitioning();
+          guard.setTimeout(() => renderTask(body), 900);
         });
         optionsEl.appendChild(btn);
       });
@@ -194,6 +222,7 @@ const GrammarAdvancedView = (() => {
   async function mount(el) {
     container = el;
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
+    App.registerCleanup(() => { if (activeGuard) activeGuard.destroy(); });
     const pack = await AppState.getLanguagePack();
     data = pack.grammar2;
     sectionIndex = 0;

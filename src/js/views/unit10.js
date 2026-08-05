@@ -1,6 +1,9 @@
 // Unit 10: Wörter sicher lesen und schreiben (Konsolidierung von Kurs 1). Kombiniert eine
 // gemischte, schwierigkeitsgewichtete Übung über alle 28 Buchstaben mit einem abschließenden
 // Verbindungstrainer-Durchlauf am Kurs-1-Leitwort.
+//
+// P0.2: jede Mix-Aufgabe läuft über einen ExerciseGuard — verhindert Mehrfachauswertung bei
+// Doppelklick und bricht das 900ms-Timeout ab, falls die View vorher verlassen wird.
 
 const Unit10View = (() => {
   let container = null;
@@ -10,6 +13,13 @@ const Unit10View = (() => {
   let index = 0;
   let correctCount = 0;
   let flagshipWord = null;
+  let activeGuard = null;
+
+  function freshGuard() {
+    if (activeGuard) activeGuard.destroy();
+    activeGuard = ExerciseGuard.create();
+    return activeGuard;
+  }
 
   function pickRandomOrder(arr) {
     const copy = [...arr];
@@ -26,6 +36,7 @@ const Unit10View = (() => {
   }
 
   function renderMixDone() {
+    activeGuard = null;
     container.innerHTML = `
       <div class="view">
         <h1>Unit 10: Wörter sicher lesen und schreiben</h1>
@@ -44,6 +55,7 @@ const Unit10View = (() => {
       renderMixDone();
       return;
     }
+    const guard = freshGuard();
     const letter = queue[index];
     const useMultipleChoice = index % 2 === 0;
 
@@ -71,16 +83,19 @@ const Unit10View = (() => {
         btn.className = 'btn secondary';
         btn.textContent = opt.name;
         btn.addEventListener('click', () => {
+          if (!guard.submit()) return;
           const correct = opt.id === letter.id;
           if (correct) correctCount += 1;
           const feedbackEl = taskEl.querySelector('#u10-feedback');
           feedbackEl.textContent = correct ? 'Richtig!' : `Falsch. Richtig wäre: ${letter.name}`;
           feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+          guard.showFeedback();
           const card = AppState.getCard(`letter_${letter.id}`);
           adjustDifficulty(card, 'spelling', correct ? 'correct' : 'wrong');
           AppState.persistProgress();
           index += 1;
-          setTimeout(renderMixTask, 900);
+          guard.transitioning();
+          guard.setTimeout(renderMixTask, 900);
         });
         optionsEl.appendChild(btn);
       });
@@ -97,22 +112,26 @@ const Unit10View = (() => {
       const input = taskEl.querySelector('#u10-input');
       VirtualKeyboard.mount(taskEl.querySelector('#u10-keyboard'), input, { showDiacritics: false, showSpecial: false });
       taskEl.querySelector('#u10-check').addEventListener('click', () => {
+        if (!guard.submit()) return;
         const result = evaluateArabicAnswer(letter.letter, input.value.trim());
         const isCorrect = result === 'correct_full' || result === 'correct_no_diacritics';
         if (isCorrect) correctCount += 1;
         const feedbackEl = taskEl.querySelector('#u10-feedback');
         feedbackEl.textContent = isCorrect ? 'Richtig!' : `Falsch. Richtig wäre: ${letter.letter}`;
         feedbackEl.className = 'feedback ' + (isCorrect ? 'correct' : (result === 'typo' ? 'typo' : 'wrong'));
+        guard.showFeedback();
         const card = AppState.getCard(`letter_${letter.id}`);
         adjustDifficulty(card, 'independent_typing', isCorrect ? 'correct' : result);
         AppState.persistProgress();
         index += 1;
-        setTimeout(renderMixTask, 900);
+        guard.transitioning();
+        guard.setTimeout(renderMixTask, 900);
       });
     }
   }
 
   function renderConnectionPhase() {
+    activeGuard = null; // ConnectionTrainer verwaltet seine eigene Antwortsperre selbst
     container.innerHTML = `
       <div class="view">
         <h1>Unit 10 — Abschluss-Verbindungstrainer</h1>
@@ -147,6 +166,7 @@ const Unit10View = (() => {
   async function mount(el) {
     container = el;
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
+    App.registerCleanup(() => { if (activeGuard) activeGuard.destroy(); });
     const pack = await AppState.getLanguagePack();
     letters = pack.keyboard.letters;
     const course1 = pack.courses.courses.find((c) => c.id === 'course_1');

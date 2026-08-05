@@ -11,6 +11,9 @@
 // Stufe 4 (Audio in einem vollständigen Satz) und bildbasierte Aufgaben fehlen mangels
 // Satz-/Bilddaten und folgen in einer späteren Version.
 // "Langsame und normale Aussprache vergleichen": über die 🔊/🐢-Buttons abgedeckt.
+//
+// P0.2: jede Aufgabe läuft über einen ExerciseGuard (Mehrfachklick-Schutz + Timer-Aufräumung
+// beim Verlassen der View).
 
 const ListeningView = (() => {
   let categories = [];
@@ -20,6 +23,13 @@ const ListeningView = (() => {
   let queue = [];
   let queueIndex = 0;
   let correctCount = 0;
+  let activeGuard = null;
+
+  function freshGuard() {
+    if (activeGuard) activeGuard.destroy();
+    activeGuard = ExerciseGuard.create();
+    return activeGuard;
+  }
 
   function wordListeningDifficulty(word) {
     const card = AppState.getCard(word.id);
@@ -32,6 +42,7 @@ const ListeningView = (() => {
   }
 
   function renderPicker(container) {
+    activeGuard = null;
     const options = categories.map((c) => `<option value="${c.id}">${c.title} (${c.words.length})</option>`).join('');
     container.innerHTML = `
       <div class="view">
@@ -107,17 +118,19 @@ const ListeningView = (() => {
     return options;
   }
 
-  function finishCard(word, resultCategory, container) {
+  function finishCard(guard, word, resultCategory, container) {
     const card = AppState.getCard(word.id);
     adjustDifficulty(card, 'listening', resultCategory);
     AppState.persistProgress();
     const isCorrect = resultCategory === 'correct_full' || resultCategory === 'correct_no_diacritics' || resultCategory === 'correct';
     if (isCorrect) correctCount += 1;
     queueIndex += 1;
-    setTimeout(() => renderExercise(container), 1200);
+    guard.transitioning();
+    guard.setTimeout(() => renderExercise(container), 1200);
   }
 
-  function renderDone(container) {
+  function renderDone(guard, container) {
+    guard.complete();
     container.innerHTML = `
       <div class="view">
         <h1>Durchgang abgeschlossen</h1>
@@ -129,8 +142,9 @@ const ListeningView = (() => {
   }
 
   function renderExercise(container) {
+    const guard = freshGuard();
     if (queueIndex >= queue.length) {
-      renderDone(container);
+      renderDone(guard, container);
       return;
     }
     const word = currentWord();
@@ -155,11 +169,13 @@ const ListeningView = (() => {
         btn.className = 'btn secondary';
         btn.textContent = opt.german;
         btn.addEventListener('click', () => {
+          if (!guard.submit()) return;
           const correct = opt.id === word.id;
           const feedbackEl = container.querySelector('#listening-feedback');
           feedbackEl.textContent = correct ? 'Richtig!' : `Falsch. Richtig wäre: ${word.german}`;
           feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
-          finishCard(word, correct ? 'correct' : 'wrong', container);
+          guard.showFeedback();
+          finishCard(guard, word, correct ? 'correct' : 'wrong', container);
         });
         optionsEl.appendChild(btn);
       });
@@ -182,6 +198,7 @@ const ListeningView = (() => {
       const input = container.querySelector('#listening-input');
       VirtualKeyboard.mount(container.querySelector('#listening-keyboard'), input, { showDiacritics: true, showSpecial: true });
       container.querySelector('#listening-check').addEventListener('click', () => {
+        if (!guard.submit()) return;
         const result = evaluateArabicAnswer(word.arabic, input.value.trim());
         const feedbackEl = container.querySelector('#listening-feedback');
         const isCorrect = result === 'correct_full' || result === 'correct_no_diacritics';
@@ -189,9 +206,10 @@ const ListeningView = (() => {
           ? (result === 'correct_no_diacritics' ? 'Richtig, aber ohne Vokalzeichen.' : 'Richtig!')
           : `Nicht ganz. Richtig wäre: ${word.arabic}`;
         feedbackEl.className = 'feedback ' + (isCorrect ? 'correct' : (result === 'typo' ? 'typo' : 'wrong'));
+        guard.showFeedback();
         input.disabled = true;
         container.querySelector('#listening-check').disabled = true;
-        finishCard(word, result, container);
+        finishCard(guard, word, result, container);
       });
       if (settings.autoPlayWord) playWord(word, false);
     }
@@ -199,6 +217,7 @@ const ListeningView = (() => {
 
   async function mount(container) {
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
+    App.registerCleanup(() => { if (activeGuard) activeGuard.destroy(); });
     const pack = await AppState.getLanguagePack();
     categories = pack.vocabulary.categories;
     allWords = categories.flatMap((c) => c.words.map((w) => ({ ...w, categoryId: c.id })));

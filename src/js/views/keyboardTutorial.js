@@ -1,9 +1,20 @@
 // Lektion 1: Tastatur- und Eingabetutorial (Spec-Kapitel "Lektion 1", Abschnitte 1-6).
+//
+// P0.2: jeder Abschnitt läuft über einen ExerciseGuard (Mehrfachklick-Schutz). Hier gibt es
+// keinen Auto-Weiter-Timer (der Nutzer klickt selbst "Weiter"), daher ist vor allem der
+// Doppelklick-Schutz relevant.
 
 const KeyboardTutorialView = (() => {
   let sectionIndex = 0;
   let sections = [];
   let languagePack = null;
+  let activeGuard = null;
+
+  function freshGuard() {
+    if (activeGuard) activeGuard.destroy();
+    activeGuard = ExerciseGuard.create();
+    return activeGuard;
+  }
 
   function renderDirectionDemo(step) {
     return `
@@ -91,7 +102,7 @@ const KeyboardTutorialView = (() => {
     }
   }
 
-  function attachSectionHandlers(step, container) {
+  function attachSectionHandlers(step, container, guard) {
     const input = container.querySelector('#kt-input');
     const keyboardContainer = container.querySelector('#kt-keyboard');
     if (input && keyboardContainer) {
@@ -101,6 +112,10 @@ const KeyboardTutorialView = (() => {
     const checkBtn = container.querySelector('#kt-check');
     if (checkBtn) {
       checkBtn.addEventListener('click', () => {
+        if (!guard.canSubmit()) return; // hier kein einmaliges "submit" (mehrfaches Prüfen
+        // vor dem manuellen "Weiter" ist gewollt, z. B. um es nach einem Fehler erneut zu
+        // versuchen) — der Guard dient hier vor allem der Konsistenz mit anderen Views und
+        // der Aufräumung beim Verlassen der Ansicht.
         const expected = step.type === 'practice_word' ? step.word : step.letter;
         const result = evaluateArabicAnswer(expected, input.value.trim());
         const feedbackEl = container.querySelector('#kt-feedback');
@@ -123,6 +138,7 @@ const KeyboardTutorialView = (() => {
   }
 
   function render(container) {
+    const guard = freshGuard();
     const step = sections[sectionIndex];
     container.innerHTML = `
       <div class="view">
@@ -137,7 +153,7 @@ const KeyboardTutorialView = (() => {
     `;
     const bodyEl = container.querySelector('#kt-section-body');
     bodyEl.innerHTML = renderSectionBody(step);
-    attachSectionHandlers(step, bodyEl);
+    attachSectionHandlers(step, bodyEl, guard);
 
     container.querySelector('#kt-back').addEventListener('click', () => {
       if (sectionIndex > 0) {
@@ -158,6 +174,7 @@ const KeyboardTutorialView = (() => {
 
   async function mount(container) {
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
+    App.registerCleanup(() => { if (activeGuard) activeGuard.destroy(); });
     AppState.markLessonStarted('keyboard_tutorial');
     languagePack = await AppState.getLanguagePack();
     sections = languagePack.tutorials.keyboard.sections;

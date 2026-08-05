@@ -38,6 +38,29 @@ npm run build         # alle drei Plattformen
 
 Ergebnisse landen im Ordner `dist/`.
 
+### Tests und Lint
+
+```bash
+npm test              # alle Tests (Unit + Integration)
+npm run test:unit     # nur Unit-Tests
+npm run test:integration  # nur Integrationstests
+npm run lint           # JS-Syntax, JSON-Validität, globale Namenskollisionen
+```
+
+Läuft komplett offline mit dem in Node eingebauten Test-Runner (`node:test`/`node:assert`) —
+keine zusätzlichen Test-Abhängigkeiten, kein `npm install` über die ohnehin für Electron/
+electron-builder nötigen Pakete hinaus. Ein fehlgeschlagener Test liefert einen Exit-Code
+ungleich 0 (z. B. für CI). Getestet werden u. a.: arabische Normalisierung und
+Antwortbewertungsprofile (`test/unit/srs.test.js`, ≥30 arabische Vergleichsfälle), Unicode-
+sicheres Tastatur-Löschen (`test/unit/textEditing.test.js`), die virtuelle Tastatur
+End-zu-Ende inkl. Tastenzuordnung (`test/unit/virtualKeyboard.test.js`), die
+Antwortsperre/Timer-Aufräumung (`test/unit/exerciseGuard.test.js` sowie End-zu-Ende-Tests gegen
+die echte `letterGroupLesson.js`/`connectionTrainer.js`-Logik), und atomare/versionierte
+Fortschrittsspeicherung inkl. Migration realer Nutzerdaten (`test/unit/progressStore.test.js`,
+`test/integration/realProgressMigration.test.js`). `test/helpers/domStub.js` stellt dafür einen
+kleinen, abhängigkeitsfreien DOM-Stub mit echtem (wenn auch minimalem) HTML-Parser bereit —
+bewusst kein jsdom, damit `npm test` ohne zusätzliche Downloads läuft.
+
 ### Automatischer Multi-Plattform-Build (GitHub Actions)
 
 `.github/workflows/build.yml` baut bei jedem Push automatisch auf gehosteten Windows-, macOS- und
@@ -71,6 +94,15 @@ automatisch ein GitHub-Release-Entwurf mit allen drei Installern angelegt.
   Kontextform bestimmen, Wort zusammensetzen, falsche Reihenfolge erkennen, fehlenden Buchstaben
   ergänzen, mit der Tastatur nachschreiben — "Wort zerlegen" und "Wort animiert zusammensetzen"
   sind in der Zusammensetzen-Übung vereint).
+- **Virtuelle Tastatur (`src/js/keyboardData.js` + `src/js/views/virtualKeyboard.js`):** alle 28
+  Grundbuchstaben inkl. ذ (vorher versehentlich gefehlt), optisch an der physischen Arabic-101-
+  Tastatur orientiert (Zeilen in physischer Links-nach-rechts-Reihenfolge, `direction: ltr` auf
+  dem Tastatur-Container statt `rtl` — Letzteres hätte die Reihenfolge visuell gespiegelt).
+  Funktionstasten: Leertaste, Unicode-graphem-sicheres Löschen (`src/js/textEditing.js` — löscht
+  Buchstabe+Vokalzeichen als eine Einheit statt nur eine UTF-16-Codeeinheit), gesamtes Feld
+  löschen, Bestätigen, Shift/Sonderzeichen-Umschaltung (أ إ آ, vorher doppelt mit dem Grundlayout
+  angezeigt), Vokalzeichen-Umschaltung, arabische Satzzeichen und Ziffern. ARIA-Labels und
+  sichtbarer Tastaturfokus vorhanden.
 - **RTL/Bidi:** Kein selbstgebauter Algorithmus — Chromium implementiert den Unicode
   Bidirectional Algorithm sowie die arabische Zeichenverbindung (isoliert/Anfang/Mitte/Ende)
   nativ. In den Sprachdaten werden nur normale Unicode-Grundbuchstaben gespeichert, nie
@@ -93,6 +125,24 @@ automatisch ein GitHub-Release-Entwurf mit allen drei Installern angelegt.
   `scheduleNextReview`) — bei falscher Antwort fällt die Karte auf Stufe 0 zurück (frühere
   Wiederholung), bei richtiger steigt sie eine Stufe. Reine JSON-Speicherung, keine SQLite-
   Migration (der Stack wurde bewusst nicht gewechselt, siehe Kurs-1-Abschnitt unten).
+- **Antwortauswertung (`srs.js`):** aufgabenspezifische Bewertungsprofile (`arabic_letter_strict`,
+  `arabic_word_strict`, `arabic_word_ignore_diacritics`, `arabic_word_require_diacritics`,
+  `arabic_sentence_flexible`, `german_translation_flexible`) statt eines einzigen festen
+  Levenshtein-Grenzwerts — die Tippfehler-Toleranz hängt von der normalisierten Antwortlänge ab
+  (einzelne Buchstaben: keine Toleranz; kurze Wörter: sehr wenig; längere Sätze: proportional
+  mehr). Normalisierung ist konfigurierbar (NFC, Tatweel, unsichtbare Steuerzeichen, Vokalzeichen,
+  Alif-/Hamza-Formen, Satzzeichen, deutsche Groß-/Kleinschreibung).
+- **Zentrale Antwortsperre + Timer-Aufräumung (`src/js/exerciseGuard.js`):** jede Übungsaufgabe
+  läuft über einen `ExerciseGuard` (`idle → submitted → showing_feedback → transitioning →
+  completed`) — verhindert Mehrfachbewertung bei Doppelklick und bricht laufende
+  Weiterschalt-Timer ab, sobald die Ansicht verlassen wird (`App.registerCleanup`), damit kein
+  Callback mehr auf eine nicht mehr sichtbare Aufgabe feuert.
+- **Fortschrittsspeicherung (`src/js/progressStore.js`, von `main.js` genutzt):** atomares
+  Schreiben (temporäre Datei + Umbenennen), automatisches Backup der zuletzt gültigen Version vor
+  jedem Überschreiben, Wiederherstellung aus dem Backup bei kaputter Hauptdatei, ein
+  Versionsfeld (`_version`) mit transparenter Migration aus dem alten, unversionierten Format,
+  sowie eine zentrale Speicherwarteschlange pro Datei (`enqueueWrite`) gegen unkontrollierte
+  parallele Schreibvorgänge.
 
 ## Kurs 1: Arabische Schrift und erste Wörter (neue Kurs/Unit-Struktur)
 
@@ -207,6 +257,35 @@ von einer Person mit Arabischkenntnissen gegengelesen**. Diakritika, Genus und i
 Pluralformen (im Arabischen oft unregelmäßige "gebrochene Plurale") sind fehleranfällig, wenn
 sie ohne muttersprachliche Prüfung erstellt werden. Vor dem produktiven Einsatz (z. B. im
 Unterricht) sollte der Inhalt von jemandem mit Arabischkenntnissen gegengelesen werden.
+
+## Meilenstein 1: Stabilisierung (Entwicklungsauftrag "Veröffentlichungsfähigkeit")
+
+Nach dem ersten ausgiebigen Testen von Kurs 1 wurde ein zweiter Entwicklungsauftrag umgesetzt,
+der auf Stabilität und Testbarkeit statt neuer Inhalte zielt (Details und Fortschritt je
+Meilenstein: [`ROADMAP.md`](ROADMAP.md), Abschnitt 6). In dieser Runde umgesetzt und getestet:
+
+- **Virtuelle Tastatur korrigiert:** ذ ergänzt, Spiegelung durch `direction: rtl` behoben,
+  doppelt angezeigte Sonderzeichen entfernt, fehlende Funktionstasten (Alles löschen, Bestätigen,
+  Shift/Sonderzeichen- und Vokalzeichen-Umschaltung, Satzzeichen, Ziffern) ergänzt.
+- **Unicode-sicheres Löschen:** Rücktaste löscht ein vollständiges Graphem (Buchstabe +
+  Vokalzeichen) statt nur eine UTF-16-Codeeinheit.
+- **Zentrale Antwortsperre + Timer-Aufräumung:** in allen 13 Übungs-Views (`ExerciseGuard`) —
+  Doppelklick erzeugt nur noch einen Versuch, Timer werden beim Verlassen einer Ansicht
+  abgebrochen.
+- **Antwortauswertung überarbeitet:** aufgabenspezifische Bewertungsprofile statt festem
+  Levenshtein-Grenzwert 2 — der Kernfehler (ein einzelner falscher Buchstabe wurde als
+  Tippfehler durchgewunken) ist behoben.
+- **Fortschritt atomar + versioniert gespeichert:** temp+rename-Schreiben, automatisches Backup,
+  Wiederherstellung bei kaputter Datei, Migration alter Fortschrittsdateien (gegen eine
+  Sicherheitskopie der echten Nutzerdaten getestet, ohne Datenverlust).
+- **Automatisierte Tests eingerichtet:** `npm test`/`npm run lint`, komplett offline mit dem in
+  Node eingebauten Test-Runner (siehe Abschnitt "Tests und Lint" oben).
+
+Noch nicht angegangen (siehe ROADMAP für die vollständige, priorisierte Liste): modulares
+Kurspaket-Format, generische datenbasierte Lesson-Engine, Hilfestufen A-E als allgemeines
+System, Tastatur-Lernstufen, freier Übungsmodus, Review-Queue-gesteuerte Wiederholungsauswahl,
+Sicherheitshärtung externer Kursinhalte, Release-Dateien (LICENSE, CONTRIBUTING.md, ...), CI-
+Workflow für Tests.
 
 ## Bekannte Einschränkungen
 

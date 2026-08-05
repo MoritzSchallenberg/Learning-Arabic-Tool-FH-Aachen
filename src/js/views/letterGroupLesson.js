@@ -9,6 +9,12 @@
 // zunächst ausgeblendet; nach zwei aufeinanderfolgenden Fehlversuchen wird er für den Rest des
 // Durchlaufs automatisch eingeblendet (keine vollständige 5-stufige A-E-Zustandsmaschine, aber
 // dasselbe Grundprinzip: bei Schwierigkeiten wird automatisch mehr Hilfe angeboten).
+//
+// P0.2 (zentrale Antwortsperre + Timer-Aufräumung): jede Aufgabe innerhalb einer Phase läuft
+// über einen ExerciseGuard (exerciseGuard.js). guard.submit() lässt jede Aufgabe nur einmal
+// auswerten (Schutz gegen Doppelklick), guard.setTimeout() statt rohem setTimeout() sorgt dafür,
+// dass ein Phasenwechsel oder ein Verlassen der View (App.registerCleanup) keine verspäteten
+// Callbacks mehr auslöst.
 
 const LetterGroupLessonView = (() => {
   const PHASE_TITLES = {
@@ -37,6 +43,17 @@ const LetterGroupLessonView = (() => {
   let vocabWords = [];
   let phaseIndex = 0;
   let container = null;
+  let activeGuard = null;
+
+  // Erzeugt einen frischen Guard für die aktuelle Phase/Aufgabe und zerstört einen eventuell
+  // noch aktiven vorherigen Guard (z. B. beim Wechsel von einer Phase zur nächsten innerhalb
+  // derselben View-Instanz — die DOM-Elemente der alten Phase werden ohnehin ersetzt, ihre
+  // Timer/Klick-Sperren dürfen dann nicht mehr wirken).
+  function freshGuard() {
+    if (activeGuard) activeGuard.destroy();
+    activeGuard = ExerciseGuard.create();
+    return activeGuard;
+  }
 
   function pickRandomOrder(arr) {
     const copy = [...arr];
@@ -72,6 +89,7 @@ const LetterGroupLessonView = (() => {
   }
 
   function renderIntro() {
+    freshGuard();
     const rows = letters.map((l) => {
       const forms = buildLetterForms(l.letter, l.joining);
       return `
@@ -101,16 +119,22 @@ const LetterGroupLessonView = (() => {
     });
   }
 
+  // renderTask(body, letter, guard, onDone) — guard gilt für die GESAMTE Phase (ein Guard pro
+  // runLetterQueue()-Aufruf), guard.nextTask() wird vor jeder neuen Aufgabe aufgerufen, damit
+  // guard.submit() für die nächste Aufgabe wieder true liefert.
   function runLetterQueue(renderTask) {
     const queue = pickRandomOrder(letters);
     let index = 0;
+    const guard = freshGuard();
 
     function next(body) {
       if (index >= queue.length) {
+        guard.complete();
         body.innerHTML = `<p class="feedback correct">Phase abgeschlossen.</p>`;
         return;
       }
-      renderTask(body, queue[index], () => {
+      guard.nextTask();
+      renderTask(body, queue[index], guard, () => {
         index += 1;
         next(body);
       });
@@ -121,7 +145,7 @@ const LetterGroupLessonView = (() => {
   }
 
   function renderRecognize() {
-    runLetterQueue((body, letter, onDone) => {
+    runLetterQueue((body, letter, guard, onDone) => {
       const distractors = pickRandomOrder(allLetters.filter((l) => l.id !== letter.id)).slice(0, 3);
       const options = pickRandomOrder([letter, ...distractors]);
       body.innerHTML = `
@@ -138,14 +162,17 @@ const LetterGroupLessonView = (() => {
         btn.className = 'btn secondary';
         btn.textContent = opt.name;
         btn.addEventListener('click', () => {
+          if (!guard.submit()) return;
           const correct = opt.id === letter.id;
           const feedbackEl = body.querySelector('#lg-feedback');
           feedbackEl.textContent = correct ? 'Richtig!' : `Falsch. Richtig wäre: ${letter.name}`;
           feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+          guard.showFeedback();
           const card = AppState.getCard(`letter_${letter.id}`);
           adjustDifficulty(card, 'spelling', correct ? 'correct' : 'wrong');
           AppState.persistProgress();
-          setTimeout(onDone, 900);
+          guard.transitioning();
+          guard.setTimeout(onDone, 900);
         });
         optionsEl.appendChild(btn);
       });
@@ -154,6 +181,7 @@ const LetterGroupLessonView = (() => {
 
   // Zuordnen: Klick-basiertes Zuordnungsspiel — Buchstabe anklicken, dann passenden Namen anklicken.
   function renderMatch() {
+    const guard = freshGuard();
     const body = renderShell('');
     const letterOrder = pickRandomOrder(letters);
     const nameOrder = pickRandomOrder(letters);
@@ -165,6 +193,8 @@ const LetterGroupLessonView = (() => {
 
     function attemptMatch() {
       if (selectedLetter === null || selectedName === null) { renderBoard(); return; }
+      if (!guard.submit()) return;
+      guard.showFeedback();
       const card = AppState.getCard(`letter_${selectedLetter}`);
       if (selectedLetter === selectedName) {
         matched.add(selectedLetter);
@@ -174,18 +204,22 @@ const LetterGroupLessonView = (() => {
         feedbackClass = 'correct';
         selectedLetter = null;
         selectedName = null;
+        guard.transitioning();
+        guard.nextTask();
         renderBoard();
       } else {
         adjustDifficulty(card, 'matching', 'wrong');
         AppState.persistProgress();
         feedbackText = 'Kein Paar — versuch es erneut.';
         feedbackClass = 'wrong';
+        guard.transitioning();
         renderBoard();
-        setTimeout(() => {
+        guard.setTimeout(() => {
           selectedLetter = null;
           selectedName = null;
           feedbackText = '';
           feedbackClass = '';
+          guard.nextTask();
           renderBoard();
         }, 700);
       }
@@ -220,6 +254,7 @@ const LetterGroupLessonView = (() => {
         btn.addEventListener('click', () => { selectedName = l.id; attemptMatch(); });
         namesEl.appendChild(btn);
       });
+      if (matched.size === letters.length) guard.complete();
     }
 
     renderBoard();
@@ -228,7 +263,7 @@ const LetterGroupLessonView = (() => {
   // Unterscheiden: wie Wiedererkennen, aber Distraktoren nur aus derselben Unit-Gruppe (ähnliche
   // Formen), da die Units bereits nach didaktischer Ähnlichkeit gruppiert sind.
   function renderDiscriminate() {
-    runLetterQueue((body, letter, onDone) => {
+    runLetterQueue((body, letter, guard, onDone) => {
       let pool = letters.filter((l) => l.id !== letter.id);
       if (pool.length < 3) {
         const extra = pickRandomOrder(
@@ -252,14 +287,17 @@ const LetterGroupLessonView = (() => {
         btn.className = 'btn secondary';
         btn.textContent = opt.name;
         btn.addEventListener('click', () => {
+          if (!guard.submit()) return;
           const correct = opt.id === letter.id;
           const feedbackEl = body.querySelector('#lg-feedback');
           feedbackEl.textContent = correct ? 'Richtig!' : `Falsch. Richtig wäre: ${letter.name}`;
           feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+          guard.showFeedback();
           const card = AppState.getCard(`letter_${letter.id}`);
           adjustDifficulty(card, 'discrimination', correct ? 'correct' : 'wrong');
           AppState.persistProgress();
-          setTimeout(onDone, 900);
+          guard.transitioning();
+          guard.setTimeout(onDone, 900);
         });
         optionsEl.appendChild(btn);
       });
@@ -267,6 +305,7 @@ const LetterGroupLessonView = (() => {
   }
 
   function renderConnection() {
+    freshGuard(); // zerstört einen evtl. noch offenen Guard der vorherigen Phase
     const body = renderShell('');
     ConnectionTrainer.mount(body, {
       word: { arabic: unit.demo_word, meaning: unit.demo_word_meaning },
@@ -282,7 +321,7 @@ const LetterGroupLessonView = (() => {
   function renderTypingPhase(mode) {
     let wrongStreak = 0;
     let hintUnlocked = mode === 'guided';
-    runLetterQueue((body, letter, onDone) => {
+    runLetterQueue((body, letter, guard, onDone) => {
       const showHint = mode === 'guided' || hintUnlocked;
       body.innerHTML = `
         <div class="card">
@@ -297,11 +336,13 @@ const LetterGroupLessonView = (() => {
       const input = body.querySelector('#lg-input');
       VirtualKeyboard.mount(body.querySelector('#lg-keyboard'), input, { showDiacritics: false, showSpecial: false });
       body.querySelector('#lg-check').addEventListener('click', () => {
+        if (!guard.submit()) return;
         const result = evaluateArabicAnswer(letter.letter, input.value.trim());
         const isCorrect = result === 'correct_full' || result === 'correct_no_diacritics';
         const feedbackEl = body.querySelector('#lg-feedback');
         feedbackEl.textContent = isCorrect ? 'Richtig!' : `Falsch. Richtig wäre: ${letter.letter}`;
         feedbackEl.className = 'feedback ' + (isCorrect ? 'correct' : (result === 'typo' ? 'typo' : 'wrong'));
+        guard.showFeedback();
         const skill = mode === 'guided' ? 'guided_typing' : 'independent_typing';
         const card = AppState.getCard(`letter_${letter.id}`);
         adjustDifficulty(card, skill, isCorrect ? 'correct' : result);
@@ -310,7 +351,8 @@ const LetterGroupLessonView = (() => {
           wrongStreak = isCorrect ? 0 : wrongStreak + 1;
           if (wrongStreak >= 2) hintUnlocked = true;
         }
-        setTimeout(onDone, 900);
+        guard.transitioning();
+        guard.setTimeout(onDone, 900);
       });
     });
   }
@@ -324,18 +366,22 @@ const LetterGroupLessonView = (() => {
   function renderApplication() {
     const applicable = letters.filter((l) => findWordsContaining(l.letter).length > 0);
     if (applicable.length === 0) {
+      freshGuard();
       renderShell('<p class="feedback">Keine Anwendungsaufgabe für diese Buchstaben verfügbar.</p>');
       return;
     }
+    const guard = freshGuard();
     const queue = pickRandomOrder(applicable);
     let index = 0;
     const body = renderShell('');
 
     function next() {
       if (index >= queue.length) {
+        guard.complete();
         body.innerHTML = `<p class="feedback correct">Phase abgeschlossen.</p>`;
         return;
       }
+      guard.nextTask();
       const letter = queue[index];
       const matches = findWordsContaining(letter.letter);
       const correctWord = matches[Math.floor(Math.random() * matches.length)];
@@ -355,15 +401,18 @@ const LetterGroupLessonView = (() => {
         btn.className = 'btn secondary arabic-text';
         btn.textContent = `${opt.arabic} (${opt.german})`;
         btn.addEventListener('click', () => {
+          if (!guard.submit()) return;
           const correct = opt.id === correctWord.id;
           const feedbackEl = body.querySelector('#lg-app-feedback');
           feedbackEl.textContent = correct ? 'Richtig!' : `Falsch. Richtig wäre: ${correctWord.arabic} (${correctWord.german})`;
           feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+          guard.showFeedback();
           const card = AppState.getCard(`letter_${letter.id}`);
           adjustDifficulty(card, 'application', correct ? 'correct' : 'wrong');
           AppState.persistProgress();
           index += 1;
-          setTimeout(next, 900);
+          guard.transitioning();
+          guard.setTimeout(next, 900);
         });
         optionsEl.appendChild(btn);
       });
@@ -374,6 +423,7 @@ const LetterGroupLessonView = (() => {
   // Abschlussprüfung: gemischtes Mini-Quiz (Wiedererkennen + Tippen) nur über die Buchstaben
   // dieser Unit, mit derselben Hilfe-Rückstufung wie in der Selbstständigen Produktion.
   function renderFinalTest() {
+    const guard = freshGuard();
     let wrongStreak = 0;
     let hintUnlocked = false;
     const queue = pickRandomOrder(letters);
@@ -389,10 +439,12 @@ const LetterGroupLessonView = (() => {
 
     function next() {
       if (index >= queue.length) {
+        guard.complete();
         const passed = correctCount / queue.length >= 0.6;
         body.innerHTML = `<p class="feedback ${passed ? 'correct' : 'wrong'}">Abschlussprüfung: ${correctCount} / ${queue.length} richtig.</p>`;
         return;
       }
+      guard.nextTask();
       const letter = queue[index];
       const useMultipleChoice = index % 2 === 0;
 
@@ -417,13 +469,16 @@ const LetterGroupLessonView = (() => {
           btn.className = 'btn secondary';
           btn.textContent = opt.name;
           btn.addEventListener('click', () => {
+            if (!guard.submit()) return;
             const correct = opt.id === letter.id;
             registerResult(correct);
+            guard.showFeedback();
             const card = AppState.getCard(`letter_${letter.id}`);
             adjustDifficulty(card, 'final_test', correct ? 'correct' : 'wrong');
             AppState.persistProgress();
             index += 1;
-            setTimeout(next, 700);
+            guard.transitioning();
+            guard.setTimeout(next, 700);
           });
           optionsEl.appendChild(btn);
         });
@@ -440,14 +495,17 @@ const LetterGroupLessonView = (() => {
         const input = body.querySelector('#lg-final-input');
         VirtualKeyboard.mount(body.querySelector('#lg-final-keyboard'), input, { showDiacritics: false, showSpecial: false });
         body.querySelector('#lg-final-check').addEventListener('click', () => {
+          if (!guard.submit()) return;
           const result = evaluateArabicAnswer(letter.letter, input.value.trim());
           const isCorrect = result === 'correct_full' || result === 'correct_no_diacritics';
           registerResult(isCorrect);
+          guard.showFeedback();
           const card = AppState.getCard(`letter_${letter.id}`);
           adjustDifficulty(card, 'final_test', isCorrect ? 'correct' : result);
           AppState.persistProgress();
           index += 1;
-          setTimeout(next, 700);
+          guard.transitioning();
+          guard.setTimeout(next, 700);
         });
       }
     }
@@ -470,6 +528,7 @@ const LetterGroupLessonView = (() => {
   async function mount(el, unitId) {
     container = el;
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
+    App.registerCleanup(() => { if (activeGuard) activeGuard.destroy(); });
     const pack = await AppState.getLanguagePack();
     const course1 = pack.courses.courses.find((c) => c.id === 'course_1');
     unit = course1.units.find((u) => u.id === unitId);

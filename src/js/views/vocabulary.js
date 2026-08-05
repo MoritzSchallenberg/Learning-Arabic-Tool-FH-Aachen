@@ -3,6 +3,11 @@
 // Wort/Definition abfragen, Levenshtein-Tippfehlererkennung, Schwierigkeit pro Fähigkeit
 // anpassen (arabic_to_german, german_to_arabic) + optionale Selbsteinschätzung der
 // Aussprache (Fähigkeit "pronunciation").
+//
+// P0.2: jede Karte läuft über einen ExerciseGuard (Mehrfachklick-Schutz + Timer-Aufräumung
+// beim Verlassen der View). Die Aussprache-Selbsteinschätzung ist ein eigener, unabhängiger
+// Einmal-Schritt danach (kein Timer, daher ein einfaches lokales "bereits bewertet"-Flag statt
+// eines vollen Guards).
 
 const VocabularyView = (() => {
   let categories = [];
@@ -10,6 +15,13 @@ const VocabularyView = (() => {
   let queue = [];
   let queueIndex = 0;
   let correctCount = 0;
+  let activeGuard = null;
+
+  function freshGuard() {
+    if (activeGuard) activeGuard.destroy();
+    activeGuard = ExerciseGuard.create();
+    return activeGuard;
+  }
 
   function wordDifficultyAverage(word) {
     const card = AppState.getCard(word.id);
@@ -25,6 +37,7 @@ const VocabularyView = (() => {
   }
 
   function renderCategoryPicker(container) {
+    activeGuard = null;
     const options = categories.map((c) => `<option value="${c.id}">${c.title} (${c.words.length})</option>`).join('');
     container.innerHTML = `
       <div class="view">
@@ -58,6 +71,7 @@ const VocabularyView = (() => {
   }
 
   function renderPronunciationRating(container, word) {
+    let rated = false;
     const el = container.querySelector('#vocab-pronunciation-rating');
     el.innerHTML = `
       <p class="lead" style="margin-top:12px;">Aussprache gehört — wie war deine eigene Aussprache?</p>
@@ -69,6 +83,8 @@ const VocabularyView = (() => {
     `;
     el.querySelectorAll('button').forEach((btn) => {
       btn.addEventListener('click', () => {
+        if (rated) return;
+        rated = true;
         const card = AppState.getCard(word.id);
         adjustDifficulty(card, 'pronunciation', btn.dataset.result);
         AppState.persistProgress();
@@ -78,7 +94,9 @@ const VocabularyView = (() => {
   }
 
   function renderCard(container) {
+    const guard = freshGuard();
     if (queueIndex >= queue.length) {
+      guard.complete();
       container.innerHTML = `
         <div class="view">
           <h1>Durchgang abgeschlossen</h1>
@@ -122,6 +140,7 @@ const VocabularyView = (() => {
     }
 
     container.querySelector('#vocab-check').addEventListener('click', () => {
+      if (!guard.submit()) return;
       const skill = directionIsArabicToGerman ? 'arabic_to_german' : 'german_to_arabic';
       const result = directionIsArabicToGerman
         ? evaluateGermanAnswer(word.german, input.value.trim())
@@ -140,6 +159,7 @@ const VocabularyView = (() => {
         feedbackEl.textContent = `Falsch. Richtige Antwort: ${directionIsArabicToGerman ? word.german : word.arabic}`;
         feedbackEl.className = 'feedback wrong';
       }
+      guard.showFeedback();
 
       const card = AppState.getCard(word.id);
       adjustDifficulty(card, skill, result);
@@ -150,7 +170,8 @@ const VocabularyView = (() => {
       container.querySelector('#vocab-check').disabled = true;
       input.disabled = true;
 
-      setTimeout(() => {
+      guard.transitioning();
+      guard.setTimeout(() => {
         queueIndex += 1;
         renderCard(container);
       }, 1400);
@@ -159,6 +180,7 @@ const VocabularyView = (() => {
 
   async function mount(container, lesson = 3) {
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
+    App.registerCleanup(() => { if (activeGuard) activeGuard.destroy(); });
     const pack = await AppState.getLanguagePack();
     categories = pack.vocabulary.categories.filter((c) => c.lesson === lesson);
     allWords = categories.flatMap((c) => c.words.map((w) => ({ ...w, categoryId: c.id })));

@@ -9,6 +9,10 @@
   "private": true,
   "scripts": {
     "start": "electron .",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "node --test test/unit",
+    "test:integration": "node --test test/integration",
+    "lint": "node scripts/lint.js",
     "build:win": "electron-builder --win",
     "build:mac": "electron-builder --mac",
     "build:linux": "electron-builder --linux",

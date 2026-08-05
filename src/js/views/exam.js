@@ -3,6 +3,9 @@
 // Lektionen 3/6/8, Grammatik-Pronomen), gewichtet nach bestehender Schwierigkeit — schwache
 // Bereiche kommen häufiger dran (sortByDifficultyShuffled, dieselbe Logik wie in den
 // einzelnen Lektionen). Reine Rekombination bereits geprüfter Inhalte, keine neue Grammatik.
+//
+// P0.2: jede Frage läuft über einen ExerciseGuard (Mehrfachklick-Schutz + Timer-Aufräumung
+// beim Verlassen der View).
 
 const ExamView = (() => {
   const EXAM_LENGTH = 20;
@@ -10,6 +13,13 @@ const ExamView = (() => {
   let queue = [];
   let index = 0;
   let scoreByArea = {};
+  let activeGuard = null;
+
+  function freshGuard() {
+    if (activeGuard) activeGuard.destroy();
+    activeGuard = ExerciseGuard.create();
+    return activeGuard;
+  }
 
   function pickRandomOrder(arr) {
     const copy = [...arr];
@@ -62,6 +72,7 @@ const ExamView = (() => {
   }
 
   function renderDone() {
+    if (activeGuard) activeGuard.complete();
     const areas = ['Buchstaben', 'Vokabular', 'Grammatik'];
     const rows = areas
       .filter((a) => scoreByArea[a])
@@ -97,6 +108,7 @@ const ExamView = (() => {
       renderDone();
       return;
     }
+    const guard = freshGuard();
     const q = queue[index];
     const isArabicPrompt = !!q.promptArabic;
     const options = q.options || q.optionsArabic;
@@ -117,12 +129,15 @@ const ExamView = (() => {
       btn.className = 'btn secondary' + (isArabicPrompt ? '' : ' arabic-text');
       btn.textContent = opt.text;
       btn.addEventListener('click', () => {
+        if (!guard.submit()) return;
         const feedbackEl = container.querySelector('#exam-feedback');
         feedbackEl.textContent = opt.correct ? 'Richtig!' : 'Falsch.';
         feedbackEl.className = 'feedback ' + (opt.correct ? 'correct' : 'wrong');
+        guard.showFeedback();
         recordAnswer(q, opt.correct);
         index += 1;
-        setTimeout(renderQuestion, 900);
+        guard.transitioning();
+        guard.setTimeout(renderQuestion, 900);
       });
       optionsEl.appendChild(btn);
     });
@@ -131,6 +146,7 @@ const ExamView = (() => {
   async function mount(el) {
     container = el;
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
+    App.registerCleanup(() => { if (activeGuard) activeGuard.destroy(); });
     AppState.markLessonStarted('review_exam');
     const pack = await AppState.getLanguagePack();
 

@@ -2,11 +2,21 @@
 // 2 von 6 Aufgabentypen umgesetzt (Leseverständnis, Wörter in Reihenfolge bringen) —
 // siehe Hinweis in reading.json zu den ausgelassenen Typen (Diktat, Fehlerkorrektur,
 // Übersetzung, freie Textproduktion: ohne echte Sprachprüfung nicht sinnvoll auto-bewertbar).
+//
+// P0.2: jede Aufgabe läuft über einen ExerciseGuard (Mehrfachklick-Schutz + Timer-Aufräumung
+// beim Verlassen der View).
 
 const ReadingView = (() => {
   let data = null;
   let phase = 'comprehension'; // 'comprehension' | 'reorder'
   let container = null;
+  let activeGuard = null;
+
+  function freshGuard() {
+    if (activeGuard) activeGuard.destroy();
+    activeGuard = ExerciseGuard.create();
+    return activeGuard;
+  }
 
   function pickRandomOrder(arr) {
     const copy = [...arr];
@@ -25,8 +35,10 @@ const ReadingView = (() => {
   let comprehensionIndex = 0;
 
   function renderComprehension() {
+    const guard = freshGuard();
     const questions = data.sentences;
     if (comprehensionIndex >= questions.length) {
+      guard.complete();
       container.innerHTML = `
         <div class="view">
           <h1>Lesen und Schreiben</h1>
@@ -42,6 +54,7 @@ const ReadingView = (() => {
       });
       return;
     }
+    guard.nextTask();
     const sentence = questions[comprehensionIndex];
     const options = pickRandomOrder(sentence.options);
     container.innerHTML = `
@@ -61,14 +74,17 @@ const ReadingView = (() => {
       btn.className = 'btn secondary';
       btn.textContent = opt.text;
       btn.addEventListener('click', () => {
+        if (!guard.submit()) return;
         const feedbackEl = container.querySelector('#reading-feedback');
         feedbackEl.textContent = opt.correct ? 'Richtig!' : 'Falsch, versuch es bei der nächsten Frage nochmal.';
         feedbackEl.className = 'feedback ' + (opt.correct ? 'correct' : 'wrong');
+        guard.showFeedback();
         const card = AppState.getCard(`reading_${sentence.id}`);
         adjustDifficulty(card, 'reading', opt.correct ? 'correct' : 'wrong');
         AppState.persistProgress();
         comprehensionIndex += 1;
-        setTimeout(renderComprehension, 1100);
+        guard.transitioning();
+        guard.setTimeout(renderComprehension, 1100);
       });
       optionsEl.appendChild(btn);
     });
@@ -78,8 +94,10 @@ const ReadingView = (() => {
   let reorderAttempt = [];
 
   function renderReorder() {
+    const guard = freshGuard();
     const sentenceIds = data.reorder_sentence_ids;
     if (renderReorderIndex >= sentenceIds.length) {
+      guard.complete();
       container.innerHTML = `
         <div class="view">
           <h1>Lesen und Schreiben</h1>
@@ -92,6 +110,7 @@ const ReadingView = (() => {
       });
       return;
     }
+    guard.nextTask();
     const sentence = data.sentences.find((s) => s.id === sentenceIds[renderReorderIndex]);
     const shuffled = pickRandomOrder(sentence.words);
     reorderAttempt = [];
@@ -133,22 +152,26 @@ const ReadingView = (() => {
     renderTokens();
 
     container.querySelector('#reading-reset').addEventListener('click', () => {
+      if (!guard.canSubmit()) return; // nach dem Prüfen keine Änderungen mehr am Versuch
       reorderAttempt = [];
       builtEl.textContent = '';
       renderTokens();
     });
 
     container.querySelector('#reading-check-order').addEventListener('click', () => {
+      if (!guard.submit()) return;
       const attemptText = reorderAttempt.map((idx) => shuffled[idx]).join(' ');
       const expectedText = sentence.words.join(' ');
       const feedbackEl = container.querySelector('#reading-order-feedback');
       const correct = attemptText === expectedText;
       feedbackEl.textContent = correct ? 'Richtig!' : `Nicht ganz. Richtig wäre: ${expectedText}`;
       feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+      guard.showFeedback();
       const card = AppState.getCard(`reading_order_${sentence.id}`);
       adjustDifficulty(card, 'reading', correct ? 'correct' : 'wrong');
       AppState.persistProgress();
-      setTimeout(() => {
+      guard.transitioning();
+      guard.setTimeout(() => {
         renderReorderIndex += 1;
         renderReorder();
       }, 1400);
@@ -163,6 +186,7 @@ const ReadingView = (() => {
   async function mount(el) {
     container = el;
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
+    App.registerCleanup(() => { if (activeGuard) activeGuard.destroy(); });
     const pack = await AppState.getLanguagePack();
     data = pack.reading;
     phase = 'comprehension';

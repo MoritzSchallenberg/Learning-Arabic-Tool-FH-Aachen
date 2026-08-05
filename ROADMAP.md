@@ -70,6 +70,12 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
   (keine Platzhalter mehr für nicht gebaute Eingabemodi).
 - **Spaced Repetition** (sofort/1/3/7/14/30 Tage) zusätzlich zur Schwierigkeitsanpassung.
 - **GitHub-Actions-Workflow** für automatische Windows/macOS/Linux-Builds.
+- **Meilenstein 1 (Stabilisierung) abgeschlossen:** virtuelle Tastatur korrigiert (ذ, keine
+  Spiegelung/Duplikate mehr, alle Funktionstasten), Unicode-sicheres Löschen, zentrale
+  Antwortsperre + Timer-Aufräumung in allen 13 Übungs-Views, längenabhängige
+  Bewertungsprofile statt festem Levenshtein-Grenzwert, atomare/versionierte
+  Fortschrittsspeicherung mit Migration, 115 automatisierte Tests (`npm test`/`npm run lint`,
+  komplett offline). Details: Abschnitt 6.
 
 ### Bekannte Lücken (bewusst vertagt, nicht vergessen)
 - Volle 5-stufige A-E-Hilfestufen-Zustandsmaschine (aktuell: einfache Zwei-Fehler-Regression je
@@ -87,14 +93,13 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
 
 ## 4. Nächste Schritte (priorisiert)
 
-1. **Testen** — Kurs 1 (Units 0-10) sehr ausgiebig durchklicken: alle 9 Phasen je
-   Buchstaben-Unit, alle 9 Verbindungstrainer-Mechaniken (insbesondere in Unit 10, wo
-   `types: 'all'` alle 9 nacheinander zeigt), alle 8 Diakritika in Unit 8. Fehler zurückmelden.
-2. **Kurs 2-5 im Unit-Detail nachbauen**, analog zu Kurs 1.
-3. **Wortschatz weiter ausbauen** (Richtung 200-300), weiterhin in geprüften Schritten.
-4. **Inhaltliche Prüfung durch jemanden mit Arabischkenntnissen.**
-5. Volle 5-stufige A-E-Hilfestufen-Zustandsmaschine (aktuell: einfache Zwei-Fehler-Regression).
-6. Physische Arabic-101-Tastaturbelegung, Transliterationsmodus, Kurspakete als ZIP.
+**Aktuell aktiv: der Entwicklungsauftrag "Veröffentlichungsfähigkeit" in Abschnitt 6 — der
+hat Vorrang vor der Liste unten, siehe dort für den Stand je Meilenstein.**
+
+1. **Kurs 2-5 im Unit-Detail nachbauen**, analog zu Kurs 1.
+2. **Wortschatz weiter ausbauen** (Richtung 200-300), weiterhin in geprüften Schritten.
+3. **Inhaltliche Prüfung durch jemanden mit Arabischkenntnissen.**
+4. Physische Arabic-101-Tastaturbelegung, Transliterationsmodus, Kurspakete als ZIP.
 
 ## 5. Hinweise für die Weiterarbeit
 
@@ -106,3 +111,126 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
 - Lokal committen ist Standard; **Push macht der Nutzer selbst**, nicht automatisch.
 - Diesen Abschnitt "Aktueller Stand" am Ende jeder umfangreicheren Session aktualisieren, damit
   das Dokument seinen Zweck als Startpunkt für die nächste Runde erfüllt.
+
+---
+
+## 6. Entwicklungsauftrag: Veröffentlichungsfähigkeit (vom Nutzer, 2026-08-05)
+
+Nach dem ersten ausgiebigen Testen von Kurs 1 hat der Nutzer einen zweiten, sehr detaillierten
+Entwicklungsauftrag geliefert: Stack bleibt (Electron/JS/HTML/CSS/JSON, lokale Speicherung),
+kein Neubau, bestehende funktionierende Inhalte bleiben erhalten. Ziel: Kurs 1 wirklich
+veröffentlichungsfähig machen, Kurse 2-5 später unabhängig installierbar, datenbasierte
+Lesson-Architektur, funktionierender Fortschritt/Wiederholungen, automatisierte Tests, Paketierung.
+
+Arbeitsweise laut Auftrag (gilt für jeden Meilenstein): betroffene Dateien zuerst analysieren,
+Probleme benennen, nur notwendige Komponenten ändern, vollständige Dateien liefern, automatisierte
+Tests ergänzen und ausführen, README/ROADMAP aktualisieren, nur tatsächlich Getestetes als
+funktionierend bezeichnen.
+
+Fortschritt wird hier je Meilenstein als Checkliste geführt (☐ offen, ☑ erledigt+getestet,
+☒ teilweise/mit bekannter Einschränkung — Details dann im Fließtext darunter).
+
+### Meilenstein 1 — Stabilisierung ✅ abgeschlossen (2026-08-05)
+
+Ziel: stabile Version des bisherigen Funktionsumfangs.
+
+- ☑ Teststruktur (`node:test`, `npm test`/`test:unit`/`test:integration`/`lint`) — 115 Tests,
+  alle grün, komplett offline (kein zusätzliches `npm install`)
+- ☑ Virtuelle Tastatur: ذ ergänzt, Spiegelung durch `direction: rtl` → `ltr` behoben, doppelte
+  Sonderzeichen (أ إ آ vs. Grundlayout) entfernt, fehlende Funktionstasten ergänzt (Alles
+  löschen, Bestätigen, Shift/Sonderzeichen- und Vokalzeichen-Umschaltung, Satzzeichen, Ziffern)
+- ☑ Unicode-sicheres Löschen (Graphem-Cluster via `Intl.Segmenter`, `src/js/textEditing.js`,
+  Fallback ohne Segmenter vorhanden)
+- ☑ Zentrale Antwortsperre (`idle/submitted/showing_feedback/transitioning/completed`,
+  `src/js/exerciseGuard.js`) — in **allen 13 Übungs-Views** eingebaut (letterGroupLesson,
+  unit10, connectionTrainer, vocalization [Unit 8+9], grammar, grammar2, grammar3, vocabulary,
+  listening, reading, exam, alphabet, keyboardTutorial), inkl. `App.registerCleanup()`-
+  Mechanismus, der beim Verlassen einer Ansicht offene Timer abbricht
+- ☑ Aufgabenspezifische Antwortprofile (`arabic_letter_strict`, `arabic_word_strict`,
+  `arabic_word_ignore_diacritics`, `arabic_word_require_diacritics`, `arabic_sentence_flexible`,
+  `german_translation_flexible`) statt festem Levenshtein-Grenzwert 2 — Toleranz jetzt
+  längenabhängig; konfigurierbare Normalisierung (NFC, Tatweel, unsichtbare Steuerzeichen,
+  Vokalzeichen, Alif-/Hamza-Formen, Satzzeichen, Groß/Klein)
+- ☑ Fortschritt atomar + versioniert speichern (`src/js/progressStore.js`: temp+rename, Backup,
+  Migrationsmechanismus, zentrale Speicherwarteschlange pro Datei) — Migration gegen eine
+  Sicherheitskopie der echten Nutzer-Fortschrittsdatei getestet (221 Karten, 2 Lesson-Flags,
+  keine Datenverluste)
+- ☑ Offene Timer beim Ansichtswechsel abbrechen (Teil des ExerciseGuard/`registerCleanup`-Systems)
+- ☑ README/ROADMAP an tatsächlichen Stand angepasst
+
+**Bewusst noch nicht in dieser Runde:** eine physische Arabic-101-Tastenbelegung (weiterhin nur
+virtuelle Tastatur, siehe Abschnitt 3 "Bekannte Lücken"); die restlichen, in Abschnitt 3 des
+Entwicklungsauftrags erwähnten P0-nahen Punkte, die nicht Teil der expliziten 10-Punkte-Liste in
+Abschnitt 20 des Auftrags waren (z. B. ein dediziertes E2E-Testsystem über `node:test` hinaus).
+
+### Meilenstein 2 — Kursarchitektur
+
+Ziel: Kurs 1 als separates, unabhängig installierbares Paket, ohne Kurs 2-5.
+
+- ☐ Eigenständiges Kursformat (`courses/<kurs>/`, `.arabiccourse` als ZIP mit Manifest,
+  `course.json`, `units/`, `lessons/`, `vocabulary/`, `grammar/`, `audio/`, `images/`,
+  `licenses/`, `schemas/`, `checksum.json`)
+- ☐ Kursmanifest + Validierung beim Import (ID, Version, App-Kompatibilität, Pfade, Checksummen,
+  Schutz gegen ZIP Slip/`../`/absolute Pfade/übergroße Dateien/ausführbare Dateien)
+- ☐ Kursbibliothek (installierte/verfügbare Kurse, Import, Deinstallation, Update ohne
+  Fortschrittsverlust)
+
+### Meilenstein 3 — Lesson- und Lernsystem
+
+Ziel: neue Standard-Lessons rein datenbasiert erstellbar, ohne Änderung an `VIEW_BY_KEY`.
+
+- ☐ Generische Engine (CourseManager, LessonEngine, ExerciseEngine, LearningEngine,
+  AnswerEvaluator, ProgressManager, ReviewScheduler, AudioManager) mit registrierten
+  Exercise-Typen statt harter View-Zuordnung
+- ☐ Hilfestufen A-E als allgemeines System (bisher: einfache Zwei-Fehler-Regression nur in den
+  Buchstaben-Units, siehe Abschnitt 3)
+- ☐ Tastatur-Lernstufen 1-4 (stark geführt → selbstständig, physische Tastatur im Vordergrund)
+- ☐ "Erst verstehen, dann produzieren" (9-Phasen-Reihenfolge) konsequent auch für Vokabel-/
+  Grammatik-/Hör-Lessons, nicht nur Buchstaben-Units
+- ☐ Flexible Antwortprofile mit `accepted_answers`/`required_concepts` tatsächlich in den
+  Lerninhalten genutzt, nicht nur als ungenutzte Funktion vorhanden
+- ☐ Korrekter Lesson-Abschluss (Pflichtaufgaben, Mindestpunktzahl, "Weiter" überspringt keine
+  Pflichtaufgabe unbemerkt)
+
+### Meilenstein 4 — Lernfortschritt
+
+Ziel: sinnvolle Wiederholungsauswahl, echter sichtbarer Lernfortschritt.
+
+- ☐ Review Queue (fällige zuerst, dann häufig falsch beantwortete, dann niedrige Beherrschung,
+  dann neue Inhalte im Tageslimit), Fähigkeiten weiterhin getrennt bewertet
+- ☐ Freier Übungsmodus mit Filtern/Einstellungen/Schnellzugriffen (Abschnitt 9 des Auftrags)
+- ☐ Fortschrittsbalken (Kurs/Unit/Lesson/Aufgabe), basierend auf abgeschlossenen Lernzielen statt
+  nur geöffneten Seiten oder Ø-Schwierigkeit
+- ☐ Statistikseite: Beherrschung (höher = besser) klar von Schwierigkeit (höher = schwieriger)
+  getrennt, alle tatsächlich verwendeten Skill-IDs abgebildet
+
+### Meilenstein 5 — Kurs 1 veröffentlichen
+
+Ziel: veröffentlichungsfähiger Kurs 1 mit separat installierbarem Kurspaket.
+
+- ☐ Kurs 1 auf 50-80 sorgfältig geprüfte Wörter ausgebaut, vollständig isoliert von späteren
+  Kursen (keine Wörter aus nicht eingeführten Buchstaben/späteren Kursen)
+- ☐ Units 8-10 mit echten Übungen statt Tabellen/einfachem Mischen ausgebaut
+- ☐ Verbindungstrainer: "richtige Form wählen"/"falsche Verbindung finden" mit echten visuellen
+  Verbindungsfehlern statt reiner Buchstaben-Umsortierung
+- ☐ Zentraler AudioManager (nur eine aktive Wiedergabe, Wort-für-Wort bei Sätzen klar als solches
+  gekennzeichnet, TTS klar von kuratierter Aufnahme unterschieden)
+- ☐ Einstellungen vollständig angeschlossen oder entfernt, wenn tot
+- ☐ Sicherheit externer Kursinhalte (`textContent` statt `innerHTML` wo möglich, Sanitizing,
+  Pfad-/Größenprüfung) vor Einführung herunterladbarer Kurse
+- ☐ Release-Struktur (`LICENSE`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`,
+  Lizenzübersicht Assets, CI-Workflow, der tatsächlich existiert bevor README ihn erwähnt)
+- ☐ Sprachliche Prüfung durch eine Person mit Arabischkenntnissen
+
+### Bewusste Leitplanken (aus dem Auftrag, gelten für alle Meilensteine)
+
+- Kein Wechsel zu Python/anderem Framework, kein Neubau ohne Not.
+- Nur Wort-/Buchstaben-/Laut-/Silben-Audio vorhanden — Satz-/Dialog-Audio nie voraussetzen; bei
+  Sätzen ist Wort-für-Wort-Wiedergabe vorhandener Audios erlaubt, muss aber als solche benannt
+  werden (nicht als natürliche Satzaufnahme ausgeben).
+- Arabische Inhalte nicht eigenmächtig umschreiben; unsichere Inhalte als "sprachliche Prüfung
+  erforderlich" kennzeichnen statt sie als endgültig zu markieren.
+- `node_modules` nie ins Repository/Release; Electron-Sicherheitsoptionen (`contextIsolation`,
+  `sandbox`, kein `nodeIntegration`) bleiben bestehen.
+- Keine Funktion in README/ROADMAP als fertig markieren ohne Test oder nachvollziehbaren
+  manuellen Prüfschritt.

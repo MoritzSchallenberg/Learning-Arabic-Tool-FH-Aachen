@@ -2,12 +2,22 @@
 // Bewusst auf 4 gut abgesicherte Themen begrenzt (bestimmter Artikel, Personalpronomen,
 // Demonstrativpronomen mit Genus-Kongruenz, einfache Nominalsätze mit Adjektiv-Kongruenz) —
 // siehe Hinweis in grammar.json zu ausgesparten Hamza-Feinheiten bei anderen Themen.
+//
+// P0.2: jede Aufgabe läuft über einen ExerciseGuard (Mehrfachklick-Schutz + Timer-Aufräumung
+// beim Verlassen der View).
 
 const GrammarView = (() => {
   let sections = [];
   let vocabulary = [];
   let sectionIndex = 0;
   let container = null;
+  let activeGuard = null;
+
+  function freshGuard() {
+    if (activeGuard) activeGuard.destroy();
+    activeGuard = ExerciseGuard.create();
+    return activeGuard;
+  }
 
   function foodWords() {
     return vocabulary.find((c) => c.id === 'food_drink').words;
@@ -51,14 +61,17 @@ const GrammarView = (() => {
 
   // --- Abschnitt A: Bestimmter Artikel ---
   function renderDefiniteArticle(section) {
+    const guard = freshGuard();
     const words = pickRandom(foodWords(), 4);
     let index = 0;
 
     function renderTask(body) {
       if (index >= words.length) {
+        guard.complete();
         body.innerHTML = `<p class="feedback correct">Übung abgeschlossen.</p>`;
         return;
       }
+      guard.nextTask();
       const word = words[index];
       body.innerHTML = `
         <div class="card">
@@ -73,6 +86,7 @@ const GrammarView = (() => {
       const input = body.querySelector('#grammar-input');
       VirtualKeyboard.mount(body.querySelector('#grammar-keyboard'), input, { showDiacritics: true, showSpecial: false });
       body.querySelector('#grammar-check').addEventListener('click', () => {
+        if (!guard.submit()) return;
         const expected = 'ال' + word.arabic;
         const result = evaluateArabicAnswer(expected, input.value.trim());
         const feedbackEl = body.querySelector('#grammar-feedback');
@@ -81,11 +95,13 @@ const GrammarView = (() => {
           ? (result === 'correct_no_diacritics' ? 'Richtig, aber ohne Vokalzeichen.' : 'Richtig!')
           : `Nicht ganz. Richtig wäre: ${expected}`;
         feedbackEl.className = 'feedback ' + (isCorrect ? 'correct' : (result === 'typo' ? 'typo' : 'wrong'));
+        guard.showFeedback();
         const card = AppState.getCard(word.id);
         adjustDifficulty(card, 'grammar_article', isCorrect ? 'correct' : result);
         AppState.persistProgress();
         index += 1;
-        setTimeout(() => renderTask(body), 1200);
+        guard.transitioning();
+        guard.setTimeout(() => renderTask(body), 1200);
       });
     }
 
@@ -95,6 +111,7 @@ const GrammarView = (() => {
 
   // --- Abschnitt B: Personalpronomen ---
   function renderPersonalPronouns(section) {
+    const guard = freshGuard();
     const pronouns = section.pronouns;
     let index = 0;
 
@@ -105,9 +122,11 @@ const GrammarView = (() => {
 
     function renderTask(body) {
       if (index >= pronouns.length) {
+        guard.complete();
         body.innerHTML = `<p class="feedback correct">Übung abgeschlossen.</p>`;
         return;
       }
+      guard.nextTask();
       const pronoun = pronouns[index];
       const options = multipleChoiceOptions(pronoun);
       body.innerHTML = `
@@ -123,15 +142,18 @@ const GrammarView = (() => {
         btn.className = 'btn secondary arabic-text';
         btn.textContent = opt.arabic;
         btn.addEventListener('click', () => {
+          if (!guard.submit()) return;
           const correct = opt.id === pronoun.id;
           const feedbackEl = body.querySelector('#grammar-feedback');
           feedbackEl.textContent = correct ? 'Richtig!' : `Falsch. Richtig wäre: ${pronoun.arabic}`;
           feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+          guard.showFeedback();
           const card = AppState.getCard(`pronoun_${pronoun.id}`);
           adjustDifficulty(card, 'grammar', correct ? 'correct' : 'wrong');
           AppState.persistProgress();
           index += 1;
-          setTimeout(() => renderTask(body), 900);
+          guard.transitioning();
+          guard.setTimeout(() => renderTask(body), 900);
         });
         optionsEl.appendChild(btn);
       });
@@ -143,14 +165,17 @@ const GrammarView = (() => {
 
   // --- Abschnitt C: Demonstrativpronomen ---
   function renderDemonstratives(section) {
+    const guard = freshGuard();
     const words = pickRandom(familyWords(), 4);
     let index = 0;
 
     function renderTask(body) {
       if (index >= words.length) {
+        guard.complete();
         body.innerHTML = `<p class="feedback correct">Übung abgeschlossen.</p>`;
         return;
       }
+      guard.nextTask();
       const word = words[index];
       body.innerHTML = `
         <div class="card flashcard">
@@ -164,17 +189,20 @@ const GrammarView = (() => {
       `;
       body.querySelectorAll('button[data-value]').forEach((btn) => {
         btn.addEventListener('click', () => {
+          if (!guard.submit()) return;
           const expected = word.gender === 'maskulin' ? 'masculine' : 'feminine';
           const correct = btn.dataset.value === expected;
           const feedbackEl = body.querySelector('#grammar-feedback');
           const expectedArabic = expected === 'masculine' ? section.masculine.arabic : section.feminine.arabic;
           feedbackEl.textContent = correct ? 'Richtig!' : `Falsch. Richtig wäre: ${expectedArabic}`;
           feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+          guard.showFeedback();
           const card = AppState.getCard(`demonstrative_${word.id}`);
           adjustDifficulty(card, 'grammar', correct ? 'correct' : 'wrong');
           AppState.persistProgress();
           index += 1;
-          setTimeout(() => renderTask(body), 900);
+          guard.transitioning();
+          guard.setTimeout(() => renderTask(body), 900);
         });
       });
     }
@@ -185,6 +213,7 @@ const GrammarView = (() => {
 
   // --- Abschnitt D: Nominalsätze mit Adjektiv-Kongruenz ---
   function renderNominalSentences(section) {
+    const guard = freshGuard();
     const nouns = pickRandom(foodWords(), 3);
     const colors = vocabulary.find((c) => c.id === 'colors').words;
     const tasks = nouns.map((noun) => ({ noun, color: colors[Math.floor(Math.random() * colors.length)] }));
@@ -192,9 +221,11 @@ const GrammarView = (() => {
 
     function renderTask(body) {
       if (index >= tasks.length) {
+        guard.complete();
         body.innerHTML = `<p class="feedback correct">Übung abgeschlossen.</p>`;
         return;
       }
+      guard.nextTask();
       const { noun, color } = tasks[index];
       const isFeminine = noun.gender === 'feminin';
       const expectedColor = isFeminine ? color.arabic_feminine : color.arabic;
@@ -212,6 +243,7 @@ const GrammarView = (() => {
       const input = body.querySelector('#grammar-input');
       VirtualKeyboard.mount(body.querySelector('#grammar-keyboard'), input, { showDiacritics: true, showSpecial: false });
       body.querySelector('#grammar-check').addEventListener('click', () => {
+        if (!guard.submit()) return;
         const result = evaluateArabicAnswer(expected, input.value.trim());
         const feedbackEl = body.querySelector('#grammar-feedback');
         const isCorrect = result === 'correct_full' || result === 'correct_no_diacritics';
@@ -219,11 +251,13 @@ const GrammarView = (() => {
           ? (result === 'correct_no_diacritics' ? 'Richtig, aber ohne Vokalzeichen.' : 'Richtig!')
           : `Nicht ganz. Richtig wäre: ${expected}`;
         feedbackEl.className = 'feedback ' + (isCorrect ? 'correct' : (result === 'typo' ? 'typo' : 'wrong'));
+        guard.showFeedback();
         const card = AppState.getCard(noun.id);
         adjustDifficulty(card, 'grammar_agreement', isCorrect ? 'correct' : result);
         AppState.persistProgress();
         index += 1;
-        setTimeout(() => renderTask(body), 1400);
+        guard.transitioning();
+        guard.setTimeout(() => renderTask(body), 1400);
       });
     }
 
@@ -242,6 +276,7 @@ const GrammarView = (() => {
   async function mount(el) {
     container = el;
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
+    App.registerCleanup(() => { if (activeGuard) activeGuard.destroy(); });
     const pack = await AppState.getLanguagePack();
     sections = pack.grammar.sections;
     vocabulary = pack.vocabulary.categories;

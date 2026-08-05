@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const progressStore = require('./src/js/progressStore.js');
 
 const USER_DATA_DIR = path.join(app.getPath('userData'), 'user_data');
 const LANGUAGE_PACKS_DIR = path.join(__dirname, 'language-packs');
@@ -26,36 +27,43 @@ const DEFAULTS = {
   statistics: {}
 };
 
-function ensureUserDataDir() {
-  if (!fs.existsSync(USER_DATA_DIR)) {
-    fs.mkdirSync(USER_DATA_DIR, { recursive: true });
-  }
+function filePathFor(key) {
+  return path.join(USER_DATA_DIR, USER_DATA_FILES[key]);
 }
 
-function readJsonFile(filePath, fallback) {
-  try {
-    const raw = fs.readFileSync(filePath, 'utf-8');
-    return JSON.parse(raw);
-  } catch (err) {
-    return fallback;
-  }
-}
-
-function writeJsonFile(filePath, data) {
-  ensureUserDataDir();
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
-}
-
+// P0.4: Fortschritt (und die anderen Nutzerdaten) atomar speichern (temp+rename), mit
+// Backup der zuletzt gültigen Version und Wiederherstellung bei kaputter Datei — siehe
+// src/js/progressStore.js. progress.json bekommt zusätzlich ein Versionsfeld + Migration.
 function loadUserData(key) {
-  ensureUserDataDir();
-  const filePath = path.join(USER_DATA_DIR, USER_DATA_FILES[key]);
-  return readJsonFile(filePath, DEFAULTS[key]);
+  progressStore.ensureDir(USER_DATA_DIR);
+  const filePath = filePathFor(key);
+  const raw = progressStore.readJsonFileSafe(filePath, undefined);
+
+  if (key === 'progress') {
+    const hadStoredData = raw !== undefined;
+    const migrated = progressStore.migrateProgress(hadStoredData ? raw : DEFAULTS.progress);
+    if (hadStoredData && progressStore.isLegacyProgressFormat(raw)) {
+      // Alte, unversionierte Fortschrittsdatei gefunden — Migration sofort persistieren, damit
+      // sie nicht bei jedem Start erneut berechnet werden muss und ein Absturz direkt danach
+      // nichts verliert.
+      progressStore.writeJsonFileAtomic(filePath, migrated);
+    }
+    return migrated;
+  }
+
+  return raw === undefined ? DEFAULTS[key] : raw;
 }
 
 function saveUserData(key, data) {
-  const filePath = path.join(USER_DATA_DIR, USER_DATA_FILES[key]);
-  writeJsonFile(filePath, data);
-  return true;
+  const filePath = filePathFor(key);
+  return progressStore.enqueueWrite(filePath, () => {
+    progressStore.writeJsonFileAtomic(filePath, data);
+    return true;
+  });
+}
+
+function readJsonFile(filePath, fallback) {
+  return progressStore.readJsonFileSafe(filePath, fallback);
 }
 
 function loadLanguagePack(languageId) {

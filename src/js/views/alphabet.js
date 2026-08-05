@@ -1,6 +1,9 @@
 // Lektion 2: Das arabische Alphabet (Spec-Kapitel "Lektion 2").
 // V1 implementiert 2 von 6 in der Spec genannten Übungstypen: Buchstaben erkennen
 // (Multiple-Choice) und Buchstaben auf der virtuellen Tastatur eingeben.
+//
+// P0.2: jede Aufgabe läuft über einen ExerciseGuard (Mehrfachklick-Schutz + Timer-Aufräumung
+// beim Verlassen der View).
 
 const AlphabetView = (() => {
   let letters = [];
@@ -9,8 +12,16 @@ const AlphabetView = (() => {
   let exerciseQueue = [];
   let exerciseIndex = 0;
   let exerciseCorrectCount = 0;
+  let activeGuard = null;
+
+  function freshGuard() {
+    if (activeGuard) activeGuard.destroy();
+    activeGuard = ExerciseGuard.create();
+    return activeGuard;
+  }
 
   function renderOverview(container) {
+    activeGuard = null;
     const selected = letters.find((l) => l.id === selectedLetterId) || letters[0];
     const forms = buildLetterForms(selected.letter, selected.joining);
 
@@ -97,7 +108,7 @@ const AlphabetView = (() => {
     return options;
   }
 
-  function finishExercise(letterId, skill, resultCategory, container) {
+  function finishExercise(guard, letterId, skill, resultCategory, container) {
     const card = AppState.getCard(`letter_${letterId}`);
     adjustDifficulty(card, skill, resultCategory);
     AppState.persistProgress();
@@ -105,10 +116,12 @@ const AlphabetView = (() => {
       exerciseCorrectCount += 1;
     }
     exerciseIndex += 1;
-    setTimeout(() => renderExercise(container), 700);
+    guard.transitioning();
+    guard.setTimeout(() => renderExercise(container), 700);
   }
 
-  function renderExerciseDone(container) {
+  function renderExerciseDone(guard, container) {
+    guard.complete();
     container.innerHTML = `
       <div class="view">
         <h1>Übung abgeschlossen</h1>
@@ -123,8 +136,9 @@ const AlphabetView = (() => {
   }
 
   function renderExercise(container) {
+    const guard = freshGuard();
     if (exerciseIndex >= exerciseQueue.length) {
-      renderExerciseDone(container);
+      renderExerciseDone(guard, container);
       return;
     }
     const letterId = exerciseQueue[exerciseIndex];
@@ -147,11 +161,13 @@ const AlphabetView = (() => {
         btn.className = 'btn secondary';
         btn.textContent = opt.name;
         btn.addEventListener('click', () => {
+          if (!guard.submit()) return;
           const correct = opt.id === letter.id;
           const feedbackEl = container.querySelector('#alphabet-feedback');
           feedbackEl.textContent = correct ? 'Richtig!' : `Falsch. Richtig wäre: ${letter.name}`;
           feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
-          finishExercise(letter.id, 'spelling', correct ? 'correct' : 'wrong', container);
+          guard.showFeedback();
+          finishExercise(guard, letter.id, 'spelling', correct ? 'correct' : 'wrong', container);
         });
         optionsEl.appendChild(btn);
       });
@@ -168,18 +184,21 @@ const AlphabetView = (() => {
       const input = container.querySelector('#alphabet-input');
       VirtualKeyboard.mount(container.querySelector('#alphabet-keyboard'), input, { showDiacritics: false, showSpecial: false });
       container.querySelector('#alphabet-check').addEventListener('click', () => {
+        if (!guard.submit()) return;
         const result = evaluateArabicAnswer(letter.letter, input.value.trim());
         const feedbackEl = container.querySelector('#alphabet-feedback');
         const isCorrect = result === 'correct_full' || result === 'correct_no_diacritics';
         feedbackEl.textContent = isCorrect ? 'Richtig!' : `Falsch. Richtig wäre: ${letter.letter}`;
         feedbackEl.className = 'feedback ' + (isCorrect ? 'correct' : (result === 'typo' ? 'typo' : 'wrong'));
-        finishExercise(letter.id, 'spelling', isCorrect ? 'correct' : result, container);
+        guard.showFeedback();
+        finishExercise(guard, letter.id, 'spelling', isCorrect ? 'correct' : result, container);
       });
     }
   }
 
   async function mount(container) {
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
+    App.registerCleanup(() => { if (activeGuard) activeGuard.destroy(); });
     const pack = await AppState.getLanguagePack();
     letters = pack.keyboard.letters;
     selectedLetterId = letters[0].id;

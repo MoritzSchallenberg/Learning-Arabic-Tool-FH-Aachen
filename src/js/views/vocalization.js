@@ -1,6 +1,9 @@
 // Unit 8 (Kurze Vokale) und Unit 9 (Lange Vokale und Sonderformen) aus courses.json.
 // Reine Datenwiederverwendung aus language.json (diacritics, special_characters) — kein neuer
 // Sprachinhalt, geringes Fehlerrisiko.
+//
+// P0.2: jede Übungsaufgabe läuft über einen ExerciseGuard (Mehrfachklick-Schutz + Timer-
+// Aufräumung beim Verlassen der View).
 
 function pickRandomOrderShared(arr) {
   const copy = [...arr];
@@ -15,7 +18,14 @@ const ShortVowelsView = (() => {
   let diacritics = [];
   let phase = 0;
   let container = null;
+  let activeGuard = null;
   const BASE_LETTER = 'ب';
+
+  function freshGuard() {
+    if (activeGuard) activeGuard.destroy();
+    activeGuard = ExerciseGuard.create();
+    return activeGuard;
+  }
 
   function renderShell(bodyHtml) {
     container.innerHTML = `
@@ -37,6 +47,7 @@ const ShortVowelsView = (() => {
   }
 
   function renderTable() {
+    freshGuard();
     const rows = diacritics.map((d) => `
       <tr><td class="arabic-text">${BASE_LETTER}${d.symbol}</td><td>${d.name}</td><td>${d.sound}</td></tr>
     `).join('');
@@ -49,14 +60,17 @@ const ShortVowelsView = (() => {
   }
 
   function renderExercise() {
+    const guard = freshGuard();
     const queue = pickRandomOrderShared(diacritics);
     let index = 0;
 
     function next(body) {
       if (index >= queue.length) {
+        guard.complete();
         body.innerHTML = `<p class="feedback correct">Übung abgeschlossen.</p>`;
         return;
       }
+      guard.nextTask();
       const item = queue[index];
       const distractors = pickRandomOrderShared(diacritics.filter((d) => d.name !== item.name)).slice(0, 3);
       const options = pickRandomOrderShared([item, ...distractors]);
@@ -74,15 +88,18 @@ const ShortVowelsView = (() => {
         btn.className = 'btn secondary';
         btn.textContent = opt.name;
         btn.addEventListener('click', () => {
+          if (!guard.submit()) return;
           const correct = opt.name === item.name;
           const feedbackEl = body.querySelector('#sv-feedback');
           feedbackEl.textContent = correct ? 'Richtig!' : `Falsch. Richtig wäre: ${item.name}`;
           feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+          guard.showFeedback();
           const card = AppState.getCard(`diacritic_${item.name}`);
           adjustDifficulty(card, 'reading', correct ? 'correct' : 'wrong');
           AppState.persistProgress();
           index += 1;
-          setTimeout(() => next(body), 900);
+          guard.transitioning();
+          guard.setTimeout(() => next(body), 900);
         });
         optionsEl.appendChild(btn);
       });
@@ -99,6 +116,7 @@ const ShortVowelsView = (() => {
   async function mount(el) {
     container = el;
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
+    App.registerCleanup(() => { if (activeGuard) activeGuard.destroy(); });
     const pack = await AppState.getLanguagePack();
     diacritics = pack.language.diacritics;
     phase = 0;
@@ -112,6 +130,13 @@ const LongVowelsView = (() => {
   let specialChars = [];
   let phase = 0;
   let container = null;
+  let activeGuard = null;
+
+  function freshGuard() {
+    if (activeGuard) activeGuard.destroy();
+    activeGuard = ExerciseGuard.create();
+    return activeGuard;
+  }
 
   function renderShell(bodyHtml) {
     container.innerHTML = `
@@ -133,6 +158,7 @@ const LongVowelsView = (() => {
   }
 
   function renderTable() {
+    freshGuard();
     const rows = specialChars.map((s) => `<tr><td class="arabic-text">${s.symbol}</td><td>${s.name}</td></tr>`).join('');
     renderShell(`
       <table class="forms-table">
@@ -143,14 +169,17 @@ const LongVowelsView = (() => {
   }
 
   function renderExercise() {
+    const guard = freshGuard();
     const queue = pickRandomOrderShared(specialChars);
     let index = 0;
 
     function next(body) {
       if (index >= queue.length) {
+        guard.complete();
         body.innerHTML = `<p class="feedback correct">Übung abgeschlossen.</p>`;
         return;
       }
+      guard.nextTask();
       const item = queue[index];
       const distractors = pickRandomOrderShared(specialChars.filter((s) => s.symbol !== item.symbol)).slice(0, 3);
       const options = pickRandomOrderShared([item, ...distractors]);
@@ -168,15 +197,18 @@ const LongVowelsView = (() => {
         btn.className = 'btn secondary';
         btn.textContent = opt.name;
         btn.addEventListener('click', () => {
+          if (!guard.submit()) return;
           const correct = opt.symbol === item.symbol;
           const feedbackEl = body.querySelector('#lv-feedback');
           feedbackEl.textContent = correct ? 'Richtig!' : `Falsch. Richtig wäre: ${item.name}`;
           feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+          guard.showFeedback();
           const card = AppState.getCard(`special_char_${item.symbol}`);
           adjustDifficulty(card, 'reading', correct ? 'correct' : 'wrong');
           AppState.persistProgress();
           index += 1;
-          setTimeout(() => next(body), 900);
+          guard.transitioning();
+          guard.setTimeout(() => next(body), 900);
         });
         optionsEl.appendChild(btn);
       });
@@ -193,6 +225,7 @@ const LongVowelsView = (() => {
   async function mount(el) {
     container = el;
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
+    App.registerCleanup(() => { if (activeGuard) activeGuard.destroy(); });
     const pack = await AppState.getLanguagePack();
     specialChars = pack.language.special_characters;
     phase = 0;

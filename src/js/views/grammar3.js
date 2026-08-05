@@ -1,12 +1,22 @@
 // Lektion 9: Erweiterte Grammatik (Spec-Kapitel "Lektion 9").
 // Bewusst nur EIN Thema (Relativpronomen) — siehe Hinweis in grammar_3.json zu den
 // bewusst ausgelassenen, fehleranfälligeren Themen (Verbstämme, Passiv, Bedingungssätze, ...).
+//
+// P0.2: jede Aufgabe läuft über einen ExerciseGuard (Mehrfachklick-Schutz + Timer-Aufräumung
+// beim Verlassen der View).
 
 const GrammarExtendedView = (() => {
   let data = null;
   let familyWords = [];
   let sectionIndex = 0;
   let container = null;
+  let activeGuard = null;
+
+  function freshGuard() {
+    if (activeGuard) activeGuard.destroy();
+    activeGuard = ExerciseGuard.create();
+    return activeGuard;
+  }
 
   function pickRandomOrder(arr) {
     const copy = [...arr];
@@ -45,14 +55,17 @@ const GrammarExtendedView = (() => {
   }
 
   function renderRelativePronouns(section) {
+    const guard = freshGuard();
     const queue = pickRandomOrder(familyWords).slice(0, 4);
     let index = 0;
 
     function renderTask(body) {
       if (index >= queue.length) {
+        guard.complete();
         body.innerHTML = `<p class="feedback correct">Übung abgeschlossen.</p>`;
         return;
       }
+      guard.nextTask();
       const word = queue[index];
       body.innerHTML = `
         <div class="card flashcard">
@@ -66,17 +79,20 @@ const GrammarExtendedView = (() => {
       `;
       body.querySelectorAll('button[data-value]').forEach((btn) => {
         btn.addEventListener('click', () => {
+          if (!guard.submit()) return;
           const expected = word.gender === 'maskulin' ? 'masculine' : 'feminine';
           const correct = btn.dataset.value === expected;
           const feedbackEl = body.querySelector('#g3-feedback');
           const expectedArabic = expected === 'masculine' ? section.masculine.arabic : section.feminine.arabic;
           feedbackEl.textContent = correct ? 'Richtig!' : `Falsch. Richtig wäre: ${expectedArabic}`;
           feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+          guard.showFeedback();
           const card = AppState.getCard(`relative_${word.id}`);
           adjustDifficulty(card, 'grammar', correct ? 'correct' : 'wrong');
           AppState.persistProgress();
           index += 1;
-          setTimeout(() => renderTask(body), 900);
+          guard.transitioning();
+          guard.setTimeout(() => renderTask(body), 900);
         });
       });
     }
@@ -93,6 +109,7 @@ const GrammarExtendedView = (() => {
   async function mount(el) {
     container = el;
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
+    App.registerCleanup(() => { if (activeGuard) activeGuard.destroy(); });
     const pack = await AppState.getLanguagePack();
     data = pack.grammar3;
     familyWords = pack.vocabulary.categories.find((c) => c.id === 'family').words;

@@ -1,21 +1,74 @@
-// Schwierigkeits-Engine (Spec Kapitel 5) + Toleranzstufe "Anfänger" (Spec Kapitel 7).
-// V1 implementiert nur die Anfänger-Toleranzstufe; Mittelstufe/Fortgeschritten folgen in einer späteren Version.
+// Schwierigkeits-Engine (Spec Kapitel 5) + Antwortauswertung (Spec Kapitel 7/P0.3 aus dem
+// Entwicklungsauftrag "Veröffentlichungsfähigkeit").
+//
+// P0.3-Hintergrund: ein fester Levenshtein-Grenzwert von 2 war für kurze Antworten ungeeignet —
+// bei einem einzelnen Buchstaben hat praktisch jeder andere Buchstabe eine Distanz von 1 und
+// wurde dadurch fälschlich als "kleiner Tippfehler" statt als echter Fehler gewertet (ب vs ت).
+// Die Toleranz hängt jetzt von der normalisierten Antwortlänge ab (siehe typoToleranceForLength),
+// und aufgabenspezifische Bewertungsprofile (EVALUATION_PROFILES) steuern zusätzlich, ob
+// Vokalzeichen/Hamza-Formen streng oder tolerant behandelt werden.
+//
+// Die extern sichtbaren Ergebnis-Kategorien bleiben bewusst bei den bisherigen vier
+// ('correct_full' | 'correct_no_diacritics' | 'typo' | 'wrong') — eine feinere Kategorisierung
+// (P1.8: "richtig mit Formatabweichung", "verständlich aber grammatisch fehlerhaft" usw.) ist
+// als spätere Ausbaustufe in der ROADMAP vorgesehen und würde alle aufrufenden Views + die
+// Fortschrittsberechnung mit betreffen.
 
-const HARAKAT_PATTERN = /[ً-ْ]/g;
+const HARAKAT_PATTERN = /[ً-ْ]/g; // U+064B–U+0652: alle 8 kurzen Vokalzeichen/Tanwin/Schadda/Sukun
 const ARABIC_PUNCTUATION_PATTERN = /[؟،؛]/g;
+// Unsichtbare/Steuerzeichen, die beim Abtippen leicht unbemerkt mitkopiert werden
+// (Zero-Width-Joiner/Non-Joiner, BOM, Bidi-Marker/-Isolates).
+const INVISIBLE_PATTERN = /[​‌‍‎‏﻿⁦-⁩]/g;
+const ALIF_VARIANTS_PATTERN = /[أإآٱ]/g;
 
-function normalizeArabic(text) {
+/**
+ * Konfigurierbare arabische Normalisierung (P0.3). Alle Schritte sind einzeln zu- oder
+ * abschaltbar, damit unterschiedliche Bewertungsprofile unterschiedliche Toleranzen ausdrücken
+ * können, ohne den Normalisierungscode zu duplizieren.
+ * @param {string} text
+ * @param {object} options
+ * @param {boolean} [options.nfc=true] - Unicode-Normalisierungsform NFC anwenden
+ * @param {boolean} [options.stripInvisible=true] - unsichtbare Steuerzeichen entfernen
+ * @param {boolean} [options.stripTatweel=true] - Tatweel (ـ) entfernen
+ * @param {boolean} [options.stripDiacritics=true] - kurze Vokalzeichen/Tanwin/Schadda entfernen
+ *   (Standard true, damit der bisherige Aufrufvertrag von normalizeArabic(text) ohne Optionen
+ *   unverändert bleibt — lessonProgress.js und connectionTrainer.js rufen es genau so auf, um
+ *   eine diakritikafreie Karten-ID zu bilden)
+ * @param {boolean} [options.stripPunctuation=true] - arabische Satzzeichen entfernen
+ * @param {boolean} [options.normalizeAlifForms=false] - أ/إ/آ/ٱ zu ا vereinheitlichen
+ * @param {boolean} [options.normalizeWhitespace=true] - mehrfache Leerzeichen zusammenfassen, trimmen
+ */
+function normalizeArabic(text, options = {}) {
+  const {
+    nfc = true,
+    stripInvisible = true,
+    stripTatweel = true,
+    stripDiacritics = true,
+    stripPunctuation = true,
+    normalizeAlifForms = false,
+    normalizeWhitespace = true
+  } = options;
+
   if (!text) return '';
-  return text
-    .replace(HARAKAT_PATTERN, '')
-    .replace(ARABIC_PUNCTUATION_PATTERN, '')
-    .replace(/\s+/g, ' ')
-    .trim();
+  let result = text;
+  if (nfc && typeof result.normalize === 'function') result = result.normalize('NFC');
+  if (stripInvisible) result = result.replace(INVISIBLE_PATTERN, '');
+  if (stripTatweel) result = result.replace(/ـ/g, '');
+  if (stripDiacritics) result = result.replace(HARAKAT_PATTERN, '');
+  if (stripPunctuation) result = result.replace(ARABIC_PUNCTUATION_PATTERN, '');
+  if (normalizeAlifForms) result = result.replace(ALIF_VARIANTS_PATTERN, 'ا');
+  if (normalizeWhitespace) result = result.replace(/\s+/g, ' ').trim();
+  return result;
 }
 
-function normalizeGerman(text) {
+function normalizeGerman(text, options = {}) {
+  const { caseInsensitive = true, normalizeWhitespace = true, nfc = true } = options;
   if (!text) return '';
-  return text.replace(/\s+/g, ' ').trim().toLowerCase();
+  let result = text;
+  if (nfc && typeof result.normalize === 'function') result = result.normalize('NFC');
+  if (normalizeWhitespace) result = result.replace(/\s+/g, ' ').trim();
+  if (caseInsensitive) result = result.toLowerCase();
+  return result;
 }
 
 // Portiert aus dem alten script.py (levenshtein), Zeilen 25-41.
@@ -37,35 +90,117 @@ function levenshtein(a, b) {
   return previousRow[previousRow.length - 1];
 }
 
-const TYPO_DISTANCE_THRESHOLD = 2;
+/**
+ * Tippfehler-Toleranz abhängig von der normalisierten Antwortlänge (P0.3): einzelne Buchstaben
+ * bekommen KEINE Toleranz (jede Abweichung ist ein echter Fehler), kurze Wörter sehr wenig,
+ * längere Sätze proportional mehr — aber nie automatisch "korrekt".
+ */
+function typoToleranceForLength(length) {
+  if (length <= 1) return 0;
+  if (length <= 3) return 1;
+  if (length <= 8) return 2;
+  return Math.floor(length / 4);
+}
+
+function zeroTolerance() {
+  return 0;
+}
+
+// Aufgabenspezifische Bewertungsprofile (P0.3). `normalize` sind die Optionen für
+// normalizeArabic/normalizeGerman; `toleranceForLength` bestimmt die Tippfehler-Toleranz;
+// `requireDiacritics`, wenn gesetzt, lässt eine sonst als "nur Vokalzeichen falsch/fehlend"
+// erkannte Antwort NICHT als correct_no_diacritics durchgehen, sondern als "wrong" werten
+// (für Übungen, in denen Vokalzeichen ausdrücklich Teil der Aufgabe sind).
+const EVALUATION_PROFILES = {
+  arabic_letter_strict: {
+    normalize: { stripDiacritics: false, normalizeAlifForms: false },
+    toleranceForLength: zeroTolerance
+  },
+  arabic_word_strict: {
+    normalize: { stripDiacritics: false, normalizeAlifForms: false },
+    toleranceForLength: typoToleranceForLength
+  },
+  arabic_word_ignore_diacritics: {
+    normalize: { stripDiacritics: true, normalizeAlifForms: false },
+    toleranceForLength: typoToleranceForLength
+  },
+  arabic_word_require_diacritics: {
+    normalize: { stripDiacritics: false, normalizeAlifForms: false },
+    toleranceForLength: typoToleranceForLength,
+    requireDiacritics: true
+  },
+  arabic_sentence_flexible: {
+    normalize: { stripDiacritics: true, normalizeAlifForms: true },
+    toleranceForLength: typoToleranceForLength
+  },
+  german_translation_flexible: {
+    normalize: { caseInsensitive: true },
+    toleranceForLength: typoToleranceForLength
+  }
+};
 
 /**
- * Bewertet eine arabische Antwort gegen die erwartete Antwort (inkl. Vokalzeichen).
- * Rückgabe: 'correct_full' | 'correct_no_diacritics' | 'typo' | 'wrong'
+ * Bewertet eine arabische Antwort gegen die erwartete Antwort nach einem benannten Profil
+ * (P0.3). Rückgabe weiterhin: 'correct_full' | 'correct_no_diacritics' | 'typo' | 'wrong'.
+ * @param {string} expected
+ * @param {string} given
+ * @param {string} profileName - Schlüssel aus EVALUATION_PROFILES
  */
-function evaluateArabicAnswer(expected, given) {
+function evaluateArabicWithProfile(expected, given, profileName) {
+  const profile = EVALUATION_PROFILES[profileName];
+  if (!profile) throw new Error(`Unbekanntes Bewertungsprofil: "${profileName}"`);
   if (given === expected) return 'correct_full';
 
-  const normalizedExpected = normalizeArabic(expected);
-  const normalizedGiven = normalizeArabic(given);
-  if (normalizedGiven === normalizedExpected) return 'correct_no_diacritics';
+  const baseOpts = profile.normalize || {};
+  const keepDiacriticsOpts = { ...baseOpts, stripDiacritics: false };
+  const stripDiacriticsOpts = { ...baseOpts, stripDiacritics: true };
 
-  const distance = levenshtein(normalizedGiven, normalizedExpected);
-  if (distance <= TYPO_DISTANCE_THRESHOLD) return 'typo';
+  const normExpectedKeep = normalizeArabic(expected, keepDiacriticsOpts);
+  const normGivenKeep = normalizeArabic(given, keepDiacriticsOpts);
+  if (normGivenKeep === normExpectedKeep) return 'correct_full';
+
+  const normExpectedBare = normalizeArabic(expected, stripDiacriticsOpts);
+  const normGivenBare = normalizeArabic(given, stripDiacriticsOpts);
+  if (normExpectedBare !== '' && normGivenBare === normExpectedBare) {
+    return profile.requireDiacritics ? 'wrong' : 'correct_no_diacritics';
+  }
+
+  // Für die Tippfehler-Einstufung wird konsistent mit dem Profil verglichen: *_ignore_diacritics
+  // und *_sentence_flexible vergleichen ohne Vokalzeichen, die strikten Profile mit.
+  const compareExpected = baseOpts.stripDiacritics ? normExpectedBare : normExpectedKeep;
+  const compareGiven = baseOpts.stripDiacritics ? normGivenBare : normGivenKeep;
+  const distance = levenshtein(compareGiven, compareExpected);
+  const tolerance = profile.toleranceForLength(compareExpected.length);
+  if (distance > 0 && distance <= tolerance) return 'typo';
 
   return 'wrong';
 }
 
 /**
- * Bewertet eine deutsche Antwort (Definition) gegen mögliche erwartete Antworten.
+ * Bewertet eine arabische Antwort gegen die erwartete Antwort (inkl. Vokalzeichen).
+ * Rückgabe: 'correct_full' | 'correct_no_diacritics' | 'typo' | 'wrong'.
+ * Bestehende Aufrufer (2-Parameter-Form) bekommen automatisch die längenabhängige Toleranz aus
+ * "arabic_word_strict" — das behebt den P0.3-Fehler (einzelne Buchstaben: Länge 1 → Toleranz 0)
+ * ohne dass jede aufrufende Stelle angepasst werden muss.
  */
-function evaluateGermanAnswer(expected, given) {
-  const normalizedExpected = normalizeGerman(expected);
-  const normalizedGiven = normalizeGerman(given);
-  if (normalizedGiven === normalizedExpected) return 'correct_full';
+function evaluateArabicAnswer(expected, given, profileName = 'arabic_word_strict') {
+  return evaluateArabicWithProfile(expected, given, profileName);
+}
 
-  const distance = levenshtein(normalizedGiven, normalizedExpected);
-  if (distance <= TYPO_DISTANCE_THRESHOLD) return 'typo';
+/**
+ * Bewertet eine deutsche Antwort (Definition) gegen die erwartete Antwort, ebenfalls mit
+ * längenabhängiger statt fester Tippfehler-Toleranz.
+ */
+function evaluateGermanAnswer(expected, given, profileName = 'german_translation_flexible') {
+  const profile = EVALUATION_PROFILES[profileName];
+  if (!profile) throw new Error(`Unbekanntes Bewertungsprofil: "${profileName}"`);
+  const normExpected = normalizeGerman(expected, profile.normalize);
+  const normGiven = normalizeGerman(given, profile.normalize);
+  if (normGiven === normExpected) return 'correct_full';
+
+  const distance = levenshtein(normGiven, normExpected);
+  const tolerance = profile.toleranceForLength(normExpected.length);
+  if (distance > 0 && distance <= tolerance) return 'typo';
 
   return 'wrong';
 }
@@ -173,10 +308,14 @@ if (typeof module !== 'undefined' && module.exports) {
     normalizeArabic,
     normalizeGerman,
     levenshtein,
+    typoToleranceForLength,
+    EVALUATION_PROFILES,
+    evaluateArabicWithProfile,
     evaluateArabicAnswer,
     evaluateGermanAnswer,
     evaluateAgainstAny,
     adjustDifficulty,
+    scheduleNextReview,
     sortByDifficultyShuffled,
     REVIEW_INTERVALS_DAYS,
     DEFAULT_DIFFICULTY

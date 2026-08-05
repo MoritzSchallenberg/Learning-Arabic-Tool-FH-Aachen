@@ -246,19 +246,27 @@ html, body {
   unicode-bidi: plaintext;
 }
 
-/* --- Virtuelle Tastatur (Spec Kapitel 6.2) --- */
+/* --- Virtuelle Tastatur (Spec Kapitel 6.2) ---
+   direction MUSS ltr sein: die Zeilen in keyboardData.js sind bereits in physischer
+   Links-nach-rechts-Reihenfolge notiert (wie auf einer echten Arabic-101-Tastatur abgebildet,
+   Zeile für Zeile analog zu QWERTY-Positionen). Ein direction:rtl hier würde die Flex-Reihenfolge
+   visuell umdrehen und damit die gesamte Tastatur spiegeln, obwohl die Buchstaben selbst über
+   .arabic-text/unicode-bidi weiterhin korrekt RTL-geformt dargestellt werden. */
 .virtual-keyboard {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
   margin: 16px 0;
-  direction: rtl;
+  direction: ltr;
+  max-width: 100%;
 }
 
 .vk-row {
   display: flex;
   gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .vk-key {
@@ -279,8 +287,43 @@ html, body {
   color: #0c1620;
 }
 
+.vk-key:active,
+.vk-key.pressed {
+  background: var(--color-correct);
+  color: #0c1620;
+  transform: translateY(1px);
+}
+
+.vk-key:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
 .vk-key.wide {
   min-width: 64px;
+}
+
+.vk-key.control {
+  font-size: 0.85rem;
+  background: var(--color-surface);
+}
+
+.vk-key.control.toggled {
+  background: var(--color-accent);
+  color: #0c1620;
+  border-color: var(--color-accent);
+}
+
+@media (max-width: 700px) {
+  .vk-key {
+    min-width: 32px;
+    height: 36px;
+    font-size: 0.95rem;
+    padding: 0 4px;
+  }
+  .vk-key.wide {
+    min-width: 48px;
+  }
 }
 
 /* --- Karteikarten / Vokabular --- */

@@ -14,8 +14,20 @@
 //   8 find_wrong         — Falsche Verbindung finden
 //   9 fill_missing       — Fehlenden Buchstaben ergänzen
 //   10 type              — Wort mit der virtuellen Tastatur nachschreiben
+//
+// P0.2: jede Einzelaufgabe läuft über einen ExerciseGuard (an jeden renderXxx()-Aufruf
+// durchgereicht) — verhindert Mehrfachauswertung bei Doppelklick und bricht das ~1.2s-Timeout
+// vor dem automatischen Weiterschalten ab, falls die Ansicht vorher verlassen wird.
 
 const ConnectionTrainer = (() => {
+  let activeGuard = null;
+
+  function freshGuard() {
+    if (activeGuard) activeGuard.destroy();
+    activeGuard = ExerciseGuard.create();
+    return activeGuard;
+  }
+
   function pickRandomOrder(arr) {
     const copy = [...arr];
     for (let i = copy.length - 1; i > 0; i--) {
@@ -59,7 +71,7 @@ const ConnectionTrainer = (() => {
     return pickRandomOrder(pool).slice(0, count);
   }
 
-  function renderAssemble(container, word, letters, allLetters, onDone) {
+  function renderAssemble(container, word, letters, allLetters, guard, onDone) {
     const target = letters.map((l) => l.letter).join('');
     const shuffled = pickRandomOrder(letters);
     let picked = [];
@@ -101,18 +113,21 @@ const ConnectionTrainer = (() => {
         renderTiles();
       });
       container.querySelector('#ct-check').addEventListener('click', () => {
+        if (!guard.submit()) return;
         const attempt = picked.map((idx) => shuffled[idx].letter).join('');
         const correct = attempt === target;
         const feedbackEl = container.querySelector('#ct-feedback');
         feedbackEl.textContent = correct ? 'Richtig!' : `Nicht ganz. Richtig wäre: ${target}`;
         feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
-        setTimeout(() => onDone(correct), 1200);
+        guard.showFeedback();
+        guard.transitioning();
+        guard.setTimeout(() => onDone(correct), 1200);
       });
     }
     render();
   }
 
-  function renderRecognize(container, word, letters, allLetters, onDone) {
+  function renderRecognize(container, word, letters, allLetters, guard, onDone) {
     const shaped = shapeWord(letters);
     const joined = shaped.map((s) => s.displayForm).join('');
     const distractors = randomDistractorLetters(allLetters, letters.map((l) => l.id), 3);
@@ -158,18 +173,21 @@ const ConnectionTrainer = (() => {
         renderTiles();
       });
       container.querySelector('#ct-check').addEventListener('click', () => {
+        if (!guard.submit()) return;
         const attempt = picked.map((idx) => pool[idx].letter).join('');
         const correct = attempt === target;
         const feedbackEl = container.querySelector('#ct-feedback');
         feedbackEl.textContent = correct ? 'Richtig!' : `Nicht ganz. Richtig wäre: ${target}`;
         feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
-        setTimeout(() => onDone(correct), 1200);
+        guard.showFeedback();
+        guard.transitioning();
+        guard.setTimeout(() => onDone(correct), 1200);
       });
     }
     render();
   }
 
-  function renderClassifyForm(container, word, letters, allLetters, onDone) {
+  function renderClassifyForm(container, word, letters, allLetters, guard, onDone) {
     const shaped = shapeWord(letters);
     const targetIndex = Math.floor(Math.random() * shaped.length);
     const spans = shaped.map((s, i) => `<span class="arabic-text large" style="${i === targetIndex ? 'color:var(--color-accent);' : ''}">${s.displayForm}</span>`).join('');
@@ -189,17 +207,20 @@ const ConnectionTrainer = (() => {
       btn.className = 'btn secondary';
       btn.textContent = SHAPE_LABELS_DE[shape];
       btn.addEventListener('click', () => {
+        if (!guard.submit()) return;
         const correct = shape === shaped[targetIndex].shape;
         const feedbackEl = container.querySelector('#ct-feedback');
         feedbackEl.textContent = correct ? 'Richtig!' : `Falsch. Richtig wäre: ${SHAPE_LABELS_DE[shaped[targetIndex].shape]}`;
         feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
-        setTimeout(() => onDone(correct), 1200);
+        guard.showFeedback();
+        guard.transitioning();
+        guard.setTimeout(() => onDone(correct), 1200);
       });
       optionsEl.appendChild(btn);
     });
   }
 
-  function renderType(container, word, letters, allLetters, onDone) {
+  function renderType(container, word, letters, allLetters, guard, onDone) {
     container.innerHTML = `
       <div class="card">
         <p class="lead">Schreibe das Wort mit der virtuellen Tastatur (${word.meaning}):</p>
@@ -212,6 +233,7 @@ const ConnectionTrainer = (() => {
     const input = container.querySelector('#ct-input');
     VirtualKeyboard.mount(container.querySelector('#ct-keyboard'), input, { showDiacritics: true, showSpecial: false });
     container.querySelector('#ct-check').addEventListener('click', () => {
+      if (!guard.submit()) return;
       const result = evaluateArabicAnswer(word.arabic, input.value.trim());
       const isCorrect = result === 'correct_full' || result === 'correct_no_diacritics';
       const feedbackEl = container.querySelector('#ct-feedback');
@@ -219,7 +241,9 @@ const ConnectionTrainer = (() => {
         ? (result === 'correct_no_diacritics' ? 'Richtig, aber ohne Vokalzeichen.' : 'Richtig!')
         : `Nicht ganz. Richtig wäre: ${word.arabic}`;
       feedbackEl.className = 'feedback ' + (isCorrect ? 'correct' : (result === 'typo' ? 'typo' : 'wrong'));
-      setTimeout(() => onDone(isCorrect), 1200);
+      guard.showFeedback();
+      guard.transitioning();
+      guard.setTimeout(() => onDone(isCorrect), 1200);
     });
   }
 
@@ -235,7 +259,7 @@ const ConnectionTrainer = (() => {
     return attempt.map((l) => l.letter).join('');
   }
 
-  function renderChooseForm(container, word, letters, allLetters, onDone) {
+  function renderChooseForm(container, word, letters, allLetters, guard, onDone) {
     const target = letters.map((l) => l.letter).join('');
     const variantCount = letters.length > 1 ? 3 : 1;
     const distractors = Array.from({ length: variantCount }, () => shuffledVariant(letters));
@@ -254,11 +278,14 @@ const ConnectionTrainer = (() => {
       btn.className = 'btn secondary arabic-text';
       btn.textContent = opt;
       btn.addEventListener('click', () => {
+        if (!guard.submit()) return;
         const correct = opt === target;
         const feedbackEl = container.querySelector('#ct-feedback');
         feedbackEl.textContent = correct ? 'Richtig!' : `Nicht ganz. Richtig wäre: ${target}`;
         feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
-        setTimeout(() => onDone(correct), 1200);
+        guard.showFeedback();
+        guard.transitioning();
+        guard.setTimeout(() => onDone(correct), 1200);
       });
       optionsEl.appendChild(btn);
     });
@@ -266,7 +293,7 @@ const ConnectionTrainer = (() => {
 
   // #3/#4: Verbindungsstellen bzw. Unterbrechungsstelle(n) markieren. Ein Übergang zwischen
   // Buchstabe i und i+1 ist genau dann verbunden, wenn Buchstabe i selbst 'dual'-verbindend ist.
-  function renderJunctions(container, word, letters, allLetters, onDone, wantConnected) {
+  function renderJunctions(container, word, letters, allLetters, guard, onDone, wantConnected) {
     if (letters.length < 2) {
       onDone(true);
       return;
@@ -299,32 +326,36 @@ const ConnectionTrainer = (() => {
       `;
       container.querySelectorAll('[data-junction]').forEach((btn) => {
         btn.addEventListener('click', () => {
+          if (!guard.canSubmit()) return; // nach dem Prüfen keine Änderungen mehr an der Auswahl
           const idx = Number(btn.dataset.junction);
           if (selected.has(idx)) selected.delete(idx); else selected.add(idx);
           render();
         });
       });
       container.querySelector('#ct-check').addEventListener('click', () => {
+        if (!guard.submit()) return;
         const correct = selected.size === correctIndices.size && [...selected].every((i) => correctIndices.has(i));
         const feedbackEl = container.querySelector('#ct-feedback');
         feedbackEl.textContent = correct ? 'Richtig!' : `Nicht ganz — gemeint waren die Stellen: ${[...correctIndices].join(', ') || 'keine'}`;
         feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
-        setTimeout(() => onDone(correct), 1400);
+        guard.showFeedback();
+        guard.transitioning();
+        guard.setTimeout(() => onDone(correct), 1400);
       });
     }
     render();
   }
 
-  function renderMarkConnections(container, word, letters, allLetters, onDone) {
-    renderJunctions(container, word, letters, allLetters, onDone, true);
+  function renderMarkConnections(container, word, letters, allLetters, guard, onDone) {
+    renderJunctions(container, word, letters, allLetters, guard, onDone, true);
   }
 
-  function renderFindBreak(container, word, letters, allLetters, onDone) {
-    renderJunctions(container, word, letters, allLetters, onDone, false);
+  function renderFindBreak(container, word, letters, allLetters, guard, onDone) {
+    renderJunctions(container, word, letters, allLetters, guard, onDone, false);
   }
 
   // #8: Falsche Verbindung finden — zwei Varianten zur Auswahl, eine korrekt, eine vertauscht.
-  function renderFindWrong(container, word, letters, allLetters, onDone) {
+  function renderFindWrong(container, word, letters, allLetters, guard, onDone) {
     const target = letters.map((l) => l.letter).join('');
     const wrongVariant = shuffledVariant(letters);
     const options = pickRandomOrder([
@@ -345,17 +376,20 @@ const ConnectionTrainer = (() => {
       btn.className = 'btn secondary arabic-text';
       btn.textContent = opt.text;
       btn.addEventListener('click', () => {
+        if (!guard.submit()) return;
         const feedbackEl = container.querySelector('#ct-feedback');
         feedbackEl.textContent = opt.correct ? 'Richtig!' : `Nicht ganz. Richtig wäre: ${wrongVariant}`;
         feedbackEl.className = 'feedback ' + (opt.correct ? 'correct' : 'wrong');
-        setTimeout(() => onDone(opt.correct), 1200);
+        guard.showFeedback();
+        guard.transitioning();
+        guard.setTimeout(() => onDone(opt.correct), 1200);
       });
       optionsEl.appendChild(btn);
     });
   }
 
   // #9: Fehlenden Buchstaben ergänzen.
-  function renderFillMissing(container, word, letters, allLetters, onDone) {
+  function renderFillMissing(container, word, letters, allLetters, guard, onDone) {
     const shaped = shapeWord(letters);
     const targetIndex = Math.floor(Math.random() * letters.length);
     const spans = shaped.map((s, i) => (i === targetIndex ? '<span class="arabic-text large" style="color:var(--color-accent);">▢</span>' : `<span class="arabic-text large">${s.displayForm}</span>`)).join('');
@@ -376,11 +410,14 @@ const ConnectionTrainer = (() => {
       btn.className = 'btn secondary arabic-text';
       btn.textContent = opt.letter;
       btn.addEventListener('click', () => {
+        if (!guard.submit()) return;
         const correct = opt.id === letters[targetIndex].id;
         const feedbackEl = container.querySelector('#ct-feedback');
         feedbackEl.textContent = correct ? 'Richtig!' : `Falsch. Richtig wäre: ${letters[targetIndex].letter}`;
         feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
-        setTimeout(() => onDone(correct), 1200);
+        guard.showFeedback();
+        guard.transitioning();
+        guard.setTimeout(() => onDone(correct), 1200);
       });
       optionsEl.appendChild(btn);
     });
@@ -408,6 +445,7 @@ const ConnectionTrainer = (() => {
    *   Units/Aufrufe hinweg kommen so trotzdem alle Typen vor. `types: 'all'` nutzt alle 9.
    */
   function mount(container, options) {
+    App.registerCleanup(() => { if (activeGuard) activeGuard.destroy(); });
     const { word, keyboardLetters, onComplete } = options;
     const types = options.types === 'all' ? ALL_TYPES : (options.types || pickRandomOrder(ALL_TYPES).slice(0, 4));
     const plain = normalizeArabic(word.arabic);
@@ -424,11 +462,13 @@ const ConnectionTrainer = (() => {
 
     function runNextExercise() {
       if (typeIndex >= types.length) {
+        activeGuard = null;
         if (onComplete) onComplete({ correct: correctCount, total: types.length });
         return;
       }
+      const guard = freshGuard();
       const renderer = EXERCISE_RENDERERS[types[typeIndex]];
-      renderer(container, word, letters, keyboardLetters, (correct) => {
+      renderer(container, word, letters, keyboardLetters, guard, (correct) => {
         if (correct) correctCount += 1;
         const card = AppState.getCard(cardId);
         adjustDifficulty(card, 'connection', correct ? 'correct' : 'wrong');
