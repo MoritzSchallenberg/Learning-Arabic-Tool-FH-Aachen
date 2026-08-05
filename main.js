@@ -20,8 +20,14 @@ const DEFAULTS = {
     showDiacritics: true,
     autoPlayWord: true,
     replayAfterAnswer: true,
-    autoPlaySentence: true,
-    slowPlayback: false
+    slowPlayback: false,
+    // Entwicklungsauftrag 4, Schritt 1/Abschnitt 21: Designsystem + Einstellungen.
+    theme: 'system', // 'system' | 'light' | 'dark'
+    sidebarCollapsed: false,
+    arabicFontScale: 'normal', // 'normal' | 'large'
+    autoAdvanceAfterFeedback: false, // manuelles "Weiter" ist der Standard (Abschnitt 16.4)
+    dailyNewLimit: 10,
+    showTransliteration: true
   },
   installedLanguages: ['arabic'],
   statistics: {}
@@ -51,7 +57,14 @@ function loadUserData(key) {
     return migrated;
   }
 
-  return raw === undefined ? DEFAULTS[key] : raw;
+  if (raw === undefined) return DEFAULTS[key];
+
+  // Neue Einstellungsfelder (z. B. aus späteren Versionen) transparent nachfüllen, ohne bereits
+  // gespeicherte Werte zu überschreiben — sonst würden ältere settings.json-Dateien die neuen
+  // Felder (z. B. "theme") dauerhaft als undefined zurückgeben (Entwicklungsauftrag 4, Schritt 1).
+  if (key === 'settings') return { ...DEFAULTS.settings, ...raw };
+
+  return raw;
 }
 
 function saveUserData(key, data) {
@@ -78,6 +91,8 @@ function loadLanguagePack(languageId) {
     grammar3: readJsonFile(path.join(packDir, 'grammar_3.json'), null),
     reading: readJsonFile(path.join(packDir, 'reading.json'), null),
     courses: readJsonFile(path.join(packDir, 'courses.json'), null),
+    vocabSessions: readJsonFile(path.join(packDir, 'vocabSessions.json'), null),
+    theory: readJsonFile(path.join(packDir, 'theory.json'), null),
     tutorials: {
       introduction: readJsonFile(path.join(packDir, 'tutorials', 'introduction.json'), null),
       keyboard: readJsonFile(path.join(packDir, 'tutorials', 'keyboard.json'), null)

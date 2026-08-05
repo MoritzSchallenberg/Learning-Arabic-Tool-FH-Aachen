@@ -1,0 +1,128 @@
+{
+  "theories": [
+    {
+      "theory_id": "theory_vocab_unit_01_a",
+      "title": "Begrüßung und Höflichkeit",
+      "content_status": "needs_language_review",
+      "learning_objectives": [
+        "Die neun wichtigsten Begrüßungs- und Höflichkeitsausdrücke erkennen",
+        "Sie hören und über die Tastatur schreiben können",
+        "Verstehen, wann ein fester Ausdruck statt eines einzelnen Wortes verwendet wird"
+      ],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "In dieser Session lernst du neun kurze arabische Ausdrücke kennen, mit denen du fast jedes Gespräch beginnen und höflich beenden kannst. Die meisten davon sind keine einzelnen Wörter, sondern feste Ausdrücke — kurze Wortgruppen, die als Ganzes auswendig gelernt werden, ähnlich wie im Deutschen „Guten Tag\" aus zwei Wörtern besteht, aber als eine feste Einheit verwendet wird."
+        },
+        {
+          "type": "heading",
+          "text": "Wort oder fester Ausdruck?"
+        },
+        {
+          "type": "paragraph",
+          "text": "مَرْحَبًا (marḥaban, „Hallo\") und شُكْرًا (shukran, „Danke\") sind einzelne Wörter. Andere Ausdrücke wie السَّلَامُ عَلَيْكُم (as-salāmu ʿalaykum) bestehen dagegen aus mehreren Wörtern, die zusammen eine feste Bedeutung ergeben — wörtlich heißt es „der Friede sei auf dir\", verwendet wird es aber einfach als allgemeine Begrüßung, ähnlich wie „Hallo\" oder „Guten Tag\" im Deutschen."
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Lesart",
+          "text": "Arabisch wird von rechts nach links gelesen und geschrieben. Bei mehrteiligen Ausdrücken wie صَبَاح الْخَيْر (ṣabāḥ al-khayr, „Guten Morgen\") beginnt das erste gesprochene Wort rechts im Text, nicht links."
+        },
+        {
+          "type": "heading",
+          "text": "Kontext entscheidet über die Übersetzung"
+        },
+        {
+          "type": "paragraph",
+          "text": "Nicht jede Übersetzung passt wörtlich. مَعَ السَّلَامَة (maʿa as-salāma, „Auf Wiedersehen\") bedeutet wörtlich „mit dem Frieden\" — gemeint ist ein guter Wunsch beim Abschied, keine wörtliche Übersetzung. Ähnlich ist مِنْ فَضْلِك (min faḍlik, „Bitte\") nur eine von mehreren möglichen Bitte-Formen im Arabischen; für diese Session reicht diese eine gängige Form."
+        },
+        {
+          "type": "heading",
+          "text": "Kurze Antworten"
+        },
+        {
+          "type": "paragraph",
+          "text": "Auf Fragen antwortet man im Arabischen oft mit sehr kurzen Wörtern: نَعَم (naʿam, „Ja\") und لَا (lā, „Nein\"). Beide bestehen nur aus zwei Buchstaben und gehören zu den am häufigsten verwendeten Wörtern überhaupt."
+        },
+        {
+          "type": "comparison",
+          "headers": ["Arabisch", "Umschrift", "Bedeutung"],
+          "items": [
+            ["مَرْحَبًا", "marḥaban", "Hallo"],
+            ["شُكْرًا", "shukran", "Danke"],
+            ["نَعَم", "naʿam", "Ja"],
+            ["لَا", "lā", "Nein"]
+          ]
+        },
+        {
+          "type": "example",
+          "arabic": "مَرْحَبًا! شُكْرًا!",
+          "translation": "Hallo! Danke!",
+          "note": "Zwei der neun neuen Wörter direkt hintereinander verwendet."
+        },
+        {
+          "type": "example",
+          "arabic": "مِنْ فَضْلِك... شُكْرًا!",
+          "translation": "Bitte ... Danke!",
+          "note": "„Bitte\" und „Danke\" werden im Alltag oft zusammen verwendet."
+        },
+        {
+          "type": "example",
+          "arabic": "نَعَم / لَا",
+          "translation": "Ja / Nein",
+          "note": "Die kürzesten und häufigsten Antwortwörter im Arabischen — nur zwei Buchstaben lang."
+        },
+        {
+          "type": "heading",
+          "level": "full",
+          "text": "Mehr erfahren: Herkunft von السَّلَامُ عَلَيْكُم"
+        },
+        {
+          "type": "paragraph",
+          "level": "full",
+          "text": "Der Ausdruck ist ursprünglich ein religiöser Friedensgruß und wird in der gesamten arabischsprachigen Welt verwendet, unabhängig von Religion oder Region. Die häufige Antwort darauf ist وَعَلَيْكُم السَّلَام (wa-ʿalaykum as-salām, „und mit dir sei der Friede\") — diese Antwort wird hier noch nicht abgefragt, da sie ein neues, noch nicht eingeführtes Wort (وَعَلَيْكُم) enthält."
+        },
+        {
+          "type": "callout",
+          "level": "full",
+          "variant": "info",
+          "title": "Typische Verwechslung",
+          "text": "صَبَاح الْخَيْر (Guten Morgen) und مَسَاء الْخَيْر (Guten Abend) unterscheiden sich nur im ersten Wort (صَبَاح vs. مَسَاء) — das zweite Wort الْخَيْر (\"das Gute\") bleibt in beiden Ausdrücken gleich."
+        },
+        {
+          "type": "word_preview",
+          "word_ids": [
+            "greet_hallo", "greet_salam", "greet_morning", "greet_evening", "greet_bye",
+            "greet_thanks", "greet_please", "greet_yes", "greet_no"
+          ]
+        },
+        {
+          "type": "mini_check",
+          "questions": [
+            {
+              "question": "Welches Wort bedeutet „Danke\"?",
+              "options": [
+                { "text": "شُكْرًا (shukran)", "correct": true },
+                { "text": "مَرْحَبًا (marḥaban)", "correct": false }
+              ]
+            },
+            {
+              "question": "Ist السَّلَامُ عَلَيْكُم ein einzelnes Wort oder ein fester Ausdruck aus mehreren Wörtern?",
+              "options": [
+                { "text": "Fester Ausdruck aus mehreren Wörtern", "correct": true },
+                { "text": "Ein einzelnes Wort", "correct": false }
+              ]
+            },
+            {
+              "question": "Welches Wort ist die kürzeste Form für „Nein\"?",
+              "options": [
+                { "text": "لَا (lā)", "correct": true },
+                { "text": "نَعَم (naʿam)", "correct": false }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

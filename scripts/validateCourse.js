@@ -52,8 +52,10 @@ const vocabulary = loadJson('vocabulary.json');
 const keyboard = loadJson('keyboard.json');
 const courses = loadJson('courses.json');
 const lessons = loadJson('lessons.json');
+const vocabSessions = loadJson('vocabSessions.json');
+const theoryData = loadJson('theory.json');
 
-if (!vocabulary || !keyboard || !courses || !lessons) {
+if (!vocabulary || !keyboard || !courses || !lessons || !vocabSessions || !theoryData) {
   console.error('\nKonnte Basisdateien nicht laden — breche ab.');
   process.exit(1);
 }
@@ -161,6 +163,44 @@ if (missingKeys.length > 0) {
 } else {
   console.log('OK: alle in courses.json referenzierten Schlüssel existieren in lessons.json.');
 }
+
+// --- Pilot-Vokabel-Sessions (Entwicklungsauftrag 4, Abschnitt 24 "Daten") -------------------
+console.log('\n--- Vokabel-Sessions (vocabSessions.json) ---');
+const wordIdSet = new Set(words.map((w) => w.id));
+const sessionIdCounts = new Map();
+for (const session of vocabSessions.sessions) {
+  sessionIdCounts.set(session.session_id, (sessionIdCounts.get(session.session_id) || 0) + 1);
+
+  if (session.new_word_ids.length > 10) {
+    fail(`Session "${session.session_id}" hat ${session.new_word_ids.length} neue Wörter (erlaubt: höchstens 10)`);
+  } else {
+    console.log(`OK: Session "${session.session_id}" hat ${session.new_word_ids.length} neue Wörter (<= 10).`);
+  }
+
+  for (const wordId of session.new_word_ids) {
+    if (!wordIdSet.has(wordId)) fail(`Session "${session.session_id}" referenziert unbekannte Vokabel-ID "${wordId}"`);
+  }
+
+  const theoryDoc = theoryData.theories.find((t) => t.theory_id === session.theory_id);
+  if (!theoryDoc) {
+    fail(`Session "${session.session_id}" referenziert unbekanntes Theoriedokument "${session.theory_id}"`);
+  } else if (!theoryDoc.content_status) {
+    fail(`Theoriedokument "${theoryDoc.theory_id}" hat kein "content_status"-Feld`);
+  } else {
+    console.log(`OK: Theoriedokument "${theoryDoc.theory_id}" vorhanden, content_status="${theoryDoc.content_status}".`);
+  }
+}
+const duplicateSessionIds = [...sessionIdCounts.entries()].filter(([, n]) => n > 1);
+for (const [id, n] of duplicateSessionIds) fail(`Session-ID "${id}" kommt ${n}-mal vor`);
+
+for (const unit of vocabSessions.vocab_units) {
+  for (const sessionId of unit.session_ids) {
+    if (!vocabSessions.sessions.some((s) => s.session_id === sessionId)) {
+      fail(`Vokabel-Unit "${unit.id}" referenziert unbekannte Session-ID "${sessionId}"`);
+    }
+  }
+}
+console.log(`${vocabSessions.vocab_units.length} Pilot-Unit(s), ${vocabSessions.sessions.length} Session(s) — Zielwert 3 Pilot-Units (Abschnitt 18.2), noch nicht begonnen: kein Fehler.`);
 
 // --- Zusammenfassung -------------------------------------------------------------------------
 console.log('\n=== Zusammenfassung ===');

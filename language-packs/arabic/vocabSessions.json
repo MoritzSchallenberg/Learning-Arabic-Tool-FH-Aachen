@@ -1,0 +1,47 @@
+{
+  "vocab_units": [
+    {
+      "id": "vocab_unit_01",
+      "title": "Begrüßung und Höflichkeit",
+      "description": "Die ersten neun Wörter für Begrüßungen, Höflichkeit und kurze Antworten im Alltag.",
+      "session_ids": ["vocab_unit_01_a"]
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "vocab_unit_01_a",
+      "unit_id": "vocab_unit_01",
+      "title": "Begrüßung und Höflichkeit",
+      "description": "Lerne neun grundlegende Ausdrücke für erste Begegnungen und Höflichkeit.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_01_a",
+      "new_word_ids": [
+        "greet_hallo",
+        "greet_salam",
+        "greet_morning",
+        "greet_evening",
+        "greet_bye",
+        "greet_thanks",
+        "greet_please",
+        "greet_yes",
+        "greet_no"
+      ],
+      "review_count": 5,
+      "phases": [
+        { "type": "theory", "required_first_time": true },
+        { "type": "word_preview" },
+        { "type": "recognition" },
+        { "type": "reconstruction" },
+        { "type": "guided_production" },
+        { "type": "independent_production" },
+        { "type": "application" },
+        { "type": "summary" }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": ["theory", "word_preview", "recognition", "independent_production"]
+      }
+    }
+  ]
+}

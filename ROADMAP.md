@@ -106,9 +106,10 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
 
 ## 4. Nächste Schritte (priorisiert)
 
-**Aktuell aktiv: Entwicklungsauftrag 3 "Vollständiger Kurs 1 mit 900 Vokabeln" in Abschnitt 7,
-konkret Meilenstein A+B (Bestand korrigieren + Lernarchitektur) — hat Vorrang vor der Liste
-unten, siehe Abschnitt 7 für den Stand je Meilenstein.**
+**Aktuell aktiv: Entwicklungsauftrag 4 "Neues Interface und echte Lernphase" in Abschnitt 8,
+konkret Schritt 1-4 (UI-Grundgerüst, Kurs-/Unit-Ansichten, Session Engine, Theorie-Integration)
+anhand einer Pilot-Session — hat Vorrang vor der Liste unten und vor Entwicklungsauftrag 3
+(Abschnitt 7), siehe Abschnitt 8 für den Stand je Schritt.**
 
 1. **Kurs 2-5 im Unit-Detail nachbauen**, analog zu Kurs 1.
 2. **Wortschatz weiter ausbauen** (Richtung 200-300), weiterhin in geprüften Schritten.
@@ -417,3 +418,126 @@ freier Übungsmodus funktioniert; Tastatur-Lernstufen vorhanden; nur Einzelwort-
 vorausgesetzt, langsame Wiedergabe ohne zweite Aufnahme möglich; Kursdaten nie unsicher über
 `innerHTML`; GitHub Actions/LICENSE/CONTRIBUTING tatsächlich vorhanden; README/ROADMAP führen
 nur getestete Funktionen als fertig auf.
+
+---
+
+## 8. Entwicklungsauftrag 4: Neues Interface und echte Lernphase vor jeder Abfrage (vom Nutzer, 2026-08-06)
+
+Nach Meilenstein A+B (Entwicklungsauftrag 3) hat der Nutzer einen vierten Auftrag geliefert:
+ein vollständig überarbeitetes Interface (Navigation, Kursansicht, Designsystem) UND die
+bisher bewusst zurückgestellte generische Session Engine — diesmal mit dem expliziten Auftrag,
+sie tatsächlich zu bauen, TheoryRenderer real anzuschließen und eine echte Lernphase (Wörter
+kennenlernen, dann erst abfragen) vor jede Abfrage zu setzen. Grund für das Zurückstellen der
+Engine im letzten Auftrag (kein reales Session-Datenmodell, gegen erfundene Beispieldaten
+entwerfen) entfällt hiermit explizit: der Nutzer verlangt jetzt den Zusammenbau, zunächst mit
+EINER Pilot-Session aus den 9 vorhandenen "Begrüßung"-Vokabeln (`greetings`-Kategorie in
+`vocabulary.json`), nicht mit erfundenen Daten.
+
+**Explizite Arbeitsanweisung für diese Runde:** ausschließlich Schritt 1-4 (UI-Grundgerüst,
+Kurs-/Unit-Ansichten, Session Engine, Theorie-Integration), demonstriert an GENAU EINER
+Pilot-Session ("Begrüßung und Höflichkeit"/`vocab_unit_01_a`, 9 vorhandene Wörter — es gibt in
+der `greetings`-Kategorie keine 10, "verbleibende Session darf weniger als zehn Wörter
+enthalten" deckt das ab). Die beiden weiteren Pilot-Units (Familie, Zuhause) sowie 759 neue
+Vokabeln folgen explizit erst nach erfolgreicher Demonstration dieser einen Session.
+
+### Schritt 1 — UI-Grundgerüst
+
+- ☑ Designsystem: semantische CSS-Variablen (`--bg-primary`/`--bg-secondary`/`--surface`/
+  `--surface-hover`/`--border`/`--text-primary`/`--text-secondary`/`--accent`/`--accent-hover`/
+  `--success`/`--warning`/`--error`/`--info`), Hell-/Dunkel-/Systemmodus tatsächlich
+  angewendet+gespeichert (`App.applyTheme`, geprüft in `test/unit/appShell.test.js`)
+- ☑ Typografie-Skala (Seitentitel/Abschnittsüberschrift/Normaltext/Hilfetext/arabisches
+  Hauptwort 2.5-3.25rem/arabisches Beispiel 1.7-2.2rem), ausreichende Zeilenhöhe für
+  Vokalzeichen
+- ☑ Neue Hauptnavigation: nur Start/Kurs/Wiederholen/Frei üben/Fortschritt/Einstellungen,
+  ein-/ausklappbare Seitenleiste (eingeklappt nur Symbole), lokale SVG-/CSS-Symbole statt
+  Emoji als primäre Navigationssymbole (geprüft: `test/unit/appShell.test.js` liest
+  `index.html` statisch aus, prüft genau die 5 Haupteinträge + Einstellungen im Footer)
+- ☑ Kopfzeile mit Breadcrumbs, Seitentitel, optionalem Zurück-Button, aktuellem Kurs,
+  kompaktem Fortschritt — sicher gerendert (kein `innerHTML` mit dynamischen Texten, geprüft
+  inkl. eines absichtlich HTML-artigen Breadcrumb-Labels in `test/unit/appShell.test.js`)
+- ☑ Wiederverwendbare Komponentenklassen (Seitenkopf, Breadcrumbs, Kurskarte, Unit-Karte,
+  Session-Karte, Statistik-Karte, Status-Badge, Wortkarte, Theoriekarte, Aktionsleiste, Dialog,
+  Tooltip, Tab-Leiste, Leer-/Lade-/Fehlerzustand) statt Inline-Styles in JS
+
+### Schritt 2 — Kurs- und Unit-Ansichten
+
+- ☑ Eigenständige Kursansicht (ersetzt die dauerhaft ausgeklappte Lesson-Liste): Kurskopf
+  (Titel, Beschreibung, Fortschrittsbalken, gelernte Wörter, abgeschlossene Units, fällige
+  Wiederholungen), Units als Karten/Lernroute mit Status (gesperrt/verfügbar/begonnen/
+  abgeschlossen/Wiederholung empfohlen) — `src/js/views/courseView.js`, geprüft in
+  `test/unit/courseView.test.js`
+- ☑ Unit-Detailansicht mit Session-Karten (Theorie/Lernphase/Übungsphase/Abschlussstatus
+  getrennt sichtbar) — `src/js/views/unitDetailView.js`, geprüft in
+  `test/unit/courseView.test.js`
+
+### Schritt 3 — Session Engine
+
+- ☑ `src/js/session/` mit den vorgeschlagenen Modulen (sessionEngine, sessionController,
+  sessionRenderer, sessionQueue, sessionState, phaseRegistry, exerciseRegistry) — nutzt
+  vorhandene Bausteine (TheoryRenderer, HelpLevel, VirtualKeyboard, ReviewScheduler,
+  ExerciseGuard, AudioPlayer, srs.js, AppState)
+- ☑ Sessions rein datenbasiert (siehe Datenschema Auftrag Abschnitt 14: `theory_id`,
+  `new_word_ids`, `review_count`, `phases[]`, `completion_rules`) — `vocabSessions.json`
+- ☑ Phasenreihenfolge erzwungen: Theorie (beim ersten Durchlauf verpflichtend) → Wortvorschau
+  → Wiedererkennen → Rekonstruieren → Geführte Produktion → Selbstständige Produktion →
+  Anwendung → Abschluss — kein neues Wort erscheint zuerst in einer Produktionsphase (geprüft
+  im vollständigen Durchlauf in `test/unit/sessionController.e2e.test.js`)
+- ☑ Manuelles "Weiter" statt automatischem Wechsel nach 900/1400ms bei normalen Lernaufgaben
+  (`SessionRenderer.renderContinueButton`, kein `setTimeout`-Auto-Advance)
+
+### Schritt 4 — Theorie integrieren
+
+- ☑ TheoryRenderer wird von der Session Engine tatsächlich aufgerufen (nicht mehr nur
+  isoliert getestet) — `SessionController.renderTheoryPhase()`/`renderTheoryReview()`
+- ☑ Jederzeit erreichbare "Theorie ansehen"-Schaltfläche während der Session, ohne
+  Sessionfortschritt zu verlieren (geprüft: dritter Test in
+  `test/unit/sessionController.e2e.test.js`)
+- ☑ Pilot-Theorietext "Begrüßung und Höflichkeit" (`content_status: needs_language_review`):
+  echte Erklärung (Unterschied Einzelwort/fester Ausdruck, RTL-Lesung, Kontextabhängigkeit,
+  kurze Antwortmöglichkeiten) statt reiner Aufgabenankündigung
+- ☑ Mini-Check wird gespeichert (`AppState.markTheoryMiniCheckResult`, bereits vorhanden)
+
+**Verifikation der Schritte 1-4 (Ende-zu-Ende-Demo bestanden):** Die geforderte Kette
+Startseite → Kurs öffnen → Unit öffnen → Session öffnen → Theorie lesen → Mini-Check → zehn
+(hier: neun) Wörter kennenlernen → Erkennungsaufgaben → geführte Eingabe → selbstständige
+Eingabe → Abschluss läuft nachweislich vollständig durch (`test/unit/sessionController.e2e.test.js`,
+3/3 bestanden). Dabei wurden zwei echte Fehler gefunden und behoben:
+
+1. **Test-Infrastruktur:** `test/helpers/domStub.js`s `FakeElement` hatte kein `firstChild` und
+   kein `removeChild` — das überall verwendete Muster
+   `while (el.firstChild) el.removeChild(el.firstChild)` war dadurch ein stiller No-op (Klicks
+   schienen wirkungslos, weil sich alte und neue Ansicht unbemerkt überlagerten). Behoben durch
+   Ergänzung von `firstChild`/`lastChild`/`nextSibling`/`previousSibling`/`removeChild`/`remove()`
+   sowie eines `childNodes`-Alias auf `children`.
+2. **Echter Anwendungsfehler** in `sessionController.js`s `renderGradedPhase()`: die Prüfung
+   `if (!engine.currentTask())` zum Entscheiden "Warteschlange dieser Phase neu starten?" war
+   mehrdeutig — `currentTask()` liefert sowohl VOR dem ersten Start als auch NACH dem letzten
+   erledigten Task `null`. Dadurch begann die letzte Aufgabe einer "graded" Phase (z. B.
+   Wiedererkennen) die komplette Phase von vorn, statt zur nächsten Phase (Rekonstruieren)
+   weiterzuschalten. Behoben durch eine neue, eindeutige `engine.hasStartedQueue()`.
+
+Zusätzlich zum e2e-Test wurden `test/unit/courseView.test.js` (CourseView/UnitDetailView),
+`test/unit/appShell.test.js` (Hauptnavigation, Breadcrumbs, Sidebar-Ein-/Ausklappen, Theme) und
+`test/unit/settings.test.js` (Einstellungen wirken sofort, werden gespeichert, bleiben nach
+erneutem Öffnen erhalten) ergänzt. Gesamtstatus: `npm test` 199/199 (+ 1 Integrationstest)
+grün, `npm run lint` 0 Kollisionen, `npm run validate:course` 0 Fehler.
+
+### Bewusst nicht Teil dieser Runde (siehe Auftrag Abschnitt 27)
+
+759 neue Vokabeln, volle 900er-Erweiterung, automatische Massen-Audioerzeugung, alle 30
+Wortschatz-Units, Kurs-2-Inhalte, komplexe neue Grammatik, Cloud-Dienste. Ebenfalls erst nach
+dieser Demonstration: die zwei weiteren Pilot-Units (Familie und Personen; Zuhause und Räume),
+Schritt 5-8 (weitere Pilot-Units, Übungsoberflächen-Feinschliff, freies Üben neu gestalten,
+vollständige Tests/Doku für den Gesamtauftrag).
+
+### Akzeptanzkriterien dieser Runde (Auszug aus den 24 Punkten in Auftrag Abschnitt 26)
+
+U. a.: Seitenleiste zeigt nicht mehr dauerhaft alle Units; eigenständige Kursansicht
+existiert; Units als Karten/Lernroute; Sessions klar getrennt sichtbar; Breadcrumbs vorhanden;
+TheoryRenderer tatsächlich im normalen Ablauf verwendet; echter Theorietext vor der Session;
+Nutzer lernt die Wörter zuerst kennen, bevor produziert werden muss; kein neues Wort zuerst
+frei geschrieben; Feedback verschwindet nicht automatisch vor einem Klick auf "Weiter";
+Session-Wiederaufnahme funktioniert; alle bisherigen Tests bestehen weiterhin; neue Tests
+bestehen; `npm test`/`npm run lint`/`npm run validate:course` erfolgreich; README/ROADMAP
+nennen nur tatsächlich getestete Funktionen als fertig.

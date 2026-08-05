@@ -175,6 +175,9 @@ const TheoryRenderer = (() => {
    * @param {(audioKey:string, text:string)=>void} [options.onPlayAudio]
    * @param {(correct:number, total:number)=>void} [options.onMiniCheckComplete]
    * @param {()=>void} [options.onStart] - Klick auf "Session starten"
+   * @param {string} [options.startLabel='Session starten'] - Beschriftung des Start-Buttons
+   *   (z. B. "Zurück zur Übung", wenn die Theorie während einer laufenden Session erneut
+   *   geöffnet wird, statt eine neue Session zu beginnen)
    * @param {(guard: object)=>void} [options.registerGuard] - für Aufräumung durch die aufrufende View
    */
   function mount(container, theoryDoc, options = {}) {
@@ -220,7 +223,7 @@ const TheoryRenderer = (() => {
         wrapper.appendChild(toggleBtn);
       }
 
-      const startBtn = el('button', { className: 'btn', text: 'Session starten' });
+      const startBtn = el('button', { className: 'btn', text: options.startLabel || 'Session starten' });
       startBtn.style.display = 'block';
       startBtn.style.marginTop = '20px';
       startBtn.addEventListener('click', () => {

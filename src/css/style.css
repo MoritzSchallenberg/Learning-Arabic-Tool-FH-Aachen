@@ -1,15 +1,95 @@
+/* ============================================================================
+   Designsystem (Entwicklungsauftrag 4, Schritt 1)
+   Semantische Variablen statt reiner Farbnamen, damit Hell-/Dunkel-/Systemmodus
+   nur die Werte austauschen müssen, nicht jede Regel im Stylesheet.
+   `--color-*`-Namen bleiben als Aliase erhalten, weil ein Großteil des bestehenden
+   Codes (Inline-Styles in den Views, ältere CSS-Regeln) sie bereits verwendet —
+   ein Massen-Rename wäre ein reines Umbenennen ohne Mehrwert und mit echtem
+   Regressionsrisiko gewesen.
+   ============================================================================ */
 :root {
-  --color-bg: #1b1b1f;
-  --color-surface: #26262c;
-  --color-surface-alt: #2f2f37;
-  --color-border: #3a3a42;
-  --color-text: #eaeaef;
-  --color-text-muted: #a3a3ad;
-  --color-accent: #4fa3ff;
-  --color-correct: #4caf6d;
-  --color-typo: #d9a441;
-  --color-wrong: #e0605e;
+  /* Dunkelmodus ist der Standard (entspricht dem bisherigen Erscheinungsbild). */
+  --bg-primary: #1b1b1f;
+  --bg-secondary: #17171a;
+  --surface: #26262c;
+  --surface-hover: #2f2f37;
+  --border: #3a3a42;
+  --text-primary: #eaeaef;
+  --text-secondary: #a3a3ad;
+  --accent: #4fa3ff;
+  --accent-hover: #78bbff;
+  --success: #4caf6d;
+  --warning: #d9a441;
+  --error: #e0605e;
+  --info: #4fa3ff;
   --radius: 10px;
+  --radius-sm: 6px;
+  --radius-lg: 14px;
+  --content-max-width: 1100px;
+
+  /* Rückwärtskompatible Aliase — siehe Kommentar oben. */
+  --color-bg: var(--bg-primary);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-hover);
+  --color-border: var(--border);
+  --color-text: var(--text-primary);
+  --color-text-muted: var(--text-secondary);
+  --color-accent: var(--accent);
+  --color-correct: var(--success);
+  --color-typo: var(--warning);
+  --color-wrong: var(--error);
+}
+
+:root[data-theme="dark"] {
+  --bg-primary: #1b1b1f;
+  --bg-secondary: #17171a;
+  --surface: #26262c;
+  --surface-hover: #2f2f37;
+  --border: #3a3a42;
+  --text-primary: #eaeaef;
+  --text-secondary: #a3a3ad;
+  --accent: #4fa3ff;
+  --accent-hover: #78bbff;
+  --success: #4caf6d;
+  --warning: #d9a441;
+  --error: #e0605e;
+  --info: #4fa3ff;
+}
+
+:root[data-theme="light"] {
+  --bg-primary: #f4f5f7;
+  --bg-secondary: #ffffff;
+  --surface: #ffffff;
+  --surface-hover: #eceef1;
+  --border: #d7dae0;
+  --text-primary: #1b1e21;
+  --text-secondary: #5b5f66;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --success: #1f9254;
+  --warning: #b3760c;
+  --error: #c8372f;
+  --info: #2563eb;
+}
+
+/* Systemmodus: keine explizite Wahl (kein data-theme-Attribut gesetzt) folgt der
+   Betriebssystem-Einstellung. Dunkel bleibt der Fallback (bare :root oben). */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --bg-primary: #f4f5f7;
+    --bg-secondary: #ffffff;
+    --surface: #ffffff;
+    --surface-hover: #eceef1;
+    --border: #d7dae0;
+    --text-primary: #1b1e21;
+    --text-secondary: #5b5f66;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --success: #1f9254;
+    --warning: #b3760c;
+    --error: #c8372f;
+    --info: #2563eb;
+  }
 }
 
 * {
@@ -20,10 +100,41 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-family: "Segoe UI", "Noto Sans Arabic", Tahoma, Arial, sans-serif;
 }
+
+/* --- Typografie-Skala (Entwicklungsauftrag 4, Abschnitt 7.2) --- */
+.text-page-title { font-size: 1.6rem; font-weight: 700; margin: 0 0 4px; }
+.text-section-title { font-size: 1.15rem; font-weight: 600; margin: 0 0 8px; }
+.text-body { font-size: 1rem; line-height: 1.6; }
+.text-hint { font-size: 0.85rem; color: var(--text-secondary); }
+
+/* Arabische Lernwörter deutlich größer als deutscher Text, mit ausreichend
+   Zeilenhöhe für Vokalzeichen (die sonst abgeschnitten wirken können). */
+.arabic-word-main {
+  direction: rtl;
+  unicode-bidi: isolate;
+  font-family: "Noto Sans Arabic", "Amiri", Tahoma, sans-serif;
+  font-size: 2.75rem;
+  line-height: 2;
+}
+.arabic-example {
+  direction: rtl;
+  unicode-bidi: isolate;
+  font-family: "Noto Sans Arabic", "Amiri", Tahoma, sans-serif;
+  font-size: 1.9rem;
+  line-height: 1.9;
+}
+
+/* Arabische Schriftgröße "Groß" (Einstellungen, Entwicklungsauftrag 4 Abschnitt 21) — skaliert
+   alle arabischen Textklassen gemeinsam über eine CSS-Variable statt jede Regel zu duplizieren. */
+:root { --arabic-scale: 1; }
+:root[data-arabic-scale="large"] { --arabic-scale: 1.25; }
+.arabic-word-main { font-size: calc(2.75rem * var(--arabic-scale)); }
+.arabic-example { font-size: calc(1.9rem * var(--arabic-scale)); }
+.arabic-text.large { font-size: calc(2.4rem * var(--arabic-scale)); }
 
 .app-shell {
   display: flex;
@@ -32,36 +143,71 @@ html, body {
   overflow: hidden;
 }
 
-/* --- Sidebar --- */
-.sidebar {
-  width: 260px;
-  flex-shrink: 0;
-  background: var(--color-surface);
-  border-right: 1px solid var(--color-border);
+.main-area {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 16px 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* --- Sidebar (Entwicklungsauftrag 4: ein-/ausklappbar, nur 6 Hauptbereiche) --- */
+.sidebar {
+  width: 232px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0;
+  transition: width 0.15s ease;
+}
+
+.sidebar.collapsed {
+  width: 64px;
 }
 
 .sidebar-header {
-  padding: 8px 20px 16px;
-  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 12px 16px;
+  border-bottom: 1px solid var(--border);
   margin-bottom: 8px;
 }
 
 .app-title {
   display: block;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
-.app-subtitle {
-  display: block;
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
+.sidebar.collapsed .app-title,
+.sidebar.collapsed .nav-item span,
+.sidebar.collapsed .version-info {
+  display: none;
 }
 
-.lesson-list {
+.sidebar-toggle-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  display: flex;
+}
+
+.sidebar-toggle-btn:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.main-nav {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -69,95 +215,151 @@ html, body {
   overflow-y: auto;
 }
 
-.course-header {
-  padding: 16px 20px 6px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--color-text-muted);
-  border-top: 1px solid var(--color-border);
-}
-
-.course-header:first-child {
-  border-top: none;
-  padding-top: 6px;
-}
-
-.lesson-item {
+.nav-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 20px 8px 28px;
-  cursor: pointer;
-  color: var(--color-text-muted);
+  gap: 12px;
+  width: 100%;
+  background: none;
+  border: none;
   border-left: 3px solid transparent;
-  font-size: 0.88rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.92rem;
+  font-family: inherit;
+  padding: 10px 16px;
+  text-align: left;
 }
 
-.status-dot {
-  flex: 0 0 8px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #5a5a63;
+.nav-item svg {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
 }
 
-.status-dot.grey { background: #5a5a63; }
-.status-dot.yellow { background: var(--color-typo); }
-.status-dot.green { background: var(--color-correct); }
-.status-dot.red { background: var(--color-wrong); }
-
-.lesson-item:hover {
-  background: var(--color-surface-alt);
+.sidebar.collapsed .nav-item {
+  justify-content: center;
+  padding: 10px 0;
 }
 
-.lesson-item.active {
-  color: var(--color-text);
-  border-left-color: var(--color-accent);
-  background: var(--color-surface-alt);
+.nav-item:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
 }
 
-.lesson-item.locked {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.lesson-badge {
-  font-size: 0.7rem;
-  padding: 2px 6px;
-  border-radius: 999px;
-  background: var(--color-surface-alt);
-  color: var(--color-text-muted);
+.nav-item.active {
+  color: var(--text-primary);
+  border-left-color: var(--accent);
+  background: var(--surface-hover);
 }
 
 .sidebar-footer {
-  border-top: 1px solid var(--color-border);
-  padding: 12px 20px 0;
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
 }
 
-.sidebar-link {
+.version-info {
+  display: block;
+  padding: 8px 16px 0;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+/* --- Kopfzeile (Entwicklungsauftrag 4, Abschnitt 4.3) --- */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 32px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-secondary);
+  flex-shrink: 0;
+}
+
+.app-header:empty {
+  display: none;
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.breadcrumbs li { display: flex; align-items: center; gap: 6px; }
+.breadcrumbs .crumb-sep { color: var(--text-secondary); opacity: 0.6; }
+.breadcrumbs button {
   background: none;
   border: none;
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
   cursor: pointer;
-  font-size: 0.9rem;
-  padding: 6px 0;
+  font: inherit;
+  padding: 0;
+}
+.breadcrumbs button:hover { color: var(--accent); text-decoration: underline; }
+.breadcrumbs .crumb-current { color: var(--text-primary); font-weight: 600; }
+
+.header-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.sidebar-link:hover {
-  color: var(--color-text);
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.header-back-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+}
+.header-back-btn:hover { background: var(--surface-hover); }
+
+.header-progress {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
 }
 
 /* --- Content --- */
 .content {
   flex: 1;
   overflow-y: auto;
-  padding: 32px 40px;
+  padding: 28px 32px 90px;
+}
+
+.page-content {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
 }
 
 .loading-placeholder {
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
 }
 
 .view h1 {
@@ -166,17 +368,17 @@ html, body {
 }
 
 .view p.lead {
-  color: var(--color-text-muted);
-  max-width: 640px;
+  color: var(--text-secondary);
+  max-width: 720px;
 }
 
 .card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 24px;
   margin-bottom: 20px;
-  max-width: 720px;
+  max-width: var(--content-max-width);
 }
 
 .btn {
@@ -472,3 +674,340 @@ html, body {
 .theory-audio-word { display: flex; align-items: center; gap: 8px; }
 .theory-objectives { }
 .theory-mini-check { }
+
+/* ============================================================================
+   Wiederverwendbare Komponenten (Entwicklungsauftrag 4, Abschnitt 7.4)
+   ============================================================================ */
+
+/* --- Breadcrumbs siehe .breadcrumbs weiter oben (Kopfzeile) --- */
+
+/* --- Kurs-/Unit-/Session-Karten --- */
+.course-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.course-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.course-card-stats {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.course-card-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.course-card-stat .stat-value { font-size: 1.4rem; font-weight: 700; }
+.course-card-stat .stat-label { font-size: 0.78rem; color: var(--text-secondary); }
+
+.unit-route {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.unit-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  font-family: inherit;
+  color: var(--text-primary);
+}
+
+.unit-card:hover:not(.locked) {
+  border-color: var(--accent);
+}
+
+.unit-card.locked {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.unit-card-index {
+  flex: 0 0 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--surface-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.unit-card-body { flex: 1; min-width: 0; }
+.unit-card-title { font-weight: 600; margin: 0 0 2px; }
+.unit-card-desc { font-size: 0.85rem; color: var(--text-secondary); margin: 0; }
+.unit-card-meta {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.session-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+}
+
+.session-card-body { flex: 1; min-width: 0; }
+.session-card-title { font-weight: 600; margin: 0 0 2px; }
+.session-card-meta { font-size: 0.78rem; color: var(--text-secondary); }
+.session-card-phases {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+}
+.session-card-phase-tag {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--surface-hover);
+  color: var(--text-secondary);
+}
+.session-card-phase-tag.done { color: var(--success); }
+
+/* --- Statistik-Karten (Dashboard-Kompetenzen etc.) --- */
+.stat-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+.stat-card .stat-value { font-size: 1.3rem; font-weight: 700; }
+.stat-card .stat-label { font-size: 0.78rem; color: var(--text-secondary); }
+
+/* --- Status-Badge (Unit-/Session-Status: gesperrt/verfügbar/begonnen/abgeschlossen/Wdh.) --- */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.status-badge.locked { background: var(--surface-hover); color: var(--text-secondary); }
+.status-badge.available { background: rgba(79,163,255,0.15); color: var(--accent); }
+.status-badge.started { background: rgba(217,164,65,0.18); color: var(--warning); }
+.status-badge.completed { background: rgba(76,175,109,0.18); color: var(--success); }
+.status-badge.repeat { background: rgba(224,96,94,0.18); color: var(--error); }
+
+/* --- Wortkarte (Wörter-kennenlernen-Phase) --- */
+.word-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  text-align: center;
+}
+.word-card .arabic-word-main { margin: 4px 0; }
+.word-card-translation { font-size: 1.15rem; margin: 4px 0; }
+.word-card-translit { color: var(--text-secondary); font-size: 0.95rem; }
+.word-card-meta {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+.word-card-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.word-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+}
+
+/* --- Schrittanzeige (Session-Phasen-Stepper) --- */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 4px 0 18px;
+}
+.step-indicator-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--surface-hover);
+}
+.step-indicator-item.current { background: var(--accent); color: #0c1620; font-weight: 600; }
+.step-indicator-item.done { color: var(--success); }
+.step-indicator-sep { color: var(--text-secondary); opacity: 0.5; font-size: 0.75rem; }
+
+/* --- Aktionsleiste (feste Leiste am unteren Rand von Übungen) --- */
+.action-bar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  padding: 12px 20px;
+  margin: 24px -32px -90px;
+}
+.action-bar-left, .action-bar-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* --- Dialog (z. B. Bestätigung vor Session verwerfen) --- */
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.dialog-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  max-width: 420px;
+  width: 90%;
+}
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* --- Tooltip (einfacher Titel-Fallback, siehe title-Attribute; hier für Hover-Hinweise) --- */
+.tooltip-wrap { position: relative; display: inline-block; }
+.tooltip-bubble {
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.1s ease;
+}
+.tooltip-wrap:hover .tooltip-bubble { opacity: 1; }
+
+/* --- Tab-Leiste (z. B. Einzelansicht/Übersicht in der Wörter-Phase) --- */
+.tab-bar {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.tab-bar button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font: inherit;
+  padding: 8px 14px;
+  border-bottom: 2px solid transparent;
+}
+.tab-bar button.active {
+  color: var(--text-primary);
+  border-bottom-color: var(--accent);
+  font-weight: 600;
+}
+
+/* --- Leer-/Lade-/Fehlerzustand --- */
+.empty-state, .error-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-secondary);
+}
+.error-state { color: var(--error); }
+.empty-state svg, .error-state svg { width: 40px; height: 40px; margin-bottom: 12px; opacity: 0.6; }
+
+/* --- Auswahlchips (freier Übungsmodus, Entwicklungsauftrag 4 Abschnitt 20.3) --- */
+.chip-group { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+  background: var(--surface-hover);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.82rem;
+  padding: 6px 14px;
+}
+.chip.selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0c1620;
+  font-weight: 600;
+}
+
+/* ============================================================================
+   Responsives Desktop-Layout (Entwicklungsauftrag 4, Abschnitt 22)
+   Getestet gegen 900x600 / 1200x800 / 1440x900 / 1920x1080.
+   ============================================================================ */
+@media (max-width: 1000px) {
+  .sidebar:not(.collapsed) { width: 200px; }
+  .content { padding: 20px 16px 90px; }
+  .app-header { padding: 12px 16px; }
+  .action-bar { margin: 24px -16px -90px; padding: 12px 16px; }
+  .meter-label { flex-basis: 160px; }
+}
+
+@media (max-width: 720px) {
+  .sidebar { position: absolute; z-index: 50; height: 100%; }
+  .sidebar:not(.collapsed) { width: 220px; }
+}

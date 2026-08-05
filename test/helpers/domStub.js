@@ -55,6 +55,38 @@ class FakeElement {
     this.selected = false;
   }
 
+  // Echtes DOM unterscheidet childNodes (inkl. Textknoten) von children (nur Elemente) — dieser
+  // Stub kennt keine eigenständigen Textknoten, daher genügt hier ein Alias auf children.
+  get childNodes() { return this.children; }
+
+  get firstChild() { return this.children.length > 0 ? this.children[0] : null; }
+  get lastChild() { return this.children.length > 0 ? this.children[this.children.length - 1] : null; }
+
+  get nextSibling() {
+    if (!this.parentNode) return null;
+    const idx = this.parentNode.children.indexOf(this);
+    return idx === -1 ? null : (this.parentNode.children[idx + 1] || null);
+  }
+
+  get previousSibling() {
+    if (!this.parentNode) return null;
+    const idx = this.parentNode.children.indexOf(this);
+    return idx <= 0 ? null : (this.parentNode.children[idx - 1] || null);
+  }
+
+  removeChild(child) {
+    const idx = this.children.indexOf(child);
+    if (idx !== -1) {
+      this.children.splice(idx, 1);
+      child.parentNode = null;
+    }
+    return child;
+  }
+
+  remove() {
+    if (this.parentNode) this.parentNode.removeChild(this);
+  }
+
   get value() {
     if (this.tagName === 'select') {
       const selectedOption = this.children.find((c) => c.tagName === 'option' && c.selected);

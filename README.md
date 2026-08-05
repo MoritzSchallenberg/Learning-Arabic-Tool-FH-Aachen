@@ -345,6 +345,79 @@ Ebenfalls offen: `evaluateAgainstAny()` in echten Aufgaben (erst mit den neuen
 `accepted_arabic_answers`-Feldern sinnvoll), Verbindungstrainer mit echten visuellen
 Verbindungsfehlern, weiterer Ausbau von Units 8-10, vollständige Einstellungs-Prüfung.
 
+## Schritt 1-4: neues Interface + echte Session Engine (Entwicklungsauftrag 4)
+
+Vierter Entwicklungsauftrag: vollständig überarbeitetes Interface (Navigation, Kurs-/
+Unit-Ansichten, Designsystem) und die im vorigen Auftrag bewusst zurückgestellte generische
+Session Engine — diesmal gegen eine echte Pilot-Session gebaut, nicht gegen erfundene
+Beispieldaten. Diese Runde deckt ausschließlich Schritt 1-4 des Gesamtauftrags ab, demonstriert
+an genau einer Session ("Begrüßung und Höflichkeit", 9 vorhandene Wörter aus der
+`greetings`-Kategorie); die zwei weiteren Pilot-Units sowie Schritt 5-8 folgen in einer
+späteren Runde (siehe [`ROADMAP.md`](ROADMAP.md), Abschnitt 8, für den vollständigen Stand).
+
+- **Neue Hauptnavigation** (`src/index.html`, `src/js/app.js`): nur noch 6 Bereiche (Start/
+  Kurs/Wiederholen/Frei üben/Fortschritt/Einstellungen) statt einer dauerhaft ausgeklappten
+  Liste aller Units/Lektionen — ein-/ausklappbare Seitenleiste (`sidebarCollapsed`-Einstellung,
+  bleibt nach Neustart erhalten), lokale SVG-Symbole statt Emoji. Bestehende Kurs-1-Inhalte
+  (Buchstaben-Units, Lektionen 3-11) bleiben technisch unverändert und weiterhin über
+  `App.navigateTo(key)` erreichbar, nur nicht mehr direkt in der Seitenleiste sichtbar, sondern
+  über die neue Kursansicht.
+- **Kopfzeile mit Breadcrumbs** (`App.renderHeader`): Seitentitel, optionaler Zurück-Button,
+  kompakter Fortschritt — ausschließlich über `createElement`/`textContent` gerendert, nie
+  `innerHTML` mit dynamischen Titeln/Breadcrumb-Texten (wichtig für später importierbare
+  Kurspakete, siehe Sicherheits-Hinweis im Architekturabschnitt).
+- **Designsystem** (`src/css/style.css`): semantische CSS-Variablen mit Hell-/Dunkel-/
+  Systemmodus (tatsächlich angewendet über `App.applyTheme`, in den Einstellungen wählbar und
+  persistent), größere Typografie-Skala für arabische Haupt-/Beispielwörter, ~30 neue
+  wiederverwendbare Komponentenklassen (Kurs-/Unit-/Session-Karten, Status-Badges,
+  Wort-/Theoriekarten, feste Aktionsleiste, Dialog, Leer-/Lade-/Fehlerzustand).
+- **Kursansicht** (`src/js/views/courseView.js`) und **Unit-Detailansicht**
+  (`src/js/views/unitDetailView.js`): ersetzen die frühere dauerhaft ausgeklappte Lesson-Liste.
+  Units erscheinen als Karten/Lernroute mit Status (verfügbar/begonnen/abgeschlossen), eine
+  Unit-Detailseite zeigt ihre Sessions als eigene Karten mit Phasen-Tags (Theorie/Lernen/Üben)
+  und passendem Button ("Session starten"/"Fortsetzen"/"Erneut üben").
+- **Session Engine** (neues Verzeichnis `src/js/session/`: `sessionState.js`,
+  `phaseRegistry.js`, `sessionQueue.js`, `exerciseRegistry.js`, `sessionEngine.js`,
+  `sessionRenderer.js`, `sessionController.js`) — erzwingt die verlangte Reihenfolge Theorie
+  (beim ersten Durchlauf verpflichtend) → Wörter kennenlernen → Wiedererkennen → Rekonstruieren
+  → Geführte Produktion → Selbstständige Produktion → Anwendung → Abschluss: kein neues Wort
+  erscheint zuerst in einer Produktionsaufgabe. Falsch beantwortete Aufgaben erscheinen erst
+  nach 3-5 anderen Aufgaben erneut (`sessionQueue.scheduleRepeat`). Feedback verschwindet nie
+  automatisch — jede Aufgabe endet mit einem manuellen "Weiter"-Klick, kein Auto-Advance nach
+  900/1400ms. Session-Zustand (Phase, Aufgabenindex, gezeigte Wörter, Theoriefortschritt,
+  Hilfestufe, richtige/falsche Antworten) wird nach jeder Aufgabe gespeichert — nach einem
+  Neustart setzt die Session an derselben Stelle fort, statt neu bei der Theorie zu beginnen.
+- **TheoryRenderer tatsächlich angeschlossen**: war im vorigen Auftrag fertig gebaut, aber vom
+  normalen Kursablauf nie aufgerufen — die Session Engine ruft ihn jetzt für jede Session real
+  auf, inklusive eines jederzeit erreichbaren "Theorie ansehen"-Buttons während der laufenden
+  Session (ohne Sessionfortschritt zu verlieren) und eines gespeicherten Mini-Check-Ergebnisses.
+  Neuer Pilot-Theorietext "Begrüßung und Höflichkeit"
+  (`language-packs/arabic/theory.json`, `content_status: needs_language_review`): echte
+  Erklärung statt reiner Aufgabenankündigung.
+- **Pilot-Sessiondaten** (`language-packs/arabic/vocabSessions.json`): eine Vokabel-Unit
+  ("Begrüßung und Höflichkeit") mit einer Session aus den 9 vorhandenen `greetings`-Wörtern —
+  bewusst keine erfundenen Wörter, wie vom Auftrag verlangt.
+
+**Bei der Verifikation gefundene und behobene Fehler** (Ende-zu-Ende-Test gegen die reale
+Pilot-Session, `test/unit/sessionController.e2e.test.js`):
+1. `test/helpers/domStub.js`s `FakeElement` hatte kein `firstChild`/`removeChild` — das
+   Standard-Muster `while (el.firstChild) el.removeChild(el.firstChild)` lief dadurch im Test
+   ins Leere (reiner Test-Infrastruktur-Fehler, kein App-Fehler).
+2. Echter Fehler in `sessionController.js`: die Prüfung, ob eine Aufgaben-Warteschlange neu
+   gestartet werden muss, war mehrdeutig zwischen "noch nie gestartet" und "gerade fertig
+   geworden" — dadurch startete die letzte Aufgabe einer Übungsphase (z. B. Wiedererkennen) die
+   komplette Phase erneut, statt zur nächsten Phase weiterzuschalten. Behoben durch eine neue,
+   eindeutige `sessionEngine.hasStartedQueue()`.
+
+**Getestet:** `npm test` (199 Unit- + 1 Integrationstest, alle grün, inkl. dreier neuer
+End-zu-Ende-Tests für die komplette Pilot-Session, Wiederaufnahme und "Theorie ansehen"
+mitten in der Session), `npm run lint` (0 Kollisionen), `npm run validate:course` (0 Fehler,
+inkl. neuer Prüfungen für Sessions/Theorie-Dokumente).
+
+**Bewusst nicht Teil dieser Runde** (siehe ROADMAP Abschnitt 8): die zwei weiteren Pilot-Units
+(Familie und Personen; Zuhause und Räume), Schritt 5-8 (Übungsoberflächen-Feinschliff, freies
+Üben neu gestalten), 759 neue Vokabeln, volle 900er-Erweiterung, Kurs-2-Inhalte.
+
 ## Bekannte Einschränkungen
 
 - Für Vokabeln/Buchstaben ohne generierte Audiodatei (z. B. neu hinzugefügte Inhalte vor dem
