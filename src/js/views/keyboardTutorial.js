@@ -160,7 +160,7 @@ const KeyboardTutorialView = (() => {
         sectionIndex += 1;
         render(container);
       } else {
-        App.navigateTo('alphabet');
+        App.navigateTo('unit_1');
       }
     });
   }

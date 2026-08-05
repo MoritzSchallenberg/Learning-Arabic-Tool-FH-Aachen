@@ -14,7 +14,15 @@
     "virtual_keyboard"
   ],
   "special_characters": [
-    "ء", "أ", "إ", "آ", "ؤ", "ئ", "ة", "ى", "لا"
+    { "symbol": "ء", "name": "Hamza (alleinstehend)" },
+    { "symbol": "أ", "name": "Hamza auf Alif" },
+    { "symbol": "إ", "name": "Hamza unter Alif" },
+    { "symbol": "آ", "name": "Alif Madda" },
+    { "symbol": "ؤ", "name": "Hamza auf Waw" },
+    { "symbol": "ئ", "name": "Hamza auf Yāʾ" },
+    { "symbol": "ة", "name": "Tāʾ marbūṭa" },
+    { "symbol": "ى", "name": "Alif maqṣūra" },
+    { "symbol": "لا", "name": "Lam-Alif-Ligatur" }
   ],
   "diacritics": [
     { "symbol": "َ", "name": "Fatha", "sound": "kurzer a-Laut" },

@@ -1,0 +1,138 @@
+{
+  "note": "Kurs/Unit-Struktur nach dem vom Nutzer gelieferten Pflichtenheft ('Arabischlern-App Entwicklungsauftrag'). Kurs 1 ist im PDF-Detail umgesetzt (Units 0-10, Buchstaben-Gruppierung, Verbindungstrainer). Kurs 2-5 verweisen bewusst noch auf die bestehenden Lektionen 3-11 (unverändert) statt das volle PDF-Unit-Modell auch dort schon nachzubauen — das folgt in späteren Runden. Kein bestehender Lerninhalt wurde für dieses Update gelöscht.",
+  "courses": [
+    {
+      "id": "course_1",
+      "title": "Arabische Schrift und erste Wörter",
+      "description": "Die 28 arabischen Buchstaben, ihre verbundenen Formen, die virtuelle Tastatur und erste Wörter.",
+      "connection_trainer_flagship_word": "بَاب",
+      "connection_trainer_flagship_meaning": "Tür",
+      "units": [
+        {
+          "id": "unit_0",
+          "title": "Einführung",
+          "type": "existing_lesson_group",
+          "lesson_keys": ["onboarding", "keyboard_tutorial"]
+        },
+        {
+          "id": "unit_1",
+          "title": "ا د ذ ر ز و — nicht weiterverbindende Buchstaben",
+          "type": "letter_group",
+          "goal": "Verstehen, dass diese Buchstaben keine Verbindung zum folgenden Buchstaben bilden.",
+          "letters": ["alif", "dal", "dhal", "ra", "zay", "waw"],
+          "demo_word": "وَرْد",
+          "demo_word_meaning": "Rosen / Blumen"
+        },
+        {
+          "id": "unit_2",
+          "title": "ب ت ث ن ي",
+          "type": "letter_group",
+          "goal": "Ähnliche Grundformen anhand der Punkte unterscheiden.",
+          "letters": ["ba", "ta", "tha", "nun", "ya"],
+          "demo_word": "بِنْت",
+          "demo_word_meaning": "Mädchen / Tochter"
+        },
+        {
+          "id": "unit_3",
+          "title": "ج ح خ",
+          "type": "letter_group",
+          "goal": "Drei ähnliche Formen unterscheiden, ح und خ klanglich unterscheiden.",
+          "letters": ["jim", "ha_emph", "kha"],
+          "demo_word": "دَجَاج",
+          "demo_word_meaning": "Hühner (kollektiv)"
+        },
+        {
+          "id": "unit_4",
+          "title": "س ش ص ض",
+          "type": "letter_group",
+          "goal": "Punktunterschiede erkennen, einfache und emphatische Laute vergleichen.",
+          "letters": ["sin", "shin", "sad", "dad"],
+          "demo_word": "شَمْس",
+          "demo_word_meaning": "Sonne"
+        },
+        {
+          "id": "unit_5",
+          "title": "ط ظ",
+          "type": "letter_group",
+          "goal": "Laut- und Formvergleich zweier emphatischer Buchstaben.",
+          "letters": ["ta_emph", "za_emph"],
+          "demo_word": "بَطَل",
+          "demo_word_meaning": "Held"
+        },
+        {
+          "id": "unit_6",
+          "title": "ع غ",
+          "type": "letter_group",
+          "goal": "Formen am Wortanfang, in der Mitte und am Wortende sicher erkennen.",
+          "letters": ["ain", "ghain"],
+          "demo_word": "غَرْب",
+          "demo_word_meaning": "Westen"
+        },
+        {
+          "id": "unit_7",
+          "title": "ف ق ك ل م ه",
+          "type": "letter_group",
+          "goal": "Restliche Buchstaben inkl. der لا-Verbindung.",
+          "letters": ["fa", "qaf", "kaf", "lam", "mim", "ha"],
+          "demo_word": "قَلَم",
+          "demo_word_meaning": "Stift"
+        },
+        {
+          "id": "unit_8",
+          "title": "Kurze Vokale",
+          "type": "diacritics",
+          "goal": "Fatha, Kasra, Damma, Sukun, Schadda lesen und hören."
+        },
+        {
+          "id": "unit_9",
+          "title": "Lange Vokale und Sonderformen",
+          "type": "special_forms",
+          "goal": "ا/و/ي als lange Vokale, Tāʾ marbūṭa, Alif maqṣūra, Hamza-Grundformen."
+        },
+        {
+          "id": "unit_10",
+          "title": "Wörter sicher lesen und schreiben",
+          "type": "consolidation",
+          "goal": "Gemischte Übung über alle 28 Buchstaben, Verbindungstrainer, virtuelle Tastatur."
+        }
+      ]
+    },
+    {
+      "id": "course_2",
+      "title": "Grundwortschatz und einfache Sätze",
+      "description": "Erste Vokabeln und einfache Grammatik, um kurze Sätze zu bilden.",
+      "units": [
+        { "id": "unit_2_1", "title": "Grundwortschatz I", "type": "existing_lesson", "lesson_key": "vocabulary_1" },
+        { "id": "unit_2_2", "title": "Grundgrammatik I", "type": "existing_lesson", "lesson_key": "grammar_1" }
+      ]
+    },
+    {
+      "id": "course_3",
+      "title": "Grundlagen der arabischen Grammatik",
+      "description": "Vertiefende Grammatik: Relativpronomen und weiterführende Themen.",
+      "units": [
+        { "id": "unit_3_1", "title": "Erweiterte Grammatik", "type": "existing_lesson", "lesson_key": "grammar_advanced" }
+      ]
+    },
+    {
+      "id": "course_4",
+      "title": "Verben und Zeitformen",
+      "description": "Verbformen in Gegenwart und Vergangenheit, Verneinung, Konjunktionen.",
+      "units": [
+        { "id": "unit_4_1", "title": "Grundgrammatik II", "type": "existing_lesson", "lesson_key": "grammar_2" }
+      ]
+    },
+    {
+      "id": "course_5",
+      "title": "Alltagssituationen und Textverständnis",
+      "description": "Erweiterter Wortschatz, Hörverständnis, Lesen und Prüfung.",
+      "units": [
+        { "id": "unit_5_1", "title": "Grundwortschatz II", "type": "existing_lesson", "lesson_key": "vocabulary_2" },
+        { "id": "unit_5_2", "title": "Hörverständnis I", "type": "existing_lesson", "lesson_key": "listening_1" },
+        { "id": "unit_5_3", "title": "Erweiterter Wortschatz", "type": "existing_lesson", "lesson_key": "vocabulary_advanced" },
+        { "id": "unit_5_4", "title": "Lesen und Schreiben", "type": "existing_lesson", "lesson_key": "reading_writing" },
+        { "id": "unit_5_5", "title": "Wiederholung und Prüfung", "type": "existing_lesson", "lesson_key": "review_exam" }
+      ]
+    }
+  ]
+}

@@ -83,6 +83,76 @@
       "title": "Wiederholung und Prüfung",
       "status": "active",
       "intro": "Das ist der Test: Zuerst in den anderen Lektionen Vokabeln und Grammatik lernen, dann hier ein gemischtes Quiz aus allem Gelernten bearbeiten — schwächere Bereiche kommen häufiger dran."
+    },
+    {
+      "id": 12,
+      "key": "unit_1",
+      "title": "ا د ذ ر ز و — nicht weiterverbindende Buchstaben",
+      "status": "active",
+      "intro": "Ablauf: Buchstaben ansehen → Namen wiedererkennen → Verbindungstrainer am Beispielwort → geführt tippen → selbstständig tippen."
+    },
+    {
+      "id": 13,
+      "key": "unit_2",
+      "title": "ب ت ث ن ي",
+      "status": "active",
+      "intro": "Ablauf: Buchstaben ansehen → Namen wiedererkennen → Verbindungstrainer am Beispielwort → geführt tippen → selbstständig tippen."
+    },
+    {
+      "id": 14,
+      "key": "unit_3",
+      "title": "ج ح خ",
+      "status": "active",
+      "intro": "Ablauf: Buchstaben ansehen → Namen wiedererkennen → Verbindungstrainer am Beispielwort → geführt tippen → selbstständig tippen."
+    },
+    {
+      "id": 15,
+      "key": "unit_4",
+      "title": "س ش ص ض",
+      "status": "active",
+      "intro": "Ablauf: Buchstaben ansehen → Namen wiedererkennen → Verbindungstrainer am Beispielwort → geführt tippen → selbstständig tippen."
+    },
+    {
+      "id": 16,
+      "key": "unit_5",
+      "title": "ط ظ",
+      "status": "active",
+      "intro": "Ablauf: Buchstaben ansehen → Namen wiedererkennen → Verbindungstrainer am Beispielwort → geführt tippen → selbstständig tippen."
+    },
+    {
+      "id": 17,
+      "key": "unit_6",
+      "title": "ع غ",
+      "status": "active",
+      "intro": "Ablauf: Buchstaben ansehen → Namen wiedererkennen → Verbindungstrainer am Beispielwort → geführt tippen → selbstständig tippen."
+    },
+    {
+      "id": 18,
+      "key": "unit_7",
+      "title": "ف ق ك ل م ه",
+      "status": "active",
+      "intro": "Ablauf: Buchstaben ansehen → Namen wiedererkennen → Verbindungstrainer am Beispielwort → geführt tippen → selbstständig tippen."
+    },
+    {
+      "id": 19,
+      "key": "unit_8",
+      "title": "Kurze Vokale",
+      "status": "active",
+      "intro": "Ablauf: Vokalzeichen-Tabelle ansehen, danach Vokalzeichen an Beispielsilben erkennen."
+    },
+    {
+      "id": 20,
+      "key": "unit_9",
+      "title": "Lange Vokale und Sonderformen",
+      "status": "active",
+      "intro": "Ablauf: Erklärung zu langen Vokalen und Sonderformen ansehen, danach die Sonderzeichen erkennen."
+    },
+    {
+      "id": 21,
+      "key": "unit_10",
+      "title": "Wörter sicher lesen und schreiben",
+      "status": "active",
+      "intro": "Ablauf: Gemischte Übung über alle 28 Buchstaben, danach ein abschließender Verbindungstrainer-Durchlauf — der Abschluss von Kurs 1."
     }
   ]
 }

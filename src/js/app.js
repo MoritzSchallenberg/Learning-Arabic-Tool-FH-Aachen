@@ -1,15 +1,28 @@
-// Bootstrapping und Navigation zwischen den Lektionen (Views).
+// Bootstrapping und Navigation zwischen den Kursen/Units/Lektionen (Views).
+// Die Sidebar zeigt die Kurs→Unit-Baumstruktur aus courses.json; lessons.json bleibt die
+// Registry für Titel/Intro/Status jedes navigierbaren Schlüssels (alt UND neu).
 
 const App = (() => {
   const contentEl = document.getElementById('content');
   const lessonListEl = document.getElementById('lesson-list');
   let lessons = [];
+  let courses = [];
   let currentKey = null;
 
   const VIEW_BY_KEY = {
     onboarding: { view: OnboardingView },
     keyboard_tutorial: { view: KeyboardTutorialView },
     alphabet: { view: AlphabetView },
+    unit_1: { view: LetterGroupLessonView, arg: 'unit_1' },
+    unit_2: { view: LetterGroupLessonView, arg: 'unit_2' },
+    unit_3: { view: LetterGroupLessonView, arg: 'unit_3' },
+    unit_4: { view: LetterGroupLessonView, arg: 'unit_4' },
+    unit_5: { view: LetterGroupLessonView, arg: 'unit_5' },
+    unit_6: { view: LetterGroupLessonView, arg: 'unit_6' },
+    unit_7: { view: LetterGroupLessonView, arg: 'unit_7' },
+    unit_8: { view: ShortVowelsView },
+    unit_9: { view: LongVowelsView },
+    unit_10: { view: Unit10View },
     grammar_1: { view: GrammarView },
     vocabulary_1: { view: VocabularyView, arg: 3 },
     listening_1: { view: ListeningView },
@@ -21,13 +34,37 @@ const App = (() => {
     review_exam: { view: ExamView }
   };
 
-  function renderLessonList() {
-    lessonListEl.innerHTML = lessons.map((lesson) => `
-      <li class="lesson-item ${lesson.status === 'coming_soon' ? 'locked' : ''} ${lesson.key === currentKey ? 'active' : ''}" data-key="${lesson.key}">
-        <span>${lesson.id}. ${lesson.title}</span>
-        ${lesson.status === 'coming_soon' ? '<span class="lesson-badge">bald</span>' : ''}
+  function findLessonMeta(key) {
+    return lessons.find((l) => l.key === key);
+  }
+
+  function renderNavItem(key, title) {
+    const meta = findLessonMeta(key);
+    const status = meta ? meta.status : 'active';
+    return `
+      <li class="lesson-item ${status === 'coming_soon' ? 'locked' : ''} ${key === currentKey ? 'active' : ''}" data-key="${key}">
+        <span>${title}</span>
+        ${status === 'coming_soon' ? '<span class="lesson-badge">bald</span>' : ''}
       </li>
-    `).join('');
+    `;
+  }
+
+  function unitNavKey(unit) {
+    if (unit.type === 'existing_lesson_group') return unit.lesson_keys[0];
+    if (unit.type === 'existing_lesson') return unit.lesson_key;
+    return unit.id; // letter_group, diacritics, special_forms, consolidation -> eigener Schlüssel
+  }
+
+  function renderLessonList() {
+    if (!courses.length) {
+      // Fallback, falls courses.json einmal fehlen sollte: flache Liste wie zuvor.
+      lessonListEl.innerHTML = lessons.map((l) => renderNavItem(l.key, `${l.id}. ${l.title}`)).join('');
+    } else {
+      lessonListEl.innerHTML = courses.map((course) => `
+        <li class="course-header">${course.title}</li>
+        ${course.units.map((unit) => renderNavItem(unitNavKey(unit), unit.title)).join('')}
+      `).join('');
+    }
 
     lessonListEl.querySelectorAll('.lesson-item').forEach((el) => {
       el.addEventListener('click', () => navigateTo(el.dataset.key));
@@ -35,7 +72,7 @@ const App = (() => {
   }
 
   function navigateTo(key) {
-    const lesson = lessons.find((l) => l.key === key);
+    const lesson = findLessonMeta(key);
     if (!lesson) return;
 
     currentKey = key;
@@ -88,6 +125,7 @@ const App = (() => {
     await AppState.init();
     const pack = await AppState.getLanguagePack();
     lessons = pack.lessons.lessons;
+    courses = pack.courses ? pack.courses.courses : [];
     renderLessonList();
 
     document.getElementById('nav-settings').addEventListener('click', navigateToSettings);

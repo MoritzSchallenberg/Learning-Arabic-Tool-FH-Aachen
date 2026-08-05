@@ -70,6 +70,23 @@ function evaluateGermanAnswer(expected, given) {
   return 'wrong';
 }
 
+const RESULT_PRIORITY = ['correct_full', 'correct_no_diacritics', 'correct', 'typo', 'wrong'];
+
+/**
+ * Bewertet eine Antwort gegen mehrere akzeptierte richtige Antworten (Spec Kapitel 11.2:
+ * "mehrere richtige Antworten") und gibt das beste erreichte Ergebnis zurück.
+ * @param {string[]} expectedList
+ * @param {string} given
+ * @param {(expected: string, given: string) => string} evaluator - z. B. evaluateArabicAnswer
+ */
+function evaluateAgainstAny(expectedList, given, evaluator) {
+  const results = expectedList.map((expected) => evaluator(expected, given));
+  for (const priority of RESULT_PRIORITY) {
+    if (results.includes(priority)) return priority;
+  }
+  return 'wrong';
+}
+
 const DIFFICULTY_MIN = 1;
 const DIFFICULTY_MAX = 10;
 const DEFAULT_DIFFICULTY = 5;
@@ -79,9 +96,28 @@ function clampDifficulty(value) {
   return Math.max(DIFFICULTY_MIN, Math.min(DIFFICULTY_MAX, value));
 }
 
+// Spaced-Repetition-Intervalle (Spec Kapitel 12): sofort, 1, 3, 7, 14, 30 Tage. Fehlerhafte
+// Inhalte werden früher wiederholt (Stufe fällt auf 0 zurück statt nur um eine Stufe zu sinken).
+const REVIEW_INTERVALS_DAYS = [0, 1, 3, 7, 14, 30];
+
+function scheduleNextReview(card, skill, isCorrect) {
+  if (!card.reviewStage) card.reviewStage = {};
+  if (!card.nextReview) card.nextReview = {};
+
+  const currentStage = card.reviewStage[skill] ?? 0;
+  const nextStage = isCorrect ? Math.min(REVIEW_INTERVALS_DAYS.length - 1, currentStage + 1) : 0;
+  card.reviewStage[skill] = nextStage;
+
+  const next = new Date();
+  next.setDate(next.getDate() + REVIEW_INTERVALS_DAYS[nextStage]);
+  card.nextReview[skill] = next.toISOString();
+  return card.nextReview[skill];
+}
+
 /**
  * Passt die Schwierigkeit einer Karte für eine bestimmte Fähigkeit
- * (z. B. "arabic_to_german", "german_to_arabic", "pronunciation") an.
+ * (z. B. "arabic_to_german", "german_to_arabic", "pronunciation") an und plant die nächste
+ * Wiederholung (Spaced Repetition).
  * card.difficulty ist ein Objekt {skill: number}, card.consecutiveWrong ein Objekt {skill: number}.
  */
 function adjustDifficulty(card, skill, resultCategory) {
@@ -91,8 +127,9 @@ function adjustDifficulty(card, skill, resultCategory) {
   const current = card.difficulty[skill] ?? DEFAULT_DIFFICULTY;
   let next = current;
   let needsIntensiveReview = false;
+  const isCorrect = resultCategory === 'correct_full' || resultCategory === 'correct_no_diacritics' || resultCategory === 'correct';
 
-  if (resultCategory === 'correct_full' || resultCategory === 'correct_no_diacritics' || resultCategory === 'correct') {
+  if (isCorrect) {
     next = clampDifficulty(current - 2);
     card.consecutiveWrong[skill] = 0;
   } else if (resultCategory === 'typo') {
@@ -107,7 +144,8 @@ function adjustDifficulty(card, skill, resultCategory) {
   }
 
   card.difficulty[skill] = next;
-  return { difficulty: next, needsIntensiveReview };
+  const nextReview = scheduleNextReview(card, skill, isCorrect || resultCategory === 'typo');
+  return { difficulty: next, needsIntensiveReview, nextReview };
 }
 
 function sortByDifficultyShuffled(cardIds, getDifficulty) {
@@ -137,8 +175,10 @@ if (typeof module !== 'undefined' && module.exports) {
     levenshtein,
     evaluateArabicAnswer,
     evaluateGermanAnswer,
+    evaluateAgainstAny,
     adjustDifficulty,
     sortByDifficultyShuffled,
+    REVIEW_INTERVALS_DAYS,
     DEFAULT_DIFFICULTY
   };
 }

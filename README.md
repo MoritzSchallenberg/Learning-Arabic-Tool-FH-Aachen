@@ -51,9 +51,18 @@ automatisch ein GitHub-Release-Entwurf mit allen drei Installern angelegt.
   Nutzerdatenverzeichnis (`app.getPath('userData')/user_data/*.json`), getrennt von den
   Sprachinhalten in `language-packs/`.
 - **Sprachpakete:** Jede Sprache liegt als eigenständiger Ordner unter `language-packs/<sprache>/`
-  (`language.json`, `lessons.json`, `vocabulary.json`, `keyboard.json`, `grammar.json`,
-  `grammar_2.json`, `grammar_3.json`, `reading.json`, `tutorials/`). Weitere Sprachen lassen sich
-  später ergänzen, ohne die Hauptanwendung umzubauen.
+  (`language.json`, `lessons.json`, `courses.json`, `vocabulary.json`, `keyboard.json`,
+  `grammar.json`, `grammar_2.json`, `grammar_3.json`, `reading.json`, `tutorials/`). Weitere
+  Sprachen lassen sich später ergänzen, ohne die Hauptanwendung umzubauen.
+- **Kurs/Unit/Lesson-Struktur:** `courses.json` gruppiert die navigierbaren Inhalte in Kurse und
+  Units (nach dem vom Nutzer gelieferten Pflichtenheft), `lessons.json` bleibt die Registry für
+  Titel/Intro-Text/Status jedes einzelnen navigierbaren Schlüssels — auch für die neuen
+  Unit-Schlüssel (`unit_1` … `unit_10`). Details im Abschnitt "Kurs 1" weiter unten.
+- **Verbindungstrainer (`src/js/wordShaping.js` + `src/js/views/connectionTrainer.js`):**
+  berechnet die Kontextform (isoliert/Anfang/Mitte/Ende) jedes Buchstabens in einem Wort rein aus
+  der Buchstabenfolge und dem `joining`-Typ (`dual`/`right`, schon in `keyboard.json` vorhanden) —
+  keine gespeicherten Formen, keine Sprachannahmen, nur Unicode-Verbindungsregeln. Funktioniert
+  nur für Wörter aus den 28 arabischen Grundbuchstaben (kein ة/ء/لا).
 - **RTL/Bidi:** Kein selbstgebauter Algorithmus — Chromium implementiert den Unicode
   Bidirectional Algorithm sowie die arabische Zeichenverbindung (isoliert/Anfang/Mitte/Ende)
   nativ. In den Sprachdaten werden nur normale Unicode-Grundbuchstaben gespeichert, nie
@@ -71,18 +80,56 @@ automatisch ein GitHub-Release-Entwurf mit allen drei Installern angelegt.
   `german_to_arabic`, `pronunciation`, ...). Richtige Antworten senken die Schwierigkeit,
   Tippfehler/fehlende Vokalzeichen erhöhen sie leicht, falsche Antworten stärker; nach
   mehrfach falscher Antwort wird eine Karte für eine Intensivwiederholung markiert.
+- **Spaced Repetition (leichtgewichtig):** jede Karte bekommt zusätzlich pro Fähigkeit einen
+  `nextReview`-Zeitstempel nach der Intervall-Tabelle sofort/1/3/7/14/30 Tage (`srs.js`,
+  `scheduleNextReview`) — bei falscher Antwort fällt die Karte auf Stufe 0 zurück (frühere
+  Wiederholung), bei richtiger steigt sie eine Stufe. Reine JSON-Speicherung, keine SQLite-
+  Migration (der Stack wurde bewusst nicht gewechselt, siehe Kurs-1-Abschnitt unten).
+
+## Kurs 1: Arabische Schrift und erste Wörter (neue Kurs/Unit-Struktur)
+
+Auf Wunsch des Nutzers wurde ein zweites, sehr ausführliches Pflichtenheft ("Arabischlern-App
+Entwicklungsauftrag", ursprünglich für einen Python/PySide6/SQLite-Stack geschrieben) als
+Vorlage für die **Kurs/Unit/Lesson-Struktur** übernommen — der Electron/JS-Stack selbst bleibt
+unverändert, nur dieses Konstrukt sowie Buchstaben-Gruppierung, Verbindungstrainer,
+Lesson-Phasen und Spaced-Repetition-Intervalle wurden daraus adaptiert (Details siehe
+`.claude/plans/`-Verlauf bzw. Commit-Historie). Kurs 1 ersetzt inhaltlich die bisherige
+Lektion 2 ("Alphabet", bleibt als eigenständige, kompakte Alternativ-Ansicht erhalten, nur
+nicht mehr in der Seitenleiste verlinkt) durch 11 kleinteiligere Units:
+
+| Unit | Inhalt | Buchstaben |
+|---|---|---|
+| 0 | Einführung (= bisherige Lektion 0+1) | — |
+| 1 | Nicht weiterverbindende Buchstaben | ا د ذ ر ز و |
+| 2 | Ähnliche Grundformen | ب ت ث ن ي |
+| 3 | Drei ähnliche Formen | ج ح خ |
+| 4 | Punktunterschiede | س ش ص ض |
+| 5 | Emphatische Buchstaben | ط ظ |
+| 6 | Kehllaute | ع غ |
+| 7 | Restliche Buchstaben | ف ق ك ل م ه |
+| 8 | Kurze Vokale | Fatha, Kasra, Damma, Sukun, Schadda |
+| 9 | Lange Vokale & Sonderformen | ا/و/ي als Langvokal, Tāʾ marbūṭa, Hamza-Formen |
+| 10 | Konsolidierung | gemischte Übung über alle 28 Buchstaben + Verbindungstrainer |
+
+Units 1-7 laufen alle über dieselbe wiederverwendbare View (`letterGroupLesson.js`, Buchstaben-IDs
+als Parameter) mit 5 Phasen (Einführung, Wiedererkennen, Verbindungstrainer, Geführte Eingabe,
+Selbstständige Eingabe) — eine konkrete, vereinfachte Version der im Pflichtenheft beschriebenen
+9-Phasen-/5-Hilfestufen-Engine. Die volle generische Engine ist eine spätere Ausbaustufe. Kurs 2-5
+aus dem Pflichtenheft existieren als Navigations-Gruppierung (`courses.json`), verweisen aber
+inhaltlich noch auf die bestehenden Lektionen 3-11 unverändert.
 
 ## Umfang dieser Version
 
-**Alle 12 Lektionen der ursprünglichen Roadmap (0-11) sind jetzt vorhanden**, aber nicht alle im
-vollen dort beschriebenen Umfang — bei linguistisch riskanteren Themen wurde bewusst gekürzt,
-statt Inhalte ohne muttersprachliche Prüfung zu raten. Details je Lektion:
+**Alle 12 (Kurs-2-5-)Lektionen sowie Kurs 1 (Units 0-10) sind vorhanden**, aber nicht alles im
+vollen im Pflichtenheft beschriebenen Umfang — bei linguistisch riskanteren Themen wurde bewusst
+gekürzt, statt Inhalte ohne muttersprachliche Prüfung zu raten. Details je Bereich:
 
 | # | Lektion | Umfang |
 |---|---|---|
 | 0 | Einführung | Vollständig |
 | 1 | Tastatur-Tutorial | Vollständig (virtuelle Tastatur; physische Arabic-101-Belegung fehlt, siehe unten) |
-| 2 | Alphabet | Alle 28 Buchstaben, Kontextformen, 2 von 6 Übungstypen |
+| 1-10 | Kurs 1: Buchstaben-Units | Siehe Tabelle oben — 4 von 10 Verbindungstrainer-Aufgabentypen umgesetzt |
+| (2) | Alphabet (Alt-Ansicht) | Weiterhin vorhanden, aber nicht mehr in der Seitenleiste — durch Kurs-1-Units ersetzt |
 | 3 | Grundwortschatz I | ~90 Wörter, 10 Themen, Karteikarten beide Richtungen |
 | 4 | Grundgrammatik I | Nur 4 Themen (Artikel, Pronomen, Demonstrativa, Nominalsatz+Adjektiv) — Präpositionen, Besitzverbindungen, Fragen, Verneinung ausgelassen |
 | 5 | Hörverständnis I | 2 von 6 Übungstypen (Übersetzung zuordnen, Diktat); Bild-/Satzaufgaben und Buchstaben-Hörübungen fehlen |
@@ -151,3 +198,9 @@ Unterricht) sollte der Inhalt von jemandem mit Arabischkenntnissen gegengelesen 
   hörbar ist, hängt dann wieder vom Betriebssystem ab.
 - macOS-Installer (`.dmg`) lassen sich zuverlässig nur auf einem echten Mac oder über den
   GitHub-Actions-Workflow bauen, nicht direkt unter Windows/Linux.
+- Aus dem "Arabischlern-App Entwicklungsauftrag"-Pflichtenheft bewusst zurückgestellt (spätere
+  Runden): volle generische 9-Phasen-/5-Hilfestufen-Lesson-Engine (nur konkrete ~5-Phasen-Version
+  für Kurs-1-Units), alle 10 Verbindungstrainer-Aufgabentypen (nur 4 umgesetzt), Kurs 2-5 im
+  vollen Unit-Detail (bleiben vorerst die bestehenden Lektionen 3-11, nur umbenannt/gruppiert),
+  Kurspakete als eigenständig installierbare `.arabiccourse`-ZIP-Dateien (bleibt Ordnerstruktur),
+  Bilder/Wortfamilien/Minimalpaar-Audio-Aufgaben.
