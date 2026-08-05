@@ -65,7 +65,12 @@ automatisch ein GitHub-Release-Entwurf mit allen drei Installern angelegt.
   berechnet die Kontextform (isoliert/Anfang/Mitte/Ende) jedes Buchstabens in einem Wort rein aus
   der Buchstabenfolge und dem `joining`-Typ (`dual`/`right`, schon in `keyboard.json` vorhanden) —
   keine gespeicherten Formen, keine Sprachannahmen, nur Unicode-Verbindungsregeln. Funktioniert
-  nur für Wörter aus den 28 arabischen Grundbuchstaben (kein ة/ء/لا).
+  nur für Wörter aus den 28 arabischen Grundbuchstaben (kein ة/ء/لا). Deckt alle 10 im
+  Pflichtenheft genannten Aufgabentypen über 9 konkrete Übungsmechaniken ab (Kontextform per
+  Multiple-Choice wählen, Buchstabenname erkennen, Verbindungen/Trennstellen markieren,
+  Kontextform bestimmen, Wort zusammensetzen, falsche Reihenfolge erkennen, fehlenden Buchstaben
+  ergänzen, mit der Tastatur nachschreiben — "Wort zerlegen" und "Wort animiert zusammensetzen"
+  sind in der Zusammensetzen-Übung vereint).
 - **RTL/Bidi:** Kein selbstgebauter Algorithmus — Chromium implementiert den Unicode
   Bidirectional Algorithm sowie die arabische Zeichenverbindung (isoliert/Anfang/Mitte/Ende)
   nativ. In den Sprachdaten werden nur normale Unicode-Grundbuchstaben gespeichert, nie
@@ -110,16 +115,22 @@ nicht mehr in der Seitenleiste verlinkt) durch 11 kleinteiligere Units:
 | 5 | Emphatische Buchstaben | ط ظ |
 | 6 | Kehllaute | ع غ |
 | 7 | Restliche Buchstaben | ف ق ك ل م ه |
-| 8 | Kurze Vokale | Fatha, Kasra, Damma, Sukun, Schadda |
+| 8 | Kurze Vokale | Fatha, Kasra, Damma, Sukun, Schadda, Tanwin Fath/Kasr/Damm (alle 8) |
 | 9 | Lange Vokale & Sonderformen | ا/و/ي als Langvokal, Tāʾ marbūṭa, Hamza-Formen |
 | 10 | Konsolidierung | gemischte Übung über alle 28 Buchstaben + Verbindungstrainer |
 
 Units 1-7 laufen alle über dieselbe wiederverwendbare View (`letterGroupLesson.js`, Buchstaben-IDs
-als Parameter) mit 5 Phasen (Einführung, Wiedererkennen, Verbindungstrainer, Geführte Eingabe,
-Selbstständige Eingabe) — eine konkrete, vereinfachte Version der im Pflichtenheft beschriebenen
-9-Phasen-/5-Hilfestufen-Engine. Die volle generische Engine ist eine spätere Ausbaustufe. Kurs 2-5
-aus dem Pflichtenheft existieren als Navigations-Gruppierung (`courses.json`), verweisen aber
-inhaltlich noch auf die bestehenden Lektionen 3-11 unverändert.
+als Parameter) mit allen 9 im Pflichtenheft beschriebenen Lesson-Phasen: Einführung,
+Wiedererkennen, Zuordnen (Klick-Paare Buchstabe↔Name), Unterscheiden (Multiple-Choice mit
+Distraktoren nur aus derselben, formähnlichen Unit-Gruppe), Rekonstruieren (Verbindungstrainer),
+Geführte Eingabe, Selbstständige Produktion, Anwendung (welches Vokabelwort enthält diesen
+Buchstaben?) und Abschlussprüfung (gemischtes Mini-Quiz nur über die Unit-Buchstaben). In der
+Selbstständigen Produktion und der Abschlussprüfung ist der Buchstaben-Hinweis zunächst
+ausgeblendet und wird erst nach zwei Fehlversuchen in Folge automatisch eingeblendet — eine
+leichtgewichtige Umsetzung des Pflichtenheft-Prinzips "Hilfestufe bei Fehlern zurücksetzen"
+(keine vollständige 5-stufige A-E-Zustandsmaschine, aber dasselbe Grundprinzip). Kurs 2-5 aus dem
+Pflichtenheft existieren als Navigations-Gruppierung (`courses.json`), verweisen aber inhaltlich
+noch auf die bestehenden Lektionen 3-11 unverändert.
 
 ## Umfang dieser Version
 
@@ -131,7 +142,7 @@ gekürzt, statt Inhalte ohne muttersprachliche Prüfung zu raten. Details je Ber
 |---|---|---|
 | 0 | Einführung | Vollständig |
 | 1 | Tastatur-Tutorial | Vollständig (virtuelle Tastatur; physische Arabic-101-Belegung fehlt, siehe unten) |
-| 1-10 | Kurs 1: Buchstaben-Units | Siehe Tabelle oben — 4 von 10 Verbindungstrainer-Aufgabentypen umgesetzt |
+| 1-10 | Kurs 1: Buchstaben-Units | Siehe Tabelle oben — volle 9-Phasen-Engine, alle 10 Verbindungstrainer-Aufgabentypen umgesetzt |
 | (2) | Alphabet (Alt-Ansicht) | Weiterhin vorhanden, aber nicht mehr in der Seitenleiste — durch Kurs-1-Units ersetzt |
 | 3 | Grundwortschatz I | ~90 Wörter, 10 Themen, Karteikarten beide Richtungen |
 | 4 | Grundgrammatik I | Nur 4 Themen (Artikel, Pronomen, Demonstrativa, Nominalsatz+Adjektiv) — Präpositionen, Besitzverbindungen, Fragen, Verneinung ausgelassen |
@@ -205,8 +216,10 @@ Unterricht) sollte der Inhalt von jemandem mit Arabischkenntnissen gegengelesen 
 - macOS-Installer (`.dmg`) lassen sich zuverlässig nur auf einem echten Mac oder über den
   GitHub-Actions-Workflow bauen, nicht direkt unter Windows/Linux.
 - Aus dem "Arabischlern-App Entwicklungsauftrag"-Pflichtenheft bewusst zurückgestellt (spätere
-  Runden): volle generische 9-Phasen-/5-Hilfestufen-Lesson-Engine (nur konkrete ~5-Phasen-Version
-  für Kurs-1-Units), alle 10 Verbindungstrainer-Aufgabentypen (nur 4 umgesetzt), Kurs 2-5 im
-  vollen Unit-Detail (bleiben vorerst die bestehenden Lektionen 3-11, nur umbenannt/gruppiert),
-  Kurspakete als eigenständig installierbare `.arabiccourse`-ZIP-Dateien (bleibt Ordnerstruktur),
-  Bilder/Wortfamilien/Minimalpaar-Audio-Aufgaben.
+  Runden): physische Arabic-(101)-Tastaturbelegung/-umschaltung (Datenlage beim Nachrecherchieren
+  zu unzuverlässig, um sie ohne Fehlrisiko auszuliefern — bleibt bewusst auf die virtuelle
+  Tastatur beschränkt), Kurs 2-5 im vollen Unit-Detail (bleiben vorerst die bestehenden
+  Lektionen 3-11, nur umbenannt/gruppiert), Kurspakete als eigenständig installierbare
+  `.arabiccourse`-ZIP-Dateien (bleibt Ordnerstruktur), Bilder/Wortfamilien/Minimalpaar-
+  Audio-Aufgaben, eine vollständige 5-stufige A-E-Hilfestufen-Zustandsmaschine (aktuell: einfache
+  Zwei-Fehler-Regression in Selbstständiger Produktion/Abschlussprüfung je Buchstaben-Unit).

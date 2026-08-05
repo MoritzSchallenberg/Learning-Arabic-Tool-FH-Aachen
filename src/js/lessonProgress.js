@@ -55,7 +55,7 @@ const LessonProgress = (() => {
     }
     switch (key) {
       case 'unit_8':
-        return pack.language.diacritics.slice(0, 5).map((d) => `diacritic_${d.name}`);
+        return pack.language.diacritics.map((d) => `diacritic_${d.name}`);
       case 'unit_9':
         return pack.language.special_characters.map((s) => `special_char_${s.symbol}`);
       case 'unit_10': {

@@ -122,6 +122,7 @@ const Unit10View = (() => {
     ConnectionTrainer.mount(container.querySelector('#u10-connection'), {
       word: flagshipWord,
       keyboardLetters: letters,
+      types: 'all',
       onComplete: ({ correct, total }) => {
         phase = 2;
         renderFinal(correct, total);

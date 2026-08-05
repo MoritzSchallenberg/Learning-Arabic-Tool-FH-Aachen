@@ -21,7 +21,7 @@ const ShortVowelsView = (() => {
     container.innerHTML = `
       <div class="view">
         <h1>Unit 8: Kurze Vokale</h1>
-        <p class="lead">Fatha, Kasra, Damma, Sukun und Schadda lesen und hören.</p>
+        <p class="lead">Fatha, Kasra, Damma, Sukun, Schadda und die drei Tanwin-Endungen (Fath, Kasr, Damm) lesen und hören.</p>
         <div id="sv-body">${bodyHtml}</div>
         <div style="margin-top:24px; display:flex; gap:10px;">
           <button class="btn secondary" id="sv-back" ${phase === 0 ? 'disabled' : ''}>Zurück</button>
@@ -37,7 +37,7 @@ const ShortVowelsView = (() => {
   }
 
   function renderTable() {
-    const rows = diacritics.slice(0, 5).map((d) => `
+    const rows = diacritics.map((d) => `
       <tr><td class="arabic-text">${BASE_LETTER}${d.symbol}</td><td>${d.name}</td><td>${d.sound}</td></tr>
     `).join('');
     renderShell(`
@@ -49,7 +49,7 @@ const ShortVowelsView = (() => {
   }
 
   function renderExercise() {
-    const queue = pickRandomOrderShared(diacritics.slice(0, 5));
+    const queue = pickRandomOrderShared(diacritics);
     let index = 0;
 
     function next(body) {
@@ -58,7 +58,8 @@ const ShortVowelsView = (() => {
         return;
       }
       const item = queue[index];
-      const options = pickRandomOrderShared(diacritics.slice(0, 5));
+      const distractors = pickRandomOrderShared(diacritics.filter((d) => d.name !== item.name)).slice(0, 3);
+      const options = pickRandomOrderShared([item, ...distractors]);
       body.innerHTML = `
         <div class="card flashcard">
           <p class="lead">Wie heißt dieses Vokalzeichen?</p>

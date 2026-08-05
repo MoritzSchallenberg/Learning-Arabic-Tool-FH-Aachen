@@ -1,8 +1,19 @@
 // Verbindungstrainer (Spec-Kapitel 7). Eigenständige, wiederverwendbare Komponente, die ein
 // Wort als Parameter bekommt (kein eigener Lektionsschlüssel). Nutzt wordShaping.js für die
 // Formen-Berechnung. Nur Wörter aus den 28 Grundbuchstaben werden unterstützt (keine ة/ء/لا) —
-// siehe Hinweis in wordShaping.js. Umgesetzt: 4 von 10 im Pflichtenheft genannten Aufgabentypen
-// (Wort zusammensetzen, Buchstaben erkennen, Kontextform bestimmen, mit Tastatur nachschreiben).
+// siehe Hinweis in wordShaping.js. Umgesetzt: 9 Mechaniken, die alle 10 im Pflichtenheft
+// genannten Aufgabentypen abdecken (#6 "Buchstaben in Reihenfolge bringen" und #7 "Wort aus
+// Einzelbuchstaben zusammensetzen" sind dieselbe Nutzeraktion und laufen daher über einen
+// gemeinsamen Mechanismus — "assemble"):
+//   1 choose_form        — Verbundene Form aus Einzelbuchstaben auswählen
+//   2 recognize          — Einzelbuchstaben aus einem verbundenen Wort erkennen
+//   3 mark_connections   — Verbindungsstellen markieren
+//   4 find_break         — Unterbrechungsstelle(n) auswählen
+//   5 classify_form      — Anfangs-, Mittel- und Endform bestimmen
+//   6+7 assemble         — Buchstaben in Reihenfolge bringen / Wort zusammensetzen
+//   8 find_wrong         — Falsche Verbindung finden
+//   9 fill_missing       — Fehlenden Buchstaben ergänzen
+//   10 type              — Wort mit der virtuellen Tastatur nachschreiben
 
 const ConnectionTrainer = (() => {
   function pickRandomOrder(arr) {
@@ -212,20 +223,193 @@ const ConnectionTrainer = (() => {
     });
   }
 
+  // #1: Verbundene Form aus Einzelbuchstaben auswählen. Distraktoren sind dieselben Buchstaben
+  // in anderer (falscher) Reihenfolge — die Schrift-Engine formt jede Option automatisch korrekt,
+  // "falsch" bedeutet hier also eine andere Buchstabenfolge, nicht eine falsche Verbindungsform.
+  function shuffledVariant(letters) {
+    const target = letters.map((l) => l.letter).join('');
+    let attempt;
+    do {
+      attempt = pickRandomOrder(letters);
+    } while (attempt.map((l) => l.letter).join('') === target && letters.length > 1);
+    return attempt.map((l) => l.letter).join('');
+  }
+
+  function renderChooseForm(container, word, letters, allLetters, onDone) {
+    const target = letters.map((l) => l.letter).join('');
+    const variantCount = letters.length > 1 ? 3 : 1;
+    const distractors = Array.from({ length: variantCount }, () => shuffledVariant(letters));
+    const options = pickRandomOrder([target, ...new Set(distractors)].slice(0, 4));
+
+    container.innerHTML = `
+      <div class="card">
+        <p class="lead">Welche Schreibweise ist richtig verbunden (${word.meaning})?</p>
+        <div class="rating-buttons" id="ct-options"></div>
+        <p id="ct-feedback" class="feedback"></p>
+      </div>
+    `;
+    const optionsEl = container.querySelector('#ct-options');
+    options.forEach((opt) => {
+      const btn = document.createElement('button');
+      btn.className = 'btn secondary arabic-text';
+      btn.textContent = opt;
+      btn.addEventListener('click', () => {
+        const correct = opt === target;
+        const feedbackEl = container.querySelector('#ct-feedback');
+        feedbackEl.textContent = correct ? 'Richtig!' : `Nicht ganz. Richtig wäre: ${target}`;
+        feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+        setTimeout(() => onDone(correct), 1200);
+      });
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  // #3/#4: Verbindungsstellen bzw. Unterbrechungsstelle(n) markieren. Ein Übergang zwischen
+  // Buchstabe i und i+1 ist genau dann verbunden, wenn Buchstabe i selbst 'dual'-verbindend ist.
+  function renderJunctions(container, word, letters, allLetters, onDone, wantConnected) {
+    if (letters.length < 2) {
+      onDone(true);
+      return;
+    }
+    const junctionIsConnected = letters.slice(0, -1).map((l) => l.joining === 'dual');
+    const correctIndices = new Set(junctionIsConnected.map((c, i) => (c === wantConnected ? i : null)).filter((i) => i !== null));
+    let selected = new Set();
+
+    const instruction = wantConnected
+      ? 'Klicke auf alle Stellen, an denen sich zwei Buchstaben VERBINDEN.'
+      : 'Klicke auf alle Stellen, an denen die Verbindung UNTERBROCHEN wird.';
+
+    function render() {
+      const parts = [];
+      letters.forEach((l, i) => {
+        parts.push(`<span class="arabic-text large">${l.letter}</span>`);
+        if (i < letters.length - 1) {
+          parts.push(`<button type="button" class="btn secondary" data-junction="${i}" style="min-width:32px; ${selected.has(i) ? 'background:var(--color-accent); color:#0c1620;' : ''}">${selected.has(i) ? '✓' : '·'}</button>`);
+        }
+      });
+      container.innerHTML = `
+        <div class="card">
+          <p class="lead">${instruction}</p>
+          <div style="direction:rtl; display:flex; align-items:center; gap:6px; justify-content:center; margin:16px 0;">${parts.join('')}</div>
+          <div style="display:flex; gap:10px; justify-content:center;">
+            <button class="btn secondary" id="ct-check">Prüfen</button>
+          </div>
+          <p id="ct-feedback" class="feedback"></p>
+        </div>
+      `;
+      container.querySelectorAll('[data-junction]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.dataset.junction);
+          if (selected.has(idx)) selected.delete(idx); else selected.add(idx);
+          render();
+        });
+      });
+      container.querySelector('#ct-check').addEventListener('click', () => {
+        const correct = selected.size === correctIndices.size && [...selected].every((i) => correctIndices.has(i));
+        const feedbackEl = container.querySelector('#ct-feedback');
+        feedbackEl.textContent = correct ? 'Richtig!' : `Nicht ganz — gemeint waren die Stellen: ${[...correctIndices].join(', ') || 'keine'}`;
+        feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+        setTimeout(() => onDone(correct), 1400);
+      });
+    }
+    render();
+  }
+
+  function renderMarkConnections(container, word, letters, allLetters, onDone) {
+    renderJunctions(container, word, letters, allLetters, onDone, true);
+  }
+
+  function renderFindBreak(container, word, letters, allLetters, onDone) {
+    renderJunctions(container, word, letters, allLetters, onDone, false);
+  }
+
+  // #8: Falsche Verbindung finden — zwei Varianten zur Auswahl, eine korrekt, eine vertauscht.
+  function renderFindWrong(container, word, letters, allLetters, onDone) {
+    const target = letters.map((l) => l.letter).join('');
+    const wrongVariant = shuffledVariant(letters);
+    const options = pickRandomOrder([
+      { text: target, correct: false },
+      { text: wrongVariant, correct: true }
+    ]);
+
+    container.innerHTML = `
+      <div class="card">
+        <p class="lead">Welche der beiden Schreibweisen ist FALSCH (${word.meaning})?</p>
+        <div class="rating-buttons" id="ct-options"></div>
+        <p id="ct-feedback" class="feedback"></p>
+      </div>
+    `;
+    const optionsEl = container.querySelector('#ct-options');
+    options.forEach((opt) => {
+      const btn = document.createElement('button');
+      btn.className = 'btn secondary arabic-text';
+      btn.textContent = opt.text;
+      btn.addEventListener('click', () => {
+        const feedbackEl = container.querySelector('#ct-feedback');
+        feedbackEl.textContent = opt.correct ? 'Richtig!' : `Nicht ganz. Richtig wäre: ${wrongVariant}`;
+        feedbackEl.className = 'feedback ' + (opt.correct ? 'correct' : 'wrong');
+        setTimeout(() => onDone(opt.correct), 1200);
+      });
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  // #9: Fehlenden Buchstaben ergänzen.
+  function renderFillMissing(container, word, letters, allLetters, onDone) {
+    const shaped = shapeWord(letters);
+    const targetIndex = Math.floor(Math.random() * letters.length);
+    const spans = shaped.map((s, i) => (i === targetIndex ? '<span class="arabic-text large" style="color:var(--color-accent);">▢</span>' : `<span class="arabic-text large">${s.displayForm}</span>`)).join('');
+    const distractors = randomDistractorLetters(allLetters, [letters[targetIndex].id], 3);
+    const options = pickRandomOrder([letters[targetIndex], ...distractors]);
+
+    container.innerHTML = `
+      <div class="card">
+        <p class="lead">Welcher Buchstabe fehlt?</p>
+        <p style="text-align:center; direction:rtl;">${spans}</p>
+        <div class="rating-buttons" id="ct-options"></div>
+        <p id="ct-feedback" class="feedback"></p>
+      </div>
+    `;
+    const optionsEl = container.querySelector('#ct-options');
+    options.forEach((opt) => {
+      const btn = document.createElement('button');
+      btn.className = 'btn secondary arabic-text';
+      btn.textContent = opt.letter;
+      btn.addEventListener('click', () => {
+        const correct = opt.id === letters[targetIndex].id;
+        const feedbackEl = container.querySelector('#ct-feedback');
+        feedbackEl.textContent = correct ? 'Richtig!' : `Falsch. Richtig wäre: ${letters[targetIndex].letter}`;
+        feedbackEl.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+        setTimeout(() => onDone(correct), 1200);
+      });
+      optionsEl.appendChild(btn);
+    });
+  }
+
   const EXERCISE_RENDERERS = {
-    assemble: renderAssemble,
+    choose_form: renderChooseForm,
     recognize: renderRecognize,
+    mark_connections: renderMarkConnections,
+    find_break: renderFindBreak,
     classify_form: renderClassifyForm,
+    assemble: renderAssemble,
+    find_wrong: renderFindWrong,
+    fill_missing: renderFillMissing,
     type: renderType
   };
+
+  const ALL_TYPES = ['choose_form', 'recognize', 'mark_connections', 'find_break', 'classify_form', 'assemble', 'find_wrong', 'fill_missing', 'type'];
 
   /**
    * @param {HTMLElement} container
    * @param {{word: {arabic: string, meaning: string}, keyboardLetters: Array, types?: string[], skipDemo?: boolean, onComplete?: (result: {correct:number,total:number}) => void}} options
+   *   types: Liste der zu nutzenden Aufgabentypen. Ohne Angabe wird eine zufällige 4er-Auswahl
+   *   aus ALL_TYPES verwendet, damit eine einzelne Lesson nicht unnötig lang wird — über mehrere
+   *   Units/Aufrufe hinweg kommen so trotzdem alle Typen vor. `types: 'all'` nutzt alle 9.
    */
   function mount(container, options) {
     const { word, keyboardLetters, onComplete } = options;
-    const types = options.types || ['assemble', 'recognize', 'classify_form', 'type'];
+    const types = options.types === 'all' ? ALL_TYPES : (options.types || pickRandomOrder(ALL_TYPES).slice(0, 4));
     const plain = normalizeArabic(word.arabic);
     const letters = lettersFromWord(plain, keyboardLetters);
 

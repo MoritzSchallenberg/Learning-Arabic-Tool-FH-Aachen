@@ -51,9 +51,12 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
   Kurs 2-5 als Navigations-Gruppierung um die bestehenden Lektionen 3-11.
 - **~141 Vokabeln** über 21 Themenkategorien (Lektionen 3, 6, 8), inkl. Audio.
 - **Alphabet:** alle 28 Buchstaben, Kontextformen live berechnet (`wordShaping.js`), 2 Übungstypen
-  in der Alt-Ansicht + 5-Phasen-Lessons pro Buchstaben-Unit (Units 1-7).
-- **Verbindungstrainer:** 4 von 10 im Pflichtenheft genannten Aufgabentypen (zusammensetzen,
-  erkennen, Kontextform bestimmen, mit Tastatur schreiben), gegen mehrere Wörter verifiziert.
+  in der Alt-Ansicht + **volle 9-Phasen-Lessons** pro Buchstaben-Unit (Units 1-7): Einführung,
+  Wiedererkennen, Zuordnen, Unterscheiden, Rekonstruieren (Verbindungstrainer), Geführte Eingabe,
+  Selbstständige Produktion (mit Zwei-Fehler-Hinweis-Regression), Anwendung (Vokabelbezug),
+  Abschlussprüfung.
+- **Verbindungstrainer:** alle 10 im Pflichtenheft genannten Aufgabentypen über 9 konkrete
+  Mechaniken abgedeckt, gegen mehrere Wörter verifiziert.
 - **Grammatik:** bestimmter Artikel, Personalpronomen, Demonstrativa, Nominalsatz+Adjektiv,
   Verbformen (1 Beispielverb, Gegenwart/Vergangenheit), Präsens-Verneinung, Konjunktionen,
   Relativpronomen.
@@ -69,9 +72,9 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
 - **GitHub-Actions-Workflow** für automatische Windows/macOS/Linux-Builds.
 
 ### Bekannte Lücken (bewusst vertagt, nicht vergessen)
-- Volle 9-Phasen-/5-Hilfestufen-Lesson-Engine (aktuell: konkrete vereinfachte 5-Phasen-Version
-  nur für die Buchstaben-Units).
-- Restliche 6 der 10 Verbindungstrainer-Aufgabentypen.
+- Volle 5-stufige A-E-Hilfestufen-Zustandsmaschine (aktuell: einfache Zwei-Fehler-Regression je
+  Buchstaben-Unit in Selbstständiger Produktion/Abschlussprüfung — deckt dasselbe Grundprinzip
+  ab, aber nicht alle 5 Stufen einzeln).
 - Kurs 2-5 im vollen Unit-Detail (aktuell nur Navigations-Wrapper um bestehende Lektionen).
 - Physische Arabic-(101)-Tastaturbelegung/-umschaltung, Transliterationsmodus als echte Eingabe.
 - Kurspakete als eigenständig installier-/aktualisierbare `.arabiccourse`-ZIP-Dateien.
@@ -84,15 +87,14 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
 
 ## 4. Nächste Schritte (priorisiert)
 
-1. **Testen** — aktueller Stand durchklicken, v. a. Verbindungstrainer und neue Units, Fehler
-   zurückmelden.
+1. **Testen** — Kurs 1 (Units 0-10) sehr ausgiebig durchklicken: alle 9 Phasen je
+   Buchstaben-Unit, alle 9 Verbindungstrainer-Mechaniken (insbesondere in Unit 10, wo
+   `types: 'all'` alle 9 nacheinander zeigt), alle 8 Diakritika in Unit 8. Fehler zurückmelden.
 2. **Kurs 2-5 im Unit-Detail nachbauen**, analog zu Kurs 1.
-3. **Restliche Verbindungstrainer-Aufgabentypen** ergänzen.
-4. **Volle 9-Phasen-/5-Hilfestufen-Engine** statt der vereinfachten Version, inkl. automatischer
-   Hilfe-Rückstufung bei wiederholten Fehlern.
-5. **Wortschatz weiter ausbauen** (Richtung 200-300), weiterhin in geprüften Schritten.
-6. **Inhaltliche Prüfung durch jemanden mit Arabischkenntnissen.**
-7. Physische Arabic-101-Tastaturbelegung, Transliterationsmodus, Kurspakete als ZIP.
+3. **Wortschatz weiter ausbauen** (Richtung 200-300), weiterhin in geprüften Schritten.
+4. **Inhaltliche Prüfung durch jemanden mit Arabischkenntnissen.**
+5. Volle 5-stufige A-E-Hilfestufen-Zustandsmaschine (aktuell: einfache Zwei-Fehler-Regression).
+6. Physische Arabic-101-Tastaturbelegung, Transliterationsmodus, Kurspakete als ZIP.
 
 ## 5. Hinweise für die Weiterarbeit
 
