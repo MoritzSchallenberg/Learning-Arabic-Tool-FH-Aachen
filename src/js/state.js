@@ -13,6 +13,9 @@ const AppState = (() => {
     if (!progress[currentLanguageId]) {
       progress[currentLanguageId] = { cards: {} };
     }
+    if (!progress[currentLanguageId].lessonFlags) {
+      progress[currentLanguageId].lessonFlags = {};
+    }
   }
 
   function getSettings() {
@@ -41,6 +44,25 @@ const AppState = (() => {
     return progress[currentLanguageId].cards;
   }
 
+  // Für nicht karten-basierte Lektionen (Tutorials, Prüfung) — grobe Statusanzeige in der
+  // Seitenleiste (Spec Kapitel 13/20.3 "gesperrte und freigeschaltete Lessons", vereinfacht).
+  function getLessonFlag(key) {
+    return progress[currentLanguageId].lessonFlags[key] || null;
+  }
+
+  async function markLessonStarted(key) {
+    const flags = progress[currentLanguageId].lessonFlags;
+    if (!flags[key]) {
+      flags[key] = { status: 'started' };
+      await persistProgress();
+    }
+  }
+
+  async function markLessonCompleted(key, meta) {
+    progress[currentLanguageId].lessonFlags[key] = { status: 'completed', meta: meta || null };
+    await persistProgress();
+  }
+
   async function getLanguagePack(languageId = currentLanguageId) {
     if (!languagePackCache[languageId]) {
       languagePackCache[languageId] = await window.api.loadLanguagePack(languageId);
@@ -55,6 +77,9 @@ const AppState = (() => {
     getCard,
     persistProgress,
     getAllCards,
+    getLessonFlag,
+    markLessonStarted,
+    markLessonCompleted,
     getLanguagePack,
     get currentLanguageId() {
       return currentLanguageId;

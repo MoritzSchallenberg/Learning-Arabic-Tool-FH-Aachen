@@ -14,10 +14,8 @@ const SettingsView = (() => {
       <div class="view">
         <h1>Einstellungen</h1>
         <div class="card">
-          <h2>Eingabemodus</h2>
-          <label><input type="radio" name="settings-input-mode" value="virtual_keyboard" ${settings.inputMode === 'virtual_keyboard' ? 'checked' : ''} /> Virtuelle arabische Tastatur</label><br/>
-          <label style="opacity:0.5"><input type="radio" disabled /> Physische Tastaturbelegung (folgt später)</label><br/>
-          <label style="opacity:0.5"><input type="radio" disabled /> Transliterationsmodus (folgt später)</label>
+          <h2>Eingabe</h2>
+          <p style="margin:0;">⌨️ Arabisch wird über die virtuelle arabische Tastatur eingegeben.</p>
         </div>
         <div class="card">
           <h2>Vokalzeichen &amp; Audio</h2>
@@ -29,9 +27,6 @@ const SettingsView = (() => {
       </div>
     `;
 
-    container.querySelectorAll('input[name="settings-input-mode"]').forEach((el) => {
-      el.addEventListener('change', () => AppState.updateSettings({ inputMode: el.value }));
-    });
     container.querySelector('#settings-show-diacritics').addEventListener('change', (e) => {
       AppState.updateSettings({ showDiacritics: e.target.checked });
     });

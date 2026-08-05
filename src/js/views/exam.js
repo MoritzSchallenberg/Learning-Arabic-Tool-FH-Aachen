@@ -69,6 +69,7 @@ const ExamView = (() => {
       .join('');
     const totalCorrect = Object.values(scoreByArea).reduce((sum, s) => sum + s.correct, 0);
     const totalCount = Object.values(scoreByArea).reduce((sum, s) => sum + s.total, 0);
+    AppState.markLessonCompleted('review_exam', { correct: totalCorrect, total: totalCount });
 
     container.innerHTML = `
       <div class="view">
@@ -130,6 +131,7 @@ const ExamView = (() => {
   async function mount(el) {
     container = el;
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
+    AppState.markLessonStarted('review_exam');
     const pack = await AppState.getLanguagePack();
 
     const letters = pack.keyboard.letters;

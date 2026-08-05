@@ -10,8 +10,8 @@
     {
       "id": "input_mode_choice",
       "type": "input_mode_choice",
-      "title": "Eingabemodus wählen",
-      "text": "In dieser Version steht die virtuelle arabische Tastatur zur Verfügung. Weitere Eingabemodi (physische Tastaturbelegung, Transliteration) folgen in einer späteren Version."
+      "title": "Wie du schreibst",
+      "text": "Arabisch wird über die virtuelle arabische Tastatur eingegeben."
     },
     {
       "id": "tts_test",

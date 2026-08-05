@@ -5,6 +5,9 @@ Ein modularer, lokal laufender Vokabel- und Sprachtrainer. Erstes Sprachmodul: *
 macOS und Linux — ohne dass Nutzer:innen Python, Java oder eine Datenbank installieren müssen.
 Alle Lerninhalte und der persönliche Fortschritt werden vollständig lokal gespeichert.
 
+**Für die Weiterarbeit an diesem Projekt:** siehe [`ROADMAP.md`](ROADMAP.md) — Zielvision,
+aktueller Stand und priorisierte nächste Schritte an einem Ort.
+
 ## Für Nutzer:innen (fertige App)
 
 Sobald Installer über GitHub Actions gebaut wurden (siehe unten), reicht:
@@ -144,7 +147,10 @@ Zusätzlich vorhanden: echte ausgelieferte Aussprache-Audiodateien (espeak-ng od
 Architektur-Abschnitt), Statistik-Ansicht (📊), pro Fähigkeit getrennte Schwierigkeitsanpassung,
 lokale JSON-Speicherung, sowie ein kurzer **Info-Screen vor jeder Lektion** (Titel + Ablauf, z. B.
 "zuerst Vokabeln lernen, danach Aussprache einschätzen"), bevor es mit "Los geht's" zur eigentlichen
-Lektion geht.
+Lektion geht. Jede Lektion/Unit zeigt außerdem einen **Fortschritts-Farbpunkt** in der
+Seitenleiste: grau = noch nicht begonnen, gelb = in Bearbeitung, grün = bestanden (Ø-Schwierigkeit
+über alle zugehörigen Karten ≤ 3,5), rot = schwierig/eher falsch beantwortet (Ø ≥ 6,5) —
+`src/js/lessonProgress.js`.
 
 Der Wortschatz umfasst aktuell **141 Wörter** (Lektionen 3/6/8 zusammen) — geplant ist eine
 schrittweise Erweiterung auf 200-300, in weiteren, jeweils sorgfältig geprüften Schritten statt

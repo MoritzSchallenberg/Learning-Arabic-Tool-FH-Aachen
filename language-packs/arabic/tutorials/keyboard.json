@@ -11,7 +11,7 @@
       "id": 2,
       "title": "Einzelne Buchstaben eingeben",
       "type": "single_letter_practice",
-      "text": "Finde den gesuchten Buchstaben auf der virtuellen arabischen Tastatur und tippe ihn an. Eine Übersicht für die physische Tastaturbelegung (z. B. Arabic (101)) folgt in einer späteren Version.",
+      "text": "Finde den gesuchten Buchstaben auf der virtuellen arabischen Tastatur und tippe ihn an.",
       "letter": "ب"
     },
     {
@@ -37,9 +37,9 @@
     },
     {
       "id": 6,
-      "title": "Eingabemodus auswählen",
+      "title": "Deine Eingabehilfe",
       "type": "input_mode_selection",
-      "text": "Welche Eingabehilfe möchtest du verwenden? Die Auswahl kann später jederzeit in den Einstellungen geändert werden."
+      "text": "Damit schreibst du in dieser App Arabisch:"
     }
   ]
 }

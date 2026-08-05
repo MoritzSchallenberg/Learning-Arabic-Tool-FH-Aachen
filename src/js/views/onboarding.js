@@ -19,9 +19,7 @@ const OnboardingView = (() => {
         return `
           <p>${step.text}</p>
           <div class="card">
-            <label><input type="radio" name="input-mode" value="virtual_keyboard" checked /> Virtuelle arabische Tastatur</label><br/>
-            <label style="opacity:0.5"><input type="radio" disabled /> Physische Tastaturbelegung (folgt später)</label><br/>
-            <label style="opacity:0.5"><input type="radio" disabled /> Transliterationsmodus (folgt später)</label>
+            <p style="margin:0;">⌨️ Du schreibst Arabisch über die virtuelle arabische Tastatur, die bei jeder Eingabe automatisch erscheint.</p>
           </div>
         `;
       case 'tts_test':
@@ -60,13 +58,6 @@ const OnboardingView = (() => {
       });
     }
 
-    const modeInputs = container.querySelectorAll('input[name="input-mode"]');
-    modeInputs.forEach((el) => {
-      el.addEventListener('change', () => {
-        AppState.updateSettings({ inputMode: el.value });
-      });
-    });
-
     const diacriticsToggle = container.querySelector('#diacritics-toggle');
     if (diacriticsToggle) {
       diacriticsToggle.addEventListener('change', () => {
@@ -103,6 +94,7 @@ const OnboardingView = (() => {
         stepIndex += 1;
         render(container);
       } else {
+        AppState.markLessonCompleted('onboarding');
         App.navigateTo('keyboard_tutorial');
       }
     });
@@ -110,6 +102,7 @@ const OnboardingView = (() => {
 
   async function mount(container) {
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
+    AppState.markLessonStarted('onboarding');
     const pack = await AppState.getLanguagePack();
     steps = pack.tutorials.introduction.steps;
     stepIndex = 0;

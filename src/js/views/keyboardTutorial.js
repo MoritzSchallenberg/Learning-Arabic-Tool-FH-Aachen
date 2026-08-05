@@ -71,14 +71,10 @@ const KeyboardTutorialView = (() => {
   }
 
   function renderInputModeSelection(step) {
-    const settings = AppState.getSettings();
     return `
       <p>${step.text}</p>
       <div class="card">
-        <label><input type="radio" name="kt-input-mode" value="virtual_keyboard" ${settings.inputMode === 'virtual_keyboard' ? 'checked' : ''} /> Virtuelle arabische Tastatur</label><br/>
-        <label style="opacity:0.5"><input type="radio" disabled /> Deutsche Tastatur mit Belegungshilfe (folgt später)</label><br/>
-        <label style="opacity:0.5"><input type="radio" disabled /> Transliterationsmodus (folgt später)</label><br/>
-        <label style="opacity:0.5"><input type="radio" disabled /> Arabisches Systemlayout (folgt später)</label>
+        <p style="margin:0;">⌨️ Du schreibst Arabisch über die virtuelle arabische Tastatur — sie erscheint automatisch bei jeder Eingabeaufgabe.</p>
       </div>
     `;
   }
@@ -124,12 +120,6 @@ const KeyboardTutorialView = (() => {
       });
     }
 
-    const modeInputs = container.querySelectorAll('input[name="kt-input-mode"]');
-    modeInputs.forEach((el) => {
-      el.addEventListener('change', () => {
-        AppState.updateSettings({ inputMode: el.value });
-      });
-    });
   }
 
   function render(container) {
@@ -160,6 +150,7 @@ const KeyboardTutorialView = (() => {
         sectionIndex += 1;
         render(container);
       } else {
+        AppState.markLessonCompleted('keyboard_tutorial');
         App.navigateTo('unit_1');
       }
     });
@@ -167,6 +158,7 @@ const KeyboardTutorialView = (() => {
 
   async function mount(container) {
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
+    AppState.markLessonStarted('keyboard_tutorial');
     languagePack = await AppState.getLanguagePack();
     sections = languagePack.tutorials.keyboard.sections;
     sectionIndex = 0;

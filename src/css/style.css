@@ -95,6 +95,19 @@ html, body {
   font-size: 0.88rem;
 }
 
+.status-dot {
+  flex: 0 0 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #5a5a63;
+}
+
+.status-dot.grey { background: #5a5a63; }
+.status-dot.yellow { background: var(--color-typo); }
+.status-dot.green { background: var(--color-correct); }
+.status-dot.red { background: var(--color-wrong); }
+
 .lesson-item:hover {
   background: var(--color-surface-alt);
 }

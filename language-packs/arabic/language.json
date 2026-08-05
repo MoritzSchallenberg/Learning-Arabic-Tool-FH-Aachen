@@ -4,15 +4,7 @@
   "variant": "Modernes Hocharabisch (MSA)",
   "direction": "rtl",
   "default_keyboard": "arabic_101",
-  "available_input_modes": [
-    "virtual_keyboard",
-    "transliteration",
-    "assisted_layout",
-    "system_layout"
-  ],
-  "implemented_input_modes": [
-    "virtual_keyboard"
-  ],
+  "input_mode": "virtual_keyboard",
   "special_characters": [
     { "symbol": "ء", "name": "Hamza (alleinstehend)" },
     { "symbol": "أ", "name": "Hamza auf Alif" },

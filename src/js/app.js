@@ -8,6 +8,20 @@ const App = (() => {
   let lessons = [];
   let courses = [];
   let currentKey = null;
+  let pack = null;
+
+  const STATUS_CLASS = {
+    not_started: 'grey',
+    in_progress: 'yellow',
+    passed: 'green',
+    failed: 'red'
+  };
+  const STATUS_TITLE = {
+    not_started: 'Noch nicht begonnen',
+    in_progress: 'In Bearbeitung',
+    passed: 'Bestanden',
+    failed: 'Schwierig — nochmal üben'
+  };
 
   const VIEW_BY_KEY = {
     onboarding: { view: OnboardingView },
@@ -41,8 +55,11 @@ const App = (() => {
   function renderNavItem(key, title) {
     const meta = findLessonMeta(key);
     const status = meta ? meta.status : 'active';
+    const progress = pack ? LessonProgress.getStatus(key, pack) : 'not_started';
+    const dotClass = STATUS_CLASS[progress] || 'grey';
     return `
       <li class="lesson-item ${status === 'coming_soon' ? 'locked' : ''} ${key === currentKey ? 'active' : ''}" data-key="${key}">
+        <span class="status-dot ${dotClass}" title="${STATUS_TITLE[progress] || ''}"></span>
         <span>${title}</span>
         ${status === 'coming_soon' ? '<span class="lesson-badge">bald</span>' : ''}
       </li>
@@ -123,7 +140,7 @@ const App = (() => {
 
   async function init() {
     await AppState.init();
-    const pack = await AppState.getLanguagePack();
+    pack = await AppState.getLanguagePack();
     lessons = pack.lessons.lessons;
     courses = pack.courses ? pack.courses.courses : [];
     renderLessonList();
