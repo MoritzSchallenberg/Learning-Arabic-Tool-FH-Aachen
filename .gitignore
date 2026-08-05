@@ -1,7 +1,40 @@
+# Abhängigkeiten und Build-Ausgaben — werden per npm install/npm run build neu erzeugt.
 node_modules/
 dist/
+
+# Python-Cache der Audio-Erzeugungsskripte (scripts/generate_audio*.py).
+__pycache__/
+scripts/__pycache__/
+*.pyc
+
+# Temporäre Dateien/Backups (u. a. von src/js/progressStore.js: *.tmp-*/*.bak-Muster,
+# falls je während Tests/Entwicklung versehentlich im Repo statt im userData-Verzeichnis
+# erzeugt).
+*.tmp
+*.tmp-*
+*.bak
+tmp/
+
+# Nutzerdaten dürfen nie versioniert werden (liegen normalerweise ohnehin außerhalb des Repos
+# unter app.getPath('userData'), dieser Eintrag ist eine zusätzliche Absicherung).
+user_data/
+*.progress.json
+
+# Audio-Cache/-Zwischendateien, die generate_audio*.py beim Erzeugen anlegen könnte.
+audio_cache/
+*.audio-tmp
+
+# Kurspakete (.arabiccourse-ZIPs, Meilenstein C) werden als Release-Artefakte verteilt, nicht
+# im Quellcode-Repository versioniert. Allgemeine Export-/Backup-ZIPs ebenfalls ausschließen.
+*.arabiccourse
+*.zip
+
+# Logs, OS-/Editor-Artefakte.
 *.log
 .DS_Store
+Thumbs.db
+.vscode/
+*.swp
+
+# Von Claude Code genutztes Arbeitsverzeichnis.
 .claude/
-__pycache__/
-*.pyc

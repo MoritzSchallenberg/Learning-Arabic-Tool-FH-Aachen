@@ -41,32 +41,41 @@ Ergebnisse landen im Ordner `dist/`.
 ### Tests und Lint
 
 ```bash
-npm test              # alle Tests (Unit + Integration)
-npm run test:unit     # nur Unit-Tests
-npm run test:integration  # nur Integrationstests
-npm run lint           # JS-Syntax, JSON-Validität, globale Namenskollisionen
+npm test                  # alle Tests (Unit + Integration)
+npm run test:unit         # nur Unit-Tests (test/unit/*.test.js)
+npm run test:integration  # nur Integrationstests (test/integration/*.test.js)
+npm run lint              # JS-Syntax, JSON-Validität, globale Namenskollisionen
+npm run validate:course   # Kursdaten-Konsistenz: doppelte IDs, fehlende Audios, Querverweise
 ```
 
 Läuft komplett offline mit dem in Node eingebauten Test-Runner (`node:test`/`node:assert`) —
 keine zusätzlichen Test-Abhängigkeiten, kein `npm install` über die ohnehin für Electron/
-electron-builder nötigen Pakete hinaus. Ein fehlgeschlagener Test liefert einen Exit-Code
-ungleich 0 (z. B. für CI). Getestet werden u. a.: arabische Normalisierung und
-Antwortbewertungsprofile (`test/unit/srs.test.js`, ≥30 arabische Vergleichsfälle), Unicode-
-sicheres Tastatur-Löschen (`test/unit/textEditing.test.js`), die virtuelle Tastatur
-End-zu-Ende inkl. Tastenzuordnung (`test/unit/virtualKeyboard.test.js`), die
-Antwortsperre/Timer-Aufräumung (`test/unit/exerciseGuard.test.js` sowie End-zu-Ende-Tests gegen
-die echte `letterGroupLesson.js`/`connectionTrainer.js`-Logik), und atomare/versionierte
+electron-builder nötigen Pakete hinaus. Ein fehlgeschlagener Test/eine fehlgeschlagene
+Validierung liefert einen Exit-Code ungleich 0 (z. B. für CI). Getestet werden u. a.: arabische
+Normalisierung und Antwortbewertungsprofile (`test/unit/srs.test.js`, ≥30 arabische
+Vergleichsfälle), Unicode-sicheres Tastatur-Löschen (`test/unit/textEditing.test.js`), die
+virtuelle Tastatur End-zu-Ende inkl. Tastenzuordnung und Tastatur-Lernstufen 1-4
+(`test/unit/virtualKeyboard.test.js`), die Antwortsperre/Timer-Aufräumung
+(`test/unit/exerciseGuard.test.js` sowie End-zu-Ende-Tests gegen die echte
+`letterGroupLesson.js`/`connectionTrainer.js`/`freePractice.js`-Logik), atomare/versionierte
 Fortschrittsspeicherung inkl. Migration realer Nutzerdaten (`test/unit/progressStore.test.js`,
-`test/integration/realProgressMigration.test.js`). `test/helpers/domStub.js` stellt dafür einen
-kleinen, abhängigkeitsfreien DOM-Stub mit echtem (wenn auch minimalem) HTML-Parser bereit —
-bewusst kein jsdom, damit `npm test` ohne zusätzliche Downloads läuft.
+`test/integration/realProgressMigration.test.js`), Hilfestufen A-E (`test/unit/helpLevel.test.js`),
+die echte Review Queue (`test/unit/reviewScheduler.test.js`), TheoryRenderer
+(`test/unit/theoryRenderer.test.js`) und die Fortschritts-/Kompetenzbalken inkl. Regressionstest
+für den behobenen Anzeigefehler (`test/unit/progressStats.test.js`, `test/unit/statistics.test.js`).
+`test/helpers/domStub.js` stellt dafür einen kleinen, abhängigkeitsfreien DOM-Stub mit echtem
+(wenn auch minimalem) HTML-Parser und CSS-Selektor-Matching bereit — bewusst kein jsdom, damit
+`npm test` ohne zusätzliche Downloads läuft.
 
 ### Automatischer Multi-Plattform-Build (GitHub Actions)
 
-`.github/workflows/build.yml` baut bei jedem Push automatisch auf gehosteten Windows-, macOS- und
-Linux-Runnern und lädt die fertigen Installer als Workflow-Artifacts hoch — ohne dass dafür lokal
-ein Windows- oder Mac-Rechner nötig ist. Bei einem Git-Tag (z. B. `v0.1.0`) wird zusätzlich
-automatisch ein GitHub-Release-Entwurf mit allen drei Installern angelegt.
+`.github/workflows/build.yml` (im Repository vorhanden, nicht nur geplant) läuft bei jedem Push
+in zwei Stufen: zuerst `npm ci` + `npm run lint` + `npm run validate:course` + `npm test` auf
+einem Linux-Runner (der Build startet nur, wenn das grün ist), danach der eigentliche Build auf
+gehosteten Windows-, macOS- und Linux-Runnern, deren Installer als Workflow-Artifacts hochgeladen
+werden — ohne dass dafür lokal ein Windows- oder Mac-Rechner nötig ist. Bei einem Git-Tag (z. B.
+`v0.1.0`) wird zusätzlich automatisch ein GitHub-Release-Entwurf mit allen drei Installern
+angelegt.
 
 ## Architektur
 
@@ -281,11 +290,60 @@ Meilenstein: [`ROADMAP.md`](ROADMAP.md), Abschnitt 6). In dieser Runde umgesetzt
 - **Automatisierte Tests eingerichtet:** `npm test`/`npm run lint`, komplett offline mit dem in
   Node eingebauten Test-Runner (siehe Abschnitt "Tests und Lint" oben).
 
-Noch nicht angegangen (siehe ROADMAP für die vollständige, priorisierte Liste): modulares
-Kurspaket-Format, generische datenbasierte Lesson-Engine, Hilfestufen A-E als allgemeines
-System, Tastatur-Lernstufen, freier Übungsmodus, Review-Queue-gesteuerte Wiederholungsauswahl,
-Sicherheitshärtung externer Kursinhalte, Release-Dateien (LICENSE, CONTRIBUTING.md, ...), CI-
-Workflow für Tests.
+## Meilenstein A+B: Bestand korrigieren + Lernarchitektur (Entwicklungsauftrag 3)
+
+Dritter Entwicklungsauftrag: Kurs 1 zu einem vollständigen Grundkurs mit ~900 Vokabeln
+ausbauen. Diese Runde deckt ausschließlich Meilenstein A (Bestand korrigieren) und Meilenstein B
+(Lernarchitektur) ab — die Vokabel-Migration/-Erweiterung folgt erst danach (siehe
+[`ROADMAP.md`](ROADMAP.md), Abschnitt 7, für den vollständigen Stand je Meilenstein A-G).
+
+**Meilenstein A:**
+- `npm test`/`npm run test:unit`/`test:integration` laufen jetzt über konkrete Dateimuster
+  (`test/unit/*.test.js`) statt Verzeichnispfade.
+- `.github/workflows/build.yml` existierte bereits im Repository (die Behauptung, sie fehle,
+  ließ sich nicht nachvollziehen — vermutlich stammte sie aus einem Export ohne Punktordner);
+  um einen vorgeschalteten Test-Job erweitert: `npm ci` → `npm run lint` →
+  `npm run validate:course` → `npm test`, erst danach die Build-Matrix (Windows/Linux/macOS).
+- `.gitignore` erweitert, `LICENSE` (MIT), [`LICENSES.md`](LICENSES.md) (Code/Kursinhalte/Audio
+  getrennt dokumentiert, inkl. offenem Klärungsbedarf bei ElevenLabs-Audiolizenzen),
+  `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md` neu erstellt.
+- `npm run validate:course` (`scripts/validateCourse.js`) neu: prüft doppelte IDs, fehlende
+  Audiodateien, Buchstaben-/Lesson-Querverweise; unterscheidet harte Fehler (Exit-Code 1) von
+  informativen Hinweisen zu noch nicht begonnenen späteren Meilensteinen.
+
+**Meilenstein B** (Details siehe ROADMAP):
+- **TheoryRenderer** (`src/js/theoryRenderer.js`): blockbasierte Theorieseiten (11 Blocktypen),
+  ausschließlich über `textContent`/`createElement` gerendert — nie `innerHTML` mit Kursdaten,
+  wichtig für später importierbare Kurspakete. Zwei Darstellungsstufen ("Kurz erklärt"/"Mehr
+  erfahren"), Theoriefortschritt wird gespeichert.
+- **Hilfestufen A-E** (`src/js/helpLevel.js`) als generisches System: 2 Fehler in Folge → mehr
+  Hilfe, 3 richtige in Folge → weniger Hilfe.
+- **Tastatur-Lernstufen 1-4** in `virtualKeyboard.js`: die nächste erwartete Taste wird optisch
+  hervorgehoben (aus der Zielantwort + Cursorposition berechnet, nie zur automatischen
+  Auswertung verwendet), reagiert auch auf physische Tastatureingabe; Stufe 4 blendet die
+  virtuelle Tastatur aus, jederzeit wieder einblendbar.
+- **Echte Review Queue** (`src/js/reviewScheduler.js`): nutzt die vorhandenen SRS-Felder
+  tatsächlich zur Auswahl (fällig → häufig falsch → niedrige Beherrschung → neue Wörter im
+  einstellbaren Tageslimit 5/10/15/20) — treibt den neuen **freien Übungsmodus**
+  (`src/js/views/freePractice.js`, Sidebar "🎯 Frei üben") und die neue **Startseite**
+  (`src/js/views/dashboard.js`, Sidebar "🏠 Start") an, beide bereits jetzt mit den
+  vorhandenen 28 Buchstaben + 141 Vokabeln nutzbar.
+- **Fortschritts-/Kompetenzbalken** (`src/js/progressStats.js`): behebt dabei einen
+  bestehenden Anzeigefehler in der Statistik-Ansicht — die Schwierigkeits-Meter füllten sich
+  bisher mit steigender Schwierigkeit, was optisch wie Fortschritt aussah, obwohl höhere
+  Schwierigkeit schlechter bedeutet. Beherrschung (grün, höher = besser) und Schwierigkeit
+  (rot, höher = schwieriger) sind jetzt klar getrennte Balken; ein Wort zählt nur anteilig als
+  beherrscht, wenn nur eine von mehreren Fähigkeiten trainiert wurde.
+
+**Bewusst zurückgestellt** (Begründung siehe ROADMAP Abschnitt 7): die generische,
+datenbasierte Session Engine sowie Session-Wiederaufnahme mit einem echten Verbraucher — beide
+benötigten Bausteine (TheoryRenderer, HelpLevel, Tastaturstufen, ReviewScheduler,
+Speicherschicht in `state.js`) sind fertig, ihr Zusammenbau zu einer vollständigen 9-Phasen-
+Session-Orchestrierung wird auf Meilenstein D verschoben, sobald reale Session-Inhalte im
+neuen Vokabel-Datenmodell existieren, statt gegen erfundene Beispieldaten zu entwerfen.
+Ebenfalls offen: `evaluateAgainstAny()` in echten Aufgaben (erst mit den neuen
+`accepted_arabic_answers`-Feldern sinnvoll), Verbindungstrainer mit echten visuellen
+Verbindungsfehlern, weiterer Ausbau von Units 8-10, vollständige Einstellungs-Prüfung.
 
 ## Bekannte Einschränkungen
 
@@ -294,11 +352,12 @@ Workflow für Tests.
   hörbar ist, hängt dann wieder vom Betriebssystem ab.
 - macOS-Installer (`.dmg`) lassen sich zuverlässig nur auf einem echten Mac oder über den
   GitHub-Actions-Workflow bauen, nicht direkt unter Windows/Linux.
-- Aus dem "Arabischlern-App Entwicklungsauftrag"-Pflichtenheft bewusst zurückgestellt (spätere
-  Runden): physische Arabic-(101)-Tastaturbelegung/-umschaltung (Datenlage beim Nachrecherchieren
-  zu unzuverlässig, um sie ohne Fehlrisiko auszuliefern — bleibt bewusst auf die virtuelle
-  Tastatur beschränkt), Kurs 2-5 im vollen Unit-Detail (bleiben vorerst die bestehenden
-  Lektionen 3-11, nur umbenannt/gruppiert), Kurspakete als eigenständig installierbare
-  `.arabiccourse`-ZIP-Dateien (bleibt Ordnerstruktur), Bilder/Wortfamilien/Minimalpaar-
-  Audio-Aufgaben, eine vollständige 5-stufige A-E-Hilfestufen-Zustandsmaschine (aktuell: einfache
-  Zwei-Fehler-Regression in Selbstständiger Produktion/Abschlussprüfung je Buchstaben-Unit).
+- Bewusst zurückgestellt (spätere Runden, siehe ROADMAP für Details): physische
+  Arabic-(101)-Tastaturbelegung/-umschaltung (Datenlage beim Nachrecherchieren zu unzuverlässig
+  — bleibt bewusst auf die virtuelle Tastatur beschränkt, die dafür jetzt 4 Lernstufen
+  unterstützt), Kurs 2-5 im vollen Unit-Detail (bleiben vorerst die bestehenden Lektionen 3-11,
+  nur umbenannt/gruppiert), Kurspakete als eigenständig installierbare `.arabiccourse`-
+  ZIP-Dateien (bleibt Ordnerstruktur), Bilder/Wortfamilien/Minimalpaar-Audio-Aufgaben, die
+  generische datenbasierte Session Engine (Bausteine fertig, Zusammenbau folgt mit der
+  Vokabel-Migration), Verbindungstrainer mit echten visuellen Verbindungsfehlern statt reiner
+  Buchstaben-Umsortierung.

@@ -76,14 +76,27 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
   Bewertungsprofile statt festem Levenshtein-Grenzwert, atomare/versionierte
   Fortschrittsspeicherung mit Migration, 115 automatisierte Tests (`npm test`/`npm run lint`,
   komplett offline). Details: Abschnitt 6.
+- **Meilenstein A+B aus Entwicklungsauftrag 3 größtenteils abgeschlossen:** Release-Dateien
+  (LICENSE/LICENSES.md/CONTRIBUTING/CODE_OF_CONDUCT/SECURITY), CI-Workflow mit vorgeschaltetem
+  Test-Job, `npm run validate:course`, generisches Hilfestufen-A-E-System, Tastatur-Lernstufen
+  1-4, echte Review Queue (Tageslimit einstellbar), TheoryRenderer (blockbasiert, textContent-
+  only), freier Übungsmodus mit Filtern/Schnellzugriffen, Startseite mit Fortschritts-/
+  Wiederholungs-Übersicht, Fortschritts-/Kompetenzbalken (dabei einen bestehenden Anzeigefehler
+  behoben: Schwierigkeits-Meter sahen vorher wie Fortschrittsbalken aus, obwohl höher=schlechter
+  bedeutete). 173 automatisierte Tests insgesamt. Details + bewusst zurückgestellte Punkte
+  (generische Session Engine, Session-Wiederaufnahme mit echtem Verbraucher, u. a.):
+  Abschnitt 7.
 
 ### Bekannte Lücken (bewusst vertagt, nicht vergessen)
-- Volle 5-stufige A-E-Hilfestufen-Zustandsmaschine (aktuell: einfache Zwei-Fehler-Regression je
-  Buchstaben-Unit in Selbstständiger Produktion/Abschlussprüfung — deckt dasselbe Grundprinzip
-  ab, aber nicht alle 5 Stufen einzeln).
+- Datenbasierte generische Session Engine + Session-Wiederaufnahme mit echtem Verbraucher
+  (Bausteine fertig: TheoryRenderer, HelpLevel, Tastaturstufen, ReviewScheduler — Zusammenbau
+  bewusst auf Meilenstein D verschoben, siehe Abschnitt 7).
 - Kurs 2-5 im vollen Unit-Detail (aktuell nur Navigations-Wrapper um bestehende Lektionen).
 - Physische Arabic-(101)-Tastaturbelegung/-umschaltung, Transliterationsmodus als echte Eingabe.
 - Kurspakete als eigenständig installier-/aktualisierbare `.arabiccourse`-ZIP-Dateien.
+- Verbindungstrainer: echte visuelle Verbindungsfehler statt reiner Buchstaben-Umsortierung.
+- `evaluateAgainstAny()` noch nicht in echten Aufgaben verwendet (nur in Tests) — sinnvoll erst
+  mit den neuen `accepted_arabic_answers`/`german_answers`-Feldern (Meilenstein D).
 - Weiterführende Grammatik (Verbstämme II-X, Passiv, Partizipien, Bedingungssätze, unregelmäßige/
   schwache Verben) — bewusst ausgelassen, zu hohes Fehlerrisiko ohne Prüfung.
 - Bild-/Wortfamilien-/Minimalpaar-Aufgaben (keine Bilddaten vorhanden).
@@ -93,8 +106,9 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
 
 ## 4. Nächste Schritte (priorisiert)
 
-**Aktuell aktiv: der Entwicklungsauftrag "Veröffentlichungsfähigkeit" in Abschnitt 6 — der
-hat Vorrang vor der Liste unten, siehe dort für den Stand je Meilenstein.**
+**Aktuell aktiv: Entwicklungsauftrag 3 "Vollständiger Kurs 1 mit 900 Vokabeln" in Abschnitt 7,
+konkret Meilenstein A+B (Bestand korrigieren + Lernarchitektur) — hat Vorrang vor der Liste
+unten, siehe Abschnitt 7 für den Stand je Meilenstein.**
 
 1. **Kurs 2-5 im Unit-Detail nachbauen**, analog zu Kurs 1.
 2. **Wortschatz weiter ausbauen** (Richtung 200-300), weiterhin in geprüften Schritten.
@@ -234,3 +248,172 @@ Ziel: veröffentlichungsfähiger Kurs 1 mit separat installierbarem Kurspaket.
   `sandbox`, kein `nodeIntegration`) bleiben bestehen.
 - Keine Funktion in README/ROADMAP als fertig markieren ohne Test oder nachvollziehbaren
   manuellen Prüfschritt.
+
+**Hinweis:** Meilenstein 1 dieses Abschnitts ist abgeschlossen (siehe Haken oben). Die
+Meilensteine 2-5 werden ab jetzt durch den detaillierteren Entwicklungsauftrag 3 in Abschnitt 7
+weitergeführt (dort als Meilenstein A-G, mit denselben Zielen, aber genauer spezifiziert —
+z. B. wird aus "Kurs 1 auf 50-80 Wörter ausbauen" jetzt konkret "auf 900 Wörter, in 30
+Wortschatz-Units"). Abschnitt 6 bleibt als historischer Kontext stehen, Abschnitt 7 ist die
+aktuell führende Aufgabenliste.
+
+---
+
+## 7. Entwicklungsauftrag 3: Vollständiger Kurs 1 mit 900 Vokabeln (vom Nutzer, 2026-08-05)
+
+Nach Meilenstein 1 (Stabilisierung) hat der Nutzer einen dritten, sehr umfangreichen
+Entwicklungsauftrag geliefert: Kurs 1 zu einem vollständigen Grundkurs mit ~900 Vokabeln, echten
+Theorietexten, adaptivem Hilfestufensystem (A-E), Tastatur-Lernstufen (1-4), einer
+funktionierenden Review Queue, Session-Wiederaufnahme, freiem Übungsmodus, Fortschrittsbalken
+und modular installierbaren Kurspaketen ausbauen — bei unverändertem Stack (Electron/JS) und
+ohne Verlust bestehender Funktionalität. Die bisherigen 141 Vokabeln (samt IDs, damit Fortschritt
+erhalten bleibt) werden vollständig übernommen, ~759 neue kommen in kontrollierten,
+validierten Batches dazu — **nicht** in dieser Runde (siehe unten, explizit erst nach
+Meilenstein A+B).
+
+**Explizite Arbeitsanweisung des Nutzers für diese Runde:** ausschließlich Meilenstein A
+(Bestand korrigieren) und Meilenstein B (Lernarchitektur) — NICHT Kurspakete (C), NICHT
+Vokabel-Migration/-Erweiterung (D/E), NICHT Audio-Batch-Erzeugung (F), NICHT Kurs-1-Abschluss
+(G). Diese Reihenfolge wird strikt eingehalten.
+
+### Meilenstein A — Bestand korrigieren ✅ abgeschlossen (2026-08-05)
+
+- ☑ `npm test`/`npm run test:unit`/`test:integration` auf konkrete Dateimuster umgestellt
+  (`test/unit/*.test.js`/`test/integration/*.test.js` statt Verzeichnispfad)
+- ☑ `.github/workflows/build.yml` existierte bereits (war fälschlich als fehlend gemeldet —
+  vermutlich ein Export/eine ZIP ohne Punktordner) und wurde um einen vorgeschalteten
+  `test`-Job erweitert (`npm ci` → `npm run lint` → `npm run validate:course` → `npm test`,
+  Build-Matrix läuft erst danach); README-Formulierung präzisiert
+- ☑ `.gitignore` erweitert (Backups/Temp-Dateien von `progressStore.js`, Nutzerdaten,
+  Audio-Cache, `.arabiccourse`/`.zip`, Editor-/OS-Artefakte) — Repo war bereits frei von
+  `node_modules`/`dist`/`__pycache__`
+- ☑ `LICENSE` (MIT, Code), `LICENSES.md` (getrennte Übersicht: Code MIT, Kursinhalte
+  CC BY-SA 4.0, Audio espeak-ng vs. ElevenLabs mit offenem Klärungsbedarf, Bilder: noch keine),
+  `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md` neu erstellt
+- ☑ `scripts/validateCourse.js` + `npm run validate:course` neu erstellt (harte Fehler vs.
+  informative Hinweise zu noch nicht begonnenen Meilensteinen, siehe Abschnitt 28 des Auftrags)
+
+### Meilenstein B — Lernarchitektur ☒ größtenteils abgeschlossen (2026-08-05), 2 Punkte zurückgestellt
+
+Ziel: neue Standard-Vokabel-Sessions rein datenbasiert erstellbar.
+
+- ☑ TheoryRenderer (`src/js/theoryRenderer.js`): alle 11 Blocktypen, ausschließlich
+  `textContent`/`createElement` (kein `innerHTML` mit Kursdaten), "Kurz erklärt"/"Mehr
+  erfahren" über `level:"full"`-Blockmarkierung, Theoriefortschritt in `state.js`
+  (`markTheoryOpened`/`markTheoryMiniCheckResult`/`markTheoryCompleted`)
+- ☑ Hilfestufen A-E als generisches System (`src/js/helpLevel.js`): 2 Fehler in Folge → mehr
+  Hilfe, 3 richtige in Folge → weniger Hilfe, Konfiguration je Stufe (Vokalzeichen/Umschrift/
+  Audio/Tastaturhilfe/Anwendung)
+- ☑ Tastatur-Lernstufen 1-4 in `virtualKeyboard.js`: nächste erwartete Taste wird aus
+  `expectedWord` + Cursorposition berechnet und hervorgehoben (Stufe 1 zusätzlich mit
+  Abschwächung der übrigen Tasten), Stufe 4 blendet die virtuelle Tastatur standardmäßig aus
+  (jederzeit wieder einblendbar) — reagiert auch auf physische Tastatureingabe (natives
+  `input`-Event), nicht nur auf virtuelle Klicks
+- ☑ Echte Review Queue (`src/js/reviewScheduler.js`): Priorität fällig → häufig falsch →
+  niedrige Beherrschung → neue (Tageslimit 5/10/15/20, Standard 10, Zähler in `state.js`
+  `getDailyNewCount`/`incrementDailyNewCount`) — **tatsächlich verwendet**, nicht nur getestet:
+  treibt den freien Übungsmodus UND die Startseiten-Zusammenfassung an
+- ☑ Freier Übungsmodus (`src/js/views/freePractice.js`, Sidebar-Link "🎯 Frei üben"): Filter
+  (Kategorien Buchstaben/Vokabeln/Verbindungen, fällig/schwierig/zuletzt falsch/neu/beherrscht),
+  Einstellungen (Anzahl, Hilfestufe, Tastaturstufe), 5 Schnellzugriffe; nutzt bereits jetzt die
+  vorhandenen 28 Buchstaben + 141 Vokabeln + daraus ableitbare Verbindungswörter
+  (`src/js/practicePool.js`) — kein Warten auf die 900er-Erweiterung nötig
+- ☑ Fortschrittsbalken (`src/js/progressStats.js`): Gesamtfortschritt + Fortschritt je Bereich
+  auf der neuen Startseite (`src/js/views/dashboard.js`), Kompetenzbalken (Lesen/Schreiben/
+  Hören/Wortschatz/Verbindungen/Satzanwendung) in `statistics.js` — **behebt dabei einen
+  bestehenden Anzeigefehler**: die alten Schwierigkeits-Meter füllten sich mit steigender
+  Schwierigkeit, was wie "gut gelernt" aussah, obwohl höhere Schwierigkeit schlechter bedeutet;
+  Beherrschung (höher=besser, grün) und Schwierigkeit (höher=schwieriger, rot) sind jetzt klar
+  getrennte, unterschiedlich eingefärbte Balken. Ein Wort zählt zudem nur anteilig als
+  beherrscht, wenn nur eine von mehreren Fähigkeiten trainiert wurde (Abschnitt 20 des Auftrags)
+- ☑ Startseite (`src/js/views/dashboard.js`, Sidebar-Link "🏠 Start", automatisch nach
+  abgeschlossenem Onboarding): heute fällige Wiederholungen, verfügbare neue Wörter samt
+  Tageslimit, grobe Zeitschätzung, Gesamt-/Bereichsfortschritt, Ein-Klick-Einstieg "Heute
+  weiterlernen" (startet den freien Übungsmodus direkt mit `dueOnly`-Filter)
+- ☐ **Zurückgestellt: Datenbasierte generische Session Engine** (CourseManager/LessonEngine/
+  SessionEngine/ExerciseEngine/TheoryRenderer-Orchestrierung/Exercise Registry für die volle
+  9-Phasen-Vokabel-Session). Begründung: alle dafür nötigen Bausteine sind jetzt einzeln fertig
+  und getestet (TheoryRenderer, HelpLevel, Tastaturstufen, ReviewScheduler, ExerciseGuard,
+  Bewertungsprofile) — sie zu einem generischen Orchestrator zusammenzusetzen, BEVOR es echte
+  Session-Inhalte im neuen Datenmodell gibt (Meilenstein D/E), hieße, gegen erfundene
+  Beispieldaten zu entwerfen. Das Risiko: eine Struktur, die nach der echten Migration wieder
+  verworfen werden muss. Sinnvoller Zeitpunkt: zu Beginn von Meilenstein D, sobald reale
+  Session-Definitionen vorliegen, an denen sich der Orchestrator ausrichten kann.
+- ☐ **Zurückgestellt: Session-Wiederaufnahme mit echtem Verbraucher.** Die Speicherschicht ist
+  fertig und getestet (`state.js`: `saveSessionState`/`getSessionState`/`clearSessionState`/
+  `getActiveSessionId`, `AppState.init()` legt den Bereich an), aber es gibt noch keine reale
+  Session, die sie befüllt — folgt zusammen mit der Session Engine oben.
+- ☐ Jedes Wort in mehr als den aktuell 2 Fähigkeiten (Ar→De, De→Ar) trainieren (Audio→Bedeutung,
+  Lesen mit/ohne Vokalzeichen, Satzanwendung, ...) — die INFRASTRUKTUR dafür (getrennte
+  Skill-IDs pro Karte) existiert bereits (siehe Card-ID-Konventionen), zusätzliche Fähigkeiten
+  pro Wort sind Teil der Session Engine/Migration, nicht separat vorgezogen.
+- ☐ `evaluateAgainstAny()` tatsächlich in echten Aufgaben verwenden (bisher nur in Tests) —
+  sinnvoll erst mit `accepted_arabic_answers`/`german_answers`-Feldern aus dem neuen
+  Vokabel-Datenmodell (Meilenstein D), sonst gäbe es nichts Neues zu akzeptieren
+- ☐ Verbindungstrainer: echte visuelle Verbindungsfehler statt reiner Buchstaben-Umsortierung
+  — nicht angefasst in dieser Runde (bewusste Priorisierung zugunsten der oben abgeschlossenen
+  Punkte; bleibt offen)
+- ☐ Units 8-10 weiter ausgebaut (Vokalzeichen hören/eingeben, Sonderformen, echter
+  Schrift-Abschlusstest mit Mindestpunktzahl) — nicht angefasst in dieser Runde
+- ☐ Einstellungen (`showDiacritics`, `autoPlayWord`, `replayAfterAnswer`, `autoPlaySentence`,
+  `slowPlayback`, `inputMode`) vollständig durchgeprüft — nicht angefasst in dieser Runde
+
+### Meilenstein C — Kurspakete (noch nicht begonnen)
+
+`.arabiccourse`-ZIP-Format, Manifest, Schema-/Checksummen-Validierung, Import/Update/
+Deinstallation, ZIP-Slip-Schutz. Kurs 1 eigenständig installierbar, Kurs 2 ohne Änderung an
+`app.js` ergänzbar.
+
+### Meilenstein D — Bestehende Inhalte migrieren (noch nicht begonnen)
+
+141 bestehende Vokabeln in das erweiterte Datenmodell (siehe unten) übernehmen, IDs erhalten,
+neuen Units/Sessions zuordnen, Theorie für bestehende Inhalte schreiben, Fortschritt migrieren.
+
+### Meilenstein E — Wortschatz auf 900 erweitern (noch nicht begonnen)
+
+~759 neue Einträge in 6 Batches à 5 Units, nach jedem Batch Validierung + Inhaltsbericht, alle
+neuen Einträge zunächst `content_status: "needs_language_review"`.
+
+### Meilenstein F — Audio (noch nicht begonnen)
+
+Ein Audio pro neuem Wort (kein separates Slow-File mehr nötig), langsame Wiedergabe über
+`HTMLAudioElement.playbackRate` (Standard ~0.75), bestehende `_slow.wav`-Dateien weiterhin
+unterstützt und bevorzugt falls vorhanden. Zentraler AudioManager.
+
+### Meilenstein G — Kurs-1-Abschluss (noch nicht begonnen)
+
+Alle Schrift-Units + 30 Wortschatz-Units (90 Sessions, 30 Wiederholungen, 30 Unit-Tests, 10
+Abschnittstests) + finaler Kurs-Test, Fortschritt 0-900 Wörter sichtbar, Release-Builds.
+
+### Neues Vokabel-Datenmodell (Referenz für Meilenstein D/E)
+
+Erweitertes Schema pro Wort (siehe Auftrag Abschnitt 8 für das vollständige Beispiel):
+Pflichtfelder `id`, `arabic_vocalized`, `arabic_unvocalized`, `german_answers[]`,
+`transliteration`, `part_of_speech`, `unit_id`, `session_id`, `audio_key`, `difficulty_level`,
+`content_status`; optionale Felder `gender`, `plural`, `root`, `confusion_group`,
+`introduced_letters`, `tags`, Beispielsatz/Verwendungsnotiz. `content_status` durchläuft
+`needs_language_review → reviewed → approved` (oder `rejected`) — nie stillschweigend als
+geprüft markieren.
+
+### Themenverteilung der 30 Wortschatz-Units (Referenz für Meilenstein D/E)
+
+1 Begrüßung/Höflichkeit · 2 Persönliche Angaben/Länder · 3 Familie/Beziehungen · 4 Zahlen/Mengen ·
+5 Zeit/Kalender · 6 Farben/Formen/Materialien · 7 Zuhause/Räume · 8 Möbel/Haushalt · 9 Lebensmittel ·
+10 Getränke/Küche · 11 Einkaufen/Geld · 12 Kleidung · 13 Körper/Sinne · 14 Gesundheit · 15 Gefühle/
+Eigenschaften · 16 Tagesablauf · 17 Verben I (Bewegung) · 18 Verben II (Denken/Sprechen) ·
+19 Adjektive/Gegensätze · 20 Stadt/Gebäude · 21 Position/Präpositionen · 22 Verkehr/Reisen/Hotel ·
+23 Schule · 24 Universität · 25 Arbeit/Beruf · 26 Technik/Internet · 27 Natur/Wetter · 28 Tiere/
+Pflanzen · 29 Freizeit/Sport/Kultur · 30 Fragewörter/Konnektoren/Funktionswörter.
+
+### Akzeptanzkriterien des Gesamtauftrags (Referenz, 26 Punkte — Details siehe Auftrag Abschnitt 30)
+
+Kern u. a.: `npm test`/`npm run lint`/`npm run validate:course` funktionieren; Kurs 1 als
+eigenständiges Paket installierbar und unabhängig von späteren Kursen nutzbar; genau 900
+Vokabeleinträge, alle 141 Alt-IDs erhalten, ~759 neue; genau 10 neue Wörter pro Session; echter
+Theorieteil vor jeder Session; kein Session-Durchlauf mit allen 900 Wörtern gleichzeitig; jedes
+Wort in mehreren Fähigkeiten gelernt; Review Queue funktioniert wirklich; Fehler erscheinen
+innerhalb derselben Session erneut; Hilfen passen sich automatisch an; mehrere richtige
+Übersetzungen werden akzeptiert; Fortschrittsbalken und Session-Wiederaufnahme funktionieren;
+freier Übungsmodus funktioniert; Tastatur-Lernstufen vorhanden; nur Einzelwort-Audio
+vorausgesetzt, langsame Wiedergabe ohne zweite Aufnahme möglich; Kursdaten nie unsicher über
+`innerHTML`; GitHub Actions/LICENSE/CONTRIBUTING tatsächlich vorhanden; README/ROADMAP führen
+nur getestete Funktionen als fertig auf.

@@ -4,6 +4,16 @@
 // (Leertaste, Rücktaste, Alles-löschen, Bestätigen, Shift/Sonderzeichen-Umschaltung,
 // Vokalzeichen-Umschaltung, Satzzeichen, arabische Ziffern), Unicode-sicheres Löschen
 // (textEditing.js), sichtbares Tastendruck-Feedback, ARIA-Labels, sichtbarer Fokusrahmen.
+//
+// Entwicklungsauftrag 3 (Meilenstein B, Abschnitt 15): Tastatur-Lernstufen 1-4. Das Layout
+// bleibt in JEDER Stufe die normale virtuelle Tastatur — nur der Grad der Führung ändert sich:
+//   Stufe 1 (stark geführt): nächste benötigte Taste stark markiert, andere Tasten abgeschwächt
+//   Stufe 2 (leicht geführt): nächste Taste nur dezent markiert, alle Tasten normal sichtbar
+//   Stufe 3 (normal): keine Markierung
+//   Stufe 4 (selbstständig): virtuelle Tastatur ausblendbar, physische Tastatur im Vordergrund,
+//     jederzeit wieder einblendbar
+// Die "nächste benötigte Taste" wird rein aus `expectedWord` (Zielantwort) + der aktuellen
+// Cursorposition berechnet — NUR zur Hervorhebung, nie zur automatischen Auswertung.
 
 const VirtualKeyboard = (() => {
   function currentCursor(input) {
@@ -62,7 +72,10 @@ const VirtualKeyboard = (() => {
     btn.type = 'button';
     btn.className = 'vk-key' + (extraClass ? ' ' + extraClass : '');
     btn.textContent = label;
-    if (ariaLabel) btn.setAttribute('aria-label', ariaLabel);
+    if (ariaLabel) {
+      btn.setAttribute('aria-label', ariaLabel);
+      btn.setAttribute('title', ariaLabel); // Tooltip, v. a. für Tastaturstufe 1 relevant
+    }
     btn.addEventListener('click', () => {
       onClick();
       // Sichtbares Tastendruck-Feedback über die reine :active-Pseudoklasse hinaus (die bei
@@ -73,23 +86,43 @@ const VirtualKeyboard = (() => {
     return btn;
   }
 
-  function letterKey(targetInput, letter) {
+  function letterKey(targetInput, letter, registry) {
     const hint = keyNameHint(letter);
-    return makeKey({
+    const btn = makeKey({
       label: letter,
       ariaLabel: hint ? `Buchstabe ${hint}` : `Zeichen ${letter}`,
       onClick: () => insertAtCursor(targetInput, letter),
       extraClass: letter === 'لا' ? 'wide' : ''
     });
+    if (registry) {
+      if (!registry.has(letter)) registry.set(letter, []);
+      registry.get(letter).push(btn);
+    }
+    return btn;
   }
 
+  /**
+   * @param {HTMLElement} container
+   * @param {HTMLInputElement} targetInput
+   * @param {object} options
+   * @param {boolean} [options.showDiacritics=true]
+   * @param {boolean} [options.showSpecial=true]
+   * @param {boolean} [options.allowDiacriticsToggle=true]
+   * @param {boolean} [options.allowSpecialToggle=true]
+   * @param {(()=>void)|null} [options.onSubmit]
+   * @param {1|2|3|4} [options.keyboardLevel=3] - Tastatur-Lernstufe (siehe helpLevel.js)
+   * @param {string|null} [options.expectedWord] - Zielantwort NUR zur Tasten-Hervorhebung
+   *   (Stufe 1/2), niemals zur automatischen Auswertung der Eingabe verwendet.
+   */
   function mount(container, targetInput, options = {}) {
     const {
       showDiacritics = true,
       showSpecial = true,
       allowDiacriticsToggle = true,
       allowSpecialToggle = true,
-      onSubmit = null
+      onSubmit = null,
+      keyboardLevel = 3,
+      expectedWord = null
     } = options;
 
     container.innerHTML = '';
@@ -102,39 +135,45 @@ const VirtualKeyboard = (() => {
     let diacriticsVisible = showDiacritics;
     let specialRowEl = null;
     let diacriticsRowEl = null;
+    const letterButtonRegistry = new Map(); // Zeichen -> [Buttons], für Hervorhebung (Stufe 1/2)
+
+    // Stufe 4: alle Tasten-Reihen in einem ausblendbaren Block, Steuerungstasten (Löschen/
+    // Bestätigen) bleiben immer erreichbar.
+    const keysBlock = document.createElement('div');
+    keysBlock.className = 'vk-keys-block';
 
     for (const row of VIRTUAL_KEYBOARD_ROWS) {
       const rowEl = document.createElement('div');
       rowEl.className = 'vk-row';
       for (const letter of row) {
-        rowEl.appendChild(letterKey(targetInput, letter));
+        rowEl.appendChild(letterKey(targetInput, letter, letterButtonRegistry));
       }
-      wrapper.appendChild(rowEl);
+      keysBlock.appendChild(rowEl);
     }
 
     // Satzzeichen-Reihe ist immer sichtbar (klein, kein eigener Umschalt-Bedarf).
     const punctuationRow = document.createElement('div');
     punctuationRow.className = 'vk-row';
     for (const ch of PUNCTUATION_ROW) {
-      punctuationRow.appendChild(letterKey(targetInput, ch));
+      punctuationRow.appendChild(letterKey(targetInput, ch, letterButtonRegistry));
     }
-    wrapper.appendChild(punctuationRow);
+    keysBlock.appendChild(punctuationRow);
 
     specialRowEl = document.createElement('div');
     specialRowEl.className = 'vk-row';
     for (const ch of SPECIAL_CHARACTERS_ROW) {
-      specialRowEl.appendChild(letterKey(targetInput, ch));
+      specialRowEl.appendChild(letterKey(targetInput, ch, letterButtonRegistry));
     }
     specialRowEl.style.display = specialVisible ? '' : 'none';
-    wrapper.appendChild(specialRowEl);
+    keysBlock.appendChild(specialRowEl);
 
     diacriticsRowEl = document.createElement('div');
     diacriticsRowEl.className = 'vk-row';
     for (const d of DIACRITICS_ROW) {
-      diacriticsRowEl.appendChild(letterKey(targetInput, d));
+      diacriticsRowEl.appendChild(letterKey(targetInput, d, letterButtonRegistry));
     }
     diacriticsRowEl.style.display = diacriticsVisible ? '' : 'none';
-    wrapper.appendChild(diacriticsRowEl);
+    keysBlock.appendChild(diacriticsRowEl);
 
     // Umschalt-Tasten (Shift/Sonderzeichen, Vokalzeichen).
     const toggleRow = document.createElement('div');
@@ -169,9 +208,12 @@ const VirtualKeyboard = (() => {
       });
       toggleRow.appendChild(diacriticsToggleBtn);
     }
-    if (allowSpecialToggle || allowDiacriticsToggle) wrapper.appendChild(toggleRow);
+    if (allowSpecialToggle || allowDiacriticsToggle) keysBlock.appendChild(toggleRow);
 
-    // Steuerungstasten: Rücktaste, Leerzeichen, Alles löschen, Bestätigen.
+    wrapper.appendChild(keysBlock);
+
+    // Steuerungstasten: Rücktaste, Leerzeichen, Alles löschen, Bestätigen — bleiben in JEDER
+    // Tastaturstufe erreichbar, auch wenn keysBlock (Stufe 4) ausgeblendet ist.
     const controlsRow = document.createElement('div');
     controlsRow.className = 'vk-row';
     controlsRow.appendChild(makeKey({
@@ -201,6 +243,47 @@ const VirtualKeyboard = (() => {
     wrapper.appendChild(controlsRow);
 
     container.appendChild(wrapper);
+
+    // --- Tastatur-Lernstufen 1-4 -----------------------------------------------------------
+    function updateHighlight() {
+      if (keyboardLevel >= 3 || !expectedWord) {
+        for (const btns of letterButtonRegistry.values()) {
+          for (const btn of btns) { btn.classList.remove('vk-key-next'); btn.classList.remove('vk-key-dim'); }
+        }
+        return;
+      }
+      const pos = currentCursor(targetInput);
+      const expectedChar = pos < expectedWord.length ? expectedWord[pos] : null;
+      for (const [ch, btns] of letterButtonRegistry.entries()) {
+        for (const btn of btns) {
+          const isNext = expectedChar !== null && ch === expectedChar;
+          btn.classList.toggle('vk-key-next', isNext);
+          // Stufe 1: unbeteiligte Tasten abschwächen. Stufe 2: alle Tasten normal sichtbar,
+          // nur dezente Markierung der nächsten Taste (keine Abschwächung der anderen).
+          btn.classList.toggle('vk-key-dim', keyboardLevel === 1 && expectedChar !== null && !isNext);
+        }
+      }
+    }
+
+    targetInput.addEventListener('input', updateHighlight);
+    updateHighlight();
+
+    // Stufe 4: virtuelle Tastatur startet ausgeblendet, physische Tastatur im Vordergrund,
+    // jederzeit über eine Schaltfläche wieder einblendbar.
+    if (keyboardLevel === 4) {
+      keysBlock.style.display = 'none';
+      const showToggle = makeKey({
+        label: 'Virtuelle Tastatur einblenden',
+        ariaLabel: 'Virtuelle Tastatur ein- oder ausblenden',
+        onClick: () => {
+          const nowVisible = keysBlock.style.display === 'none';
+          keysBlock.style.display = nowVisible ? '' : 'none';
+          showToggle.textContent = nowVisible ? 'Virtuelle Tastatur ausblenden' : 'Virtuelle Tastatur einblenden';
+        },
+        extraClass: 'control wide'
+      });
+      wrapper.insertBefore(showToggle, wrapper.firstChild);
+    }
   }
 
   return { mount, insertAtCursor, backspaceAtCursor, clearAll };

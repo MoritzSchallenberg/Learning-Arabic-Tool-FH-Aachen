@@ -162,6 +162,20 @@ const App = (() => {
     StatisticsView.mount(contentEl);
   }
 
+  function navigateToFreePractice(options) {
+    runCleanup();
+    currentKey = null;
+    renderLessonList();
+    FreePracticeView.mount(contentEl, options);
+  }
+
+  function navigateToDashboard() {
+    runCleanup();
+    currentKey = null;
+    renderLessonList();
+    DashboardView.mount(contentEl);
+  }
+
   async function init() {
     await AppState.init();
     pack = await AppState.getLanguagePack();
@@ -171,11 +185,20 @@ const App = (() => {
 
     document.getElementById('nav-settings').addEventListener('click', navigateToSettings);
     document.getElementById('nav-stats').addEventListener('click', navigateToStatistics);
+    document.getElementById('nav-free-practice').addEventListener('click', () => navigateToFreePractice());
+    document.getElementById('nav-dashboard').addEventListener('click', navigateToDashboard);
 
-    navigateTo('onboarding');
+    // Erst nach abgeschlossenem Onboarding landet man auf der Startseite (Abschnitt 18) —
+    // vorher wie bisher direkt im Onboarding-Ablauf.
+    const onboardingFlag = AppState.getLessonFlag('onboarding');
+    if (onboardingFlag && onboardingFlag.status === 'completed') {
+      navigateToDashboard();
+    } else {
+      navigateTo('onboarding');
+    }
   }
 
-  return { init, navigateTo, navigateToSettings, navigateToStatistics, registerCleanup };
+  return { init, navigateTo, navigateToSettings, navigateToStatistics, navigateToFreePractice, navigateToDashboard, registerCleanup };
 })();
 
 window.addEventListener('DOMContentLoaded', () => {

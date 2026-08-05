@@ -157,6 +157,101 @@ test('Sonderzeichen-Reihe (أ إ آ) ist standardmäßig ausblendbar per Shift-U
   assert.equal(input.value, 'أ');
 });
 
+// --- Tastatur-Lernstufen 1-4 (Entwicklungsauftrag 3, Meilenstein B) -----------------------
+
+test('Stufe 1: die als Nächstes benötigte Taste wird stark markiert, andere abgeschwächt', () => {
+  const VirtualKeyboard = loadVirtualKeyboard();
+  const doc = createDocumentStub();
+  const container = doc.createElement('div');
+  const input = makeInput(doc);
+  VirtualKeyboard.mount(container, input, { keyboardLevel: 1, expectedWord: 'باب' });
+
+  const buttons = container.findAllButtons();
+  const babBtn = buttons.find((b) => b.textContent === 'ب');
+  const alifBtn = buttons.find((b) => b.textContent === 'ا');
+
+  assert.ok(babBtn.className.includes('vk-key-next'), 'ب (erster erwarteter Buchstabe) sollte hervorgehoben sein');
+  assert.ok(alifBtn.className.includes('vk-key-dim'), 'ا sollte in Stufe 1 abgeschwächt sein (noch nicht dran)');
+});
+
+test('Stufe 1: Hervorhebung folgt der Eingabe (auch bei simulierter physischer Tastatureingabe)', () => {
+  const VirtualKeyboard = loadVirtualKeyboard();
+  const doc = createDocumentStub();
+  const container = doc.createElement('div');
+  const input = makeInput(doc);
+  VirtualKeyboard.mount(container, input, { keyboardLevel: 1, expectedWord: 'باب' });
+
+  // Simuliert physische Tastatureingabe: Wert direkt setzen + natives 'input'-Event auslösen
+  // (das täte ein echtes <input>-Feld bei Tastatureingabe automatisch).
+  input.value = 'ب';
+  input.selectionStart = 1;
+  input.dispatchEvent({ type: 'input' });
+
+  const buttons = container.findAllButtons();
+  const alifBtn = buttons.find((b) => b.textContent === 'ا');
+  const babBtn = buttons.find((b) => b.textContent === 'ب');
+  assert.ok(alifBtn.className.includes('vk-key-next'), 'nach "ب" sollte ا als Nächstes markiert sein');
+  assert.ok(!babBtn.className.includes('vk-key-next'), 'ب sollte nicht mehr markiert sein (schon getippt)');
+});
+
+test('Stufe 2: nächste Taste dezent markiert, aber keine Tasten abgeschwächt', () => {
+  const VirtualKeyboard = loadVirtualKeyboard();
+  const doc = createDocumentStub();
+  const container = doc.createElement('div');
+  const input = makeInput(doc);
+  VirtualKeyboard.mount(container, input, { keyboardLevel: 2, expectedWord: 'باب' });
+
+  const buttons = container.findAllButtons();
+  const babBtn = buttons.find((b) => b.textContent === 'ب');
+  const alifBtn = buttons.find((b) => b.textContent === 'ا');
+  assert.ok(babBtn.className.includes('vk-key-next'));
+  assert.ok(!alifBtn.className.includes('vk-key-dim'), 'Stufe 2 darf keine Tasten abschwächen');
+});
+
+test('Stufe 3: keine Hervorhebung, auch wenn expectedWord übergeben wurde', () => {
+  const VirtualKeyboard = loadVirtualKeyboard();
+  const doc = createDocumentStub();
+  const container = doc.createElement('div');
+  const input = makeInput(doc);
+  VirtualKeyboard.mount(container, input, { keyboardLevel: 3, expectedWord: 'باب' });
+
+  const buttons = container.findAllButtons();
+  const babBtn = buttons.find((b) => b.textContent === 'ب');
+  assert.ok(!babBtn.className.includes('vk-key-next'));
+  assert.ok(!babBtn.className.includes('vk-key-dim'));
+});
+
+test('Stufe 4: virtuelle Tastatur startet ausgeblendet und kann wieder eingeblendet werden', () => {
+  const VirtualKeyboard = loadVirtualKeyboard();
+  const doc = createDocumentStub();
+  const container = doc.createElement('div');
+  const input = makeInput(doc);
+  VirtualKeyboard.mount(container, input, { keyboardLevel: 4 });
+
+  const buttons = container.findAllButtons();
+  const babBtn = buttons.find((b) => b.textContent === 'ب');
+  // Der Buchstabe ist weiterhin im DOM vorhanden (nicht entfernt), nur sein Elternblock ist
+  // ausgeblendet.
+  assert.ok(babBtn, 'Buchstaben-Tasten sollten trotz Stufe 4 im DOM existieren');
+
+  const toggleBtn = buttons.find((b) => (b.getAttribute('aria-label') || '') === 'Virtuelle Tastatur ein- oder ausblenden');
+  assert.ok(toggleBtn, 'Ein-/Ausblenden-Taste fehlt in Stufe 4');
+  assert.equal(toggleBtn.textContent, 'Virtuelle Tastatur einblenden');
+
+  toggleBtn.click();
+  assert.equal(toggleBtn.textContent, 'Virtuelle Tastatur ausblenden');
+});
+
+test('ohne expectedWord bleibt Stufe 1/2 ohne Hervorhebung (kein Crash)', () => {
+  const VirtualKeyboard = loadVirtualKeyboard();
+  const doc = createDocumentStub();
+  const container = doc.createElement('div');
+  const input = makeInput(doc);
+  assert.doesNotThrow(() => VirtualKeyboard.mount(container, input, { keyboardLevel: 1 }));
+  const buttons = container.findAllButtons();
+  assert.ok(!buttons.some((b) => b.className.includes('vk-key-next')));
+});
+
 test('keine doppelt vorhandenen Zeichentasten im gesamten gerenderten Layout (inkl. Sonderzeichen)', () => {
   const VirtualKeyboard = loadVirtualKeyboard();
   const doc = createDocumentStub();

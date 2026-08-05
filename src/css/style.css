@@ -314,6 +314,16 @@ html, body {
   border-color: var(--color-accent);
 }
 
+/* Tastatur-Lernstufen 1/2 (Entwicklungsauftrag 3, Meilenstein B): nächste benötigte Taste
+   hervorheben, bei Stufe 1 zusätzlich die übrigen Tasten abschwächen. */
+.vk-key-next {
+  border-color: var(--color-correct);
+  box-shadow: 0 0 0 2px var(--color-correct);
+}
+.vk-key-dim {
+  opacity: 0.35;
+}
+
 @media (max-width: 700px) {
   .vk-key {
     min-width: 32px;
@@ -427,9 +437,38 @@ html, body {
   border-radius: 999px;
 }
 
+/* Beherrschung (höher = besser) vs. Schwierigkeit (höher = schwieriger) — bewusst
+   unterschiedliche Farben, damit die beiden Bedeutungen nicht optisch verwechselt werden
+   (Entwicklungsauftrag 3, Meilenstein B, Abschnitt 20). */
+.meter-fill.mastery { background: var(--color-correct); }
+.meter-fill.difficulty { background: var(--color-wrong); }
+
 .meter-value {
   flex: 0 0 80px;
   text-align: right;
   font-size: 0.85rem;
   color: var(--color-text-muted);
 }
+
+/* --- TheoryRenderer (Entwicklungsauftrag 3, Meilenstein B) --- */
+.theory-blocks { display: flex; flex-direction: column; gap: 14px; margin: 16px 0; }
+.theory-paragraph { line-height: 1.6; }
+.theory-heading { margin-top: 8px; }
+.theory-list { padding-left: 20px; line-height: 1.6; }
+.theory-example { }
+.theory-note { color: var(--color-text-muted); font-size: 0.9rem; }
+.theory-callout {
+  border-left: 4px solid var(--color-accent);
+  background: var(--color-surface-alt);
+  border-radius: 6px;
+  padding: 10px 14px;
+}
+.theory-callout-warning { border-left-color: var(--color-wrong); }
+.theory-callout-tip { border-left-color: var(--color-correct); }
+.theory-callout-title { font-weight: 600; margin: 0 0 4px; }
+.theory-word-preview { display: flex; flex-wrap: wrap; gap: 10px; }
+.theory-word-card { min-width: 140px; text-align: center; }
+.theory-letter-demo { display: flex; flex-wrap: wrap; gap: 16px; }
+.theory-audio-word { display: flex; align-items: center; gap: 8px; }
+.theory-objectives { }
+.theory-mini-check { }

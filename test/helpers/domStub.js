@@ -51,6 +51,30 @@ class FakeElement {
     this.selectionEnd = 0;
     this.focused = false;
     this.disabled = false;
+    this.checked = false;
+    this.selected = false;
+  }
+
+  get value() {
+    if (this.tagName === 'select') {
+      const selectedOption = this.children.find((c) => c.tagName === 'option' && c.selected);
+      const target = selectedOption || this.children.find((c) => c.tagName === 'option');
+      return target ? (target.hasAttribute('value') ? target.getAttribute('value') : target.textContent) : '';
+    }
+    return this._value ?? '';
+  }
+
+  set value(v) {
+    if (this.tagName === 'select') {
+      for (const opt of this.children) {
+        if (opt.tagName === 'option') {
+          const optValue = opt.hasAttribute('value') ? opt.getAttribute('value') : opt.textContent;
+          opt.selected = optValue === v;
+        }
+      }
+      return;
+    }
+    this._value = v;
   }
 
   get textContent() {
@@ -80,6 +104,21 @@ class FakeElement {
     child.parentNode = this;
     this.children.push(child);
     return child;
+  }
+
+  insertBefore(newNode, referenceNode) {
+    newNode.parentNode = this;
+    if (referenceNode == null) {
+      this.children.push(newNode);
+      return newNode;
+    }
+    const idx = this.children.indexOf(referenceNode);
+    if (idx === -1) {
+      this.children.push(newNode);
+    } else {
+      this.children.splice(idx, 0, newNode);
+    }
+    return newNode;
   }
 
   setAttribute(name, value) {
@@ -154,6 +193,19 @@ function applyAttrs(el, attrs) {
       el.dataset[camel] = decodeEntities(value);
     } else if (key === 'disabled') {
       el.disabled = true;
+    } else if (key === 'checked') {
+      el.checked = true;
+    } else if (key === 'selected') {
+      el.selected = true;
+      el._attrs.selected = '';
+    } else if (key === 'style') {
+      for (const decl of value.split(';')) {
+        const [prop, val] = decl.split(':');
+        if (prop && val !== undefined) {
+          const camelProp = prop.trim().replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+          if (camelProp) el.style[camelProp] = val.trim();
+        }
+      }
     } else {
       el._attrs[key] = decodeEntities(value);
     }
@@ -208,7 +260,6 @@ function parseHtmlFragment(html) {
 
 function matchesSimpleSelector(el, selector) {
   if (selector.startsWith('#')) return el.id === selector.slice(1);
-  if (selector.startsWith('.')) return (el.className || '').split(/\s+/).filter(Boolean).includes(selector.slice(1));
 
   const attrMatch = /^([a-zA-Z0-9]*)\[([a-zA-Z0-9_-]+)(?:="([^"]*)")?\]$/.exec(selector);
   if (attrMatch) {
@@ -223,7 +274,19 @@ function matchesSimpleSelector(el, selector) {
     return value === undefined || el.getAttribute(attr) === value;
   }
 
-  return el.tagName === selector.toLowerCase();
+  // Tag-Name + eine oder mehrere .class-Bedingungen, z. B. ".meter-fill.mastery" oder
+  // "div.card" — alle Teile müssen zutreffen (Kombination, kein Nachfahren-Kombinator).
+  const parts = selector.match(/(\.[a-zA-Z0-9_-]+)|([a-zA-Z0-9]+)/g) || [];
+  if (parts.length === 0) return false;
+  const classSet = new Set((el.className || '').split(/\s+/).filter(Boolean));
+  for (const part of parts) {
+    if (part.startsWith('.')) {
+      if (!classSet.has(part.slice(1))) return false;
+    } else if (el.tagName !== part.toLowerCase()) {
+      return false;
+    }
+  }
+  return true;
 }
 
 function queryAll(root, selector) {

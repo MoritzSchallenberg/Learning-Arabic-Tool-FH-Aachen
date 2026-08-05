@@ -1,5 +1,13 @@
 // Statistiken & Fortschritts-Übersicht (Spec Kapitel 2.1 "Hauptanwendung" — Bereich
 // "Statistiken"). Zeigt aggregiert, was bisher nur gespeichert, aber nirgends angezeigt wurde.
+//
+// Entwicklungsauftrag 3 (Meilenstein B, Abschnitt 20) behebt hier einen bestehenden
+// Darstellungsfehler: die "Schwierigkeit"-Balken zeigten vorher die rohe Ø-Schwierigkeit als
+// Füllstand an (höher = mehr gefüllt), obwohl höhere Schwierigkeit SCHLECHTER beherrscht bedeutet
+// — ein voll gefüllter Balken sah dadurch aus wie "gut gelernt", obwohl er das Gegenteil bedeutete.
+// Jetzt: BEHERRSCHUNG (mastery, höher = besser) wird explizit getrennt über progressStats.js
+// berechnet und als eigene, klar beschriftete Balken angezeigt; die alte Schwierigkeitstabelle
+// bleibt als "Details" mit ausdrücklicher Beschriftung "höher = schwieriger" erhalten.
 
 const StatisticsView = (() => {
   const SKILL_GROUPS = [
@@ -34,13 +42,28 @@ const StatisticsView = (() => {
     return count;
   }
 
-  function renderMeter(label, avgValue) {
+  // Beherrschung: höher = besser (grüne Füllung wächst mit besserem Können).
+  function renderMasteryMeter(label, percent, count) {
+    const displayValue = percent === null ? 'keine Daten' : `${Math.round(percent)}%`;
+    const width = percent === null ? 0 : percent;
+    return `
+      <div class="meter-row">
+        <span class="meter-label">${label}</span>
+        <div class="meter-track"><div class="meter-fill mastery" style="width:${width}%"></div></div>
+        <span class="meter-value">${displayValue}${count ? ` (${count})` : ''}</span>
+      </div>
+    `;
+  }
+
+  // Schwierigkeit: höher = schwieriger — bewusst mit roter Füllung und expliziter Beschriftung,
+  // damit sie nicht mit einem Fortschrittsbalken verwechselt wird.
+  function renderDifficultyMeter(label, avgValue) {
     const displayValue = avgValue === null ? '– keine Daten' : `${avgValue.toFixed(1)} / 10`;
     const widthPercent = avgValue === null ? 0 : (avgValue / 10) * 100;
     return `
       <div class="meter-row">
         <span class="meter-label">${label}</span>
-        <div class="meter-track"><div class="meter-fill" style="width:${widthPercent}%"></div></div>
+        <div class="meter-track"><div class="meter-fill difficulty" style="width:${widthPercent}%"></div></div>
         <span class="meter-value">${displayValue}</span>
       </div>
     `;
@@ -61,10 +84,12 @@ const StatisticsView = (() => {
       .map((g) => `<tr><td>${g.label}</td><td>${g.avg.toFixed(2)}</td><td>${g.count}</td></tr>`)
       .join('');
 
+    const competencies = ProgressStats.computeCompetencyBars(cards);
+
     container.innerHTML = `
       <div class="view">
         <h1>Statistiken &amp; Fortschritt</h1>
-        <p class="lead">Schwierigkeit reicht von 1 (leicht) bis 10 (schwer) — niedriger ist besser. Werte werden pro Fähigkeit getrennt verfolgt.</p>
+        <p class="lead">Beherrschung (höher = besser) und Schwierigkeit (höher = schwieriger) werden bewusst getrennt angezeigt — das eine ist nicht einfach das Gegenteil des anderen in derselben Darstellung.</p>
 
         <div class="card" style="display:flex; gap:32px;">
           <div>
@@ -78,12 +103,17 @@ const StatisticsView = (() => {
         </div>
 
         <div class="card">
-          <h2>Durchschnittliche Schwierigkeit je Bereich</h2>
-          ${groupRows.map((g) => renderMeter(g.label, g.avg)).join('')}
+          <h2>Kompetenzen (Beherrschung, höher = besser)</h2>
+          ${Object.entries(competencies).map(([name, c]) => renderMasteryMeter(name, c.percent, c.count)).join('')}
         </div>
 
         <div class="card">
-          <h2>Details</h2>
+          <h2>Details: Ø Schwierigkeit je Bereich (höher = schwieriger)</h2>
+          ${groupRows.map((g) => renderDifficultyMeter(g.label, g.avg)).join('')}
+        </div>
+
+        <div class="card">
+          <h2>Rohdaten</h2>
           ${detailRows
             ? `<table class="forms-table"><thead><tr><th>Bereich</th><th>Ø Schwierigkeit</th><th>Anzahl Werte</th></tr></thead><tbody>${detailRows}</tbody></table>`
             : '<p class="lead">Noch keine Übungsdaten vorhanden — probiere eine Lektion aus.</p>'}
