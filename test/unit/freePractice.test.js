@@ -1,4 +1,7 @@
-// End-zu-Ende-Test für den freien Übungsmodus (Entwicklungsauftrag 3, Meilenstein B).
+// Ende-zu-Ende-Test für den freien Übungsmodus (Entwicklungsauftrag 3, Meilenstein B; Oberfläche
+// grundlegend überarbeitet in Entwicklungsauftrag 5, Abschnitt 20): kompakte Schnellstartkarten
+// statt langer Checkboxlisten, Chips statt Checkboxen in der erweiterten Auswahl, sichtbare
+// Zusammenfassung vor dem Start.
 global.TATWEEL = 'ـ'; // wordShaping.js-Abhängigkeit
 
 const { test } = require('node:test');
@@ -77,27 +80,69 @@ function loadFreePractice({ onAdjustDifficulty }) {
   return { view: context.__FreePracticeView, registeredCleanups };
 }
 
-test('mount() rendert die Filter-Auswahl mit Schnellzugriffen', async () => {
+function openAdvancedPanel(container) {
+  container.querySelectorAll('button').find((b) => b.textContent === 'Übung anpassen').click();
+}
+
+test('mount() zeigt Schnellstartkarten statt langer Checkboxlisten', async () => {
   const { view } = loadFreePractice({ onAdjustDifficulty: () => {} });
   const container = createDocumentStub().createElement('div');
   await view.mount(container);
 
   assert.ok(container.textContent.includes('Frei üben'));
-  assert.ok(container.textContent.includes('Schnellzugriffe'));
-  const startBtn = container.querySelectorAll('button').find((b) => b.textContent === 'Los geht\'s');
-  assert.ok(startBtn, '"Los geht\'s"-Button fehlt');
+  ['Fällige Wiederholungen', 'Schwierige Wörter', '5 Minuten üben', 'Schreibtraining', 'Hörtraining', 'Verbindungstrainer'].forEach((title) => {
+    assert.ok(container.textContent.includes(title), `Schnellstartkarte "${title}" fehlt`);
+  });
+  // Die alten langen Checkbox-Listen dürfen nicht mehr direkt sichtbar sein.
+  assert.equal(container.querySelectorAll('input[type="checkbox"]').length, 0, 'keine Checkboxen mehr — Chips stattdessen');
 });
 
-test('"Los geht\'s" mit Standardfiltern startet eine Übungsrunde und zeigt eine Aufgabe', async () => {
+test('Klick auf eine Schnellstartkarte startet die Übung sofort', async () => {
   const { view } = loadFreePractice({ onAdjustDifficulty: () => {} });
   const container = createDocumentStub().createElement('div');
   await view.mount(container);
 
-  const startBtn = container.querySelectorAll('button').find((b) => b.textContent === 'Los geht\'s');
-  startBtn.click();
+  const card = container.querySelectorAll('.stat-card').find((c) => c.textContent.includes('5 Minuten üben'));
+  assert.ok(card, 'Schnellstartkarte "5 Minuten üben" fehlt');
+  card.click();
 
-  // Nach dem Start sollte eine Aufgabe (Fortschrittsanzeige "Aufgabe 1 / ...") sichtbar sein.
-  assert.ok(container.textContent.includes('Aufgabe 1 /'));
+  assert.ok(container.textContent.includes('Aufgabe 1 /'), 'nach dem Kartenklick sollte direkt eine Aufgabe erscheinen');
+});
+
+test('"Übung anpassen" zeigt Chips (Inhalte/Filter) statt Checkboxen und eine Zusammenfassung vor dem Start', async () => {
+  const { view } = loadFreePractice({ onAdjustDifficulty: () => {} });
+  const container = createDocumentStub().createElement('div');
+  await view.mount(container);
+
+  openAdvancedPanel(container);
+  const chips = container.querySelectorAll('.chip');
+  assert.ok(chips.length >= 8, 'sollte Inhalts- und Filter-Chips zeigen (3 Inhalte + 5 Filter)');
+  ['Buchstaben', 'Vokabeln', 'Verbindungen', 'Fällig', 'Schwierig', 'Zuletzt falsch', 'Neu', 'Beherrscht'].forEach((label) => {
+    assert.ok(chips.some((c) => c.textContent === label), `Chip "${label}" fehlt`);
+  });
+
+  assert.ok(/\d+ Aufgaben.*Hilfestufe .*ca\. \d+ Minuten/.test(container.textContent), 'Zusammenfassung vor dem Start fehlt');
+
+  const startBtn = container.querySelectorAll('button').find((b) => b.textContent === 'Übung starten');
+  assert.ok(startBtn, '"Übung starten"-Button fehlt');
+});
+
+test('Chip-Klick schaltet die Auswahl um und aktualisiert die Zusammenfassung', async () => {
+  const { view } = loadFreePractice({ onAdjustDifficulty: () => {} });
+  const container = createDocumentStub().createElement('div');
+  await view.mount(container);
+  openAdvancedPanel(container);
+
+  const findChip = (label) => container.querySelectorAll('.chip').find((c) => c.textContent === label);
+  const lettersChip = findChip('Buchstaben');
+  assert.ok(lettersChip.className.includes('selected'), 'Buchstaben sollten standardmäßig ausgewählt sein');
+  lettersChip.click();
+  assert.ok(!container.querySelectorAll('.chip').find((c) => c.textContent === 'Buchstaben').className.includes('selected'));
+
+  const dueChip = findChip('Fällig');
+  assert.ok(!dueChip.className.includes('selected'), '"Fällig" sollte standardmäßig NICHT ausgewählt sein');
+  dueChip.click();
+  assert.ok(container.querySelectorAll('.chip').find((c) => c.textContent === 'Fällig').className.includes('selected'));
 });
 
 test('Doppelklick auf eine Buchstaben-Antwortoption führt nur zu EINER Bewertung', async () => {
@@ -105,15 +150,14 @@ test('Doppelklick auf eine Buchstaben-Antwortoption führt nur zu EINER Bewertun
   const { view } = loadFreePractice({ onAdjustDifficulty: () => { adjustCallCount += 1; } });
   const container = createDocumentStub().createElement('div');
   await view.mount(container);
+  openAdvancedPanel(container);
 
   // Nur Buchstaben-Kategorie anhaken, damit garantiert eine Buchstaben-Aufgabe (Multiple-Choice
-  // für "spelling") als Erstes erscheinen kann (kein Direktzugriff für exakte Reihenfolge,
-  // daher mehrere Versuche, bis eine Multiple-Choice-Aufgabe mit Optionen erscheint).
-  container.querySelector('#fp-cat-vocabulary').checked = false;
-  container.querySelector('#fp-cat-connections').checked = false;
+  // für "spelling") als Erstes erscheinen kann.
+  container.querySelectorAll('.chip').find((c) => c.textContent === 'Vokabeln').click();
+  container.querySelectorAll('.chip').find((c) => c.textContent === 'Verbindungen').click();
 
-  const startBtn = container.querySelectorAll('button').find((b) => b.textContent === 'Los geht\'s');
-  startBtn.click();
+  container.querySelectorAll('button').find((b) => b.textContent === 'Übung starten').click();
 
   const optionsWrap = container.querySelector('#fp-options');
   const optionButtons = optionsWrap ? optionsWrap.querySelectorAll('button') : [];
@@ -138,12 +182,13 @@ test('leere Filterkombination (keine Kategorie ausgewählt) zeigt eine verständ
   const { view } = loadFreePractice({ onAdjustDifficulty: () => {} });
   const container = createDocumentStub().createElement('div');
   await view.mount(container);
+  openAdvancedPanel(container);
 
-  container.querySelector('#fp-cat-letters').checked = false;
-  container.querySelector('#fp-cat-vocabulary').checked = false;
-  container.querySelector('#fp-cat-connections').checked = false;
+  container.querySelectorAll('.chip').find((c) => c.textContent === 'Buchstaben').click();
+  container.querySelectorAll('.chip').find((c) => c.textContent === 'Vokabeln').click();
+  container.querySelectorAll('.chip').find((c) => c.textContent === 'Verbindungen').click();
 
-  const startBtn = container.querySelectorAll('button').find((b) => b.textContent === 'Los geht\'s');
+  const startBtn = container.querySelectorAll('button').find((b) => b.textContent === 'Übung starten');
   assert.doesNotThrow(() => startBtn.click());
   assert.ok(container.textContent.includes('Keine passenden Aufgaben'));
 });

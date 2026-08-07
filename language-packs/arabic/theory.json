@@ -123,6 +123,567 @@
           ]
         }
       ]
+    },
+    {
+      "theory_id": "theory_vocab_unit_02_a",
+      "title": "Familie und Personen",
+      "content_status": "needs_language_review",
+      "learning_objectives": [
+        "Männliche und weibliche Personenwörter unterscheiden",
+        "Das grammatische Geschlecht (Genus) der acht Familienwörter erkennen",
+        "Verstehen, warum die Pluralform bei arabischen Substantiven eine eigene, mitzulernende Information ist"
+      ],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Alle acht Wörter dieser Session bezeichnen Familienmitglieder — also Personen, und Personenwörter haben im Arabischen immer ein Genus (männlich oder weiblich), so wie im Deutschen „der Vater\" und „die Mutter\"."
+        },
+        {
+          "type": "heading",
+          "text": "Männlich und weiblich"
+        },
+        {
+          "type": "paragraph",
+          "text": "Bei manchen Paaren erkennt man das weibliche Wort an einer zusätzlichen Endung: اِبْن (ibn, „Sohn\") wird zu اِبْنَة (ibna, „Tochter\") einfach durch die Endung ة (Tāʾ marbūṭa). Genauso wird aus جَدّ (jadd, „Großvater\") durch dieselbe Endung جَدَّة (jadda, „Großmutter\")."
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Die Endung ة",
+          "text": "ة ist die häufigste (aber nicht die einzige!) Kennzeichnung für ein grammatisch weibliches Wort. أُم (Mutter) und أُخْت (Schwester) sind ebenfalls weiblich, obwohl sie diese Endung gar nicht besitzen — nicht jedes weibliche Wort muss also dieselbe Endung tragen. Das Genus muss deshalb bei jedem Wort einzeln gelernt werden, nicht nur an der Endung erraten."
+        },
+        {
+          "type": "heading",
+          "text": "Plural: eine eigene Information"
+        },
+        {
+          "type": "paragraph",
+          "text": "Im Deutschen hängt man für den Plural meist einfach eine Endung an. Im Arabischen verändert sich bei den meisten Wörtern dagegen die innere Struktur des Wortes: أَب (Vater) wird im Plural zu آبَاء, أُم (Mutter) zu أُمَّهَات, أَخ (Bruder) zu إِخْوَة. Diese sogenannten „gebrochenen Pluralformen\" lassen sich nicht aus einer festen Regel ableiten — deshalb wird der Plural hier zu jedem Wort einzeln als eigene Vokabelinformation angezeigt und gelernt, genau wie die Bedeutung selbst."
+        },
+        {
+          "type": "comparison",
+          "headers": ["Arabisch", "Genus", "Plural"],
+          "items": [
+            ["أَب (Vater)", "maskulin", "آبَاء"],
+            ["أُم (Mutter)", "feminin", "أُمَّهَات"],
+            ["اِبْن (Sohn)", "maskulin", "أَبْنَاء"],
+            ["اِبْنَة (Tochter)", "feminin", "بَنَات"]
+          ]
+        },
+        {
+          "type": "example",
+          "arabic": "أَب وَأُم",
+          "translation": "Vater und Mutter",
+          "note": "وَ bedeutet „und\" — eines der häufigsten Wörter im Arabischen, hier nur zur Veranschaulichung verwendet."
+        },
+        {
+          "type": "example",
+          "arabic": "أَخ وَأُخْت",
+          "translation": "Bruder und Schwester"
+        },
+        {
+          "type": "example",
+          "arabic": "جَدّ وَجَدَّة",
+          "translation": "Großvater und Großmutter",
+          "note": "Nur die Endung ة unterscheidet die beiden Wörter."
+        },
+        {
+          "type": "heading",
+          "level": "full",
+          "text": "Mehr erfahren: Warum Pluralformen so unterschiedlich aussehen"
+        },
+        {
+          "type": "paragraph",
+          "level": "full",
+          "text": "Arabische Wörter bestehen meist aus einer dreikonsonantigen Wurzel (z. B. أ-خ für „Bruder\"), die je nach eingesetztem Muster ganz unterschiedliche Wörter ergibt. Der Plural nutzt oft ein anderes Muster als der Singular, statt nur eine Endung anzuhängen — daher wirken Singular und Plural auf den ersten Blick wie zwei verschiedene Wörter, obwohl sie zusammengehören."
+        },
+        {
+          "type": "callout",
+          "level": "full",
+          "variant": "info",
+          "title": "Typische Verwechslung",
+          "text": "أَخ (Bruder) und أُخْت (Schwester) unterscheiden sich nur durch die feminine Endung ت am Wortende, gesprochen aber deutlich (akh vs. ukht) — beim Hören lohnt es sich, genau auf das Wortende zu achten."
+        },
+        {
+          "type": "word_preview",
+          "word_ids": [
+            "family_father", "family_mother", "family_brother", "family_sister",
+            "family_son", "family_daughter", "family_grandfather", "family_grandmother"
+          ]
+        },
+        {
+          "type": "mini_check",
+          "questions": [
+            {
+              "question": "Welches Wort bedeutet „Tochter\"?",
+              "options": [
+                { "text": "اِبْنَة (ibna)", "correct": true },
+                { "text": "اِبْن (ibn)", "correct": false }
+              ],
+              "explanation": "اِبْنَة (ibna) bedeutet „Tochter\" — اِبْن (ibn) ohne die Endung ة ist die männliche Form „Sohn\"."
+            },
+            {
+              "question": "Woran erkennt man bei جَدّ / جَدَّة, welches Wort „Großmutter\" ist?",
+              "options": [
+                { "text": "Am zusätzlichen ة am Wortende", "correct": true },
+                { "text": "Am ersten Buchstaben", "correct": false }
+              ],
+              "explanation": "Die Endung ة (Tāʾ marbūṭa) markiert hier die weibliche Form جَدَّة (Großmutter) gegenüber جَدّ (Großvater)."
+            },
+            {
+              "question": "Ist أُم (Mutter) trotz fehlender ة-Endung grammatisch weiblich?",
+              "options": [
+                { "text": "Ja", "correct": true },
+                { "text": "Nein", "correct": false }
+              ],
+              "explanation": "Ja — nicht jedes weibliche Wort trägt die Endung ة. أُم ist ein Beispiel für ein weibliches Wort ohne diese Endung."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "theory_id": "theory_vocab_unit_03_a",
+      "title": "Zuhause und Räume",
+      "content_status": "needs_language_review",
+      "learning_objectives": [
+        "Haus, Raum und Gegenstand als unterschiedliche Wortarten des Zuhauses unterscheiden",
+        "Das grammatische Geschlecht der acht Wörter erkennen",
+        "Die Buchstabenverbindung am Beispiel von بَاب nachvollziehen"
+      ],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Diese Session mischt drei Wortgruppen: das ganze Gebäude (بَيْت, Haus), einzelne Räume darin (غُرْفَة Zimmer, مَطْبَخ Küche, حَمَّام Bad) und Gegenstände in diesen Räumen (بَاب Tür, نَافِذَة Fenster, سَرِير Bett, طَاوِلَة Tisch). Diese Unterscheidung hilft, sich die Wörter nicht nur einzeln, sondern als zusammenhängendes Bild eines Hauses zu merken."
+        },
+        {
+          "type": "heading",
+          "text": "Grammatisches Geschlecht"
+        },
+        {
+          "type": "paragraph",
+          "text": "Wie bei den Familienwörtern gilt auch hier: die Endung ة kommt bei femininen Wörtern häufig vor (غُرْفَة Zimmer, نَافِذَة Fenster, طَاوِلَة Tisch), ist aber keine feste Regel — بَيْت (Haus), مَطْبَخ (Küche), حَمَّام (Bad), بَاب (Tür) und سَرِير (Bett) sind männlich, obwohl سَرِير z. B. keine sichtbare männliche Endung trägt. Das Geschlecht gehört deshalb zu jedem Wort einzeln dazu."
+        },
+        {
+          "type": "heading",
+          "text": "Buchstabenverbindung am Beispiel بَاب"
+        },
+        {
+          "type": "paragraph",
+          "text": "بَاب (bāb, „Tür\") zeigt gut, wie sich arabische Buchstaben verbinden: Das erste ب steht in Anfangsform (offen nach rechts weiterverbunden), das ا in der Mitte verbindet sich nur nach rechts (nicht nach links) und bricht die Verbindung deshalb ab, und das zweite ب steht am Wortende in Endform. Genau dieses Prinzip — manche Buchstaben verbinden sich nur nach rechts — wird im Verbindungstrainer der Buchstaben-Units geübt."
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Vorschau: هذا / هذه",
+          "text": "Um auf ein Ding zu zeigen, verwendet Arabisch für männliche Wörter هَذَا (hādhā, „dies/dieser\") und für weibliche Wörter هَذِهِ (hādhihi, „dies/diese\") — zum Beispiel هَذَا بَيْت („Dies ist ein Haus\") oder هَذِهِ طَاوِلَة („Dies ist ein Tisch\"). Das ist hier nur eine kurze Vorschau, keine vollständige Grammatiklektion — die genauen Regeln dazu folgen in einer späteren Session."
+        },
+        {
+          "type": "comparison",
+          "headers": ["Arabisch", "Genus", "Bedeutung"],
+          "items": [
+            ["بَيْت", "maskulin", "Haus"],
+            ["غُرْفَة", "feminin", "Zimmer"],
+            ["بَاب", "maskulin", "Tür"],
+            ["نَافِذَة", "feminin", "Fenster"]
+          ]
+        },
+        {
+          "type": "example",
+          "arabic": "هَذَا بَيْت",
+          "translation": "Dies ist ein Haus"
+        },
+        {
+          "type": "example",
+          "arabic": "هَذِهِ طَاوِلَة",
+          "translation": "Dies ist ein Tisch"
+        },
+        {
+          "type": "example",
+          "arabic": "بَاب الْغُرْفَة",
+          "translation": "die Tür des Zimmers",
+          "note": "Zwei Wörter dieser Session direkt hintereinander."
+        },
+        {
+          "type": "heading",
+          "level": "full",
+          "text": "Mehr erfahren: Warum سَرِير trotzdem männlich ist"
+        },
+        {
+          "type": "paragraph",
+          "level": "full",
+          "text": "Die Endung ة ist zwar der häufigste, aber nicht der einzige Hinweis auf ein feminines Wort im Arabischen — manche von Natur aus feminine Wörter (z. B. Körperteile, die paarweise vorkommen, oder bestimmte Ortsangaben) tragen keine sichtbare Endung. سَرِير (Bett) gehört nicht zu dieser Ausnahmegruppe und ist regulär maskulin, ganz ohne besondere Kennzeichnung — das Genus muss man sich bei jedem Substantiv einfach mit einprägen."
+        },
+        {
+          "type": "callout",
+          "level": "full",
+          "variant": "info",
+          "title": "Typische Verwechslung",
+          "text": "غُرْفَة (Zimmer) und طَاوِلَة (Tisch) enden beide auf ة und beginnen mit einem Konsonant + langem Vokal — beim schnellen Lesen leicht zu verwechseln, obwohl es ein Raum und ein Gegenstand in diesem Raum sind."
+        },
+        {
+          "type": "word_preview",
+          "word_ids": [
+            "housing_house", "housing_room", "housing_kitchen", "housing_bathroom",
+            "housing_door", "housing_window", "housing_bed", "housing_table"
+          ]
+        },
+        {
+          "type": "mini_check",
+          "questions": [
+            {
+              "question": "Welches Wort bezeichnet das GANZE Gebäude, nicht nur einen Raum?",
+              "options": [
+                { "text": "بَيْت (Haus)", "correct": true },
+                { "text": "غُرْفَة (Zimmer)", "correct": false }
+              ],
+              "explanation": "بَيْت (Haus) bezeichnet das ganze Gebäude — غُرْفَة (Zimmer) ist nur ein Raum darin."
+            },
+            {
+              "question": "Welches Wort verwendest du für „Dies ist ein Tisch\" (طَاوِلَة ist feminin)?",
+              "options": [
+                { "text": "هَذِهِ طَاوِلَة", "correct": true },
+                { "text": "هَذَا طَاوِلَة", "correct": false }
+              ],
+              "explanation": "Bei femininen Wörtern wie طَاوِلَة verwendet man هَذِهِ (hādhihi), nicht هَذَا (hādhā)."
+            },
+            {
+              "question": "Ist سَرِير (Bett) trotz fehlender ة-Endung maskulin oder feminin?",
+              "options": [
+                { "text": "Maskulin", "correct": true },
+                { "text": "Feminin", "correct": false }
+              ],
+              "explanation": "سَرِير ist maskulin — die Endung ة ist ein häufiger, aber kein zwingender Hinweis auf feminine Wörter."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "theory_id": "theory_unit_1",
+      "title": "ا د ذ ر ز و — Buchstaben ohne Weiterverbindung",
+      "content_status": "needs_language_review",
+      "learning_objectives": [
+        "Die Leserichtung und die vier Buchstabenformen (isoliert/Anfang/Mitte/Ende) benennen können",
+        "Erklären können, warum ا د ذ ر ز و sich nie mit dem folgenden Buchstaben verbinden",
+        "Verstehen, warum arabische Wörter dadurch optisch in mehrere Blöcke zerfallen können"
+      ],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Arabisch wird von rechts nach links geschrieben und gelesen — auch einzelne Wörter beginnen rechts. Die meisten arabischen Buchstaben ändern dabei je nach Position im Wort ihre Form: isoliert (allein stehend), am Wortanfang, in der Wortmitte und am Wortende. Das ist keine Ausnahme, sondern der Normalfall der arabischen Schrift."
+        },
+        {
+          "type": "heading",
+          "text": "Sechs Buchstaben ohne Weiterverbindung"
+        },
+        {
+          "type": "paragraph",
+          "text": "Die sechs Buchstaben dieser Unit — ا (Alif), د (Dāl), ذ (Dhāl), ر (Rāʾ), ز (Zāy) und و (Wāw) — verhalten sich anders: Sie verbinden sich zwar mit einem VORHERGEHENDEN Buchstaben (von rechts), niemals aber mit einem NACHFOLGENDEN Buchstaben (nach links). Nach einem dieser sechs Buchstaben beginnt im selben Wort deshalb immer ein neuer, optisch getrennter Buchstabenblock — auch wenn beide Blöcke zusammen nur EIN Wort bilden."
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Beispiel: وَرْد",
+          "text": "وَرْد (ward, „Rosen/Blumen\") besteht aus و und ر ود, wobei و sich nicht mit dem folgenden ر verbindet — das Wort wirkt dadurch in zwei Teile zerlegt, ist aber trotzdem ein einziges Wort."
+        },
+        {
+          "type": "heading",
+          "text": "Warum das beim Lesen wichtig ist"
+        },
+        {
+          "type": "paragraph",
+          "text": "Ein scheinbarer „Abstand\" innerhalb eines Wortes bedeutet im Arabischen nicht automatisch ein neues Wort — er kann einfach nur bedeuten, dass gerade einer dieser sechs Buchstaben passiert wurde. Diese Eigenschaft muss für jeden Buchstaben einzeln gelernt werden, sie lässt sich nicht am Klang erkennen."
+        },
+        {
+          "type": "comparison",
+          "headers": ["Buchstabe", "Name", "Verbindet sich nach links?"],
+          "items": [
+            ["ا", "Alif", "Nein"],
+            ["د", "Dāl", "Nein"],
+            ["ذ", "Dhāl", "Nein"],
+            ["ر", "Rāʾ", "Nein"],
+            ["ز", "Zāy", "Nein"],
+            ["و", "Wāw", "Nein"]
+          ]
+        },
+        {
+          "type": "audio_word",
+          "audio_key": "letters/alif",
+          "text": "ا"
+        },
+        {
+          "type": "audio_word",
+          "audio_key": "letters/dal",
+          "text": "د"
+        },
+        {
+          "type": "audio_word",
+          "audio_key": "letters/dhal",
+          "text": "ذ"
+        },
+        {
+          "type": "audio_word",
+          "audio_key": "letters/ra",
+          "text": "ر"
+        },
+        {
+          "type": "audio_word",
+          "audio_key": "letters/zay",
+          "text": "ز"
+        },
+        {
+          "type": "audio_word",
+          "audio_key": "letters/waw",
+          "text": "و"
+        },
+        {
+          "type": "heading",
+          "level": "full",
+          "text": "Mehr erfahren: woher diese Eigenschaft kommt"
+        },
+        {
+          "type": "paragraph",
+          "level": "full",
+          "text": "Diese Nicht-Verbindung ist eine historisch gewachsene Eigenschaft der arabischen Schrift und unabhängig vom gesprochenen Laut — es gibt keine Regel, die sie aus der Aussprache ableitet. Deshalb werden diese sechs Buchstaben in dieser Unit bewusst gemeinsam behandelt: Wer sie einmal als Gruppe kennt, erkennt überall im späteren Wortschatz sofort, warum ein Wort optisch unterbrochen aussieht."
+        },
+        {
+          "type": "mini_check",
+          "questions": [
+            {
+              "question": "Verbindet sich ر mit dem darauffolgenden Buchstaben im selben Wort?",
+              "options": [
+                { "text": "Nein, nie", "correct": true },
+                { "text": "Ja, immer", "correct": false }
+              ],
+              "explanation": "ر gehört zu den sechs Buchstaben, die sich nie mit dem nachfolgenden Buchstaben verbinden."
+            },
+            {
+              "question": "Bedeutet eine optische Unterbrechung innerhalb eines Wortes automatisch ein neues Wort?",
+              "options": [
+                { "text": "Nein — sie kann auch nur einer der sechs Buchstaben ohne Weiterverbindung sein", "correct": true },
+                { "text": "Ja, immer", "correct": false }
+              ],
+              "explanation": "Wie bei وَرْد gesehen, kann ein einziges Wort trotz optischer Unterbrechung zusammengehören."
+            },
+            {
+              "question": "Welcher dieser Buchstaben gehört NICHT zu den sechs Buchstaben ohne Weiterverbindung?",
+              "options": [
+                { "text": "ب (Bāʾ)", "correct": true },
+                { "text": "و (Wāw)", "correct": false }
+              ],
+              "explanation": "ب verbindet sich normal in beide Richtungen — nur ا د ذ ر ز و verbinden sich nicht nach links."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "theory_id": "theory_unit_2",
+      "title": "ب ت ث ن ي — gemeinsame Grundform, unterschiedliche Punkte",
+      "content_status": "needs_language_review",
+      "learning_objectives": [
+        "Erkennen, dass ب ت ث ن ي dieselbe Grundform teilen",
+        "Die Punkte als einziges Unterscheidungsmerkmal benennen können",
+        "Typische Verwechslungen zwischen diesen Buchstaben vermeiden"
+      ],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Die fünf Buchstaben dieser Unit — ب (Bāʾ), ت (Tāʾ), ث (Thāʾ), ن (Nūn) und ي (Yāʾ) — sehen sich in ihrer Grundform sehr ähnlich: eine flache, schalenartige Form. Unterschieden werden sie ausschließlich durch die Anzahl und Position kleiner Punkte darüber oder darunter."
+        },
+        {
+          "type": "heading",
+          "text": "Die Punkte entscheiden"
+        },
+        {
+          "type": "paragraph",
+          "text": "ب hat einen Punkt unter der Form, ت hat zwei Punkte darüber, ث hat drei Punkte darüber. ن hat einen Punkt darüber, aber eine tiefere, rundere Grundform als ب. ي hat zwei Punkte darunter. Ohne genaues Hinsehen auf Anzahl UND Position der Punkte lassen sich diese Buchstaben leicht verwechseln."
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Beispiel: بِنْت",
+          "text": "بِنْت (bint, „Mädchen/Tochter\") beginnt mit ب (ein Punkt unten) und endet mit ت (zwei Punkte oben) — zwei Buchstaben mit fast identischer Grundform, aber unterschiedlichen Punkten."
+        },
+        {
+          "type": "heading",
+          "text": "Alle vier Wortformen bleiben gleich strukturiert"
+        },
+        {
+          "type": "paragraph",
+          "text": "Alle fünf Buchstaben dieser Unit verbinden sich nach beiden Seiten (Anfang, Mitte und Ende sehen jeweils anders aus als isoliert) — anders als bei den sechs Buchstaben aus Unit 1. Die Punkte bleiben dabei in jeder Form an derselben relativen Position erhalten und sind das verlässlichste Erkennungsmerkmal, unabhängig von der Wortposition."
+        },
+        {
+          "type": "comparison",
+          "headers": ["Buchstabe", "Name", "Punkte"],
+          "items": [
+            ["ب", "Bāʾ", "1 Punkt unten"],
+            ["ت", "Tāʾ", "2 Punkte oben"],
+            ["ث", "Thāʾ", "3 Punkte oben"],
+            ["ن", "Nūn", "1 Punkt oben"],
+            ["ي", "Yāʾ", "2 Punkte unten"]
+          ]
+        },
+        {
+          "type": "audio_word",
+          "audio_key": "letters/ba",
+          "text": "ب"
+        },
+        {
+          "type": "audio_word",
+          "audio_key": "letters/ta",
+          "text": "ت"
+        },
+        {
+          "type": "audio_word",
+          "audio_key": "letters/tha",
+          "text": "ث"
+        },
+        {
+          "type": "audio_word",
+          "audio_key": "letters/nun",
+          "text": "ن"
+        },
+        {
+          "type": "audio_word",
+          "audio_key": "letters/ya",
+          "text": "ي"
+        },
+        {
+          "type": "heading",
+          "level": "full",
+          "text": "Mehr erfahren: warum Punkte so wichtig sind"
+        },
+        {
+          "type": "paragraph",
+          "level": "full",
+          "text": "Die arabische Schrift hat historisch mit deutlich weniger Grundformen ausgekommen, als es Laute gibt — Punkte wurden später ergänzt, um Buchstaben mit gleicher Grundform auseinanderzuhalten. Deshalb tauchen „Punktfamilien\" wie ب/ت/ث in der gesamten Schrift immer wieder auf, nicht nur in dieser Unit."
+        },
+        {
+          "type": "callout",
+          "level": "full",
+          "variant": "info",
+          "title": "Typische Verwechslung",
+          "text": "ت (zwei Punkte oben) und ث (drei Punkte oben) werden im Schnelllesen am häufigsten verwechselt — die Anzahl der Punkte lohnt sich, bewusst mitzuzählen."
+        },
+        {
+          "type": "mini_check",
+          "questions": [
+            {
+              "question": "Wodurch unterscheiden sich ب, ت und ث hauptsächlich?",
+              "options": [
+                { "text": "Durch Anzahl und Position der Punkte", "correct": true },
+                { "text": "Durch eine komplett andere Grundform", "correct": false }
+              ],
+              "explanation": "Alle drei teilen dieselbe Grundform — nur die Punkte unterscheiden sie."
+            },
+            {
+              "question": "Wie viele Punkte hat ث (Thāʾ)?",
+              "options": [
+                { "text": "Drei, oben", "correct": true },
+                { "text": "Zwei, unten", "correct": false }
+              ],
+              "explanation": "ث hat drei Punkte oberhalb der Grundform — ي hat zwei Punkte, aber UNTERHALB."
+            },
+            {
+              "question": "Mit welchem Buchstaben endet بِنْت (bint, „Mädchen\")?",
+              "options": [
+                { "text": "ت (Tāʾ)", "correct": true },
+                { "text": "ث (Thāʾ)", "correct": false }
+              ],
+              "explanation": "بِنْت endet auf ت (zwei Punkte oben), nicht auf ث (drei Punkte)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "theory_id": "theory_short_vowels",
+      "title": "Kurze Vokale",
+      "content_status": "needs_language_review",
+      "learning_objectives": [
+        "Fatḥa, Kasra, Ḍamma, Sukūn und Schadda als Vokalzeichen erkennen",
+        "Wissen, dass kurze Vokale in normalen Texten meist weggelassen werden",
+        "Verstehen, warum Anfänger sie trotzdem zunächst sehen sollten"
+      ],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Arabische Buchstaben stehen für Konsonanten und lange Vokale — kurze Vokale werden nicht als eigene Buchstaben geschrieben, sondern als kleine Zeichen ÜBER oder UNTER dem Buchstaben ergänzt. Diese Zeichen heißen Vokalzeichen (Ḥarakāt)."
+        },
+        {
+          "type": "heading",
+          "text": "Die vier wichtigsten Zeichen"
+        },
+        {
+          "type": "paragraph",
+          "text": "Fatḥa (ein kurzer Strich über dem Buchstaben) steht für ein kurzes „a\". Kasra (ein kurzer Strich unter dem Buchstaben) steht für ein kurzes „i\". Ḍamma (ein kleines و-Symbol über dem Buchstaben) steht für ein kurzes „u\". Sukūn (ein kleiner Kreis über dem Buchstaben) bedeutet: hier folgt KEIN Vokal, der Konsonant wird direkt ausgesprochen. Schadda (ein kleines Zeichen wie ein „w\" über dem Buchstaben) verdoppelt den Konsonanten."
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Warum du sie trotzdem lernst",
+          "text": "In Zeitungen, Büchern und den meisten Alltagstexten werden kurze Vokale so gut wie nie geschrieben — geübte Leser:innen erschließen sie aus dem Zusammenhang. Für den Einstieg sind sie aber unverzichtbar, weil sie zeigen, WIE ein Wort tatsächlich ausgesprochen wird — deshalb sind sie in dieser App bislang bei den meisten Wörtern sichtbar."
+        },
+        {
+          "type": "heading",
+          "text": "Ein Buchstabe, viele mögliche Vokale"
+        },
+        {
+          "type": "paragraph",
+          "text": "Derselbe Grundbuchstabe kann mit jedem der Vokalzeichen kombiniert werden und klingt dann jeweils anders — بَ (ba), بِ (bi), بُ (bu) und بْ (b, ohne Vokal) sind vier unterschiedliche Aussprachen desselben Buchstabens ب, nur durch das Vokalzeichen unterschieden."
+        },
+        {
+          "type": "comparison",
+          "headers": ["Zeichen", "Name", "Klang (Beispiel mit ب)"],
+          "items": [
+            ["بَ", "Fatḥa", "ba"],
+            ["بِ", "Kasra", "bi"],
+            ["بُ", "Ḍamma", "bu"],
+            ["بْ", "Sukūn", "b (ohne Vokal)"]
+          ]
+        },
+        {
+          "type": "heading",
+          "level": "full",
+          "text": "Mehr erfahren: Tanwīn und Schadda"
+        },
+        {
+          "type": "paragraph",
+          "level": "full",
+          "text": "Zusätzlich zu den drei kurzen Vokalen gibt es die Tanwīn-Endungen (verdoppeltes Fatḥa/Kasra/Ḍamma), die am Wortende ein angehängtes „n\" andeuten, sowie die Schadda, die einen Konsonanten verdoppelt (z. B. مُدَرِّس, „Lehrer\", mit doppeltem ر). Beide Themen werden in dieser Unit nur an Beispielsilben geübt, nicht an vollständigen grammatischen Regeln."
+        },
+        {
+          "type": "mini_check",
+          "questions": [
+            {
+              "question": "Wofür steht das Sukūn-Zeichen?",
+              "options": [
+                { "text": "Kein Vokal nach diesem Konsonanten", "correct": true },
+                { "text": "Ein langes „a\"", "correct": false }
+              ],
+              "explanation": "Sukūn zeigt an, dass der Konsonant ohne folgenden Vokal ausgesprochen wird."
+            },
+            {
+              "question": "Werden kurze Vokale in normalen arabischen Alltagstexten meist geschrieben?",
+              "options": [
+                { "text": "Nein, fast nie", "correct": true },
+                { "text": "Ja, immer", "correct": false }
+              ],
+              "explanation": "Geübte Leser:innen erschließen kurze Vokale meist aus dem Zusammenhang, ohne dass sie geschrieben stehen."
+            },
+            {
+              "question": "Was unterscheidet بَ von بِ?",
+              "options": [
+                { "text": "Das Vokalzeichen (Fatḥa vs. Kasra)", "correct": true },
+                { "text": "Der Grundbuchstabe", "correct": false }
+              ],
+              "explanation": "Beide nutzen denselben Grundbuchstaben ب — nur das Vokalzeichen unterscheidet die Aussprache."
+            }
+          ]
+        }
+      ]
     }
   ]
 }

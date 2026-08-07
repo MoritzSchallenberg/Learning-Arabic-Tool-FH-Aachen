@@ -202,6 +202,55 @@ for (const unit of vocabSessions.vocab_units) {
 }
 console.log(`${vocabSessions.vocab_units.length} Pilot-Unit(s), ${vocabSessions.sessions.length} Session(s) — Zielwert 3 Pilot-Units (Abschnitt 18.2), noch nicht begonnen: kein Fehler.`);
 
+// --- Erweitertes Vokabelmodell: german_answers/accepted_arabic_answers/application_prompts ---
+// (Entwicklungsauftrag 5, Abschnitte 18/19) — nur geprüft, wenn ein Wort diese optionalen Felder
+// überhaupt trägt; Wörter ohne erweitertes Modell sind zu diesem Zeitpunkt weiterhin erlaubt
+// (Migration aller 141 Wörter folgt erst nach den drei Pilot-Units, Abschnitt 32).
+console.log('\n--- Erweitertes Vokabelmodell (german_answers/accepted_arabic_answers/application_prompts) ---');
+let extendedWordCount = 0;
+for (const w of words) {
+  let touched = false;
+  if ('german_answers' in w) {
+    touched = true;
+    if (!Array.isArray(w.german_answers) || w.german_answers.length === 0 || w.german_answers.some((a) => typeof a !== 'string' || !a.trim())) {
+      fail(`Wort "${w.id}" hat ein ungültiges "german_answers"-Feld (erwartet: nicht-leeres Array von Strings)`);
+    }
+  }
+  if ('accepted_arabic_answers' in w) {
+    touched = true;
+    if (!Array.isArray(w.accepted_arabic_answers) || w.accepted_arabic_answers.length === 0 || w.accepted_arabic_answers.some((a) => typeof a !== 'string' || !a.trim())) {
+      fail(`Wort "${w.id}" hat ein ungültiges "accepted_arabic_answers"-Feld (erwartet: nicht-leeres Array von Strings)`);
+    }
+  }
+  if ('application_prompts' in w) {
+    touched = true;
+    if (!Array.isArray(w.application_prompts) || w.application_prompts.length === 0) {
+      fail(`Wort "${w.id}" hat ein ungültiges "application_prompts"-Feld (erwartet: nicht-leeres Array)`);
+    } else {
+      for (const p of w.application_prompts) {
+        if (!p.prompt || !p.expected_meaning) fail(`Wort "${w.id}" hat einen application_prompt ohne "prompt"/"expected_meaning"`);
+      }
+    }
+  }
+  if (touched) extendedWordCount += 1;
+}
+console.log(`${extendedWordCount} von ${words.length} Wörtern nutzen bereits das erweiterte Modell (german_answers/accepted_arabic_answers/application_prompts).`);
+
+// --- Theorie für Schrift-Units (Entwicklungsauftrag 5, Abschnitt 17) ------------------------
+console.log('\n--- Theorie für Schrift-Units ---');
+const letterGroupUnitsForTheory = course1 ? course1.units.filter((u) => u.type === 'letter_group' || u.type === 'diacritics') : [];
+let scriptUnitsWithTheory = 0;
+for (const unit of letterGroupUnitsForTheory) {
+  const expectedId = unit.type === 'diacritics' ? 'theory_short_vowels' : `theory_${unit.id}`;
+  const doc = theoryData.theories.find((t) => t.theory_id === expectedId);
+  if (doc) {
+    scriptUnitsWithTheory += 1;
+    if (!doc.content_status) fail(`Theoriedokument "${doc.theory_id}" (Schrift-Unit "${unit.id}") hat kein "content_status"-Feld`);
+    else console.log(`OK: Theoriedokument "${doc.theory_id}" für Unit "${unit.id}" vorhanden, content_status="${doc.content_status}".`);
+  }
+}
+note(`${scriptUnitsWithTheory} von ${letterGroupUnitsForTheory.length} Schrift-Units haben bereits ein Theoriedokument (Zielumfang dieser Runde: Unit 1, Unit 2, Kurze Vokale — weitere Units folgen später).`);
+
 // --- Zusammenfassung -------------------------------------------------------------------------
 console.log('\n=== Zusammenfassung ===');
 console.log(`${hardErrors} Fehler, ${notes} Hinweise.`);

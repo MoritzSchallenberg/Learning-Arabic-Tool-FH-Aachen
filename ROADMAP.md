@@ -106,15 +106,20 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
 
 ## 4. Nächste Schritte (priorisiert)
 
-**Aktuell aktiv: Entwicklungsauftrag 4 "Neues Interface und echte Lernphase" in Abschnitt 8,
-konkret Schritt 1-4 (UI-Grundgerüst, Kurs-/Unit-Ansichten, Session Engine, Theorie-Integration)
-anhand einer Pilot-Session — hat Vorrang vor der Liste unten und vor Entwicklungsauftrag 3
-(Abschnitt 7), siehe Abschnitt 8 für den Stand je Schritt.**
+**Abgeschlossen: Entwicklungsauftrag 5 "Lernfluss fertigstellen, Interface verbessern und
+Pilotkurs vervollständigen" (Abschnitt 9) — alle drei Pilot-Units (Begrüßung, Familie, Zuhause)
+funktionieren vollständig mit dem überarbeiteten Session Engine. Nächster Schritt laut Auftrag 5,
+Abschnitt 32: erst wenn diese drei Pilot-Units sich im echten Gebrauch bewährt haben, Migration
+der restlichen 116 vorhandenen Wörter auf das neue Session-/Theory-System — NICHT die 759 neuen
+Wörter (die bleiben explizit zurückgestellt, bis auch diese Migration steht).**
 
-1. **Kurs 2-5 im Unit-Detail nachbauen**, analog zu Kurs 1.
-2. **Wortschatz weiter ausbauen** (Richtung 200-300), weiterhin in geprüften Schritten.
-3. **Inhaltliche Prüfung durch jemanden mit Arabischkenntnissen.**
-4. Physische Arabic-101-Tastaturbelegung, Transliterationsmodus, Kurspakete als ZIP.
+1. **Migration der restlichen 116 vorhandenen Wörter** auf das Session-/Theory-Modell (eigene
+   Vokabel-Units + Theorietexte), mit denselben Engine-Mechanismen wie die drei Pilot-Units.
+2. Theorie für die verbleibenden 5 Schrift-Units (3-7) nach demselben Muster wie Unit 1/2/8.
+3. **Inhaltliche Prüfung durch jemanden mit Arabischkenntnissen** (alle `needs_language_review`-
+   Theorietexte und die erweiterten Vokabelfelder).
+4. Erst danach: Wortschatz auf ~900 ausbauen (759 neue Wörter), weiterhin in geprüften Schritten.
+5. Physische Arabic-101-Tastaturbelegung, Transliterationsmodus, Kurspakete als ZIP.
 
 ## 5. Hinweise für die Weiterarbeit
 
@@ -541,3 +546,190 @@ frei geschrieben; Feedback verschwindet nicht automatisch vor einem Klick auf "W
 Session-Wiederaufnahme funktioniert; alle bisherigen Tests bestehen weiterhin; neue Tests
 bestehen; `npm test`/`npm run lint`/`npm run validate:course` erfolgreich; README/ROADMAP
 nennen nur tatsächlich getestete Funktionen als fertig.
+
+---
+
+## 9. Entwicklungsauftrag 5: Lernfluss fertigstellen, Interface verbessern und Pilotkurs vervollständigen (vom Nutzer, 2026-08-07)
+
+Fünfter Entwicklungsauftrag, direkt auf Entwicklungsauftrag 4 aufbauend: die dort gebaute Session
+Engine funktionierte zwar durchgehend, aber mit mehreren inhaltlichen Schwächen (Wortvorschau
+prüfte nicht wirklich jedes Wort, Sessions konnten weit über 50 Aufgaben erzeugen, Wiederaufnahme
+war nicht exakt, Dashboard/Theorie-Mini-Check/Freies-Üben waren nicht fertig überarbeitet, nur
+eine von drei geplanten Pilot-Units existierte). Ziel dieser Runde: den Lernablauf mit den
+vorhandenen 141 Wörtern so weit fertigstellen, dass er sich anschließend ohne Umbau auf 900
+Wörter skalieren lässt — **explizit noch ohne die 759 neuen Vokabeln zu erzeugen.**
+
+### Kernänderungen an der Session Engine (Abschnitte 3-12+26)
+
+- **`src/js/session/sessionCoverageTracker.js`** (neu): verfolgt je Wort `preview_seen`,
+  Versuche/Treffer je Phasentyp, Fehler und Hilfeeinsatz. Ein Wort gilt jetzt erst als
+  "kennengelernt" (`exposed`), wenn es SOWOHL gezeigt ALS AUCH mindestens einmal aktiv
+  wiedererkannt wurde (Mini-Check oder Wiedererkennen-Phase) — reines Rendern eines
+  Kartenrasters setzt `exposed` nicht mehr (behebt den in Abschnitt 3 beschriebenen Fehler).
+- **`sessionQueue.js`**: ein Wort darf jetzt mehrfach wiederholt werden (`max_repeats_per_word_per_phase`,
+  Standard 3), statt nur einmal — mit fester Obergrenze gegen Endlosschleifen.
+- **`sessionEngine.js`** (grundlegend erweitert): jede "graded" Phase bekommt nur noch eine anhand
+  der empfohlenen Verteilung berechnete Wortauswahl (`recommendedCount()`: bei zehn Wörtern 6
+  Wiedererkennen / 5 Rekonstruieren / 5 geführt / 8 selbstständig / 4 Anwendung = 28 Kernaufgaben,
+  passend zum geforderten 28-38-Bereich statt vorher >50). Geführte und selbstständige Produktion
+  garantieren gemeinsam trotzdem die volle Wortabdeckung über eine feste (nicht-zufällige)
+  Baseline-Aufteilung. Aufgaben-Warteschlangen werden je Phase EINMAL gebaut und danach
+  unverändert im Snapshot gespeichert (`phaseQueues`) — Wiederaufnahme mischt nicht neu, sondern
+  stellt exakt dieselbe Reihenfolge/Position/geplante Wiederholung wieder her (getestet). Fällige
+  Wiederholungswörter aus früheren Sessions (`review_count`, über `ReviewScheduler.buildQueue`
+  ausgewählt, priorisiert überfällig > häufig falsch > niedrige Beherrschung) werden in
+  Wiedererkennen/Anwendung eingemischt. Bewertung ist jetzt gewichtet (`weightedScorePercent()`:
+  Theorie/Lernen 0 %, Wiedererkennen 15 %, Rekonstruieren 15 %, geführt 20 %, selbstständig 35 %,
+  Anwendung 15 %) statt eines einfachen Verhältnisses — frühe formative Fehler wirken sich dadurch
+  weniger stark aus als spätere sichere Produktion.
+- **Tageslimit tatsächlich verwendet**: `AppState.incrementDailyNewCount()` wird jetzt beim
+  allerersten Zeigen eines neuen Worts aufgerufen (nicht bei Wiederholung/erneutem Öffnen/
+  Wiederaufnahme). Bei knappem Tageslimit zeigt `sessionController.js` vor Sessionbeginn eine
+  Wahlmöglichkeit ("Dein Tagesziel sind noch N neue Wörter" → "N Wörter lernen" oder "Trotzdem
+  alle M lernen") statt eines harten Zwangs.
+
+### Neue Wortlernphase (Abschnitte 4-5)
+
+`sessionController.js`s Wortlernphase wurde komplett ersetzt: Einzelansicht ("Wort X von N") ist
+jetzt Standard statt eines Kartenrasters, mit Anhören/Langsam anhören/Schreibweise verbergen/
+Übersetzung verbergen/Noch einmal zeigen/Kenne ich schon sowie einem Umschalter "Alle Wörter
+anzeigen" für die weiterhin verfügbare Rasteransicht. Wörter werden in Dreiergruppen gelernt,
+jede Gruppe endet mit einem leichten Mini-Check (zufällig eine von vier Varianten: Arabisch→
+Deutsch, Deutsch→Arabisch, Audio→Wort, Wort→Audio — noch keine freie Tastatureingabe), der
+GARANTIERT jedes Wort der Gruppe genau einmal abfragt.
+
+### Theorie-Mini-Check überarbeitet (Abschnitt 15)
+
+`theoryRenderer.js`s `renderMiniCheck()`: kein automatischer 600-ms-Wechsel mehr, nach jeder
+Antwort erscheint erklärendes Feedback ("Noch nicht. X bedeutet Y.") und ein manuelles "Weiter".
+Am Ende erscheint eine Zusammenfassung ("X von Y richtig") mit "Noch einmal ansehen"/"Mit den
+Wörtern starten" statt direkt fortzufahren. Neue Option `requireMiniCheckBeforeStart`: beim
+ERSTEN Sessiondurchlauf bleibt "Session starten" deaktiviert, bis der Mini-Check vollständig
+(nicht zwingend richtig) bearbeitet wurde; beim erneuten Ansehen mitten in einer Session bleibt
+er weiterhin optional.
+
+### Dashboard, Sessionübersicht, Abschlussbild (Abschnitte 13، 14, 25)
+
+- `dashboard.js`: die Hauptaktion führt jetzt bei einer aktiven Session DIREKT zur Session
+  (`App.navigateToSession`, mit Unit/Session-Titel, aktueller Phase, Aufgabenfortschritt), statt
+  wie vorher immer in den freien Übungsmodus. Ohne aktive Session wird die nächste noch nicht
+  abgeschlossene Vokabel-Session vorgeschlagen. "Fällige Wiederholungen"/"Frei üben" bleiben als
+  Zusatzaktionen erreichbar. Sicher gerendert (`createElement`/`textContent`).
+- `sessionController.js`: neue Sessionübersicht (Titel, Wort-/Wiederholungsanzahl, geschätzte
+  Dauer, "Heute lernst du", Ablauf-Übersicht) erscheint jetzt VOR der Theorie, mit "Session
+  starten"/"Theorie ansehen"/"Zurück" bzw. bei Wiederaufnahme "Session fortsetzen"/"Von vorne
+  beginnen".
+- Abschlussbild zeigt jetzt "X von Y Wörtern sicher erkannt", "X von Y selbstständig
+  geschrieben", eine Liste schwieriger Wörter mit Fehleranzahl und "Noch einmal anhören", sowie
+  "Schwierige Wörter wiederholen"/"Zur Unit"/"Nächste Session"-Buttons.
+
+### Aktionsleiste, Hilfestufen, Anwendung, flexible Antworten (Abschnitte 9/18/19/24)
+
+Die Aktionsleiste ist jetzt vereinheitlicht: während einer Eingabeaufgabe links Hilfe/Audio,
+rechts Prüfen (nur wenn die Aufgabe tatsächlich einen Prüfschritt braucht — Multiple-Choice
+committet weiterhin per Klick); nach der Antwort links Audio erneut/Fehler erklären, rechts
+Weiter. `exerciseRegistry.js`s `APPLICATION_CONTEXT`-Map mit hart codierten Begrüßungs-Wort-IDs
+wurde entfernt — Anwendungsaufgaben nutzen jetzt `word.application_prompts` aus den Kursdaten,
+funktioniert dadurch auch für Familie/Zuhause und später alle 900 Wörter. `evaluateAgainstAny()`
+wird jetzt in echten Sessionaufgaben verwendet (`word.german_answers`/`accepted_arabic_answers`).
+Hilfestufen A-E (`helpLevel.js`, bereits vorhanden) steuern jetzt tatsächlich Vokalzeichen/
+Umschrift/Übersetzung in den Übungen, nicht mehr nur die Tastaturstufe. Einstellungen
+(`showDiacritics`, `showTransliteration`, `autoPlayWord`, `replayAfterAnswer`, `slowPlayback`,
+`autoAdvanceAfterFeedback`) werden jetzt tatsächlich in Sessions gelesen — automatisches Weiter
+greift dabei NIE bei ausführlichem Fehlerfeedback, nur bei richtigen Antworten.
+
+### AudioPlayer, freier Übungsmodus, Kursansicht (Abschnitte 20/22/27)
+
+- `audioPlayer.js`: `currentAudio` verhindert Überlagerung (neue Wiedergabe stoppt immer zuerst
+  eine laufende); langsame Wiedergabe bevorzugt eine eigene `*_slow.wav`, fällt ohne diese auf
+  die normale Aufnahme mit `playbackRate=0.75` zurück statt sofort auf TTS auszuweichen —
+  spätere 900-Wort-Erweiterung braucht dadurch nur eine Aufnahme pro Wort. `speak()` löst mit
+  `{source:'audio'|'tts'}` auf.
+- `freePractice.js`: komplett neue Startansicht mit sechs Schnellstartkarten (Fällige
+  Wiederholungen/Schwierige Wörter/5 Minuten üben/Schreibtraining/Hörtraining/
+  Verbindungstrainer) statt langer Checkboxlisten; "Übung anpassen" öffnet eine einklappbare
+  erweiterte Auswahl mit Chips (`.chip`/`.chip-group`, bereits in Auftrag 4 vorbereitet, jetzt
+  erstmals genutzt) statt Checkboxen, inkl. sichtbarer Zusammenfassung vor dem Start.
+- `courseView.js`: die Lernroute ist jetzt in "Teil A — Arabische Schrift" und "Teil B —
+  Grundwortschatz" getrennt, mit je eigenem Fortschritt und Einklappen/Ausklappen-Button, statt
+  eines einzigen unstrukturierten Blocks.
+
+### Zwei weitere Pilot-Units (Abschnitt 16)
+
+`language-packs/arabic/vocabulary.json` um `german_answers`/`accepted_arabic_answers`/
+`application_prompts` für alle 25 Pilot-Wörter (Begrüßung + Familie + Zuhause) erweitert (`arabic`/
+`german` bleiben unverändert für Rückwärtskompatibilität). Neue Vokabel-Units in
+`vocabSessions.json`: **Familie und Personen** (`vocab_unit_02`, 8 Wörter — bewusst keine
+künstlichen Wörter nur um zehn zu erreichen) und **Zuhause und Räume** (`vocab_unit_03`, 8
+Wörter), je mit vollständiger Theorie (`content_status: needs_language_review`) nach den in
+Auftrag 5 vorgegebenen Inhalten (Genus/ة-Endung/gebrochene Pluralformen bei Familie; Haus/Raum/
+Gegenstand-Unterscheidung, Buchstabenverbindung an بَاب, Vorschau auf هذا/هذه bei Zuhause).
+
+**Beim Testen gefunden und behoben:** vier der 25 Pilot-Wörter (`family_father`, `family_mother`,
+`family_brother`, `family_sister`) enthalten Hamza-Formen (أ/أُ), die NICHT zu den 28
+Grundbuchstaben in `keyboard.json` gehören (die Hamza-Formen liegen in der separaten
+Sonderzeichen-Reihe der virtuellen Tastatur) — `lettersFromWord()` gab dafür `null` zurück, und
+die Rekonstruktionsaufgabe degenerierte zu einer sinnlosen Ein-Kachel-Aufgabe. Behoben in
+`exerciseRegistry.js`s `tokensForReconstruction()`: bei fehlender Buchstabenzuordnung wird jetzt
+zeichenweise statt wortweise zerlegt.
+
+### Theorie für Schrift-Units 1, 2 und 8 (Abschnitt 17)
+
+Neue Theoriedokumente `theory_unit_1` (ا د ذ ر ز و — keine Weiterverbindung nach links),
+`theory_unit_2` (ب ت ث ن ي — gemeinsame Grundform, Punkte als Unterscheidungsmerkmal) und
+`theory_short_vowels` (Fatḥa/Kasra/Ḍamma/Sukūn/Schadda) in `theory.json`, `content_status:
+needs_language_review`. `letterGroupLesson.js`/`vocalization.js` zeigen sie jetzt VOR der
+bestehenden Übungsphasenfolge (Suche nach `theory_${unitId}` bzw. `theory_short_vowels`), ohne
+die bestehende 9-Phasen-Lesson selbst zu verändern; ohne passendes Theoriedokument bleibt das
+bisherige Verhalten (direkter Einstieg) unverändert. `lessons.json`s kurze `intro`-Texte für
+diese drei Units waren bereits reine Ablaufbeschreibungen und mussten nicht geändert werden.
+Die verbleibenden 5 Schrift-Units (3-7) haben noch keine Theorie — bewusst zurückgestellt.
+
+### Repository-Zustand geprüft (Abschnitt 28)
+
+`.gitignore` und `.github/workflows/build.yml` existieren beide bereits im Repository (aus einer
+früheren Runde) und sind korrekt — `node_modules/` ist per `.gitignore` ausgeschlossen und laut
+`git ls-files` in keinem Commit enthalten. Eine ZIP-Datei, die dennoch `node_modules` enthält,
+kann nur durch direktes Zippen des Arbeitsordners statt eines Git-basierten Exports entstanden
+sein. **Korrekte Release-Erstellung:** `git archive --format=zip -o release.zip HEAD` (nimmt
+automatisch nur versionierte Dateien) oder, falls doch der komplette Ordner gezippt wird, vorher
+`node_modules/`, `dist/`, `.git/` explizit ausschließen.
+
+### Tests
+
+Neue/aktualisierte Testdateien: `sessionEngine.test.js`, `sessionCoverageTracker.test.js`,
+`sessionQueue.test.js` (neu, reine Logiktests mit synthetischen Daten), `sessionController.e2e.test.js`
+(komplett neu geschrieben: Sessionübersicht, Theorie-Mini-Check-Pflicht, Gruppenlernen mit
+Mini-Checks, exakte Wiederaufnahme via Snapshot-Vergleich, Tageslimit-Wahlmöglichkeit, sowie
+vollständige Durchläufe aller drei Pilot-Units mit einem korrekt antwortenden Test-Bot),
+`theoryRenderer.test.js` (Mini-Check ohne Auto-Advance, erklärendes Feedback,
+`requireMiniCheckBeforeStart`-Gating), `dashboard.test.js` (Haupt-Button-Priorisierung),
+`courseView.test.js` (Teil-A/Teil-B-Trennung), `freePractice.test.js` (Schnellstartkarten/Chips),
+`audioPlayer.test.js` (neu: Überlagerungsschutz, Slow-Fallback), `scriptUnitTheory.test.js` (neu:
+Theorie vor Schrift-Units). **Gesamtstatus:** `npm test` 239/239 Unit-Tests grün (+ 1
+Integrationstest, bedingt übersprungen ohne Backup-Fixture), `npm run lint` 0 Kollisionen,
+`npm run validate:course` 0 Fehler.
+
+### Bewusst nicht Teil dieser Runde (siehe Auftrag Abschnitt 31/32)
+
+759 neue Vokabeln, volle 900er-Erweiterung. Migration der restlichen 116 vorhandenen Wörter auf
+das neue Session-/Theory-Modell (folgt erst, wenn die drei Pilot-Units sich bewährt haben).
+Theorie für Schrift-Units 3-7. Inhaltliche Prüfung durch eine Person mit Arabischkenntnissen
+(alle `needs_language_review`-Texte).
+
+### Akzeptanzkriterien dieser Runde (Auszug aus den 31 Punkten in Auftrag Abschnitt 33)
+
+Alle drei Pilot-Units funktionieren vollständig mit echter Theorie; jedes neue Wort wird vor
+einer aktiven Abfrage kennengelernt und erhält mindestens einen leichten Erkennungscheck; zehn
+neue Wörter erzeugen nicht mehr automatisch über 50 Aufgaben (Kernsession bei zehn Wörtern genau
+28 Kernaufgaben); fällige Wörter werden automatisch eingemischt (`review_count` tatsächlich
+verwendet); Tageslimit wird tatsächlich gezählt; aktive Session wird vom Dashboard direkt
+fortgesetzt; Sessionresume bewahrt die exakte Warteschlange (getestet); Fehlerwiederholungen
+bleiben über Neustarts erhalten und sind auf 3 begrenzt; Hilfestufen A-E beeinflussen mehr als
+die Tastatur; flexible Übersetzungen werden in echten Sessionaufgaben benutzt;
+Application-Aufgaben sind nicht mehr auf Begrüßungs-IDs hart codiert; Theory-Mini-Check hat
+erklärendes Feedback ohne 600-ms-Auto-Advance; freie Übung hat die neue kompakte Oberfläche;
+Audio überlagert sich nicht und langsame Wiedergabe funktioniert ohne separate Datei;
+Kursansicht trennt Schrift und Wortschatz visuell; `node_modules` ist nicht Teil des
+Git-Repositorys; `.gitignore` ist vorhanden; `npm test`/`npm run lint`/`npm run validate:course`
+sind erfolgreich.

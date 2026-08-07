@@ -1,8 +1,10 @@
-// SessionRenderer (Entwicklungsauftrag 4, Schritt 3/13.1 + Abschnitt 16.1) — reine
-// DOM-Bausteine für die Session-Oberfläche: Sessionkopf mit Schrittanzeige (welche Phase ist
-// aktuell/erledigt), "Theorie ansehen"/"Session verlassen" jederzeit erreichbar, und die feste
-// Aktionsleiste am unteren Rand (hier: der manuelle "Weiter"-Button — kein automatischer
-// Wechsel nach 900/1400ms bei normalen Lernaufgaben, siehe Abschnitt 16.4).
+// SessionRenderer (Entwicklungsauftrag 4, Schritt 3 + Abschnitt 16.1; erweitert in
+// Entwicklungsauftrag 5, Abschnitte 23/24) — reine DOM-Bausteine für die Session-Oberfläche:
+// Sessionkopf mit Schrittanzeige, sichtbarer (stabiler) Fortschrittsbalken, "Theorie ansehen"/
+// "Session verlassen" jederzeit erreichbar, und eine VEREINHEITLICHTE feste Aktionsleiste am
+// unteren Rand mit linker/rechter Zone (Abschnitt 24: während einer Eingabeaufgabe links
+// Hilfe/Audio/Theorie + rechts Prüfen; nach der Antwort links Audio erneut/Fehler erklären +
+// rechts Weiter) — kein automatischer Wechsel nach 900/1400ms bei normalen Lernaufgaben.
 
 const SessionRenderer = (() => {
   function el(tag, opts = {}) {
@@ -25,12 +27,26 @@ const SessionRenderer = (() => {
     container.appendChild(wrap);
   }
 
+  /** Stabiler Fortschrittsbalken (Abschnitt 23) — der übergebene Prozentwert kommt bereits
+   * geglättet aus SessionEngine.progressPercent() und springt bei neuen Fehlerwiederholungen
+   * nicht zurück. */
+  function renderProgressBar(container, percent) {
+    const wrap = el('div', { className: 'session-progress' });
+    const track = el('div', { className: 'meter-track' });
+    const fill = el('div', { className: 'meter-fill mastery' });
+    fill.style.width = `${Math.max(0, Math.min(100, Math.round(percent)))}%`;
+    track.appendChild(fill);
+    wrap.appendChild(track);
+    wrap.appendChild(el('span', { className: 'meter-value', text: `${Math.round(percent)} %` }));
+    container.appendChild(wrap);
+  }
+
   /**
-   * Rendert den gemeinsamen Rahmen einer Session-Phase (Titel, Schrittanzeige, optionaler
-   * Fortschrittstext, Theorie-/Verlassen-Schaltflächen) und gibt die Einhänge-Punkte für Inhalt
-   * und Aktionsleiste zurück.
+   * Rendert den gemeinsamen Rahmen einer Session-Phase (Titel, Schrittanzeige, Fortschrittsbalken,
+   * optionaler Fortschrittstext, Theorie-/Verlassen-Schaltflächen) und gibt die Einhänge-Punkte
+   * für Inhalt und Aktionsleiste zurück.
    */
-  function renderSessionShell(container, { sessionDef, phaseIndex, progressLabel, onTheory, onLeave }) {
+  function renderSessionShell(container, { sessionDef, phaseIndex, progressLabel, progressPercent, onTheory, onLeave }) {
     while (container.firstChild) container.removeChild(container.firstChild);
     const view = el('div', { className: 'view page-content' });
 
@@ -57,6 +73,7 @@ const SessionRenderer = (() => {
     view.appendChild(topBar);
 
     renderStepIndicator(view, sessionDef.phases, phaseIndex);
+    if (typeof progressPercent === 'number') renderProgressBar(view, progressPercent);
 
     if (progressLabel) {
       view.appendChild(el('p', { className: 'text-hint', text: progressLabel }));
@@ -72,23 +89,45 @@ const SessionRenderer = (() => {
     return { bodyEl, actionBar };
   }
 
-  /** Manuelles "Weiter" — erscheint erst, NACHDEM Feedback gezeigt wurde. */
-  function renderContinueButton(actionBar, label, onClick) {
+  /**
+   * Vereinheitlichte Aktionsleiste (Abschnitt 24): links Sekundäraktionen (Hilfe/Audio/Theorie
+   * bzw. nach der Antwort Audio erneut/Fehler erklären), rechts die Hauptaktion (Prüfen/Weiter).
+   * @param {{label:string, onClick:Function, className?:string}[]} [leftButtons]
+   * @param {{label:string, onClick:Function, className?:string}[]} [rightButtons]
+   */
+  function renderActionBar(actionBar, { leftButtons = [], rightButtons = [] } = {}) {
     while (actionBar.firstChild) actionBar.removeChild(actionBar.firstChild);
+    const left = el('div', { className: 'action-bar-left' });
+    leftButtons.forEach(({ label, onClick, className }) => {
+      const btn = el('button', { className: className || 'btn secondary', text: label });
+      btn.type = 'button';
+      btn.addEventListener('click', onClick);
+      left.appendChild(btn);
+    });
     const right = el('div', { className: 'action-bar-right' });
-    const btn = el('button', { className: 'btn', text: label || 'Weiter' });
-    btn.type = 'button';
-    btn.addEventListener('click', onClick);
-    right.appendChild(btn);
-    actionBar.appendChild(el('div', { className: 'action-bar-left' }));
+    rightButtons.forEach(({ label, onClick, className }) => {
+      const btn = el('button', { className: className || 'btn', text: label });
+      btn.type = 'button';
+      btn.addEventListener('click', onClick);
+      right.appendChild(btn);
+    });
+    actionBar.appendChild(left);
     actionBar.appendChild(right);
+  }
+
+  /** Manuelles "Weiter" — erscheint erst, NACHDEM Feedback gezeigt wurde. */
+  function renderContinueButton(actionBar, label, onClick, leftButtons = []) {
+    renderActionBar(actionBar, { leftButtons, rightButtons: [{ label: label || 'Weiter', onClick }] });
   }
 
   function clearActionBar(actionBar) {
     while (actionBar.firstChild) actionBar.removeChild(actionBar.firstChild);
   }
 
-  return { renderSessionShell, renderContinueButton, clearActionBar, renderStepIndicator, el };
+  return {
+    renderSessionShell, renderActionBar, renderContinueButton, clearActionBar,
+    renderStepIndicator, renderProgressBar, el
+  };
 })();
 
 if (typeof module !== 'undefined' && module.exports) {

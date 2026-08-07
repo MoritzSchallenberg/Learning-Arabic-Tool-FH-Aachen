@@ -113,6 +113,20 @@ const ShortVowelsView = (() => {
     else renderExercise();
   }
 
+  // Entwicklungsauftrag 5, Abschnitt 17: Theorie auch für Unit 8 — TheoryRenderer wird VOR der
+  // bestehenden Tabelle/Übung gezeigt, statt die bisherige Phasenfolge selbst zu verändern.
+  function renderUnitTheory(theoryDoc) {
+    freshGuard();
+    container.innerHTML = '';
+    const wrapper = document.createElement('div');
+    container.appendChild(wrapper);
+    TheoryRenderer.mount(wrapper, theoryDoc, {
+      onPlayAudio: (audioKey, text) => AudioPlayer.speak(text, 'ar-SA', { audioKey }).catch(() => {}),
+      startLabel: 'Weiter zur Übersicht',
+      onStart: () => render()
+    });
+  }
+
   async function mount(el) {
     container = el;
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
@@ -120,7 +134,9 @@ const ShortVowelsView = (() => {
     const pack = await AppState.getLanguagePack();
     diacritics = pack.language.diacritics;
     phase = 0;
-    render();
+    const theoryDoc = pack.theory && pack.theory.theories.find((t) => t.theory_id === 'theory_short_vowels');
+    if (theoryDoc) renderUnitTheory(theoryDoc);
+    else render();
   }
 
   return { mount };

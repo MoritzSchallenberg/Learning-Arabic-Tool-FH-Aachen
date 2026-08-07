@@ -525,6 +525,23 @@ const LetterGroupLessonView = (() => {
     else if (phase === 'final_test') renderFinalTest();
   }
 
+  // Entwicklungsauftrag 5, Abschnitt 17: Theorie auch für Schrift-Units — TheoryRenderer wird
+  // (wo ein Theoriedokument existiert) VOR der bestehenden 9-Phasen-Lesson gezeigt, statt die
+  // bisherige (weiterhin gültige) Phasenfolge selbst zu verändern. lesson.intro in lessons.json
+  // bleibt bewusst eine kurze Ablaufbeschreibung, nicht die eigentliche Erklärung.
+  function renderUnitTheory(theoryDoc) {
+    freshGuard();
+    container.innerHTML = '';
+    const wrapper = document.createElement('div');
+    container.appendChild(wrapper);
+    TheoryRenderer.mount(wrapper, theoryDoc, {
+      getLetterById: (id) => allLetters.find((l) => l.id === id),
+      onPlayAudio: (audioKey, text) => AudioPlayer.speak(text, 'ar-SA', { audioKey }).catch(() => {}),
+      startLabel: 'Weiter zur Einführung',
+      onStart: () => renderCurrentPhase()
+    });
+  }
+
   async function mount(el, unitId) {
     container = el;
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
@@ -536,7 +553,9 @@ const LetterGroupLessonView = (() => {
     letters = unit.letters.map((id) => allLetters.find((l) => l.id === id));
     vocabWords = pack.vocabulary.categories.flatMap((c) => c.words);
     phaseIndex = 0;
-    renderCurrentPhase();
+    const theoryDoc = pack.theory && pack.theory.theories.find((t) => t.theory_id === `theory_${unitId}`);
+    if (theoryDoc) renderUnitTheory(theoryDoc);
+    else renderCurrentPhase();
   }
 
   return { mount };

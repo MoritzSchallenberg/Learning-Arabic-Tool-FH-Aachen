@@ -418,6 +418,74 @@ inkl. neuer Prüfungen für Sessions/Theorie-Dokumente).
 (Familie und Personen; Zuhause und Räume), Schritt 5-8 (Übungsoberflächen-Feinschliff, freies
 Üben neu gestalten), 759 neue Vokabeln, volle 900er-Erweiterung, Kurs-2-Inhalte.
 
+## Lernfluss fertiggestellt, drei Pilot-Units vollständig (Entwicklungsauftrag 5)
+
+Fünfter Entwicklungsauftrag, direkt auf den vorigen aufbauend: die Session Engine funktionierte
+zwar, hatte aber mehrere inhaltliche Schwächen — zu lange Sessions (potenziell über 50 Aufgaben
+bei zehn Wörtern), eine Wortvorschau, die "exposed" allein durchs Rendern setzte statt durch
+echtes aktives Wiedererkennen, ungenaue Session-Wiederaufnahme, ein Dashboard-Hauptbutton, der
+trotz aktiver Session immer in den freien Übungsmodus führte, und nur eine von drei geplanten
+Pilot-Units. Diese Runde stellt den Lernablauf mit den vorhandenen 141 Wörtern fertig, **ohne**
+die 759 neuen Vokabeln zu erzeugen (siehe [`ROADMAP.md`](ROADMAP.md), Abschnitt 9, für den
+vollständigen Stand).
+
+- **Session Engine grundlegend überarbeitet**: jede Übungsphase bekommt jetzt nur noch eine
+  anhand einer empfohlenen Verteilung berechnete Wortauswahl (bei zehn Wörtern 28 Kernaufgaben
+  statt potenziell über 50), geführte und selbstständige Produktion garantieren gemeinsam
+  trotzdem die volle Wortabdeckung. Falsche Antworten dürfen jetzt bis zu dreimal wiederholt
+  werden (vorher nur einmal). Aufgaben-Warteschlangen werden je Phase einmal gebaut und exakt im
+  Sessionzustand gespeichert — eine Wiederaufnahme nach Neustart stellt exakt dieselbe
+  Reihenfolge/Position/geplante Wiederholung wieder her (mit einem eigenen Test verifiziert).
+  Fällige Wiederholungswörter aus früheren Sessions werden automatisch eingemischt
+  (`review_count` wird jetzt tatsächlich verwendet). Die Bewertung ist jetzt gewichtet (frühe
+  Übungsphasen zählen weniger als die abschließende selbstständige Produktion). Das Tageslimit
+  für neue Wörter wird jetzt tatsächlich hochgezählt.
+- **Neue Wortlernphase**: Einzelansicht ("Wort X von N") statt Kartenraster als Standard, Wörter
+  werden in Dreiergruppen gelernt, jede Gruppe endet mit einem leichten Mini-Check, der
+  garantiert jedes Wort der Gruppe abfragt (vier zufällige Varianten: Arabisch→Deutsch,
+  Deutsch→Arabisch, Audio→Wort, Wort→Audio).
+- **Theorie-Mini-Check überarbeitet**: kein automatischer 600-ms-Wechsel mehr, erklärendes
+  Feedback nach jeder Antwort, manuelles "Weiter", eine Zusammenfassung am Ende. Beim ersten
+  Sessiondurchlauf muss der Mini-Check vollständig (nicht zwingend richtig) bearbeitet werden,
+  bevor "Session starten" nutzbar wird.
+- **Dashboard korrigiert**: die Hauptaktion führt bei einer aktiven Session jetzt direkt zur
+  Session statt immer in den freien Übungsmodus; ohne aktive Session wird die nächste noch nicht
+  abgeschlossene Session vorgeschlagen.
+- **Neue Sessionübersicht** vor der Theorie, **erweitertes Abschlussbild** (sicher erkannte vs.
+  noch zu übende Wörter mit Fehleranzahl und "Noch einmal anhören").
+- **Zwei weitere Pilot-Units**: Familie und Personen (8 Wörter) und Zuhause und Räume (8 Wörter),
+  je mit vollständiger Theorie — bewusst keine künstlichen Wörter nur um zehn zu erreichen. Dabei
+  einen echten Fehler gefunden und behoben: vier Familienwörter enthalten Hamza-Formen (أ/أُ), die
+  nicht zu den 28 Grundbuchstaben der virtuellen Tastatur gehören — die Rekonstruktionsaufgabe
+  degenerierte dafür zu einer sinnlosen Ein-Kachel-Aufgabe, jetzt behoben durch zeichenweise statt
+  wortweise Zerlegung als Fallback.
+- **Theorie für die Schrift-Units 1, 2 und 8** ergänzt (TheoryRenderer wird jetzt auch dort vor
+  der bestehenden Übungsphasenfolge angezeigt).
+- **AudioPlayer**: verhindert jetzt überlagerte Wiedergabe, langsame Wiedergabe fällt ohne eigene
+  `*_slow.wav`-Datei auf die normale Aufnahme mit reduziertem `playbackRate` zurück statt sofort
+  auf eine Computerstimme.
+- **Freier Übungsmodus neu gestaltet**: Schnellstartkarten statt langer Checkboxlisten, Chips
+  statt Checkboxen in der erweiterten Auswahl.
+- **Kursansicht**: Lernroute jetzt sichtbar in "Teil A — Arabische Schrift"/"Teil B —
+  Grundwortschatz" getrennt, statt eines einzigen unstrukturierten Blocks.
+- **Anwendungsaufgaben vollständig datenbasiert**: die hart codierte Wort-ID-Map wurde entfernt,
+  Anwendungsaufgaben nutzen jetzt `application_prompts` aus den Kursdaten — funktioniert dadurch
+  auch für die neuen Pilot-Units.
+- **Repository-Zustand geprüft**: `.gitignore`/`.github/workflows/build.yml` waren bereits
+  vorhanden und korrekt, `node_modules` ist nachweislich nicht im Git-Repository enthalten — für
+  eine saubere Quellcode-ZIP `git archive --format=zip -o release.zip HEAD` verwenden.
+
+**Getestet:** `npm test` (239 Unit-Tests grün, + 1 bedingt übersprungener Integrationstest),
+`npm run lint` (0 Kollisionen), `npm run validate:course` (0 Fehler). Neue Testdateien für
+SessionEngine/SessionCoverageTracker/SessionQueue (reine Logik, synthetische Daten), einen
+komplett neu geschriebenen Ende-zu-Ende-Test aller drei Pilot-Units (inkl. exakter
+Wiederaufnahme-Prüfung), sowie aktualisierte Tests für Dashboard/CourseView/FreePractice/
+TheoryRenderer/AudioPlayer.
+
+**Bewusst nicht Teil dieser Runde** (siehe ROADMAP Abschnitt 9): 759 neue Vokabeln, volle
+900er-Erweiterung, Migration der restlichen 116 vorhandenen Wörter, Theorie für Schrift-Units
+3-7, inhaltliche Prüfung durch eine Person mit Arabischkenntnissen.
+
 ## Bekannte Einschränkungen
 
 - Für Vokabeln/Buchstaben ohne generierte Audiodatei (z. B. neu hinzugefügte Inhalte vor dem

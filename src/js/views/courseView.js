@@ -72,6 +72,48 @@ const CourseView = (() => {
     return card;
   }
 
+  // Einklappbarer Abschnitt mit eigener Fortschrittsanzeige (Entwicklungsauftrag 5, Abschnitt 27:
+  // "Teil A: Arabische Schrift" / "Teil B: Grundwortschatz" statt eines einzigen unstrukturierten
+  // Blocks mit allen Units).
+  function renderSection(view, { title, percent }) {
+    const heading = el('div');
+    heading.style.display = 'flex';
+    heading.style.alignItems = 'center';
+    heading.style.gap = '10px';
+    heading.style.marginTop = '18px';
+    heading.appendChild(el('h2', { className: 'text-section-title', text: title }));
+    heading.appendChild(el('span', { className: 'text-hint', text: `${Math.round(percent)} % abgeschlossen` }));
+    const toggleBtn = el('button', { className: 'btn secondary', text: 'Einklappen' });
+    toggleBtn.type = 'button';
+    toggleBtn.style.marginLeft = 'auto';
+    heading.appendChild(toggleBtn);
+    view.appendChild(heading);
+
+    const route = el('div', { className: 'unit-route' });
+    view.appendChild(route);
+
+    toggleBtn.addEventListener('click', () => {
+      const collapsed = route.style.display === 'none';
+      route.style.display = collapsed ? '' : 'none';
+      toggleBtn.textContent = collapsed ? 'Einklappen' : 'Ausklappen';
+    });
+
+    return route;
+  }
+
+  function legacySectionPercent(course1, pack) {
+    if (course1.units.length === 0) return 0;
+    const passedCount = course1.units.filter((u) => LessonProgress.getStatus(unitNavKey(u), pack) === 'passed').length;
+    return (passedCount / course1.units.length) * 100;
+  }
+
+  function vocabSectionPercent(vocabUnits) {
+    const allSessionIds = vocabUnits.flatMap((u) => u.session_ids || []);
+    if (allSessionIds.length === 0) return 0;
+    const completedCount = allSessionIds.filter((id) => SessionState.getStatus(id) === 'completed').length;
+    return (completedCount / allSessionIds.length) * 100;
+  }
+
   async function mount(container) {
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
     const pack = await AppState.getLanguagePack();
@@ -122,18 +164,15 @@ const CourseView = (() => {
     head.appendChild(stats);
     view.appendChild(head);
 
-    view.appendChild(el('h2', { className: 'text-section-title', text: 'Lernroute' }));
-    const route = el('div', { className: 'unit-route' });
-    let index = 1;
-    for (const unit of course1.units) {
-      route.appendChild(legacyUnitCard(unit, index, pack));
-      index += 1;
+    // Teil A: Arabische Schrift (bestehende Kurs-1-Units) ---------------------------------------
+    const partA = renderSection(view, { title: 'Teil A — Arabische Schrift', percent: legacySectionPercent(course1, pack) });
+    course1.units.forEach((unit, i) => partA.appendChild(legacyUnitCard(unit, i + 1, pack)));
+
+    // Teil B: Grundwortschatz (neue Vokabel-Units) -----------------------------------------------
+    if (vocabUnits.length > 0) {
+      const partB = renderSection(view, { title: 'Teil B — Grundwortschatz', percent: vocabSectionPercent(vocabUnits) });
+      vocabUnits.forEach((vocabUnit, i) => partB.appendChild(vocabUnitCard(vocabUnit, i + 1, sessionsById)));
     }
-    for (const vocabUnit of vocabUnits) {
-      route.appendChild(vocabUnitCard(vocabUnit, index, sessionsById));
-      index += 1;
-    }
-    view.appendChild(route);
 
     container.appendChild(view);
   }

@@ -61,98 +61,204 @@ const FreePracticeView = (() => {
     });
   }
 
+  // --- Neue kompakte Startansicht (Entwicklungsauftrag 5, Abschnitt 20) ----------------------
+  function el(tag, opts = {}) {
+    const node = document.createElement(tag);
+    if (opts.className) node.className = opts.className;
+    if (opts.text !== undefined) node.textContent = opts.text;
+    return node;
+  }
+
+  function estimateMinutes(count) {
+    return Math.max(1, Math.round(count * 0.5));
+  }
+
+  // Schnellstartkarten: kurze Erklärung + Anzahl verfügbarer Aufgaben + geschätzte Dauer,
+  // direkter Start ohne Umweg über die erweiterte Auswahl.
+  function quickStartDefs() {
+    return [
+      {
+        title: 'Fällige Wiederholungen',
+        description: 'Wörter und Buchstaben, die laut deinem Lernfortschritt gerade fällig sind.',
+        apply: () => { resetFilters(); filters.dueOnly = true; }
+      },
+      {
+        title: 'Schwierige Wörter',
+        description: 'Inhalte mit hoher Schwierigkeit — mehr Übung lohnt sich hier besonders.',
+        apply: () => { resetFilters(); filters.categories.letters = false; filters.categories.connections = false; filters.difficultOnly = true; }
+      },
+      {
+        title: '5 Minuten üben',
+        description: 'Eine kurze, gemischte Runde für zwischendurch.',
+        apply: () => { resetFilters(); filters.count = 10; }
+      },
+      {
+        title: 'Schreibtraining',
+        description: 'Vokabeln und Buchstaben über die virtuelle Tastatur schreiben.',
+        apply: () => { resetFilters(); filters.categories.connections = false; filters.keyboardLevel = 3; }
+      },
+      {
+        title: 'Hörtraining',
+        description: 'Wörter hören und die richtige Bedeutung erkennen.',
+        apply: () => { resetFilters(); filters.categories.letters = false; filters.categories.connections = false; }
+      },
+      {
+        title: 'Verbindungstrainer',
+        description: 'Arabische Buchstabenverbindungen innerhalb von Wörtern üben.',
+        apply: () => { resetFilters(); filters.categories.letters = false; filters.categories.vocabulary = false; }
+      }
+    ];
+  }
+
+  function renderChipGroup(wrap, options, isSelected, onToggle) {
+    while (wrap.firstChild) wrap.removeChild(wrap.firstChild);
+    options.forEach(({ key, label }) => {
+      const chip = el('button', { className: `chip${isSelected(key) ? ' selected' : ''}`, text: label });
+      chip.type = 'button';
+      chip.addEventListener('click', () => {
+        onToggle(key);
+        renderChipGroup(wrap, options, isSelected, onToggle);
+      });
+      wrap.appendChild(chip);
+    });
+  }
+
+  function summaryText() {
+    const cats = Object.keys(filters.categories).filter((c) => filters.categories[c]).map((c) => PracticePool.CATEGORY_LABELS[c] || c);
+    const parts = [`${filters.count} Aufgaben`, cats.length > 0 ? cats.join(' und ') : 'keine Inhalte ausgewählt'];
+    parts.push(`Hilfestufe ${filters.helpLevel}`);
+    parts.push(`ca. ${estimateMinutes(filters.count)} Minuten`);
+    return parts.join(', ');
+  }
+
   function renderFilters() {
     activeGuard = null;
-    container.innerHTML = `
-      <div class="view">
-        <h1>Frei üben</h1>
-        <p class="lead">Stelle dir eine eigene Übungsrunde zusammen — aus Buchstaben, Vokabeln und Verbindungsübungen.</p>
+    while (container.firstChild) container.removeChild(container.firstChild);
+    const view = el('div', { className: 'view page-content' });
+    view.appendChild(el('h1', { className: 'text-page-title', text: 'Frei üben' }));
+    view.appendChild(el('p', { className: 'lead', text: 'Ein Klick auf eine Karte startet sofort — oder passe die Übung individuell an.' }));
 
-        <div class="card">
-          <p class="lead" style="margin-top:0;">Schnellzugriffe</p>
-          <div class="rating-buttons" id="fp-quick"></div>
-        </div>
+    const quickGrid = el('div', { className: 'stat-card-grid' });
+    quickStartDefs().forEach((def) => {
+      const card = el('button', { className: 'stat-card' });
+      card.type = 'button';
+      card.style.textAlign = 'left';
+      card.style.cursor = 'pointer';
+      card.appendChild(el('p', { className: 'lead', text: def.title }));
+      card.appendChild(el('p', { className: 'text-hint', text: def.description }));
+      card.addEventListener('click', () => { def.apply(); startPractice(); });
+      quickGrid.appendChild(card);
+    });
+    view.appendChild(quickGrid);
 
-        <div class="card">
-          <p class="lead" style="margin-top:0;">Inhalte</p>
-          <label><input type="checkbox" id="fp-cat-letters" checked /> Buchstaben</label><br/>
-          <label><input type="checkbox" id="fp-cat-vocabulary" checked /> Vokabeln</label><br/>
-          <label><input type="checkbox" id="fp-cat-connections" checked /> Verbindungen</label>
-        </div>
+    const advancedToggle = el('button', { className: 'btn secondary', text: 'Übung anpassen' });
+    advancedToggle.type = 'button';
+    advancedToggle.style.marginTop = '16px';
+    view.appendChild(advancedToggle);
 
-        <div class="card">
-          <p class="lead" style="margin-top:0;">Filter</p>
-          <label><input type="checkbox" id="fp-due" /> nur fällige Wiederholungen</label><br/>
-          <label><input type="checkbox" id="fp-difficult" /> nur schwierige</label><br/>
-          <label><input type="checkbox" id="fp-recent-wrong" /> zuletzt falsch beantwortet</label><br/>
-          <label><input type="checkbox" id="fp-new" /> nur neue (noch nicht geübte)</label><br/>
-          <label><input type="checkbox" id="fp-mastered" /> nur bereits gut beherrschte</label>
-        </div>
+    const advancedPanel = el('div', { className: 'card' });
+    advancedPanel.style.display = 'none';
+    advancedPanel.style.marginTop = '12px';
 
-        <div class="card">
-          <p class="lead" style="margin-top:0;">Einstellungen</p>
-          <label>Anzahl Aufgaben:
-            <select id="fp-count" class="text-input" style="width:auto; display:inline-block;">
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15" selected>15</option>
-              <option value="25">25</option>
-              <option value="40">40</option>
-            </select>
-          </label><br/>
-          <label>Hilfestufe:
-            <select id="fp-help-level" class="text-input" style="width:auto; display:inline-block;">
-              ${HelpLevel.LEVELS.map((l) => `<option value="${l}" ${l === 'C' ? 'selected' : ''}>${l} — ${HelpLevel.HELP_LEVEL_CONFIG[l].label}</option>`).join('')}
-            </select>
-          </label><br/>
-          <label>Tastaturstufe:
-            <select id="fp-keyboard-level" class="text-input" style="width:auto; display:inline-block;">
-              <option value="1">1 — stark geführt</option>
-              <option value="2">2 — leicht geführt</option>
-              <option value="3" selected>3 — normal</option>
-              <option value="4">4 — selbstständig</option>
-            </select>
-          </label>
-        </div>
+    advancedPanel.appendChild(el('p', { className: 'lead', text: 'Inhalte' }));
+    const categoryChips = el('div', { className: 'chip-group' });
+    advancedPanel.appendChild(categoryChips);
 
-        <button class="btn" id="fp-start">Los geht's</button>
-        <p id="fp-empty-feedback" class="feedback"></p>
-      </div>
-    `;
+    advancedPanel.appendChild(el('p', { className: 'lead', text: 'Filter' }));
+    const filterChips = el('div', { className: 'chip-group' });
+    advancedPanel.appendChild(filterChips);
 
-    const quickWrap = container.querySelector('#fp-quick');
-    const quickAccessButtons = [
-      { label: '5-Minuten-Wiederholung', apply: () => { resetFilters(); filters.dueOnly = true; filters.count = 10; } },
-      { label: 'Fällige Wörter', apply: () => { resetFilters(); filters.categories.letters = false; filters.categories.connections = false; filters.dueOnly = true; } },
-      { label: 'Schwierige Wörter', apply: () => { resetFilters(); filters.categories.letters = false; filters.categories.connections = false; filters.difficultOnly = true; } },
-      { label: 'Schreibtraining', apply: () => { resetFilters(); filters.categories.connections = false; filters.keyboardLevel = 3; } },
-      { label: 'Verbindungstrainer', apply: () => { resetFilters(); filters.categories.letters = false; filters.categories.vocabulary = false; } }
+    const settingsRow = el('div', { className: 'action-bar-left' });
+    settingsRow.style.marginTop = '12px';
+
+    const countLabel = el('label', { text: 'Aufgaben: ' });
+    const countSelect = document.createElement('select');
+    countSelect.className = 'text-input';
+    [5, 10, 15, 25, 40].forEach((n) => {
+      const opt = document.createElement('option');
+      opt.value = String(n);
+      opt.textContent = String(n);
+      if (n === filters.count) opt.selected = true;
+      countSelect.appendChild(opt);
+    });
+    countLabel.appendChild(countSelect);
+
+    const helpLabel = el('label', { text: 'Hilfestufe: ' });
+    const helpSelect = document.createElement('select');
+    helpSelect.className = 'text-input';
+    HelpLevel.LEVELS.forEach((l) => {
+      const opt = document.createElement('option');
+      opt.value = l;
+      opt.textContent = `${l} — ${HelpLevel.HELP_LEVEL_CONFIG[l].label}`;
+      if (l === filters.helpLevel) opt.selected = true;
+      helpSelect.appendChild(opt);
+    });
+    helpLabel.appendChild(helpSelect);
+
+    const keyboardLabel = el('label', { text: 'Tastaturstufe: ' });
+    const keyboardSelect = document.createElement('select');
+    keyboardSelect.className = 'text-input';
+    [[1, '1 — stark geführt'], [2, '2 — leicht geführt'], [3, '3 — normal'], [4, '4 — selbstständig']].forEach(([val, label]) => {
+      const opt = document.createElement('option');
+      opt.value = String(val);
+      opt.textContent = label;
+      if (val === filters.keyboardLevel) opt.selected = true;
+      keyboardSelect.appendChild(opt);
+    });
+    keyboardLabel.appendChild(keyboardSelect);
+
+    settingsRow.appendChild(countLabel);
+    settingsRow.appendChild(helpLabel);
+    settingsRow.appendChild(keyboardLabel);
+    advancedPanel.appendChild(settingsRow);
+
+    const summary = el('p', { className: 'text-hint', text: summaryText() });
+    advancedPanel.appendChild(summary);
+
+    function refreshSummary() { summary.textContent = summaryText(); }
+
+    const CATEGORY_OPTIONS = [
+      { key: 'letters', label: 'Buchstaben' },
+      { key: 'vocabulary', label: 'Vokabeln' },
+      { key: 'connections', label: 'Verbindungen' }
     ];
-    quickAccessButtons.forEach((qa) => {
-      const btn = document.createElement('button');
-      btn.className = 'btn secondary';
-      btn.textContent = qa.label;
-      btn.addEventListener('click', () => {
-        qa.apply();
-        startPractice();
-      });
-      quickWrap.appendChild(btn);
+    renderChipGroup(categoryChips, CATEGORY_OPTIONS, (key) => filters.categories[key], (key) => {
+      filters.categories[key] = !filters.categories[key];
+      refreshSummary();
     });
 
-    container.querySelector('#fp-start').addEventListener('click', () => {
-      filters.categories.letters = container.querySelector('#fp-cat-letters').checked;
-      filters.categories.vocabulary = container.querySelector('#fp-cat-vocabulary').checked;
-      filters.categories.connections = container.querySelector('#fp-cat-connections').checked;
-      filters.dueOnly = container.querySelector('#fp-due').checked;
-      filters.difficultOnly = container.querySelector('#fp-difficult').checked;
-      filters.recentlyWrongOnly = container.querySelector('#fp-recent-wrong').checked;
-      filters.newOnly = container.querySelector('#fp-new').checked;
-      filters.masteredOnly = container.querySelector('#fp-mastered').checked;
-      filters.count = Number(container.querySelector('#fp-count').value);
-      filters.helpLevel = container.querySelector('#fp-help-level').value;
-      filters.keyboardLevel = Number(container.querySelector('#fp-keyboard-level').value);
-      startPractice();
+    const FILTER_OPTIONS = [
+      { key: 'dueOnly', label: 'Fällig' },
+      { key: 'difficultOnly', label: 'Schwierig' },
+      { key: 'recentlyWrongOnly', label: 'Zuletzt falsch' },
+      { key: 'newOnly', label: 'Neu' },
+      { key: 'masteredOnly', label: 'Beherrscht' }
+    ];
+    renderChipGroup(filterChips, FILTER_OPTIONS, (key) => filters[key], (key) => {
+      filters[key] = !filters[key];
+      refreshSummary();
     });
+
+    countSelect.addEventListener('change', () => { filters.count = Number(countSelect.value); refreshSummary(); });
+    helpSelect.addEventListener('change', () => { filters.helpLevel = helpSelect.value; refreshSummary(); });
+    keyboardSelect.addEventListener('change', () => { filters.keyboardLevel = Number(keyboardSelect.value); refreshSummary(); });
+
+    const startBtn = el('button', { className: 'btn', text: 'Übung starten' });
+    startBtn.type = 'button';
+    startBtn.style.marginTop = '12px';
+    startBtn.addEventListener('click', startPractice);
+    advancedPanel.appendChild(startBtn);
+
+    const emptyFeedback = el('p', { className: 'feedback' });
+    advancedPanel.appendChild(emptyFeedback);
+    container.__fpEmptyFeedback = emptyFeedback;
+
+    advancedToggle.addEventListener('click', () => {
+      advancedPanel.style.display = advancedPanel.style.display === 'none' ? 'block' : 'none';
+    });
+
+    view.appendChild(advancedPanel);
+    container.appendChild(view);
   }
 
   function resetFilters() {
@@ -173,7 +279,9 @@ const FreePracticeView = (() => {
     const candidates = pickRandomOrder(filteredPool()).slice(0, filters.count);
     if (candidates.length === 0) {
       renderFilters();
-      const feedbackEl = container.querySelector('#fp-empty-feedback');
+      const advancedPanel = container.querySelector('.card');
+      if (advancedPanel) advancedPanel.style.display = 'block';
+      const feedbackEl = container.__fpEmptyFeedback;
       if (feedbackEl) {
         feedbackEl.textContent = 'Keine passenden Aufgaben mit dieser Filterkombination gefunden — bitte Filter lockern.';
         feedbackEl.className = 'feedback wrong';

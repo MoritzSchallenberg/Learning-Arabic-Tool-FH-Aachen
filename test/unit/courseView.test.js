@@ -69,16 +69,23 @@ function loadCourseView({ sessionStates = {} } = {}) {
   return { view: context.__CourseView, navigateCalls };
 }
 
-test('CourseView.mount() rendert eine Karte je Kurs-1-Unit und je Vokabel-Unit', async () => {
+function findUnitCard(container, titleText) {
+  return container.querySelectorAll('.unit-card').find((c) => c.textContent.includes(titleText));
+}
+
+test('CourseView.mount() rendert eine Karte je Kurs-1-Unit und je Vokabel-Unit, getrennt in Teil A/Teil B', async () => {
   const { view } = loadCourseView();
   const container = createDocumentStub().createElement('div');
   await view.mount(container);
 
   const cards = container.querySelectorAll('.unit-card');
-  // 1 legacy Kurs-1-Unit + 1 Pilot-Vokabel-Unit ("Begrüßung und Höflichkeit").
-  assert.equal(cards.length, 2, 'sollte eine Karte je Legacy-Unit und je Vokabel-Unit zeigen');
+  // 1 legacy Kurs-1-Unit + 3 Pilot-Vokabel-Units (Begrüßung, Familie, Zuhause).
+  assert.equal(cards.length, 4, 'sollte eine Karte je Legacy-Unit und je Vokabel-Unit zeigen');
   assert.ok(container.textContent.includes('Begrüßung und Höflichkeit'), 'Vokabel-Unit-Titel sollte sichtbar sein');
-  assert.ok(container.textContent.includes('Lernroute'), 'Abschnittsüberschrift "Lernroute" erwartet');
+  assert.ok(container.textContent.includes('Familie und Personen'));
+  assert.ok(container.textContent.includes('Zuhause und Räume'));
+  assert.ok(container.textContent.includes('Teil A — Arabische Schrift'), 'Abschnitt "Teil A" erwartet');
+  assert.ok(container.textContent.includes('Teil B — Grundwortschatz'), 'Abschnitt "Teil B" erwartet');
 });
 
 test('CourseView: unbegonnene Vokabel-Unit zeigt Status "Verfügbar"', async () => {
@@ -86,7 +93,7 @@ test('CourseView: unbegonnene Vokabel-Unit zeigt Status "Verfügbar"', async () 
   const container = createDocumentStub().createElement('div');
   await view.mount(container);
 
-  const vocabCard = container.querySelectorAll('.unit-card')[1];
+  const vocabCard = findUnitCard(container, 'Begrüßung und Höflichkeit');
   const badge = vocabCard.querySelector('.status-badge');
   assert.ok(badge, 'Status-Badge sollte vorhanden sein');
   assert.ok(badge.className.includes('available'), 'unbegonnene Unit sollte als "available" markiert sein');
@@ -97,7 +104,7 @@ test('CourseView: abgeschlossene Session lässt Vokabel-Unit als "Abgeschlossen"
   const container = createDocumentStub().createElement('div');
   await view.mount(container);
 
-  const vocabCard = container.querySelectorAll('.unit-card')[1];
+  const vocabCard = findUnitCard(container, 'Begrüßung und Höflichkeit');
   const badge = vocabCard.querySelector('.status-badge');
   assert.ok(badge.className.includes('completed'), 'abgeschlossene Unit sollte als "completed" markiert sein');
 });
@@ -107,8 +114,20 @@ test('CourseView: Klick auf Vokabel-Unit-Karte navigiert mit der richtigen Unit-
   const container = createDocumentStub().createElement('div');
   await view.mount(container);
 
-  container.querySelectorAll('.unit-card')[1].click();
-  assert.deepEqual(navigateCalls, ['unit:vocab_unit_01']);
+  findUnitCard(container, 'Familie und Personen').click();
+  assert.deepEqual(navigateCalls, ['unit:vocab_unit_02']);
+});
+
+test('CourseView: Abschnitt "Teil B" lässt sich ein-/ausklappen', async () => {
+  const { view } = loadCourseView();
+  const container = createDocumentStub().createElement('div');
+  await view.mount(container);
+
+  const collapseButtons = container.querySelectorAll('button').filter((b) => b.textContent === 'Einklappen');
+  assert.equal(collapseButtons.length, 2, 'beide Abschnitte sollten je einen Einklappen-Button haben');
+  const partBToggle = collapseButtons[1];
+  partBToggle.click();
+  assert.ok(container.querySelectorAll('button').some((b) => b.textContent === 'Ausklappen'), 'Button-Text sollte auf "Ausklappen" wechseln');
 });
 
 test('CourseView: Klick auf Legacy-Unit-Karte navigiert weiterhin über App.navigateTo(key)', async () => {

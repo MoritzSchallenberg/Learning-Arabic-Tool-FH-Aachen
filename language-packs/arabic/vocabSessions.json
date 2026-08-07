@@ -5,6 +5,18 @@
       "title": "Begrüßung und Höflichkeit",
       "description": "Die ersten neun Wörter für Begrüßungen, Höflichkeit und kurze Antworten im Alltag.",
       "session_ids": ["vocab_unit_01_a"]
+    },
+    {
+      "id": "vocab_unit_02",
+      "title": "Familie und Personen",
+      "description": "Acht Wörter für die engste Familie — Eltern, Geschwister, Kinder und Großeltern.",
+      "session_ids": ["vocab_unit_02_a"]
+    },
+    {
+      "id": "vocab_unit_03",
+      "title": "Zuhause und Räume",
+      "description": "Acht Wörter für das Haus, seine Räume und wichtige Gegenstände darin.",
+      "session_ids": ["vocab_unit_03_a"]
     }
   ],
   "sessions": [
@@ -25,6 +37,74 @@
         "greet_please",
         "greet_yes",
         "greet_no"
+      ],
+      "review_count": 5,
+      "phases": [
+        { "type": "theory", "required_first_time": true },
+        { "type": "word_preview" },
+        { "type": "recognition" },
+        { "type": "reconstruction" },
+        { "type": "guided_production" },
+        { "type": "independent_production" },
+        { "type": "application" },
+        { "type": "summary" }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": ["theory", "word_preview", "recognition", "independent_production"]
+      }
+    },
+    {
+      "session_id": "vocab_unit_02_a",
+      "unit_id": "vocab_unit_02",
+      "title": "Familie und Personen",
+      "description": "Lerne acht Wörter für die engste Familie — und wie man Genus und Plural bei Personenwörtern erkennt.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_02_a",
+      "new_word_ids": [
+        "family_father",
+        "family_mother",
+        "family_brother",
+        "family_sister",
+        "family_son",
+        "family_daughter",
+        "family_grandfather",
+        "family_grandmother"
+      ],
+      "review_count": 5,
+      "phases": [
+        { "type": "theory", "required_first_time": true },
+        { "type": "word_preview" },
+        { "type": "recognition" },
+        { "type": "reconstruction" },
+        { "type": "guided_production" },
+        { "type": "independent_production" },
+        { "type": "application" },
+        { "type": "summary" }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": ["theory", "word_preview", "recognition", "independent_production"]
+      }
+    },
+    {
+      "session_id": "vocab_unit_03_a",
+      "unit_id": "vocab_unit_03",
+      "title": "Zuhause und Räume",
+      "description": "Lerne acht Wörter für Haus, Räume und Einrichtungsgegenstände.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_03_a",
+      "new_word_ids": [
+        "housing_house",
+        "housing_room",
+        "housing_kitchen",
+        "housing_bathroom",
+        "housing_door",
+        "housing_window",
+        "housing_bed",
+        "housing_table"
       ],
       "review_count": 5,
       "phases": [

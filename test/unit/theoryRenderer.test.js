@@ -103,22 +103,95 @@ test('"Session starten" ruft onStart auf und markiert die Theorie als abgeschlos
   assert.deepEqual(markTheoryCompletedCalls, ['vocab_unit_test_a_theory']);
 });
 
-test('mini_check wertet Antworten aus und meldet das Ergebnis über onMiniCheckComplete', async () => {
+test('mini_check: kein automatischer Wechsel — Feedback bleibt stehen, bis "Weiter" geklickt wird', () => {
   const TheoryRenderer = loadTheoryRenderer({ markTheoryOpenedCalls: [], markTheoryCompletedCalls: [] });
   const container = createDocumentStub().createElement('div');
-  let reportedResult = null;
 
-  TheoryRenderer.mount(container, SAMPLE_THEORY, {
-    getWordById: fakeWordLookup,
-    onMiniCheckComplete: (correct, total) => { reportedResult = { correct, total }; }
-  });
+  TheoryRenderer.mount(container, SAMPLE_THEORY, { getWordById: fakeWordLookup });
 
   const correctBtn = container.querySelectorAll('button').find((b) => b.textContent === 'Tür');
   assert.ok(correctBtn, 'Mini-Check-Antwortoption "Tür" nicht gefunden');
   correctBtn.click();
 
-  await new Promise((resolve) => setTimeout(resolve, 700));
+  assert.ok(container.textContent.includes('Richtig!'), 'Feedback sollte sofort sichtbar sein');
+  // Kein automatischer Wechsel: die Zusammenfassung ("Mit den Wörtern starten") darf erst NACH
+  // einem Klick auf "Weiter" erscheinen, nicht von selbst.
+  assert.ok(!container.textContent.includes('Mit den Wörtern starten'), 'sollte nicht automatisch weiterschalten');
+  const weiterBtn = container.querySelectorAll('button').find((b) => b.textContent === 'Weiter');
+  assert.ok(weiterBtn, '"Weiter"-Button sollte nach der Antwort erscheinen');
+});
+
+test('mini_check: falsche Antwort zeigt erklärendes Feedback ("Noch nicht. ...")', () => {
+  const TheoryRenderer = loadTheoryRenderer({ markTheoryOpenedCalls: [], markTheoryCompletedCalls: [] });
+  const container = createDocumentStub().createElement('div');
+  const theoryWithExplanation = {
+    ...SAMPLE_THEORY,
+    blocks: [
+      {
+        type: 'mini_check',
+        questions: [{
+          question: 'Was bedeutet بَاب?',
+          options: [{ text: 'Tür', correct: true }, { text: 'Fenster', correct: false }],
+          explanation: 'بَاب bedeutet „Tür", نَافِذَة wäre „Fenster".'
+        }]
+      }
+    ]
+  };
+  TheoryRenderer.mount(container, theoryWithExplanation, { getWordById: fakeWordLookup });
+
+  container.querySelectorAll('button').find((b) => b.textContent === 'Fenster').click();
+  assert.ok(container.textContent.includes('Noch nicht.'));
+  assert.ok(container.textContent.includes('بَاب bedeutet „Tür"'), 'erklärendes Feedback sollte angezeigt werden');
+});
+
+test('mini_check: meldet das Ergebnis erst nach Abschluss über onMiniCheckComplete und zeigt eine Zusammenfassung mit Wahlmöglichkeit', () => {
+  const TheoryRenderer = loadTheoryRenderer({ markTheoryOpenedCalls: [], markTheoryCompletedCalls: [] });
+  const container = createDocumentStub().createElement('div');
+  let reportedResult = null;
+  let startedWords = false;
+
+  TheoryRenderer.mount(container, SAMPLE_THEORY, {
+    getWordById: fakeWordLookup,
+    onMiniCheckComplete: (correct, total) => { reportedResult = { correct, total }; },
+    onMiniCheckStartWords: () => { startedWords = true; }
+  });
+
+  container.querySelectorAll('button').find((b) => b.textContent === 'Tür').click();
+  assert.equal(reportedResult, null, 'onMiniCheckComplete darf erst nach dem letzten "Weiter" feuern');
+  container.querySelectorAll('button').find((b) => b.textContent === 'Weiter').click();
+
   assert.deepEqual(reportedResult, { correct: 1, total: 1 });
+  assert.ok(container.textContent.includes('1 von 1 richtig'));
+  assert.ok(container.querySelectorAll('button').some((b) => b.textContent === 'Noch einmal ansehen'));
+  const startWordsBtn = container.querySelectorAll('button').find((b) => b.textContent === 'Mit den Wörtern starten');
+  assert.ok(startWordsBtn);
+  startWordsBtn.click();
+  assert.equal(startedWords, true);
+});
+
+test('requireMiniCheckBeforeStart: "Session starten" bleibt deaktiviert, bis der Mini-Check vollständig bearbeitet wurde', () => {
+  const TheoryRenderer = loadTheoryRenderer({ markTheoryOpenedCalls: [], markTheoryCompletedCalls: [] });
+  const container = createDocumentStub().createElement('div');
+  let started = false;
+
+  TheoryRenderer.mount(container, SAMPLE_THEORY, {
+    getWordById: fakeWordLookup,
+    requireMiniCheckBeforeStart: true,
+    onStart: () => { started = true; }
+  });
+
+  const startBtn = container.querySelectorAll('button').find((b) => b.textContent === 'Session starten');
+  assert.equal(startBtn.disabled, true, 'sollte vor dem Mini-Check deaktiviert sein');
+  startBtn.click();
+  assert.equal(started, false, 'ein Klick auf einen deaktivierten Button darf nichts auslösen');
+
+  container.querySelectorAll('button').find((b) => b.textContent === 'Tür').click();
+  container.querySelectorAll('button').find((b) => b.textContent === 'Weiter').click();
+
+  const startBtnAfter = container.querySelectorAll('button').find((b) => b.textContent === 'Session starten');
+  assert.equal(startBtnAfter.disabled, false, 'nach vollständig bearbeitetem Mini-Check sollte der Button aktiv sein');
+  startBtnAfter.click();
+  assert.equal(started, true);
 });
 
 test('Blöcke ohne bekannten Renderer werden übersprungen, ohne zu crashen', () => {

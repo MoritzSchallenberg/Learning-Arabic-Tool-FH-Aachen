@@ -882,6 +882,15 @@ html, body {
 .step-indicator-item.done { color: var(--success); }
 .step-indicator-sep { color: var(--text-secondary); opacity: 0.5; font-size: 0.75rem; }
 
+/* --- Sichtbarer Sessionfortschritt (Entwicklungsauftrag 5, Abschnitt 23) --- */
+.session-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0 2px;
+}
+.session-progress .meter-track { flex: 1; }
+
 /* --- Aktionsleiste (feste Leiste am unteren Rand von Übungen) --- */
 .action-bar {
   position: sticky;
