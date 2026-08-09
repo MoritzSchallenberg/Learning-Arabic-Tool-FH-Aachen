@@ -1,0 +1,24 @@
+{
+  "arabic": {
+    "cards": {
+      "greet_hallo": {
+        "difficulty": { "arabic_to_german": 3.5, "german_to_arabic": 4.0, "pronunciation": 3.0 },
+        "consecutiveWrong": {},
+        "nextReview": { "arabic_to_german": "2026-01-05T08:00:00.000Z" }
+      },
+      "family_father": {
+        "difficulty": { "arabic_to_german": 2.0, "german_to_arabic": 2.5 },
+        "consecutiveWrong": { "german_to_arabic": 1 },
+        "nextReview": { "arabic_to_german": "2026-01-02T08:00:00.000Z" }
+      },
+      "num_3": {
+        "difficulty": { "arabic_to_german": 6.5 },
+        "consecutiveWrong": { "arabic_to_german": 2 }
+      }
+    },
+    "lessonFlags": {
+      "unit_1": { "status": "completed", "meta": null },
+      "unit_2": { "status": "completed", "meta": { "score": 0.9 } }
+    }
+  }
+}

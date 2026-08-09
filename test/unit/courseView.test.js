@@ -79,10 +79,10 @@ test('CourseView.mount() rendert eine Karte je Kurs-1-Unit und je Vokabel-Unit, 
   await view.mount(container);
 
   const cards = container.querySelectorAll('.unit-card');
-  // 1 legacy Kurs-1-Unit + 3 Pilot-Vokabel-Units (Begrüßung, Familie, Zuhause).
-  assert.equal(cards.length, 4, 'sollte eine Karte je Legacy-Unit und je Vokabel-Unit zeigen');
-  assert.ok(container.textContent.includes('Begrüßung und Höflichkeit'), 'Vokabel-Unit-Titel sollte sichtbar sein');
-  assert.ok(container.textContent.includes('Familie und Personen'));
+  // 1 legacy Kurs-1-Unit + 30 Vokabel-Units (Entwicklungsauftrag 6: voller 900-Wort-Wortschatz).
+  assert.equal(cards.length, 31, 'sollte eine Karte je Legacy-Unit und je Vokabel-Unit zeigen');
+  assert.ok(container.textContent.includes('Begrüßung, Höflichkeit und kurze Antworten'), 'Vokabel-Unit-Titel sollte sichtbar sein');
+  assert.ok(container.textContent.includes('Familie, Beziehungen und Personen'));
   assert.ok(container.textContent.includes('Zuhause und Räume'));
   assert.ok(container.textContent.includes('Teil A — Arabische Schrift'), 'Abschnitt "Teil A" erwartet');
   assert.ok(container.textContent.includes('Teil B — Grundwortschatz'), 'Abschnitt "Teil B" erwartet');
@@ -93,18 +93,26 @@ test('CourseView: unbegonnene Vokabel-Unit zeigt Status "Verfügbar"', async () 
   const container = createDocumentStub().createElement('div');
   await view.mount(container);
 
-  const vocabCard = findUnitCard(container, 'Begrüßung und Höflichkeit');
+  const vocabCard = findUnitCard(container, 'Begrüßung, Höflichkeit und kurze Antworten');
   const badge = vocabCard.querySelector('.status-badge');
   assert.ok(badge, 'Status-Badge sollte vorhanden sein');
   assert.ok(badge.className.includes('available'), 'unbegonnene Unit sollte als "available" markiert sein');
 });
 
 test('CourseView: abgeschlossene Session lässt Vokabel-Unit als "Abgeschlossen" erscheinen', async () => {
-  const { view } = loadCourseView({ sessionStates: { vocab_unit_01_a: { status: 'completed' } } });
+  // Unit 1 hat jetzt drei Sessions (Entwicklungsauftrag 6) — erst wenn ALLE abgeschlossen sind,
+  // gilt die Unit als "completed" (siehe vocabUnitCard()-Logik in courseView.js).
+  const { view } = loadCourseView({
+    sessionStates: {
+      vocab_unit_01_a: { status: 'completed' },
+      vocab_unit_01_b: { status: 'completed' },
+      vocab_unit_01_c: { status: 'completed' }
+    }
+  });
   const container = createDocumentStub().createElement('div');
   await view.mount(container);
 
-  const vocabCard = findUnitCard(container, 'Begrüßung und Höflichkeit');
+  const vocabCard = findUnitCard(container, 'Begrüßung, Höflichkeit und kurze Antworten');
   const badge = vocabCard.querySelector('.status-badge');
   assert.ok(badge.className.includes('completed'), 'abgeschlossene Unit sollte als "completed" markiert sein');
 });
@@ -114,7 +122,7 @@ test('CourseView: Klick auf Vokabel-Unit-Karte navigiert mit der richtigen Unit-
   const container = createDocumentStub().createElement('div');
   await view.mount(container);
 
-  findUnitCard(container, 'Familie und Personen').click();
+  findUnitCard(container, 'Familie, Beziehungen und Personen').click();
   assert.deepEqual(navigateCalls, ['unit:vocab_unit_02']);
 });
 
@@ -169,9 +177,9 @@ test('UnitDetailView.mount() zeigt eine Session-Karte mit Titel, Wortanzahl und 
   await view.mount(container, 'vocab_unit_01');
 
   const cards = container.querySelectorAll('.session-card');
-  assert.equal(cards.length, 1, 'Pilot-Unit hat genau eine Session');
-  assert.ok(container.textContent.includes('Begrüßung und Höflichkeit'));
-  assert.ok(container.textContent.includes('9 neue Wörter'));
+  assert.equal(cards.length, 3, 'Unit 1 hat jetzt drei Sessions (Entwicklungsauftrag 6: 30 Wörter/Unit)');
+  assert.ok(container.textContent.includes('Begrüßung, Höflichkeit und kurze Antworten'));
+  assert.ok(container.textContent.includes('10 neue Wörter'));
   const tags = container.querySelectorAll('.session-card-phase-tag').map((t) => t.textContent);
   assert.ok(tags.includes('Theorie'), 'Phasen-Tags sollten "Theorie" enthalten');
   assert.ok(tags.includes('Lernen'), 'Phasen-Tags sollten "Lernen" enthalten');

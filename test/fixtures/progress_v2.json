@@ -1,0 +1,22 @@
+{
+  "_version": 1,
+  "languages": {
+    "arabic": {
+      "cards": {
+        "housing_house": {
+          "difficulty": { "arabic_to_german": 1.5, "german_to_arabic": 1.0 },
+          "consecutiveWrong": {},
+          "nextReview": { "arabic_to_german": "2026-02-10T08:00:00.000Z" }
+        },
+        "color_red": {
+          "difficulty": { "arabic_to_german": 4.5 },
+          "consecutiveWrong": { "arabic_to_german": 1 }
+        }
+      },
+      "lessonFlags": {
+        "unit_1": { "status": "completed", "meta": null },
+        "vocab_unit_01_a": { "status": "completed", "meta": { "score": 0.85 } }
+      }
+    }
+  }
+}

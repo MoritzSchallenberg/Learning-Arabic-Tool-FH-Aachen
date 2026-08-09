@@ -9,6 +9,7 @@ const PhaseRegistry = require('../../src/js/session/phaseRegistry.js');
 const HelpLevel = require('../../src/js/helpLevel.js');
 const SessionCoverageTracker = require('../../src/js/session/sessionCoverageTracker.js');
 const SessionQueue = require('../../src/js/session/sessionQueue.js');
+const RandomProvider = require('../../src/js/session/randomProvider.js');
 
 // sessionEngine.js ist für den gemeinsamen Browser-Skript-Scope geschrieben (referenziert
 // PhaseRegistry/HelpLevel/SessionQueue/SessionCoverageTracker als Globals) — hier wie bei den
@@ -86,16 +87,26 @@ test('Geführte + selbstständige Produktion garantieren gemeinsam die volle Wor
 });
 
 test('Fehlerwiederholung: ein durchgehend falsch beantwortetes Wort wird höchstens 3-mal erneut eingeplant (kein Endlosloop)', () => {
+  // Entwicklungsauftrag 7, Abschnitt 4.1: fester Seed statt Math.random() macht den Test
+  // deterministisch (zuvor zufallsabhängig grün/rot, siehe ROADMAP) — bei recognition (Ratio 0.6)
+  // landen bei 5 Wörtern nur round(5*0.6)=3 davon in der Warteschlange; welche drei das sind, hing
+  // vorher vom ungesteuerten Math.random() ab. Mit festem Seed ist das reproduzierbar UND der
+  // Test wählt sein "immer falsches" Zielwort bewusst aus der TATSÄCHLICH gebauten Warteschlange
+  // (statt anzunehmen, dass words[0] zufällig darin vorkommt) — das behebt die Flakiness an der
+  // Wurzel, nicht nur durch Determinismus.
   const words = makeWords(5);
   const sessionDef = fullPhasesSessionDef(5);
-  const engine = SessionEngine.create({ sessionDef, words, resumedState: null });
+  const rng = RandomProvider.create(42).random;
+  const engine = SessionEngine.create({ sessionDef, words, resumedState: null, rng });
   engine.advancePhase();
   engine.advancePhase();
   engine.startGradedQueue();
 
+  assert.ok(!engine.isPhaseQueueDone(), 'die Warteschlange sollte nicht leer sein');
+  const targetWordId = engine.currentTask().wordId;
+
   let iterations = 0;
   let targetWordAttempts = 0;
-  const targetWordId = words[0].id;
   while (!engine.isPhaseQueueDone() && iterations < 200) {
     iterations += 1;
     const task = engine.currentTask();
@@ -107,6 +118,34 @@ test('Fehlerwiederholung: ein durchgehend falsch beantwortetes Wort wird höchst
   // 1 ursprünglicher Versuch + höchstens 3 Wiederholungen = höchstens 4 Versuche für dieses Wort.
   assert.ok(targetWordAttempts <= 4, `Wort sollte höchstens 4-mal versucht werden (1 + max. 3 Wiederholungen), war aber ${targetWordAttempts}`);
   assert.ok(targetWordAttempts >= 2, 'mindestens eine Wiederholung sollte stattgefunden haben');
+});
+
+test('Fehlerwiederholung ist mit festem Seed über viele Seeds hinweg stabil (Regressionsschutz gegen erneute Flakiness)', () => {
+  // Testet dieselbe Logik wie oben, aber über 50 verschiedene Seeds hinweg — stellt sicher, dass
+  // die Terminierungs-/Wiederholungsgarantie nicht zufällig nur für Seed 42 zufällig funktioniert.
+  for (let seed = 1; seed <= 50; seed += 1) {
+    const words = makeWords(5);
+    const sessionDef = fullPhasesSessionDef(5);
+    const rng = RandomProvider.create(seed).random;
+    const engine = SessionEngine.create({ sessionDef, words, resumedState: null, rng });
+    engine.advancePhase();
+    engine.advancePhase();
+    engine.startGradedQueue();
+    if (engine.isPhaseQueueDone()) continue; // theoretisch möglich, wenn recommendedCount()=0 wäre
+    const targetWordId = engine.currentTask().wordId;
+
+    let iterations = 0;
+    let targetWordAttempts = 0;
+    while (!engine.isPhaseQueueDone() && iterations < 200) {
+      iterations += 1;
+      const task = engine.currentTask();
+      const isCorrect = task.wordId !== targetWordId;
+      if (task.wordId === targetWordId) targetWordAttempts += 1;
+      engine.recordTaskResult(isCorrect);
+    }
+    assert.ok(engine.isPhaseQueueDone(), `Seed ${seed}: Phase sollte terminieren`);
+    assert.ok(targetWordAttempts >= 2 && targetWordAttempts <= 4, `Seed ${seed}: erwartet 2-4 Versuche, war ${targetWordAttempts}`);
+  }
 });
 
 test('Exakte Wiederaufnahme: dieselbe Warteschlange (inkl. geplanter Wiederholung) wird aus dem Snapshot exakt wiederhergestellt', () => {

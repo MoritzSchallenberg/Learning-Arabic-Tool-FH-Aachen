@@ -24,7 +24,7 @@ const srs = require('../../src/js/srs.js');
 global.normalizeArabic = srs.normalizeArabic;
 global.lettersFromWord = wordShaping.lettersFromWord;
 
-function fakePack() {
+function fakePack(vocabularyWords) {
   return {
     keyboard: {
       letters: [
@@ -34,13 +34,13 @@ function fakePack() {
     },
     vocabulary: {
       categories: [
-        { id: 'home', words: [{ id: 'housing_door', arabic: 'بَاب', german: 'Tür', transliteration: 'bāb' }] }
+        { id: 'home', words: vocabularyWords || [{ id: 'housing_door', arabic: 'بَاب', german: 'Tür', transliteration: 'bāb' }] }
       ]
     }
   };
 }
 
-function loadFreePractice({ onAdjustDifficulty }) {
+function loadFreePractice({ onAdjustDifficulty, vocabularyWords = null }) {
   const registeredCleanups = [];
   const context = {
     document: createDocumentStub(),
@@ -67,7 +67,7 @@ function loadFreePractice({ onAdjustDifficulty }) {
       return cards[id];
     },
     persistProgress: () => Promise.resolve(),
-    getLanguagePack: () => Promise.resolve(fakePack())
+    getLanguagePack: () => Promise.resolve(fakePack(vocabularyWords))
   };
   context.adjustDifficulty = (card, skill, result) => {
     onAdjustDifficulty(skill, result);
@@ -198,4 +198,36 @@ test('App.registerCleanup wird beim Mount registriert', async () => {
   const container = createDocumentStub().createElement('div');
   await view.mount(container);
   assert.equal(registeredCleanups.length, 1);
+});
+
+test('Entwicklungsauftrag 7, Abschnitt 23: presetFilters.onlyWordIds beschränkt den Pool auf ein einzelnes Wort (Dashboard "Deine schwierigen Wörter")', async () => {
+  const vocabularyWords = [
+    { id: 'word_x', arabic: 'بَاب', german: 'Tür', transliteration: 'bāb' },
+    { id: 'word_y', arabic: 'قَلَم', german: 'Stift', transliteration: 'qalam' }
+  ];
+  const { view } = loadFreePractice({ onAdjustDifficulty: () => {}, vocabularyWords });
+  const container = createDocumentStub().createElement('div');
+  await view.mount(container, {
+    presetFilters: { categories: { letters: false, vocabulary: true, connections: false }, onlyWordIds: ['word_x'] },
+    autoStart: true
+  });
+
+  // Nur word_x darf in den Aufgaben vorkommen (2 Aufgaben: arabic_to_german + german_to_arabic),
+  // word_y darf nie erscheinen — über alle Aufgaben der Session hinweg geprüft.
+  let sawWordY = false;
+  let guard = 0;
+  while (guard < 10) {
+    guard += 1;
+    if (container.textContent.includes('Stift') || container.textContent.includes('قَلَم')) sawWordY = true;
+    const weiter = container.querySelectorAll('button').find((b) => b.textContent === 'Weiter');
+    const pruefen = container.querySelectorAll('button').find((b) => b.textContent === 'Prüfen');
+    const input = container.querySelector('input');
+    if (input && pruefen) { input.value = 'x'; pruefen.click(); }
+    else if (pruefen) { pruefen.click(); }
+    if (weiter) { weiter.click(); continue; }
+    const nextWeiter = container.querySelectorAll('button').find((b) => b.textContent === 'Weiter');
+    if (nextWeiter) { nextWeiter.click(); continue; }
+    break;
+  }
+  assert.ok(!sawWordY, 'onlyWordIds sollte word_y aus dem Pool ausschließen');
 });

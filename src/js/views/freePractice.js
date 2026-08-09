@@ -21,6 +21,11 @@ const FreePracticeView = (() => {
     recentlyWrongOnly: false,
     newOnly: false,
     masteredOnly: false,
+    // Entwicklungsauftrag 7, Abschnitt 23: beschränkt den Pool auf ein einzelnes Wort (per
+    // Vokabel-ID) — genutzt vom Dashboard ("Deine schwierigen Wörter": "Noch einmal lernen"/
+    // "Verbindung ansehen" für genau EIN Wort statt aller schwierigen Wörter). null = keine
+    // Einschränkung (Normalfall).
+    onlyWordIds: null,
     count: 15,
     helpLevel: 'C',
     keyboardLevel: 3,
@@ -43,10 +48,19 @@ const FreePracticeView = (() => {
     return copy;
   }
 
+  // Ermittelt die zugrundeliegende Vokabel-ID eines Pool-Eintrags, unabhängig von der Kategorie
+  // (bei 'vocabulary' ist item.data direkt das Wort, bei 'connections' ist es { word, letters }).
+  function underlyingWordId(item) {
+    if (item.category === 'vocabulary') return item.data && item.data.id;
+    if (item.category === 'connections') return item.data && item.data.word && item.data.word.id;
+    return null;
+  }
+
   function filteredPool() {
     const now = new Date();
     return pool.filter((item) => {
       if (!filters.categories[item.category]) return false;
+      if (filters.onlyWordIds && !filters.onlyWordIds.includes(underlyingWordId(item))) return false;
       const card = AppState.getCard(item.cardId);
       const attempted = ReviewScheduler.hasBeenAttempted(card, item.skill);
       const difficulty = (card.difficulty && card.difficulty[item.skill]) ?? DEFAULT_DIFFICULTY;
@@ -270,6 +284,7 @@ const FreePracticeView = (() => {
     filters.recentlyWrongOnly = false;
     filters.newOnly = false;
     filters.masteredOnly = false;
+    filters.onlyWordIds = null;
     filters.count = 15;
     filters.helpLevel = 'C';
     filters.keyboardLevel = 3;

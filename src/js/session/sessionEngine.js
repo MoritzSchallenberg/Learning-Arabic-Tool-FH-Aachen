@@ -64,9 +64,9 @@ const SessionEngine = (() => {
     return list;
   }
 
-  function selectWordsForPhase(allWords, coverage, count) {
+  function selectWordsForPhase(allWords, coverage, count, random = Math.random) {
     if (allWords.length === 0 || count <= 0) return [];
-    const shuffled = SessionQueue.pickRandomOrder(allWords);
+    const shuffled = SessionQueue.pickRandomOrder(allWords, random);
     const sorted = shuffled.sort(
       (a, b) => SessionCoverageTracker.priorityScore(coverage, b.id) - SessionCoverageTracker.priorityScore(coverage, a.id)
     );
@@ -84,9 +84,13 @@ const SessionEngine = (() => {
    *   (resumedState.reviewWordIds, vom Aufrufer aufgelöst)
    * @param {object} [options.resumedState] - vorher gespeicherter SessionState (siehe sessionState.js)
    */
-  function create({ sessionDef, words, reviewWords, resumedState }) {
+  function create({ sessionDef, words, reviewWords, resumedState, rng }) {
     const phases = sessionDef.phases;
     const allReviewWords = reviewWords || [];
+    // Injizierbare Zufallsquelle (Entwicklungsauftrag 7, Abschnitt 4.1): produktiv Math.random
+    // (unverändertes Verhalten), Tests können RandomProvider.create(seed).random übergeben, um
+    // Aufgabenauswahl/-mischung und Wiederholungs-Verzögerung deterministisch zu machen.
+    const random = rng || Math.random;
     let phaseIndex = resumedState ? resumedState.phaseIndex : 0;
     let correctCount = resumedState ? resumedState.correctCount : 0;
     let wrongCount = resumedState ? resumedState.wrongCount : 0;
@@ -145,7 +149,7 @@ const SessionEngine = (() => {
         const baseline = productionBaseline(words, phaseType);
         selected = topUp(baseline, recommendedCount(phaseType, n), words, coverage);
       } else {
-        selected = selectWordsForPhase(words, coverage, recommendedCount(phaseType, n));
+        selected = selectWordsForPhase(words, coverage, recommendedCount(phaseType, n), random);
       }
       let items = selected.map((w) => ({ wordId: w.id }));
       // Fällige Wiederholungswörter werden nur in Wiedererkennen/Anwendung eingemischt (Abschnitt
@@ -162,7 +166,7 @@ const SessionEngine = (() => {
     }
 
     function startGradedQueue() {
-      phaseQueues[currentPhaseType()] = SessionQueue.create(buildQueueItemsForCurrentPhase());
+      phaseQueues[currentPhaseType()] = SessionQueue.create(buildQueueItemsForCurrentPhase(), random);
     }
 
     function currentQueue() {
@@ -209,7 +213,7 @@ const SessionEngine = (() => {
 
       let repeatScheduled = false;
       if (!isCorrect && task && q) {
-        repeatScheduled = SessionQueue.scheduleRepeat(q, task, { maxRepeats: MAX_REPEATS_PER_WORD_PER_PHASE });
+        repeatScheduled = SessionQueue.scheduleRepeat(q, task, { maxRepeats: MAX_REPEATS_PER_WORD_PER_PHASE, random });
       }
       if (q) SessionQueue.advance(q);
       return { repeatScheduled };

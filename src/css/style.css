@@ -611,6 +611,45 @@ html, body {
   font-size: 1.6rem;
 }
 
+/* --- "Deine schwierigen Wörter" (Entwicklungsauftrag 7, Abschnitt 23) --- */
+.difficult-word-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.difficult-word-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.difficult-word-row .arabic-text {
+  font-size: 1.3rem;
+  min-width: 80px;
+}
+
+.difficult-word-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 4px 0 12px;
+}
+
+.difficult-word-actions .btn {
+  font-size: 0.85rem;
+  padding: 6px 10px;
+}
+
+.difficult-word-detail {
+  background: var(--color-surface-alt);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 0 0 12px;
+}
+
 /* --- Statistik-Meter (Magnitude, eine Sequenzfarbe) --- */
 .meter-row {
   display: flex;

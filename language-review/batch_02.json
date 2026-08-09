@@ -1,0 +1,4915 @@
+{
+  "note": "Sprachprüfdatei für Kurs 1, Batch 2 (Units 6, 7, 8, 9, 10). Arabische Angaben (unvokalisiert + vorgeschlagene Vokalisierung/Umschrift/Grammatik) wurden neu erstellt, siehe Hinweis in scripts/data/kurs1UnitPlan.js zur Kodierungskorruption der ursprünglich vom Nutzer gelieferten Quelldateien. Vor Freigabe zur Audioerzeugung durch eine Person mit Arabischkenntnissen gegenlesen lassen. Zusätzlich pro Session zu prüfen (siehe zugehöriges Theoriedokument in theory.json): Theorietext, Beispiele, Mini-Check, Application-Prompts.",
+  "batch": 2,
+  "units_covered": [
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "word_count": 132,
+  "entries": [
+    {
+      "id": "c1_u06_01",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_a",
+      "arabic_unvocalized": "ساعة",
+      "proposed_arabic_vocalized": "سَاعَة",
+      "proposed_transliteration": "sāʿa",
+      "german_answers": [
+        "Stunde",
+        "Uhr"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "سَاعَات",
+      "accepted_arabic_answers": [
+        "سَاعَة",
+        "ساعة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein Tag hat vierundzwanzig davon.",
+          "expected_meaning": "Stunde"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_02",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_a",
+      "arabic_unvocalized": "دقيقة",
+      "proposed_arabic_vocalized": "دَقِيقَة",
+      "proposed_transliteration": "daqīqa",
+      "german_answers": [
+        "Minute"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "دَقَائِق",
+      "accepted_arabic_answers": [
+        "دَقِيقَة",
+        "دقيقة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Eine Stunde hat sechzig davon.",
+          "expected_meaning": "Minute"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_03",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_a",
+      "arabic_unvocalized": "اليوم",
+      "proposed_arabic_vocalized": "اَلْيَوْم",
+      "proposed_transliteration": "al-yawm",
+      "german_answers": [
+        "heute"
+      ],
+      "part_of_speech": "Adverb",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "اَلْيَوْم",
+        "اليوم"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der Tag, in dem du gerade lebst, nicht gestern oder morgen.",
+          "expected_meaning": "heute"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_04",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_a",
+      "arabic_unvocalized": "أمس",
+      "proposed_arabic_vocalized": "أَمْس",
+      "proposed_transliteration": "ams",
+      "german_answers": [
+        "gestern"
+      ],
+      "part_of_speech": "Adverb",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "أَمْس",
+        "أمس"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der Tag vor heute.",
+          "expected_meaning": "gestern"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_05",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_b",
+      "arabic_unvocalized": "غدا",
+      "proposed_arabic_vocalized": "غَداً",
+      "proposed_transliteration": "ghadan",
+      "german_answers": [
+        "morgen (der nächste Tag)"
+      ],
+      "part_of_speech": "Adverb",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "غَداً",
+        "غدا"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der Tag nach heute.",
+          "expected_meaning": "morgen (der nächste Tag)"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_06",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_b",
+      "arabic_unvocalized": "الأحد",
+      "proposed_arabic_vocalized": "اَلْأَحَد",
+      "proposed_transliteration": "al-aḥad",
+      "german_answers": [
+        "Sonntag"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "اَلْأَحَد",
+        "الأحد"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "In vielen arabischen Ländern der erste Tag der Arbeitswoche.",
+          "expected_meaning": "Sonntag"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_07",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_b",
+      "arabic_unvocalized": "الاثنين",
+      "proposed_arabic_vocalized": "اَلِاثْنَيْن",
+      "proposed_transliteration": "al-ithnayn",
+      "german_answers": [
+        "Montag"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "اَلِاثْنَيْن",
+        "الاثنين"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der Wochentag nach dem Sonntag.",
+          "expected_meaning": "Montag"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_08",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_b",
+      "arabic_unvocalized": "الثلاثاء",
+      "proposed_arabic_vocalized": "اَلثُّلَاثَاء",
+      "proposed_transliteration": "ath-thulāthāʾ",
+      "german_answers": [
+        "Dienstag"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "اَلثُّلَاثَاء",
+        "الثلاثاء"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der Wochentag zwischen Montag und Mittwoch.",
+          "expected_meaning": "Dienstag"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_09",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_b",
+      "arabic_unvocalized": "الأربعاء",
+      "proposed_arabic_vocalized": "اَلْأَرْبِعَاء",
+      "proposed_transliteration": "al-arbiʿāʾ",
+      "german_answers": [
+        "Mittwoch"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "اَلْأَرْبِعَاء",
+        "الأربعاء"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der Wochentag in der Mitte der Woche.",
+          "expected_meaning": "Mittwoch"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_10",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_b",
+      "arabic_unvocalized": "الخميس",
+      "proposed_arabic_vocalized": "اَلْخَمِيس",
+      "proposed_transliteration": "al-khamīs",
+      "german_answers": [
+        "Donnerstag"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "اَلْخَمِيس",
+        "الخميس"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der Wochentag vor dem Freitag.",
+          "expected_meaning": "Donnerstag"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_11",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_b",
+      "arabic_unvocalized": "الجمعة",
+      "proposed_arabic_vocalized": "اَلْجُمُعَة",
+      "proposed_transliteration": "al-jumʿa",
+      "german_answers": [
+        "Freitag"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "اَلْجُمُعَة",
+        "الجمعة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "In vielen arabischen Ländern ein wöchentlicher Ruhetag.",
+          "expected_meaning": "Freitag"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_12",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_b",
+      "arabic_unvocalized": "السبت",
+      "proposed_arabic_vocalized": "اَلسَّبْت",
+      "proposed_transliteration": "as-sabt",
+      "german_answers": [
+        "Samstag"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "اَلسَّبْت",
+        "السبت"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der letzte Tag des Wochenendes vor dem Sonntag.",
+          "expected_meaning": "Samstag"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_13",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_b",
+      "arabic_unvocalized": "يناير",
+      "proposed_arabic_vocalized": "يَنَايِر",
+      "proposed_transliteration": "yanāyir",
+      "german_answers": [
+        "Januar"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "يَنَايِر",
+        "يناير"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der erste Monat des Jahres.",
+          "expected_meaning": "Januar"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_14",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_b",
+      "arabic_unvocalized": "فبراير",
+      "proposed_arabic_vocalized": "فِبْرَايِر",
+      "proposed_transliteration": "fabrāyir",
+      "german_answers": [
+        "Februar"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "فِبْرَايِر",
+        "فبراير"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der kürzeste Monat des Jahres.",
+          "expected_meaning": "Februar"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_15",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_c",
+      "arabic_unvocalized": "مارس",
+      "proposed_arabic_vocalized": "مَارِس",
+      "proposed_transliteration": "māris",
+      "german_answers": [
+        "März"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "مَارِس",
+        "مارس"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der Monat, in dem in Europa oft der Frühling beginnt.",
+          "expected_meaning": "März"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_16",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_c",
+      "arabic_unvocalized": "أبريل",
+      "proposed_arabic_vocalized": "أَبْرِيل",
+      "proposed_transliteration": "abrīl",
+      "german_answers": [
+        "April"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "أَبْرِيل",
+        "أبريل"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der Monat nach März.",
+          "expected_meaning": "April"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_17",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_c",
+      "arabic_unvocalized": "مايو",
+      "proposed_arabic_vocalized": "مَايُو",
+      "proposed_transliteration": "māyū",
+      "german_answers": [
+        "Mai"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "مَايُو",
+        "مايو"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der Monat vor Juni.",
+          "expected_meaning": "Mai"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_18",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_c",
+      "arabic_unvocalized": "يونيو",
+      "proposed_arabic_vocalized": "يُونِيُو",
+      "proposed_transliteration": "yūniyū",
+      "german_answers": [
+        "Juni"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "يُونِيُو",
+        "يونيو"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der Monat, in dem in Europa der Sommer beginnt.",
+          "expected_meaning": "Juni"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_19",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_c",
+      "arabic_unvocalized": "يوليو",
+      "proposed_arabic_vocalized": "يُولِيُو",
+      "proposed_transliteration": "yūliyū",
+      "german_answers": [
+        "Juli"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "يُولِيُو",
+        "يوليو"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der Monat nach Juni.",
+          "expected_meaning": "Juli"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_20",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_c",
+      "arabic_unvocalized": "أغسطس",
+      "proposed_arabic_vocalized": "أَغُسْطُس",
+      "proposed_transliteration": "aghusṭus",
+      "german_answers": [
+        "August"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "أَغُسْطُس",
+        "أغسطس"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der letzte Sommermonat in Europa.",
+          "expected_meaning": "August"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_21",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_c",
+      "arabic_unvocalized": "سبتمبر",
+      "proposed_arabic_vocalized": "سِبْتَمْبِر",
+      "proposed_transliteration": "sibtambir",
+      "german_answers": [
+        "September"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "سِبْتَمْبِر",
+        "سبتمبر"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der Monat, in dem in Deutschland oft das Schuljahr beginnt.",
+          "expected_meaning": "September"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_22",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_c",
+      "arabic_unvocalized": "أكتوبر",
+      "proposed_arabic_vocalized": "أُكْتُوبِر",
+      "proposed_transliteration": "uktūbir",
+      "german_answers": [
+        "Oktober"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "أُكْتُوبِر",
+        "أكتوبر"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der Monat nach September.",
+          "expected_meaning": "Oktober"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_23",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_c",
+      "arabic_unvocalized": "نوفمبر",
+      "proposed_arabic_vocalized": "نُوفَمْبِر",
+      "proposed_transliteration": "nūfambir",
+      "german_answers": [
+        "November"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "نُوفَمْبِر",
+        "نوفمبر"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der vorletzte Monat des Jahres.",
+          "expected_meaning": "November"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u06_24",
+      "unit_id": "vocab_unit_06",
+      "session_id": "vocab_unit_06_c",
+      "arabic_unvocalized": "ديسمبر",
+      "proposed_arabic_vocalized": "دِيسَمْبِر",
+      "proposed_transliteration": "dīsambir",
+      "german_answers": [
+        "Dezember"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "دِيسَمْبِر",
+        "ديسمبر"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der letzte Monat des Jahres.",
+          "expected_meaning": "Dezember"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_01",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_a",
+      "arabic_unvocalized": "برتقالي",
+      "proposed_arabic_vocalized": "بُرْتُقَالِيّ",
+      "proposed_transliteration": "burtuqālī",
+      "german_answers": [
+        "orange (Farbe)"
+      ],
+      "part_of_speech": "Adjektiv",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "بُرْتُقَالِيّ",
+        "برتقالي"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Die Farbe einer reifen Orange.",
+          "expected_meaning": "orange (Farbe)"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_02",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_a",
+      "arabic_unvocalized": "بنفسجي",
+      "proposed_arabic_vocalized": "بَنَفْسَجِيّ",
+      "proposed_transliteration": "banafsajī",
+      "german_answers": [
+        "violett",
+        "lila"
+      ],
+      "part_of_speech": "Adjektiv",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "بَنَفْسَجِيّ",
+        "بنفسجي"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Die Farbe von Lavendelblüten.",
+          "expected_meaning": "violett"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_03",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_a",
+      "arabic_unvocalized": "وردي",
+      "proposed_arabic_vocalized": "وَرْدِيّ",
+      "proposed_transliteration": "wardī",
+      "german_answers": [
+        "rosa"
+      ],
+      "part_of_speech": "Adjektiv",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "وَرْدِيّ",
+        "وردي"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Eine helle Mischung aus Rot und Weiß.",
+          "expected_meaning": "rosa"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_04",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_a",
+      "arabic_unvocalized": "بني",
+      "proposed_arabic_vocalized": "بُنِّيّ",
+      "proposed_transliteration": "bunnī",
+      "german_answers": [
+        "braun"
+      ],
+      "part_of_speech": "Adjektiv",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "بُنِّيّ",
+        "بني"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Die Farbe von Kaffee oder Schokolade.",
+          "expected_meaning": "braun"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_05",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_b",
+      "arabic_unvocalized": "رمادي",
+      "proposed_arabic_vocalized": "رَمَادِيّ",
+      "proposed_transliteration": "ramādī",
+      "german_answers": [
+        "grau"
+      ],
+      "part_of_speech": "Adjektiv",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "رَمَادِيّ",
+        "رمادي"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Die Farbe von Regenwolken.",
+          "expected_meaning": "grau"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_06",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_b",
+      "arabic_unvocalized": "دائرة",
+      "proposed_arabic_vocalized": "دَائِرَة",
+      "proposed_transliteration": "dāʾira",
+      "german_answers": [
+        "Kreis"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "دَوَائِر",
+      "accepted_arabic_answers": [
+        "دَائِرَة",
+        "دائرة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Eine runde Form ohne Ecken.",
+          "expected_meaning": "Kreis"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_07",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_b",
+      "arabic_unvocalized": "مربع",
+      "proposed_arabic_vocalized": "مُرَبَّع",
+      "proposed_transliteration": "murabbaʿ",
+      "german_answers": [
+        "Quadrat"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "مُرَبَّعَات",
+      "accepted_arabic_answers": [
+        "مُرَبَّع",
+        "مربع"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Eine Form mit vier gleich langen Seiten.",
+          "expected_meaning": "Quadrat"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_08",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_b",
+      "arabic_unvocalized": "مثلث",
+      "proposed_arabic_vocalized": "مُثَلَّث",
+      "proposed_transliteration": "muthallath",
+      "german_answers": [
+        "Dreieck"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "مُثَلَّثَات",
+      "accepted_arabic_answers": [
+        "مُثَلَّث",
+        "مثلث"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Eine Form mit genau drei Ecken.",
+          "expected_meaning": "Dreieck"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_09",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_b",
+      "arabic_unvocalized": "مستطيل",
+      "proposed_arabic_vocalized": "مُسْتَطِيل",
+      "proposed_transliteration": "mustaṭīl",
+      "german_answers": [
+        "Rechteck"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "مُسْتَطِيلَات",
+      "accepted_arabic_answers": [
+        "مُسْتَطِيل",
+        "مستطيل"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Eine Form wie ein Türblatt, mit vier rechten Winkeln.",
+          "expected_meaning": "Rechteck"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_10",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_b",
+      "arabic_unvocalized": "خط",
+      "proposed_arabic_vocalized": "خَطّ",
+      "proposed_transliteration": "khaṭṭ",
+      "german_answers": [
+        "Linie"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "خُطُوط",
+      "accepted_arabic_answers": [
+        "خَطّ",
+        "خط"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Eine gerade Verbindung zwischen zwei Punkten.",
+          "expected_meaning": "Linie"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_11",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_b",
+      "arabic_unvocalized": "نقطة",
+      "proposed_arabic_vocalized": "نُقْطَة",
+      "proposed_transliteration": "nuqṭa",
+      "german_answers": [
+        "Punkt"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "نُقَط",
+      "accepted_arabic_answers": [
+        "نُقْطَة",
+        "نقطة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein einzelnes, sehr kleines Zeichen.",
+          "expected_meaning": "Punkt"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_12",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_b",
+      "arabic_unvocalized": "خشب",
+      "proposed_arabic_vocalized": "خَشَب",
+      "proposed_transliteration": "khashab",
+      "german_answers": [
+        "Holz"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "خَشَب",
+        "خشب"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Das Material, aus dem die meisten Bäume und viele Möbel bestehen.",
+          "expected_meaning": "Holz"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_13",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_b",
+      "arabic_unvocalized": "معدن",
+      "proposed_arabic_vocalized": "مَعْدِن",
+      "proposed_transliteration": "maʿdin",
+      "german_answers": [
+        "Metall"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "مَعَادِن",
+      "accepted_arabic_answers": [
+        "مَعْدِن",
+        "معدن"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein hartes, oft glänzendes Material wie Eisen oder Gold.",
+          "expected_meaning": "Metall"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_14",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_b",
+      "arabic_unvocalized": "زجاج",
+      "proposed_arabic_vocalized": "زُجَاج",
+      "proposed_transliteration": "zujāj",
+      "german_answers": [
+        "Glas"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "زُجَاج",
+        "زجاج"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Das durchsichtige Material eines Fensters.",
+          "expected_meaning": "Glas"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_15",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_c",
+      "arabic_unvocalized": "بلاستيك",
+      "proposed_arabic_vocalized": "بْلَاسْتِيك",
+      "proposed_transliteration": "blāstīk",
+      "german_answers": [
+        "Kunststoff",
+        "Plastik"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "بْلَاسْتِيك",
+        "بلاستيك"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein leichtes, künstlich hergestelltes Material.",
+          "expected_meaning": "Kunststoff"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_16",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_c",
+      "arabic_unvocalized": "ورق",
+      "proposed_arabic_vocalized": "وَرَق",
+      "proposed_transliteration": "waraq",
+      "german_answers": [
+        "Papier"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "وَرَق",
+        "ورق"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darauf schreibst und druckst du.",
+          "expected_meaning": "Papier"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_17",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_c",
+      "arabic_unvocalized": "حجر",
+      "proposed_arabic_vocalized": "حَجَر",
+      "proposed_transliteration": "ḥajar",
+      "german_answers": [
+        "Stein"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "أَحْجَار",
+      "accepted_arabic_answers": [
+        "حَجَر",
+        "حجر"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein hartes Naturmaterial aus dem Boden oder Gebirge.",
+          "expected_meaning": "Stein"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_18",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_c",
+      "arabic_unvocalized": "قطن",
+      "proposed_arabic_vocalized": "قُطْن",
+      "proposed_transliteration": "quṭn",
+      "german_answers": [
+        "Baumwolle"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "قُطْن",
+        "قطن"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein weiches Naturmaterial für viele T-Shirts.",
+          "expected_meaning": "Baumwolle"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_19",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_c",
+      "arabic_unvocalized": "صوف",
+      "proposed_arabic_vocalized": "صُوف",
+      "proposed_transliteration": "ṣūf",
+      "german_answers": [
+        "Wolle"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "صُوف",
+        "صوف"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein warmes Material, das von Schafen kommt.",
+          "expected_meaning": "Wolle"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_20",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_c",
+      "arabic_unvocalized": "جلد",
+      "proposed_arabic_vocalized": "جِلْد",
+      "proposed_transliteration": "jild",
+      "german_answers": [
+        "Leder"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "جُلُود",
+      "accepted_arabic_answers": [
+        "جِلْد",
+        "جلد"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Das Material vieler Schuhe und Taschen.",
+          "expected_meaning": "Leder"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_21",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_c",
+      "arabic_unvocalized": "حديد",
+      "proposed_arabic_vocalized": "حَدِيد",
+      "proposed_transliteration": "ḥadīd",
+      "german_answers": [
+        "Eisen"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "حَدِيد",
+        "حديد"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein sehr verbreitetes, hartes Metall.",
+          "expected_meaning": "Eisen"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_22",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_c",
+      "arabic_unvocalized": "ذهب",
+      "proposed_arabic_vocalized": "ذَهَب",
+      "proposed_transliteration": "dhahab",
+      "german_answers": [
+        "Gold"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "ذَهَب",
+        "ذهب"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein wertvolles, gelb glänzendes Metall für Schmuck.",
+          "expected_meaning": "Gold"
+        }
+      ],
+      "homonym_group": "ذهب",
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_23",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_c",
+      "arabic_unvocalized": "فضة",
+      "proposed_arabic_vocalized": "فِضَّة",
+      "proposed_transliteration": "fiḍḍa",
+      "german_answers": [
+        "Silber"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "فِضَّة",
+        "فضة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein helles, glänzendes Metall, etwas weniger wertvoll als Gold.",
+          "expected_meaning": "Silber"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u07_24",
+      "unit_id": "vocab_unit_07",
+      "session_id": "vocab_unit_07_c",
+      "arabic_unvocalized": "فولاذ",
+      "proposed_arabic_vocalized": "فُولَاذ",
+      "proposed_transliteration": "fūlādh",
+      "german_answers": [
+        "Stahl"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "فُولَاذ",
+        "فولاذ"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein besonders hartes Metall für Werkzeuge und Brücken.",
+          "expected_meaning": "Stahl"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_01",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_a",
+      "arabic_unvocalized": "كرسي",
+      "proposed_arabic_vocalized": "كُرْسِيّ",
+      "proposed_transliteration": "kursī",
+      "german_answers": [
+        "Stuhl"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "كَرَاسٍ",
+      "accepted_arabic_answers": [
+        "كُرْسِيّ",
+        "كرسي"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darauf sitzt eine einzelne Person am Tisch.",
+          "expected_meaning": "Stuhl"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_02",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_a",
+      "arabic_unvocalized": "أريكة",
+      "proposed_arabic_vocalized": "أَرِيكَة",
+      "proposed_transliteration": "arīka",
+      "german_answers": [
+        "Sofa"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "أَرَائِك",
+      "accepted_arabic_answers": [
+        "أَرِيكَة",
+        "أريكة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein gepolstertes Sitzmöbel für mehrere Personen im Wohnzimmer.",
+          "expected_meaning": "Sofa"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_03",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_a",
+      "arabic_unvocalized": "خزانة",
+      "proposed_arabic_vocalized": "خِزَانَة",
+      "proposed_transliteration": "khizāna",
+      "german_answers": [
+        "Schrank"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "خِزَانَات",
+      "accepted_arabic_answers": [
+        "خِزَانَة",
+        "خزانة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darin hängst du deine Kleidung auf.",
+          "expected_meaning": "Schrank"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_04",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_a",
+      "arabic_unvocalized": "رف",
+      "proposed_arabic_vocalized": "رَفّ",
+      "proposed_transliteration": "raff",
+      "german_answers": [
+        "Regal",
+        "Ablage"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "رُفُوف",
+      "accepted_arabic_answers": [
+        "رَفّ",
+        "رف"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darauf stellst du Bücher nebeneinander.",
+          "expected_meaning": "Regal"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_05",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_a",
+      "arabic_unvocalized": "مصباح",
+      "proposed_arabic_vocalized": "مِصْبَاح",
+      "proposed_transliteration": "miṣbāḥ",
+      "german_answers": [
+        "Lampe"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "مَصَابِيح",
+      "accepted_arabic_answers": [
+        "مِصْبَاح",
+        "مصباح"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit machst du ein dunkles Zimmer hell.",
+          "expected_meaning": "Lampe"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_06",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_a",
+      "arabic_unvocalized": "مرآة",
+      "proposed_arabic_vocalized": "مِرْآة",
+      "proposed_transliteration": "mirʾāh",
+      "german_answers": [
+        "Spiegel"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "مَرَايَا",
+      "accepted_arabic_answers": [
+        "مِرْآة",
+        "مرآة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darin siehst du dein eigenes Gesicht.",
+          "expected_meaning": "Spiegel"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_07",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_a",
+      "arabic_unvocalized": "سجادة",
+      "proposed_arabic_vocalized": "سَجَّادَة",
+      "proposed_transliteration": "sajjāda",
+      "german_answers": [
+        "Teppich"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "سَجَّادَات",
+      "accepted_arabic_answers": [
+        "سَجَّادَة",
+        "سجادة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein weicher Bodenbelag im Wohnzimmer.",
+          "expected_meaning": "Teppich"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_08",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_a",
+      "arabic_unvocalized": "ستارة",
+      "proposed_arabic_vocalized": "سِتَارَة",
+      "proposed_transliteration": "sitāra",
+      "german_answers": [
+        "Vorhang"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "سَتَائِر",
+      "accepted_arabic_answers": [
+        "سِتَارَة",
+        "ستارة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit verdunkelst du ein Fenster.",
+          "expected_meaning": "Vorhang"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_09",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_a",
+      "arabic_unvocalized": "وسادة",
+      "proposed_arabic_vocalized": "وِسَادَة",
+      "proposed_transliteration": "wisāda",
+      "german_answers": [
+        "Kissen"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "وَسَائِد",
+      "accepted_arabic_answers": [
+        "وِسَادَة",
+        "وسادة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darauf legst du deinen Kopf beim Schlafen.",
+          "expected_meaning": "Kissen"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_10",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_a",
+      "arabic_unvocalized": "بطانية",
+      "proposed_arabic_vocalized": "بَطَّانِيَّة",
+      "proposed_transliteration": "baṭṭāniyya",
+      "german_answers": [
+        "Decke (Bettdecke)"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "بَطَّانِيَّات",
+      "accepted_arabic_answers": [
+        "بَطَّانِيَّة",
+        "بطانية"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit deckst du dich im Bett zu, wenn dir kalt ist.",
+          "expected_meaning": "Decke (Bettdecke)"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_11",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_b",
+      "arabic_unvocalized": "ثلاجة",
+      "proposed_arabic_vocalized": "ثَلَّاجَة",
+      "proposed_transliteration": "thallāja",
+      "german_answers": [
+        "Kühlschrank"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "ثَلَّاجَات",
+      "accepted_arabic_answers": [
+        "ثَلَّاجَة",
+        "ثلاجة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darin bleibt Milch länger frisch.",
+          "expected_meaning": "Kühlschrank"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_12",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_b",
+      "arabic_unvocalized": "فرن",
+      "proposed_arabic_vocalized": "فُرْن",
+      "proposed_transliteration": "furn",
+      "german_answers": [
+        "Backofen"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "أَفْرَان",
+      "accepted_arabic_answers": [
+        "فُرْن",
+        "فرن"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darin backst du Brot oder einen Kuchen.",
+          "expected_meaning": "Backofen"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_13",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_b",
+      "arabic_unvocalized": "موقد",
+      "proposed_arabic_vocalized": "مَوْقِد",
+      "proposed_transliteration": "mawqid",
+      "german_answers": [
+        "Herd"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "مَوَاقِد",
+      "accepted_arabic_answers": [
+        "مَوْقِد",
+        "موقد"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darauf stellst du einen Kochtopf, um etwas zu kochen.",
+          "expected_meaning": "Herd"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_14",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_b",
+      "arabic_unvocalized": "غسالة",
+      "proposed_arabic_vocalized": "غَسَّالَة",
+      "proposed_transliteration": "ghassāla",
+      "german_answers": [
+        "Waschmaschine"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "غَسَّالَات",
+      "accepted_arabic_answers": [
+        "غَسَّالَة",
+        "غسالة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darin wäschst du schmutzige Kleidung.",
+          "expected_meaning": "Waschmaschine"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_15",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_b",
+      "arabic_unvocalized": "غسالة الصحون",
+      "proposed_arabic_vocalized": "غَسَّالَةُ الصُّحُون",
+      "proposed_transliteration": "ghassālat aṣ-ṣuḥūn",
+      "german_answers": [
+        "Geschirrspüler"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "غَسَّالَةُ الصُّحُون",
+        "غسالة الصحون"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darin wäscht die Maschine schmutzige Teller.",
+          "expected_meaning": "Geschirrspüler"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_16",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_b",
+      "arabic_unvocalized": "مكنسة كهربائية",
+      "proposed_arabic_vocalized": "مِكْنَسَة كَهْرَبَائِيَّة",
+      "proposed_transliteration": "miknasa kahrabāʾiyya",
+      "german_answers": [
+        "Staubsauger"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "مِكْنَسَة كَهْرَبَائِيَّة",
+        "مكنسة كهربائية"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit entfernst du Staub vom Teppich.",
+          "expected_meaning": "Staubsauger"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_17",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_b",
+      "arabic_unvocalized": "مكنسة",
+      "proposed_arabic_vocalized": "مِكْنَسَة",
+      "proposed_transliteration": "miknasa",
+      "german_answers": [
+        "Besen"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "مَكَانِس",
+      "accepted_arabic_answers": [
+        "مِكْنَسَة",
+        "مكنسة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit kehrst du den Boden ohne Strom.",
+          "expected_meaning": "Besen"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_18",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_b",
+      "arabic_unvocalized": "مكواة",
+      "proposed_arabic_vocalized": "مِكْوَاة",
+      "proposed_transliteration": "mikwāh",
+      "german_answers": [
+        "Bügeleisen"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "مَكَاوٍ",
+      "accepted_arabic_answers": [
+        "مِكْوَاة",
+        "مكواة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit machst du zerknitterte Kleidung glatt.",
+          "expected_meaning": "Bügeleisen"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_19",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_b",
+      "arabic_unvocalized": "منشفة",
+      "proposed_arabic_vocalized": "مِنْشَفَة",
+      "proposed_transliteration": "minshafa",
+      "german_answers": [
+        "Handtuch"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "مَنَاشِف",
+      "accepted_arabic_answers": [
+        "مِنْشَفَة",
+        "منشفة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit trocknest du dich nach der Dusche ab.",
+          "expected_meaning": "Handtuch"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_20",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_b",
+      "arabic_unvocalized": "صابون",
+      "proposed_arabic_vocalized": "صَابُون",
+      "proposed_transliteration": "ṣābūn",
+      "german_answers": [
+        "Seife"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "صَابُون",
+        "صابون"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit wäschst du dir die Hände.",
+          "expected_meaning": "Seife"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_21",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_c",
+      "arabic_unvocalized": "طبق",
+      "proposed_arabic_vocalized": "طَبَق",
+      "proposed_transliteration": "ṭabaq",
+      "german_answers": [
+        "Teller"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "أَطْبَاق",
+      "accepted_arabic_answers": [
+        "طَبَق",
+        "طبق"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darauf legst du dein Essen.",
+          "expected_meaning": "Teller"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_22",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_c",
+      "arabic_unvocalized": "كوب",
+      "proposed_arabic_vocalized": "كُوب",
+      "proposed_transliteration": "kūb",
+      "german_answers": [
+        "Tasse",
+        "Becher"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "أَكْوَاب",
+      "accepted_arabic_answers": [
+        "كُوب",
+        "كوب"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Daraus trinkst du Wasser oder Tee.",
+          "expected_meaning": "Tasse"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_23",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_c",
+      "arabic_unvocalized": "ملعقة",
+      "proposed_arabic_vocalized": "مِلْعَقَة",
+      "proposed_transliteration": "milʿaqa",
+      "german_answers": [
+        "Löffel"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "مَلَاعِق",
+      "accepted_arabic_answers": [
+        "مِلْعَقَة",
+        "ملعقة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit isst du Suppe.",
+          "expected_meaning": "Löffel"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_24",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_c",
+      "arabic_unvocalized": "شوكة",
+      "proposed_arabic_vocalized": "شَوْكَة",
+      "proposed_transliteration": "shawka",
+      "german_answers": [
+        "Gabel"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "شَوْكَات",
+      "accepted_arabic_answers": [
+        "شَوْكَة",
+        "شوكة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit isst du Nudeln.",
+          "expected_meaning": "Gabel"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_25",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_c",
+      "arabic_unvocalized": "سكين",
+      "proposed_arabic_vocalized": "سِكِّين",
+      "proposed_transliteration": "sikkīn",
+      "german_answers": [
+        "Messer"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "سَكَاكِين",
+      "accepted_arabic_answers": [
+        "سِكِّين",
+        "سكين"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit schneidest du Brot.",
+          "expected_meaning": "Messer"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_26",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_c",
+      "arabic_unvocalized": "سلة",
+      "proposed_arabic_vocalized": "سَلَّة",
+      "proposed_transliteration": "salla",
+      "german_answers": [
+        "Korb",
+        "Behälter"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "سِلَال",
+      "accepted_arabic_answers": [
+        "سَلَّة",
+        "سلة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darin trägst du frisches Obst nach Hause.",
+          "expected_meaning": "Korb"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_27",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_c",
+      "arabic_unvocalized": "صنبور",
+      "proposed_arabic_vocalized": "صُنْبُور",
+      "proposed_transliteration": "ṣunbūr",
+      "german_answers": [
+        "Wasserhahn"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "صَنَابِير",
+      "accepted_arabic_answers": [
+        "صُنْبُور",
+        "صنبور"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Daraus fließt Wasser in die Spüle.",
+          "expected_meaning": "Wasserhahn"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_28",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_c",
+      "arabic_unvocalized": "دش",
+      "proposed_arabic_vocalized": "دُشّ",
+      "proposed_transliteration": "dushsh",
+      "german_answers": [
+        "Dusche"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "دُشّ",
+        "دش"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darunter wäschst du morgens deinen ganzen Körper.",
+          "expected_meaning": "Dusche"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_29",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_c",
+      "arabic_unvocalized": "مرحاض",
+      "proposed_arabic_vocalized": "مِرْحَاض",
+      "proposed_transliteration": "mirḥāḍ",
+      "german_answers": [
+        "Toilette"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "مَرَاحِيض",
+      "accepted_arabic_answers": [
+        "مِرْحَاض",
+        "مرحاض"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein notwendiger Raum im Badezimmer.",
+          "expected_meaning": "Toilette"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u08_30",
+      "unit_id": "vocab_unit_08",
+      "session_id": "vocab_unit_08_c",
+      "arabic_unvocalized": "مغسلة",
+      "proposed_arabic_vocalized": "مَغْسَلَة",
+      "proposed_transliteration": "maghsala",
+      "german_answers": [
+        "Waschbecken"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "مَغَاسِل",
+      "accepted_arabic_answers": [
+        "مَغْسَلَة",
+        "مغسلة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darin wäschst du dir im Bad die Hände.",
+          "expected_meaning": "Waschbecken"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_01",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_a",
+      "arabic_unvocalized": "أرز",
+      "proposed_arabic_vocalized": "أَرُزّ",
+      "proposed_transliteration": "aruzz",
+      "german_answers": [
+        "Reis"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "أَرُزّ",
+        "أرز"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein kleines weißes Getreidekorn, oft die Grundlage einer Mahlzeit.",
+          "expected_meaning": "Reis"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_02",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_a",
+      "arabic_unvocalized": "لحم",
+      "proposed_arabic_vocalized": "لَحْم",
+      "proposed_transliteration": "laḥm",
+      "german_answers": [
+        "Fleisch"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "لُحُوم",
+      "accepted_arabic_answers": [
+        "لَحْم",
+        "لحم"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Wird vom Metzger verkauft und gebraten oder gekocht.",
+          "expected_meaning": "Fleisch"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_03",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_a",
+      "arabic_unvocalized": "بيضة",
+      "proposed_arabic_vocalized": "بَيْضَة",
+      "proposed_transliteration": "bayḍa",
+      "german_answers": [
+        "Ei"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "بَيْض",
+      "accepted_arabic_answers": [
+        "بَيْضَة",
+        "بيضة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Kommt vom Huhn und wird oft zum Frühstück gegessen.",
+          "expected_meaning": "Ei"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_04",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_a",
+      "arabic_unvocalized": "جبن",
+      "proposed_arabic_vocalized": "جُبْن",
+      "proposed_transliteration": "jubn",
+      "german_answers": [
+        "Käse"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "جُبْن",
+        "جبن"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Wird aus Milch hergestellt.",
+          "expected_meaning": "Käse"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_05",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_a",
+      "arabic_unvocalized": "زبدة",
+      "proposed_arabic_vocalized": "زُبْدَة",
+      "proposed_transliteration": "zubda",
+      "german_answers": [
+        "Butter"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "زُبْدَة",
+        "زبدة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Wird auf Brot gestrichen.",
+          "expected_meaning": "Butter"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_06",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_a",
+      "arabic_unvocalized": "زبادي",
+      "proposed_arabic_vocalized": "زَبَادِي",
+      "proposed_transliteration": "zabādī",
+      "german_answers": [
+        "Joghurt"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "زَبَادِي",
+        "زبادي"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein cremiges Milchprodukt zum Frühstück.",
+          "expected_meaning": "Joghurt"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_07",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_a",
+      "arabic_unvocalized": "ملح",
+      "proposed_arabic_vocalized": "مِلْح",
+      "proposed_transliteration": "milḥ",
+      "german_answers": [
+        "Salz"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "مِلْح",
+        "ملح"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit würzt du fast jedes herzhafte Gericht.",
+          "expected_meaning": "Salz"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_08",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_a",
+      "arabic_unvocalized": "سكر",
+      "proposed_arabic_vocalized": "سُكَّر",
+      "proposed_transliteration": "sukkar",
+      "german_answers": [
+        "Zucker"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "سُكَّر",
+        "سكر"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit machst du Tee oder Kaffee süß.",
+          "expected_meaning": "Zucker"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_09",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_b",
+      "arabic_unvocalized": "دقيق",
+      "proposed_arabic_vocalized": "دَقِيق",
+      "proposed_transliteration": "daqīq",
+      "german_answers": [
+        "Mehl"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "دَقِيق",
+        "دقيق"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der Grundstoff für Brot und Kuchen.",
+          "expected_meaning": "Mehl"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_10",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_b",
+      "arabic_unvocalized": "زيت",
+      "proposed_arabic_vocalized": "زَيْت",
+      "proposed_transliteration": "zayt",
+      "german_answers": [
+        "Öl"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "زُيُوت",
+      "accepted_arabic_answers": [
+        "زَيْت",
+        "زيت"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit brätst du Gemüse in der Pfanne.",
+          "expected_meaning": "Öl"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_11",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_b",
+      "arabic_unvocalized": "خضروات",
+      "proposed_arabic_vocalized": "خُضْرَوَات",
+      "proposed_transliteration": "khuḍrawāt",
+      "german_answers": [
+        "Gemüse"
+      ],
+      "part_of_speech": "Substantiv (Plural)",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "خُضْرَوَات",
+        "خضروات"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Tomaten, Gurken und Karotten gehören dazu.",
+          "expected_meaning": "Gemüse"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_12",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_b",
+      "arabic_unvocalized": "فاكهة",
+      "proposed_arabic_vocalized": "فَاكِهَة",
+      "proposed_transliteration": "fākiha",
+      "german_answers": [
+        "Obst"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "فَوَاكِه",
+      "accepted_arabic_answers": [
+        "فَاكِهَة",
+        "فاكهة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Äpfel, Bananen und Trauben gehören dazu.",
+          "expected_meaning": "Obst"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_13",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_b",
+      "arabic_unvocalized": "موز",
+      "proposed_arabic_vocalized": "مَوْز",
+      "proposed_transliteration": "mawz",
+      "german_answers": [
+        "Banane"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "مَوْز",
+        "موز"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Eine lange, gelbe Frucht.",
+          "expected_meaning": "Banane"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_14",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_b",
+      "arabic_unvocalized": "برتقال",
+      "proposed_arabic_vocalized": "بُرْتُقَال",
+      "proposed_transliteration": "burtuqāl",
+      "german_answers": [
+        "Orange (Frucht)"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "بُرْتُقَال",
+        "برتقال"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Eine runde, saftige Zitrusfrucht — dieselbe Farbe trägt auch ihren Namen.",
+          "expected_meaning": "Orange (Frucht)"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_15",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_b",
+      "arabic_unvocalized": "عنب",
+      "proposed_arabic_vocalized": "عِنَب",
+      "proposed_transliteration": "ʿinab",
+      "german_answers": [
+        "Trauben"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "عِنَب",
+        "عنب"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Kleine runde Früchte, die in Rispen wachsen.",
+          "expected_meaning": "Trauben"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_16",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_b",
+      "arabic_unvocalized": "تمر",
+      "proposed_arabic_vocalized": "تَمْر",
+      "proposed_transliteration": "tamr",
+      "german_answers": [
+        "Datteln"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "تَمْر",
+        "تمر"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Eine sehr süße, braune Frucht aus der Palme.",
+          "expected_meaning": "Datteln"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_17",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_b",
+      "arabic_unvocalized": "ليمون",
+      "proposed_arabic_vocalized": "لَيْمُون",
+      "proposed_transliteration": "laymūn",
+      "german_answers": [
+        "Zitrone"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "لَيْمُون",
+        "ليمون"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Eine sehr saure gelbe Frucht.",
+          "expected_meaning": "Zitrone"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_18",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_b",
+      "arabic_unvocalized": "طماطم",
+      "proposed_arabic_vocalized": "طَمَاطِم",
+      "proposed_transliteration": "ṭamāṭim",
+      "german_answers": [
+        "Tomate"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "طَمَاطِم",
+        "طماطم"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Eine rote, saftige Gemüsefrucht für Salat.",
+          "expected_meaning": "Tomate"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_19",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_c",
+      "arabic_unvocalized": "بطاطا",
+      "proposed_arabic_vocalized": "بَطَاطَا",
+      "proposed_transliteration": "baṭāṭā",
+      "german_answers": [
+        "Kartoffel"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "بَطَاطَا",
+        "بطاطا"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Wächst unter der Erde und wird oft gekocht oder frittiert.",
+          "expected_meaning": "Kartoffel"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_20",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_c",
+      "arabic_unvocalized": "بصل",
+      "proposed_arabic_vocalized": "بَصَل",
+      "proposed_transliteration": "baṣal",
+      "german_answers": [
+        "Zwiebel"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "بَصَل",
+        "بصل"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Kann beim Schneiden Tränen in den Augen verursachen.",
+          "expected_meaning": "Zwiebel"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_21",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_c",
+      "arabic_unvocalized": "ثوم",
+      "proposed_arabic_vocalized": "ثُوم",
+      "proposed_transliteration": "thūm",
+      "german_answers": [
+        "Knoblauch"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "ثُوم",
+        "ثوم"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein kleines, stark riechendes Gewürzgemüse.",
+          "expected_meaning": "Knoblauch"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_22",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_c",
+      "arabic_unvocalized": "جزر",
+      "proposed_arabic_vocalized": "جَزَر",
+      "proposed_transliteration": "jazar",
+      "german_answers": [
+        "Karotte"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "جَزَر",
+        "جزر"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein oranges Wurzelgemüse.",
+          "expected_meaning": "Karotte"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_23",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_c",
+      "arabic_unvocalized": "خيار",
+      "proposed_arabic_vocalized": "خِيَار",
+      "proposed_transliteration": "khiyār",
+      "german_answers": [
+        "Gurke"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "خِيَار",
+        "خيار"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein langes, grünes, wasserreiches Gemüse.",
+          "expected_meaning": "Gurke"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_24",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_c",
+      "arabic_unvocalized": "فاصولياء",
+      "proposed_arabic_vocalized": "فَاصُولْيَاء",
+      "proposed_transliteration": "fāṣūlyāʾ",
+      "german_answers": [
+        "Bohnen"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "فَاصُولْيَاء",
+        "فاصولياء"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Kleine, oft grüne Hülsenfrüchte.",
+          "expected_meaning": "Bohnen"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_25",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_c",
+      "arabic_unvocalized": "عدس",
+      "proposed_arabic_vocalized": "عَدَس",
+      "proposed_transliteration": "ʿadas",
+      "german_answers": [
+        "Linsen"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "عَدَس",
+        "عدس"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Kleine runde Hülsenfrüchte, oft die Basis einer Suppe.",
+          "expected_meaning": "Linsen"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_26",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_c",
+      "arabic_unvocalized": "حمص",
+      "proposed_arabic_vocalized": "حِمَّص",
+      "proposed_transliteration": "ḥimmaṣ",
+      "german_answers": [
+        "Kichererbsen"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "حِمَّص",
+        "حمص"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Die Basis von Hummus.",
+          "expected_meaning": "Kichererbsen"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_27",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_c",
+      "arabic_unvocalized": "معكرونة",
+      "proposed_arabic_vocalized": "مَعْكَرُونَة",
+      "proposed_transliteration": "maʿkarūna",
+      "german_answers": [
+        "Nudeln",
+        "Pasta"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "مَعْكَرُونَة",
+        "معكرونة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Werden meist in kochendem Wasser zubereitet.",
+          "expected_meaning": "Nudeln"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u09_28",
+      "unit_id": "vocab_unit_09",
+      "session_id": "vocab_unit_09_c",
+      "arabic_unvocalized": "حساء",
+      "proposed_arabic_vocalized": "حَسَاء",
+      "proposed_transliteration": "ḥasāʾ",
+      "german_answers": [
+        "Suppe"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "أَحْسِيَة",
+      "accepted_arabic_answers": [
+        "حَسَاء",
+        "حساء"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Eine warme, flüssige Mahlzeit aus einer Schüssel.",
+          "expected_meaning": "Suppe"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_01",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_a",
+      "arabic_unvocalized": "عصير",
+      "proposed_arabic_vocalized": "عَصِير",
+      "proposed_transliteration": "ʿaṣīr",
+      "german_answers": [
+        "Saft"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "عَصَائِر",
+      "accepted_arabic_answers": [
+        "عَصِير",
+        "عصير"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Wird aus gepressten Früchten gemacht.",
+          "expected_meaning": "Saft"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_02",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_a",
+      "arabic_unvocalized": "مشروب",
+      "proposed_arabic_vocalized": "مَشْرُوب",
+      "proposed_transliteration": "mashrūb",
+      "german_answers": [
+        "Getränk"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "مَشْرُوبَات",
+      "accepted_arabic_answers": [
+        "مَشْرُوب",
+        "مشروب"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der allgemeine Begriff für alles, was man trinkt.",
+          "expected_meaning": "Getränk"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_03",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_a",
+      "arabic_unvocalized": "فطور",
+      "proposed_arabic_vocalized": "فُطُور",
+      "proposed_transliteration": "fuṭūr",
+      "german_answers": [
+        "Frühstück"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "فُطُور",
+        "فطور"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Die erste Mahlzeit am Morgen.",
+          "expected_meaning": "Frühstück"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_04",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_a",
+      "arabic_unvocalized": "غداء",
+      "proposed_arabic_vocalized": "غَدَاء",
+      "proposed_transliteration": "ghadāʾ",
+      "german_answers": [
+        "Mittagessen"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "غَدَاء",
+        "غداء"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Die Mahlzeit in der Mitte des Tages.",
+          "expected_meaning": "Mittagessen"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_05",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_a",
+      "arabic_unvocalized": "عشاء",
+      "proposed_arabic_vocalized": "عَشَاء",
+      "proposed_transliteration": "ʿashāʾ",
+      "german_answers": [
+        "Abendessen"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "عَشَاء",
+        "عشاء"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Die letzte Mahlzeit des Tages.",
+          "expected_meaning": "Abendessen"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_06",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_a",
+      "arabic_unvocalized": "وجبة",
+      "proposed_arabic_vocalized": "وَجْبَة",
+      "proposed_transliteration": "wajba",
+      "german_answers": [
+        "Mahlzeit"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "وَجَبَات",
+      "accepted_arabic_answers": [
+        "وَجْبَة",
+        "وجبة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Frühstück, Mittagessen und Abendessen sind Beispiele dafür.",
+          "expected_meaning": "Mahlzeit"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_07",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_b",
+      "arabic_unvocalized": "جائع",
+      "proposed_arabic_vocalized": "جَائِع",
+      "proposed_transliteration": "jāʾiʿ",
+      "german_answers": [
+        "hungrig"
+      ],
+      "part_of_speech": "Adjektiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "جَائِع",
+        "جائع"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "So fühlst du dich, wenn du lange nichts gegessen hast.",
+          "expected_meaning": "hungrig"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_08",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_b",
+      "arabic_unvocalized": "عطشان",
+      "proposed_arabic_vocalized": "عَطْشَان",
+      "proposed_transliteration": "ʿaṭshān",
+      "german_answers": [
+        "durstig"
+      ],
+      "part_of_speech": "Adjektiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "عَطْشَان",
+        "عطشان"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "So fühlst du dich, wenn du lange nichts getrunken hast.",
+          "expected_meaning": "durstig"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_09",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_b",
+      "arabic_unvocalized": "لذيذ",
+      "proposed_arabic_vocalized": "لَذِيذ",
+      "proposed_transliteration": "ladhīdh",
+      "german_answers": [
+        "lecker",
+        "köstlich"
+      ],
+      "part_of_speech": "Adjektiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "لَذِيذ",
+        "لذيذ"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "So beschreibst du ein besonders gutes Essen.",
+          "expected_meaning": "lecker"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_10",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_b",
+      "arabic_unvocalized": "زجاجة",
+      "proposed_arabic_vocalized": "زُجَاجَة",
+      "proposed_transliteration": "zujāja",
+      "german_answers": [
+        "Flasche"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "زُجَاجَات",
+      "accepted_arabic_answers": [
+        "زُجَاجَة",
+        "زجاجة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darin wird Wasser oder Saft verkauft.",
+          "expected_meaning": "Flasche"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_11",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_b",
+      "arabic_unvocalized": "علبة",
+      "proposed_arabic_vocalized": "عُلْبَة",
+      "proposed_transliteration": "ʿulba",
+      "german_answers": [
+        "Dose",
+        "Schachtel"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "عُلَب",
+      "accepted_arabic_answers": [
+        "عُلْبَة",
+        "علبة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein kleiner, oft rechteckiger Behälter mit Deckel.",
+          "expected_meaning": "Dose"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_12",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_b",
+      "arabic_unvocalized": "قدر",
+      "proposed_arabic_vocalized": "قِدْر",
+      "proposed_transliteration": "qidr",
+      "german_answers": [
+        "Kochtopf"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "قُدُور",
+      "accepted_arabic_answers": [
+        "قِدْر",
+        "قدر"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darin kochst du Suppe auf dem Herd.",
+          "expected_meaning": "Kochtopf"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_13",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_b",
+      "arabic_unvocalized": "مقلاة",
+      "proposed_arabic_vocalized": "مِقْلَاة",
+      "proposed_transliteration": "miqlāh",
+      "german_answers": [
+        "Pfanne"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "مَقَالٍ",
+      "accepted_arabic_answers": [
+        "مِقْلَاة",
+        "مقلاة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darin brätst du ein Ei.",
+          "expected_meaning": "Pfanne"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_14",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_b",
+      "arabic_unvocalized": "غلاية",
+      "proposed_arabic_vocalized": "غَلَّايَة",
+      "proposed_transliteration": "ghallāya",
+      "german_answers": [
+        "Wasserkocher",
+        "Kessel"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "غَلَّايَات",
+      "accepted_arabic_answers": [
+        "غَلَّايَة",
+        "غلاية"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit machst du schnell heißes Wasser für Tee.",
+          "expected_meaning": "Wasserkocher"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_15",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_b",
+      "arabic_unvocalized": "صينية",
+      "proposed_arabic_vocalized": "صِينِيَّة",
+      "proposed_transliteration": "ṣīniyya",
+      "german_answers": [
+        "Tablett"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "صَوَانٍ",
+      "accepted_arabic_answers": [
+        "صِينِيَّة",
+        "صينية"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darauf trägst du mehrere Tassen gleichzeitig.",
+          "expected_meaning": "Tablett"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_16",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_b",
+      "arabic_unvocalized": "وعاء",
+      "proposed_arabic_vocalized": "وِعَاء",
+      "proposed_transliteration": "wiʿāʾ",
+      "german_answers": [
+        "Schüssel",
+        "Gefäß"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "أَوْعِيَة",
+      "accepted_arabic_answers": [
+        "وِعَاء",
+        "وعاء"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darin mischst du die Zutaten für einen Kuchen.",
+          "expected_meaning": "Schüssel"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_17",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_c",
+      "arabic_unvocalized": "وصفة",
+      "proposed_arabic_vocalized": "وَصْفَة",
+      "proposed_transliteration": "waṣfa",
+      "german_answers": [
+        "Rezept (Kochrezept)"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "وَصْفَات",
+      "accepted_arabic_answers": [
+        "وَصْفَة",
+        "وصفة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Darin steht genau, wie du ein Gericht zubereitest.",
+          "expected_meaning": "Rezept (Kochrezept)"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_18",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_c",
+      "arabic_unvocalized": "قائمة الطعام",
+      "proposed_arabic_vocalized": "قَائِمَة الطَّعَام",
+      "proposed_transliteration": "qāʾimat aṭ-ṭaʿām",
+      "german_answers": [
+        "Speisekarte"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "قَائِمَة الطَّعَام",
+        "قائمة الطعام"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Im Restaurant wählst du dein Essen daraus aus.",
+          "expected_meaning": "Speisekarte"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_19",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_c",
+      "arabic_unvocalized": "فاتورة",
+      "proposed_arabic_vocalized": "فَاتُورَة",
+      "proposed_transliteration": "fātūra",
+      "german_answers": [
+        "Rechnung"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "فَوَاتِير",
+      "accepted_arabic_answers": [
+        "فَاتُورَة",
+        "فاتورة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Am Ende des Essens im Restaurant bezahlst du diese.",
+          "expected_meaning": "Rechnung"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_20",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_c",
+      "arabic_unvocalized": "نادل",
+      "proposed_arabic_vocalized": "نَادِل",
+      "proposed_transliteration": "nādil",
+      "german_answers": [
+        "Kellner"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "نُدُل",
+      "accepted_arabic_answers": [
+        "نَادِل",
+        "نادل"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Diese Person bringt dir im Restaurant das Essen.",
+          "expected_meaning": "Kellner"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_21",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_c",
+      "arabic_unvocalized": "طبخ",
+      "proposed_arabic_vocalized": "طَبَخَ",
+      "proposed_transliteration": "ṭabakha",
+      "german_answers": [
+        "kochen (zubereiten, allgemein)"
+      ],
+      "part_of_speech": "Verb (3. Pers. m. Vergangenheit)",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "طَبَخَ",
+        "طبخ"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Das machst du in der Küche, um eine Mahlzeit zuzubereiten.",
+          "expected_meaning": "kochen (zubereiten, allgemein)"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_22",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_c",
+      "arabic_unvocalized": "قطع",
+      "proposed_arabic_vocalized": "قَطَعَ",
+      "proposed_transliteration": "qaṭaʿa",
+      "german_answers": [
+        "schneiden"
+      ],
+      "part_of_speech": "Verb (3. Pers. m. Vergangenheit)",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "قَطَعَ",
+        "قطع"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Das machst du mit einem Messer und Gemüse.",
+          "expected_meaning": "schneiden"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_23",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_c",
+      "arabic_unvocalized": "غلى",
+      "proposed_arabic_vocalized": "غَلَى",
+      "proposed_transliteration": "ghalā",
+      "german_answers": [
+        "kochen (sieden, im Wasser)"
+      ],
+      "part_of_speech": "Verb (3. Pers. m. Vergangenheit)",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "غَلَى",
+        "غلى"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Das Wasser blubbert und wird sehr heiß.",
+          "expected_meaning": "kochen (sieden, im Wasser)"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_24",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_c",
+      "arabic_unvocalized": "قلى",
+      "proposed_arabic_vocalized": "قَلَى",
+      "proposed_transliteration": "qalā",
+      "german_answers": [
+        "braten",
+        "frittieren"
+      ],
+      "part_of_speech": "Verb (3. Pers. m. Vergangenheit)",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "قَلَى",
+        "قلى"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Das machst du mit Öl in einer Pfanne.",
+          "expected_meaning": "braten"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_25",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_c",
+      "arabic_unvocalized": "شوى",
+      "proposed_arabic_vocalized": "شَوَى",
+      "proposed_transliteration": "shawā",
+      "german_answers": [
+        "grillen"
+      ],
+      "part_of_speech": "Verb (3. Pers. m. Vergangenheit)",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "شَوَى",
+        "شوى"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Das machst du im Sommer draußen mit Fleisch oder Gemüse.",
+          "expected_meaning": "grillen"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u10_26",
+      "unit_id": "vocab_unit_10",
+      "session_id": "vocab_unit_10_c",
+      "arabic_unvocalized": "طعم",
+      "proposed_arabic_vocalized": "طَعْم",
+      "proposed_transliteration": "ṭaʿm",
+      "german_answers": [
+        "Geschmack"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "طُعُوم",
+      "accepted_arabic_answers": [
+        "طَعْم",
+        "طعم"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Süß, salzig und sauer sind Beispiele dafür.",
+          "expected_meaning": "Geschmack"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    }
+  ],
+  "theory_review": [
+    {
+      "theory_id": "theory_vocab_unit_06_a",
+      "title": "Uhrzeit, Wochentage, Monate und Kalender (1)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_06_b",
+      "title": "Uhrzeit, Wochentage, Monate und Kalender (2)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_06_c",
+      "title": "Uhrzeit, Wochentage, Monate und Kalender (3)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_07_a",
+      "title": "Farben, Formen und Materialien (1)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_07_b",
+      "title": "Farben, Formen und Materialien (2)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_07_c",
+      "title": "Farben, Formen und Materialien (3)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_08_a",
+      "title": "Möbel, Haushalt und Alltagsgegenstände (1)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_08_b",
+      "title": "Möbel, Haushalt und Alltagsgegenstände (2)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_08_c",
+      "title": "Möbel, Haushalt und Alltagsgegenstände (3)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_09_a",
+      "title": "Lebensmittel und Grundnahrungsmittel (1)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_09_b",
+      "title": "Lebensmittel und Grundnahrungsmittel (2)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_09_c",
+      "title": "Lebensmittel und Grundnahrungsmittel (3)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_10_a",
+      "title": "Getränke, Mahlzeiten und Küche (1)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_10_b",
+      "title": "Getränke, Mahlzeiten und Küche (2)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_10_c",
+      "title": "Getränke, Mahlzeiten und Küche (3)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    }
+  ]
+}

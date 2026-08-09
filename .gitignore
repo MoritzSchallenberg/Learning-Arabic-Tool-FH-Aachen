@@ -2,6 +2,10 @@
 node_modules/
 dist/
 
+# Erzeugt von "npm run package:source" (Entwicklungsauftrag 7, Abschnitt 26/27) — Release-
+# Artefakt, nicht Teil des Quellcode-Repositorys.
+dist-source/
+
 # Python-Cache der Audio-Erzeugungsskripte (scripts/generate_audio*.py).
 __pycache__/
 scripts/__pycache__/

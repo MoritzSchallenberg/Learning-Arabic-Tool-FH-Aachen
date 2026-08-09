@@ -2,29 +2,311 @@
   "vocab_units": [
     {
       "id": "vocab_unit_01",
-      "title": "Begrüßung und Höflichkeit",
-      "description": "Die ersten neun Wörter für Begrüßungen, Höflichkeit und kurze Antworten im Alltag.",
-      "session_ids": ["vocab_unit_01_a"]
+      "title": "Begrüßung, Höflichkeit und kurze Antworten",
+      "description": "30 Wörter zum Thema „Begrüßung, Höflichkeit und kurze Antworten“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_01_a",
+        "vocab_unit_01_b",
+        "vocab_unit_01_c"
+      ]
     },
     {
       "id": "vocab_unit_02",
-      "title": "Familie und Personen",
-      "description": "Acht Wörter für die engste Familie — Eltern, Geschwister, Kinder und Großeltern.",
-      "session_ids": ["vocab_unit_02_a"]
+      "title": "Familie, Beziehungen und Personen",
+      "description": "30 Wörter zum Thema „Familie, Beziehungen und Personen“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_02_a",
+        "vocab_unit_02_b",
+        "vocab_unit_02_c"
+      ]
     },
     {
       "id": "vocab_unit_03",
       "title": "Zuhause und Räume",
-      "description": "Acht Wörter für das Haus, seine Räume und wichtige Gegenstände darin.",
-      "session_ids": ["vocab_unit_03_a"]
+      "description": "30 Wörter zum Thema „Zuhause und Räume“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_03_a",
+        "vocab_unit_03_b",
+        "vocab_unit_03_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_04",
+      "title": "Persönliche Angaben, Länder, Sprachen und Nationalitäten",
+      "description": "30 Wörter zum Thema „Persönliche Angaben, Länder, Sprachen und Nationalitäten“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_04_a",
+        "vocab_unit_04_b",
+        "vocab_unit_04_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_05",
+      "title": "Zahlen, Mengen und Maße",
+      "description": "30 Wörter zum Thema „Zahlen, Mengen und Maße“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_05_a",
+        "vocab_unit_05_b",
+        "vocab_unit_05_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_06",
+      "title": "Uhrzeit, Wochentage, Monate und Kalender",
+      "description": "30 Wörter zum Thema „Uhrzeit, Wochentage, Monate und Kalender“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_06_a",
+        "vocab_unit_06_b",
+        "vocab_unit_06_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_07",
+      "title": "Farben, Formen und Materialien",
+      "description": "30 Wörter zum Thema „Farben, Formen und Materialien“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_07_a",
+        "vocab_unit_07_b",
+        "vocab_unit_07_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_08",
+      "title": "Möbel, Haushalt und Alltagsgegenstände",
+      "description": "30 Wörter zum Thema „Möbel, Haushalt und Alltagsgegenstände“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_08_a",
+        "vocab_unit_08_b",
+        "vocab_unit_08_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_09",
+      "title": "Lebensmittel und Grundnahrungsmittel",
+      "description": "30 Wörter zum Thema „Lebensmittel und Grundnahrungsmittel“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_09_a",
+        "vocab_unit_09_b",
+        "vocab_unit_09_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_10",
+      "title": "Getränke, Mahlzeiten und Küche",
+      "description": "30 Wörter zum Thema „Getränke, Mahlzeiten und Küche“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_10_a",
+        "vocab_unit_10_b",
+        "vocab_unit_10_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_11",
+      "title": "Einkaufen, Geld und Preise",
+      "description": "30 Wörter zum Thema „Einkaufen, Geld und Preise“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_11_a",
+        "vocab_unit_11_b",
+        "vocab_unit_11_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_12",
+      "title": "Kleidung, Schuhe und Accessoires",
+      "description": "30 Wörter zum Thema „Kleidung, Schuhe und Accessoires“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_12_a",
+        "vocab_unit_12_b",
+        "vocab_unit_12_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_13",
+      "title": "Körper und Sinne",
+      "description": "30 Wörter zum Thema „Körper und Sinne“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_13_a",
+        "vocab_unit_13_b",
+        "vocab_unit_13_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_14",
+      "title": "Gesundheit, Beschwerden und Apotheke",
+      "description": "30 Wörter zum Thema „Gesundheit, Beschwerden und Apotheke“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_14_a",
+        "vocab_unit_14_b",
+        "vocab_unit_14_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_15",
+      "title": "Gefühle, Eigenschaften und Zustände",
+      "description": "30 Wörter zum Thema „Gefühle, Eigenschaften und Zustände“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_15_a",
+        "vocab_unit_15_b",
+        "vocab_unit_15_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_16",
+      "title": "Tagesablauf und Gewohnheiten",
+      "description": "30 Wörter zum Thema „Tagesablauf und Gewohnheiten“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_16_a",
+        "vocab_unit_16_b",
+        "vocab_unit_16_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_17",
+      "title": "Häufige Verben I: Bewegung und praktische Handlungen",
+      "description": "30 Wörter zum Thema „Häufige Verben I: Bewegung und praktische Handlungen“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_17_a",
+        "vocab_unit_17_b",
+        "vocab_unit_17_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_18",
+      "title": "Häufige Verben II: Denken, Sprechen und Wahrnehmung",
+      "description": "30 Wörter zum Thema „Häufige Verben II: Denken, Sprechen und Wahrnehmung“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_18_a",
+        "vocab_unit_18_b",
+        "vocab_unit_18_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_19",
+      "title": "Häufige Adjektive und Gegensätze",
+      "description": "30 Wörter zum Thema „Häufige Adjektive und Gegensätze“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_19_a",
+        "vocab_unit_19_b",
+        "vocab_unit_19_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_20",
+      "title": "Stadt, Gebäude und öffentliche Orte",
+      "description": "30 Wörter zum Thema „Stadt, Gebäude und öffentliche Orte“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_20_a",
+        "vocab_unit_20_b",
+        "vocab_unit_20_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_21",
+      "title": "Position, Richtung und wichtige Präpositionen",
+      "description": "30 Wörter zum Thema „Position, Richtung und wichtige Präpositionen“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_21_a",
+        "vocab_unit_21_b",
+        "vocab_unit_21_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_22",
+      "title": "Verkehr, Reisen und Hotel",
+      "description": "30 Wörter zum Thema „Verkehr, Reisen und Hotel“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_22_a",
+        "vocab_unit_22_b",
+        "vocab_unit_22_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_23",
+      "title": "Schule, Unterricht und Schulsachen",
+      "description": "30 Wörter zum Thema „Schule, Unterricht und Schulsachen“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_23_a",
+        "vocab_unit_23_b",
+        "vocab_unit_23_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_24",
+      "title": "Universität, Studium und Prüfungen",
+      "description": "30 Wörter zum Thema „Universität, Studium und Prüfungen“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_24_a",
+        "vocab_unit_24_b",
+        "vocab_unit_24_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_25",
+      "title": "Arbeit, Berufe und Büro",
+      "description": "30 Wörter zum Thema „Arbeit, Berufe und Büro“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_25_a",
+        "vocab_unit_25_b",
+        "vocab_unit_25_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_26",
+      "title": "Technik, Internet und Medien",
+      "description": "30 Wörter zum Thema „Technik, Internet und Medien“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_26_a",
+        "vocab_unit_26_b",
+        "vocab_unit_26_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_27",
+      "title": "Natur, Wetter und Umwelt",
+      "description": "30 Wörter zum Thema „Natur, Wetter und Umwelt“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_27_a",
+        "vocab_unit_27_b",
+        "vocab_unit_27_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_28",
+      "title": "Tiere und Pflanzen",
+      "description": "30 Wörter zum Thema „Tiere und Pflanzen“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_28_a",
+        "vocab_unit_28_b",
+        "vocab_unit_28_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_29",
+      "title": "Freizeit, Sport und Kultur",
+      "description": "30 Wörter zum Thema „Freizeit, Sport und Kultur“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_29_a",
+        "vocab_unit_29_b",
+        "vocab_unit_29_c"
+      ]
+    },
+    {
+      "id": "vocab_unit_30",
+      "title": "Fragewörter, Konnektoren und Funktionswörter",
+      "description": "30 Wörter zum Thema „Fragewörter, Konnektoren und Funktionswörter“, aufgeteilt in drei Sessions zu je 10 Wörtern.",
+      "session_ids": [
+        "vocab_unit_30_a",
+        "vocab_unit_30_b",
+        "vocab_unit_30_c"
+      ]
     }
   ],
   "sessions": [
     {
       "session_id": "vocab_unit_01_a",
       "unit_id": "vocab_unit_01",
-      "title": "Begrüßung und Höflichkeit",
-      "description": "Lerne neun grundlegende Ausdrücke für erste Begegnungen und Höflichkeit.",
+      "title": "Begrüßung, Höflichkeit und kurze Antworten",
+      "description": "Lerne 10 Wörter zum Thema „Begrüßung, Höflichkeit und kurze Antworten“.",
       "estimated_minutes": 10,
       "theory_id": "theory_vocab_unit_01_a",
       "new_word_ids": [
@@ -36,30 +318,169 @@
         "greet_thanks",
         "greet_please",
         "greet_yes",
-        "greet_no"
+        "greet_no",
+        "c1_u01_01"
       ],
       "review_count": 5,
       "phases": [
-        { "type": "theory", "required_first_time": true },
-        { "type": "word_preview" },
-        { "type": "recognition" },
-        { "type": "reconstruction" },
-        { "type": "guided_production" },
-        { "type": "independent_production" },
-        { "type": "application" },
-        { "type": "summary" }
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
       ],
       "completion_rules": {
         "minimum_score": 0.75,
         "all_words_exposed": true,
-        "required_phases": ["theory", "word_preview", "recognition", "independent_production"]
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_01_b",
+      "unit_id": "vocab_unit_01",
+      "title": "Begrüßung, Höflichkeit und kurze Antworten",
+      "description": "Lerne 10 Wörter zum Thema „Begrüßung, Höflichkeit und kurze Antworten“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_01_b",
+      "new_word_ids": [
+        "c1_u01_02",
+        "c1_u01_03",
+        "c1_u01_04",
+        "c1_u01_05",
+        "c1_u01_06",
+        "c1_u01_07",
+        "c1_u01_08",
+        "c1_u01_09",
+        "c1_u01_10",
+        "c1_u01_11"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_01_c",
+      "unit_id": "vocab_unit_01",
+      "title": "Begrüßung, Höflichkeit und kurze Antworten",
+      "description": "Lerne 10 Wörter zum Thema „Begrüßung, Höflichkeit und kurze Antworten“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_01_c",
+      "new_word_ids": [
+        "c1_u01_12",
+        "c1_u01_13",
+        "c1_u01_14",
+        "c1_u01_15",
+        "c1_u01_16",
+        "c1_u01_17",
+        "c1_u01_18",
+        "c1_u01_19",
+        "c1_u01_20",
+        "c1_u01_21"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
       }
     },
     {
       "session_id": "vocab_unit_02_a",
       "unit_id": "vocab_unit_02",
-      "title": "Familie und Personen",
-      "description": "Lerne acht Wörter für die engste Familie — und wie man Genus und Plural bei Personenwörtern erkennt.",
+      "title": "Familie, Beziehungen und Personen",
+      "description": "Lerne 10 Wörter zum Thema „Familie, Beziehungen und Personen“.",
       "estimated_minutes": 10,
       "theory_id": "theory_vocab_unit_02_a",
       "new_word_ids": [
@@ -70,30 +491,170 @@
         "family_son",
         "family_daughter",
         "family_grandfather",
-        "family_grandmother"
+        "family_grandmother",
+        "c1_u02_01",
+        "c1_u02_02"
       ],
       "review_count": 5,
       "phases": [
-        { "type": "theory", "required_first_time": true },
-        { "type": "word_preview" },
-        { "type": "recognition" },
-        { "type": "reconstruction" },
-        { "type": "guided_production" },
-        { "type": "independent_production" },
-        { "type": "application" },
-        { "type": "summary" }
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
       ],
       "completion_rules": {
         "minimum_score": 0.75,
         "all_words_exposed": true,
-        "required_phases": ["theory", "word_preview", "recognition", "independent_production"]
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_02_b",
+      "unit_id": "vocab_unit_02",
+      "title": "Familie, Beziehungen und Personen",
+      "description": "Lerne 10 Wörter zum Thema „Familie, Beziehungen und Personen“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_02_b",
+      "new_word_ids": [
+        "c1_u02_03",
+        "c1_u02_04",
+        "c1_u02_05",
+        "c1_u02_06",
+        "c1_u02_07",
+        "c1_u02_08",
+        "c1_u02_09",
+        "c1_u02_10",
+        "c1_u02_11",
+        "c1_u02_12"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_02_c",
+      "unit_id": "vocab_unit_02",
+      "title": "Familie, Beziehungen und Personen",
+      "description": "Lerne 10 Wörter zum Thema „Familie, Beziehungen und Personen“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_02_c",
+      "new_word_ids": [
+        "c1_u02_13",
+        "c1_u02_14",
+        "c1_u02_15",
+        "c1_u02_16",
+        "c1_u02_17",
+        "c1_u02_18",
+        "c1_u02_19",
+        "c1_u02_20",
+        "c1_u02_21",
+        "c1_u02_22"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
       }
     },
     {
       "session_id": "vocab_unit_03_a",
       "unit_id": "vocab_unit_03",
       "title": "Zuhause und Räume",
-      "description": "Lerne acht Wörter für Haus, Räume und Einrichtungsgegenstände.",
+      "description": "Lerne 10 Wörter zum Thema „Zuhause und Räume“.",
       "estimated_minutes": 10,
       "theory_id": "theory_vocab_unit_03_a",
       "new_word_ids": [
@@ -104,23 +665,4861 @@
         "housing_door",
         "housing_window",
         "housing_bed",
-        "housing_table"
+        "housing_table",
+        "c1_u03_01",
+        "c1_u03_02"
       ],
       "review_count": 5,
       "phases": [
-        { "type": "theory", "required_first_time": true },
-        { "type": "word_preview" },
-        { "type": "recognition" },
-        { "type": "reconstruction" },
-        { "type": "guided_production" },
-        { "type": "independent_production" },
-        { "type": "application" },
-        { "type": "summary" }
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
       ],
       "completion_rules": {
         "minimum_score": 0.75,
         "all_words_exposed": true,
-        "required_phases": ["theory", "word_preview", "recognition", "independent_production"]
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_03_b",
+      "unit_id": "vocab_unit_03",
+      "title": "Zuhause und Räume",
+      "description": "Lerne 10 Wörter zum Thema „Zuhause und Räume“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_03_b",
+      "new_word_ids": [
+        "c1_u03_03",
+        "c1_u03_04",
+        "c1_u03_05",
+        "c1_u03_06",
+        "c1_u03_07",
+        "c1_u03_08",
+        "c1_u03_09",
+        "c1_u03_10",
+        "c1_u03_11",
+        "c1_u03_12"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_03_c",
+      "unit_id": "vocab_unit_03",
+      "title": "Zuhause und Räume",
+      "description": "Lerne 10 Wörter zum Thema „Zuhause und Räume“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_03_c",
+      "new_word_ids": [
+        "c1_u03_13",
+        "c1_u03_14",
+        "c1_u03_15",
+        "c1_u03_16",
+        "c1_u03_17",
+        "c1_u03_18",
+        "c1_u03_19",
+        "c1_u03_20",
+        "c1_u03_21",
+        "c1_u03_22"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_04_a",
+      "unit_id": "vocab_unit_04",
+      "title": "Persönliche Angaben, Länder, Sprachen und Nationalitäten",
+      "description": "Lerne 10 Wörter zum Thema „Persönliche Angaben, Länder, Sprachen und Nationalitäten“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_04_a",
+      "new_word_ids": [
+        "c1_u04_01",
+        "c1_u04_02",
+        "c1_u04_03",
+        "c1_u04_04",
+        "c1_u04_05",
+        "c1_u04_06",
+        "c1_u04_07",
+        "c1_u04_08",
+        "c1_u04_09",
+        "c1_u04_10"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_04_b",
+      "unit_id": "vocab_unit_04",
+      "title": "Persönliche Angaben, Länder, Sprachen und Nationalitäten",
+      "description": "Lerne 10 Wörter zum Thema „Persönliche Angaben, Länder, Sprachen und Nationalitäten“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_04_b",
+      "new_word_ids": [
+        "c1_u04_11",
+        "c1_u04_12",
+        "c1_u04_13",
+        "c1_u04_14",
+        "c1_u04_15",
+        "c1_u04_16",
+        "c1_u04_17",
+        "c1_u04_18",
+        "c1_u04_19",
+        "c1_u04_20"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_04_c",
+      "unit_id": "vocab_unit_04",
+      "title": "Persönliche Angaben, Länder, Sprachen und Nationalitäten",
+      "description": "Lerne 10 Wörter zum Thema „Persönliche Angaben, Länder, Sprachen und Nationalitäten“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_04_c",
+      "new_word_ids": [
+        "c1_u04_21",
+        "c1_u04_22",
+        "c1_u04_23",
+        "c1_u04_24",
+        "c1_u04_25",
+        "c1_u04_26",
+        "c1_u04_27",
+        "c1_u04_28",
+        "c1_u04_29",
+        "c1_u04_30"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_05_a",
+      "unit_id": "vocab_unit_05",
+      "title": "Zahlen, Mengen und Maße",
+      "description": "Lerne 10 Wörter zum Thema „Zahlen, Mengen und Maße“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_05_a",
+      "new_word_ids": [
+        "num_1",
+        "num_2",
+        "num_3",
+        "num_4",
+        "num_5",
+        "num_6",
+        "num_7",
+        "num_8",
+        "num_9",
+        "num_10"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_05_b",
+      "unit_id": "vocab_unit_05",
+      "title": "Zahlen, Mengen und Maße",
+      "description": "Lerne 10 Wörter zum Thema „Zahlen, Mengen und Maße“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_05_b",
+      "new_word_ids": [
+        "c1_u05_01",
+        "c1_u05_02",
+        "c1_u05_03",
+        "c1_u05_04",
+        "c1_u05_05",
+        "c1_u05_06",
+        "c1_u05_07",
+        "c1_u05_08",
+        "c1_u05_09",
+        "c1_u05_10"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_05_c",
+      "unit_id": "vocab_unit_05",
+      "title": "Zahlen, Mengen und Maße",
+      "description": "Lerne 10 Wörter zum Thema „Zahlen, Mengen und Maße“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_05_c",
+      "new_word_ids": [
+        "c1_u05_11",
+        "c1_u05_12",
+        "c1_u05_13",
+        "c1_u05_14",
+        "c1_u05_15",
+        "c1_u05_16",
+        "c1_u05_17",
+        "c1_u05_18",
+        "c1_u05_19",
+        "c1_u05_20"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_06_a",
+      "unit_id": "vocab_unit_06",
+      "title": "Uhrzeit, Wochentage, Monate und Kalender",
+      "description": "Lerne 10 Wörter zum Thema „Uhrzeit, Wochentage, Monate und Kalender“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_06_a",
+      "new_word_ids": [
+        "time_morning",
+        "time_noon",
+        "time_evening",
+        "time_night",
+        "time_day",
+        "time_week",
+        "c1_u06_01",
+        "c1_u06_02",
+        "c1_u06_03",
+        "c1_u06_04"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_06_b",
+      "unit_id": "vocab_unit_06",
+      "title": "Uhrzeit, Wochentage, Monate und Kalender",
+      "description": "Lerne 10 Wörter zum Thema „Uhrzeit, Wochentage, Monate und Kalender“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_06_b",
+      "new_word_ids": [
+        "c1_u06_05",
+        "c1_u06_06",
+        "c1_u06_07",
+        "c1_u06_08",
+        "c1_u06_09",
+        "c1_u06_10",
+        "c1_u06_11",
+        "c1_u06_12",
+        "c1_u06_13",
+        "c1_u06_14"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_06_c",
+      "unit_id": "vocab_unit_06",
+      "title": "Uhrzeit, Wochentage, Monate und Kalender",
+      "description": "Lerne 10 Wörter zum Thema „Uhrzeit, Wochentage, Monate und Kalender“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_06_c",
+      "new_word_ids": [
+        "c1_u06_15",
+        "c1_u06_16",
+        "c1_u06_17",
+        "c1_u06_18",
+        "c1_u06_19",
+        "c1_u06_20",
+        "c1_u06_21",
+        "c1_u06_22",
+        "c1_u06_23",
+        "c1_u06_24"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_07_a",
+      "unit_id": "vocab_unit_07",
+      "title": "Farben, Formen und Materialien",
+      "description": "Lerne 10 Wörter zum Thema „Farben, Formen und Materialien“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_07_a",
+      "new_word_ids": [
+        "color_red",
+        "color_blue",
+        "color_yellow",
+        "color_green",
+        "color_black",
+        "color_white",
+        "c1_u07_01",
+        "c1_u07_02",
+        "c1_u07_03",
+        "c1_u07_04"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_07_b",
+      "unit_id": "vocab_unit_07",
+      "title": "Farben, Formen und Materialien",
+      "description": "Lerne 10 Wörter zum Thema „Farben, Formen und Materialien“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_07_b",
+      "new_word_ids": [
+        "c1_u07_05",
+        "c1_u07_06",
+        "c1_u07_07",
+        "c1_u07_08",
+        "c1_u07_09",
+        "c1_u07_10",
+        "c1_u07_11",
+        "c1_u07_12",
+        "c1_u07_13",
+        "c1_u07_14"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_07_c",
+      "unit_id": "vocab_unit_07",
+      "title": "Farben, Formen und Materialien",
+      "description": "Lerne 10 Wörter zum Thema „Farben, Formen und Materialien“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_07_c",
+      "new_word_ids": [
+        "c1_u07_15",
+        "c1_u07_16",
+        "c1_u07_17",
+        "c1_u07_18",
+        "c1_u07_19",
+        "c1_u07_20",
+        "c1_u07_21",
+        "c1_u07_22",
+        "c1_u07_23",
+        "c1_u07_24"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_08_a",
+      "unit_id": "vocab_unit_08",
+      "title": "Möbel, Haushalt und Alltagsgegenstände",
+      "description": "Lerne 10 Wörter zum Thema „Möbel, Haushalt und Alltagsgegenstände“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_08_a",
+      "new_word_ids": [
+        "c1_u08_01",
+        "c1_u08_02",
+        "c1_u08_03",
+        "c1_u08_04",
+        "c1_u08_05",
+        "c1_u08_06",
+        "c1_u08_07",
+        "c1_u08_08",
+        "c1_u08_09",
+        "c1_u08_10"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_08_b",
+      "unit_id": "vocab_unit_08",
+      "title": "Möbel, Haushalt und Alltagsgegenstände",
+      "description": "Lerne 10 Wörter zum Thema „Möbel, Haushalt und Alltagsgegenstände“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_08_b",
+      "new_word_ids": [
+        "c1_u08_11",
+        "c1_u08_12",
+        "c1_u08_13",
+        "c1_u08_14",
+        "c1_u08_15",
+        "c1_u08_16",
+        "c1_u08_17",
+        "c1_u08_18",
+        "c1_u08_19",
+        "c1_u08_20"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_08_c",
+      "unit_id": "vocab_unit_08",
+      "title": "Möbel, Haushalt und Alltagsgegenstände",
+      "description": "Lerne 10 Wörter zum Thema „Möbel, Haushalt und Alltagsgegenstände“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_08_c",
+      "new_word_ids": [
+        "c1_u08_21",
+        "c1_u08_22",
+        "c1_u08_23",
+        "c1_u08_24",
+        "c1_u08_25",
+        "c1_u08_26",
+        "c1_u08_27",
+        "c1_u08_28",
+        "c1_u08_29",
+        "c1_u08_30"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_09_a",
+      "unit_id": "vocab_unit_09",
+      "title": "Lebensmittel und Grundnahrungsmittel",
+      "description": "Lerne 10 Wörter zum Thema „Lebensmittel und Grundnahrungsmittel“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_09_a",
+      "new_word_ids": [
+        "food_bread",
+        "food_apple",
+        "c1_u09_01",
+        "c1_u09_02",
+        "c1_u09_03",
+        "c1_u09_04",
+        "c1_u09_05",
+        "c1_u09_06",
+        "c1_u09_07",
+        "c1_u09_08"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_09_b",
+      "unit_id": "vocab_unit_09",
+      "title": "Lebensmittel und Grundnahrungsmittel",
+      "description": "Lerne 10 Wörter zum Thema „Lebensmittel und Grundnahrungsmittel“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_09_b",
+      "new_word_ids": [
+        "c1_u09_09",
+        "c1_u09_10",
+        "c1_u09_11",
+        "c1_u09_12",
+        "c1_u09_13",
+        "c1_u09_14",
+        "c1_u09_15",
+        "c1_u09_16",
+        "c1_u09_17",
+        "c1_u09_18"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_09_c",
+      "unit_id": "vocab_unit_09",
+      "title": "Lebensmittel und Grundnahrungsmittel",
+      "description": "Lerne 10 Wörter zum Thema „Lebensmittel und Grundnahrungsmittel“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_09_c",
+      "new_word_ids": [
+        "c1_u09_19",
+        "c1_u09_20",
+        "c1_u09_21",
+        "c1_u09_22",
+        "c1_u09_23",
+        "c1_u09_24",
+        "c1_u09_25",
+        "c1_u09_26",
+        "c1_u09_27",
+        "c1_u09_28"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_10_a",
+      "unit_id": "vocab_unit_10",
+      "title": "Getränke, Mahlzeiten und Küche",
+      "description": "Lerne 10 Wörter zum Thema „Getränke, Mahlzeiten und Küche“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_10_a",
+      "new_word_ids": [
+        "food_water",
+        "food_milk",
+        "food_coffee",
+        "food_tea",
+        "c1_u10_01",
+        "c1_u10_02",
+        "c1_u10_03",
+        "c1_u10_04",
+        "c1_u10_05",
+        "c1_u10_06"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_10_b",
+      "unit_id": "vocab_unit_10",
+      "title": "Getränke, Mahlzeiten und Küche",
+      "description": "Lerne 10 Wörter zum Thema „Getränke, Mahlzeiten und Küche“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_10_b",
+      "new_word_ids": [
+        "c1_u10_07",
+        "c1_u10_08",
+        "c1_u10_09",
+        "c1_u10_10",
+        "c1_u10_11",
+        "c1_u10_12",
+        "c1_u10_13",
+        "c1_u10_14",
+        "c1_u10_15",
+        "c1_u10_16"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_10_c",
+      "unit_id": "vocab_unit_10",
+      "title": "Getränke, Mahlzeiten und Küche",
+      "description": "Lerne 10 Wörter zum Thema „Getränke, Mahlzeiten und Küche“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_10_c",
+      "new_word_ids": [
+        "c1_u10_17",
+        "c1_u10_18",
+        "c1_u10_19",
+        "c1_u10_20",
+        "c1_u10_21",
+        "c1_u10_22",
+        "c1_u10_23",
+        "c1_u10_24",
+        "c1_u10_25",
+        "c1_u10_26"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_11_a",
+      "unit_id": "vocab_unit_11",
+      "title": "Einkaufen, Geld und Preise",
+      "description": "Lerne 10 Wörter zum Thema „Einkaufen, Geld und Preise“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_11_a",
+      "new_word_ids": [
+        "shop_money",
+        "shop_price",
+        "shop_store",
+        "shop_bag",
+        "c1_u11_01",
+        "c1_u11_02",
+        "c1_u11_03",
+        "c1_u11_04",
+        "c1_u11_05",
+        "c1_u11_06"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_11_b",
+      "unit_id": "vocab_unit_11",
+      "title": "Einkaufen, Geld und Preise",
+      "description": "Lerne 10 Wörter zum Thema „Einkaufen, Geld und Preise“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_11_b",
+      "new_word_ids": [
+        "c1_u11_07",
+        "c1_u11_08",
+        "c1_u11_09",
+        "c1_u11_10",
+        "c1_u11_11",
+        "c1_u11_12",
+        "c1_u11_13",
+        "c1_u11_14",
+        "c1_u11_15",
+        "c1_u11_16"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_11_c",
+      "unit_id": "vocab_unit_11",
+      "title": "Einkaufen, Geld und Preise",
+      "description": "Lerne 10 Wörter zum Thema „Einkaufen, Geld und Preise“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_11_c",
+      "new_word_ids": [
+        "c1_u11_17",
+        "c1_u11_18",
+        "c1_u11_19",
+        "c1_u11_20",
+        "c1_u11_21",
+        "c1_u11_22",
+        "c1_u11_23",
+        "c1_u11_24",
+        "c1_u11_25",
+        "c1_u11_26"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_12_a",
+      "unit_id": "vocab_unit_12",
+      "title": "Kleidung, Schuhe und Accessoires",
+      "description": "Lerne 10 Wörter zum Thema „Kleidung, Schuhe und Accessoires“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_12_a",
+      "new_word_ids": [
+        "clothing_shirt",
+        "clothing_pants",
+        "clothing_shoe",
+        "clothing_coat",
+        "clothing_hat",
+        "c1_u12_01",
+        "c1_u12_02",
+        "c1_u12_03",
+        "c1_u12_04",
+        "c1_u12_05"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_12_b",
+      "unit_id": "vocab_unit_12",
+      "title": "Kleidung, Schuhe und Accessoires",
+      "description": "Lerne 10 Wörter zum Thema „Kleidung, Schuhe und Accessoires“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_12_b",
+      "new_word_ids": [
+        "c1_u12_06",
+        "c1_u12_07",
+        "c1_u12_08",
+        "c1_u12_09",
+        "c1_u12_10",
+        "c1_u12_11",
+        "c1_u12_12",
+        "c1_u12_13",
+        "c1_u12_14",
+        "c1_u12_15"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_12_c",
+      "unit_id": "vocab_unit_12",
+      "title": "Kleidung, Schuhe und Accessoires",
+      "description": "Lerne 10 Wörter zum Thema „Kleidung, Schuhe und Accessoires“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_12_c",
+      "new_word_ids": [
+        "c1_u12_16",
+        "c1_u12_17",
+        "c1_u12_18",
+        "c1_u12_19",
+        "c1_u12_20",
+        "c1_u12_21",
+        "c1_u12_22",
+        "c1_u12_23",
+        "c1_u12_24",
+        "c1_u12_25"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_13_a",
+      "unit_id": "vocab_unit_13",
+      "title": "Körper und Sinne",
+      "description": "Lerne 10 Wörter zum Thema „Körper und Sinne“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_13_a",
+      "new_word_ids": [
+        "body_head",
+        "body_hand",
+        "body_eye",
+        "body_nose",
+        "body_mouth",
+        "body_foot",
+        "c1_u13_01",
+        "c1_u13_02",
+        "c1_u13_03",
+        "c1_u13_04"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_13_b",
+      "unit_id": "vocab_unit_13",
+      "title": "Körper und Sinne",
+      "description": "Lerne 10 Wörter zum Thema „Körper und Sinne“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_13_b",
+      "new_word_ids": [
+        "c1_u13_05",
+        "c1_u13_06",
+        "c1_u13_07",
+        "c1_u13_08",
+        "c1_u13_09",
+        "c1_u13_10",
+        "c1_u13_11",
+        "c1_u13_12",
+        "c1_u13_13",
+        "c1_u13_14"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_13_c",
+      "unit_id": "vocab_unit_13",
+      "title": "Körper und Sinne",
+      "description": "Lerne 10 Wörter zum Thema „Körper und Sinne“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_13_c",
+      "new_word_ids": [
+        "c1_u13_15",
+        "c1_u13_16",
+        "c1_u13_17",
+        "c1_u13_18",
+        "c1_u13_19",
+        "c1_u13_20",
+        "c1_u13_21",
+        "c1_u13_22",
+        "c1_u13_23",
+        "c1_u13_24"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_14_a",
+      "unit_id": "vocab_unit_14",
+      "title": "Gesundheit, Beschwerden und Apotheke",
+      "description": "Lerne 10 Wörter zum Thema „Gesundheit, Beschwerden und Apotheke“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_14_a",
+      "new_word_ids": [
+        "c1_u14_01",
+        "c1_u14_02",
+        "c1_u14_03",
+        "c1_u14_04",
+        "c1_u14_05",
+        "c1_u14_06",
+        "c1_u14_07",
+        "c1_u14_08",
+        "c1_u14_09",
+        "c1_u14_10"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_14_b",
+      "unit_id": "vocab_unit_14",
+      "title": "Gesundheit, Beschwerden und Apotheke",
+      "description": "Lerne 10 Wörter zum Thema „Gesundheit, Beschwerden und Apotheke“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_14_b",
+      "new_word_ids": [
+        "c1_u14_11",
+        "c1_u14_12",
+        "c1_u14_13",
+        "c1_u14_14",
+        "c1_u14_15",
+        "c1_u14_16",
+        "c1_u14_17",
+        "c1_u14_18",
+        "c1_u14_19",
+        "c1_u14_20"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_14_c",
+      "unit_id": "vocab_unit_14",
+      "title": "Gesundheit, Beschwerden und Apotheke",
+      "description": "Lerne 10 Wörter zum Thema „Gesundheit, Beschwerden und Apotheke“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_14_c",
+      "new_word_ids": [
+        "c1_u14_21",
+        "c1_u14_22",
+        "c1_u14_23",
+        "c1_u14_24",
+        "c1_u14_25",
+        "c1_u14_26",
+        "c1_u14_27",
+        "c1_u14_28",
+        "c1_u14_29",
+        "c1_u14_30"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_15_a",
+      "unit_id": "vocab_unit_15",
+      "title": "Gefühle, Eigenschaften und Zustände",
+      "description": "Lerne 10 Wörter zum Thema „Gefühle, Eigenschaften und Zustände“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_15_a",
+      "new_word_ids": [
+        "c1_u15_01",
+        "c1_u15_02",
+        "c1_u15_03",
+        "c1_u15_04",
+        "c1_u15_05",
+        "c1_u15_06",
+        "c1_u15_07",
+        "c1_u15_08",
+        "c1_u15_09",
+        "c1_u15_10"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_15_b",
+      "unit_id": "vocab_unit_15",
+      "title": "Gefühle, Eigenschaften und Zustände",
+      "description": "Lerne 10 Wörter zum Thema „Gefühle, Eigenschaften und Zustände“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_15_b",
+      "new_word_ids": [
+        "c1_u15_11",
+        "c1_u15_12",
+        "c1_u15_13",
+        "c1_u15_14",
+        "c1_u15_15",
+        "c1_u15_16",
+        "c1_u15_17",
+        "c1_u15_18",
+        "c1_u15_19",
+        "c1_u15_20"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_15_c",
+      "unit_id": "vocab_unit_15",
+      "title": "Gefühle, Eigenschaften und Zustände",
+      "description": "Lerne 10 Wörter zum Thema „Gefühle, Eigenschaften und Zustände“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_15_c",
+      "new_word_ids": [
+        "c1_u15_21",
+        "c1_u15_22",
+        "c1_u15_23",
+        "c1_u15_24",
+        "c1_u15_25",
+        "c1_u15_26",
+        "c1_u15_27",
+        "c1_u15_28",
+        "c1_u15_29",
+        "c1_u15_30"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_16_a",
+      "unit_id": "vocab_unit_16",
+      "title": "Tagesablauf und Gewohnheiten",
+      "description": "Lerne 10 Wörter zum Thema „Tagesablauf und Gewohnheiten“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_16_a",
+      "new_word_ids": [
+        "verb_live",
+        "c1_u16_01",
+        "c1_u16_02",
+        "c1_u16_03",
+        "c1_u16_04",
+        "c1_u16_05",
+        "c1_u16_06",
+        "c1_u16_07",
+        "c1_u16_08",
+        "c1_u16_09"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_16_b",
+      "unit_id": "vocab_unit_16",
+      "title": "Tagesablauf und Gewohnheiten",
+      "description": "Lerne 10 Wörter zum Thema „Tagesablauf und Gewohnheiten“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_16_b",
+      "new_word_ids": [
+        "c1_u16_10",
+        "c1_u16_11",
+        "c1_u16_12",
+        "c1_u16_13",
+        "c1_u16_14",
+        "c1_u16_15",
+        "c1_u16_16",
+        "c1_u16_17",
+        "c1_u16_18",
+        "c1_u16_19"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_16_c",
+      "unit_id": "vocab_unit_16",
+      "title": "Tagesablauf und Gewohnheiten",
+      "description": "Lerne 10 Wörter zum Thema „Tagesablauf und Gewohnheiten“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_16_c",
+      "new_word_ids": [
+        "c1_u16_20",
+        "c1_u16_21",
+        "c1_u16_22",
+        "c1_u16_23",
+        "c1_u16_24",
+        "c1_u16_25",
+        "c1_u16_26",
+        "c1_u16_27",
+        "c1_u16_28",
+        "c1_u16_29"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_17_a",
+      "unit_id": "vocab_unit_17",
+      "title": "Häufige Verben I: Bewegung und praktische Handlungen",
+      "description": "Lerne 10 Wörter zum Thema „Häufige Verben I: Bewegung und praktische Handlungen“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_17_a",
+      "new_word_ids": [
+        "verb_go",
+        "verb_play",
+        "verb_work",
+        "verb_eat",
+        "verb_drink",
+        "c1_u17_01",
+        "c1_u17_02",
+        "c1_u17_03",
+        "c1_u17_04",
+        "c1_u17_05"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_17_b",
+      "unit_id": "vocab_unit_17",
+      "title": "Häufige Verben I: Bewegung und praktische Handlungen",
+      "description": "Lerne 10 Wörter zum Thema „Häufige Verben I: Bewegung und praktische Handlungen“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_17_b",
+      "new_word_ids": [
+        "c1_u17_06",
+        "c1_u17_07",
+        "c1_u17_08",
+        "c1_u17_09",
+        "c1_u17_10",
+        "c1_u17_11",
+        "c1_u17_12",
+        "c1_u17_13",
+        "c1_u17_14",
+        "c1_u17_15"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_17_c",
+      "unit_id": "vocab_unit_17",
+      "title": "Häufige Verben I: Bewegung und praktische Handlungen",
+      "description": "Lerne 10 Wörter zum Thema „Häufige Verben I: Bewegung und praktische Handlungen“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_17_c",
+      "new_word_ids": [
+        "c1_u17_16",
+        "c1_u17_17",
+        "c1_u17_18",
+        "c1_u17_19",
+        "c1_u17_20",
+        "c1_u17_21",
+        "c1_u17_22",
+        "c1_u17_23",
+        "c1_u17_24",
+        "c1_u17_25"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_18_a",
+      "unit_id": "vocab_unit_18",
+      "title": "Häufige Verben II: Denken, Sprechen und Wahrnehmung",
+      "description": "Lerne 10 Wörter zum Thema „Häufige Verben II: Denken, Sprechen und Wahrnehmung“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_18_a",
+      "new_word_ids": [
+        "verb_study",
+        "verb_understand",
+        "c1_u18_01",
+        "c1_u18_02",
+        "c1_u18_03",
+        "c1_u18_04",
+        "c1_u18_05",
+        "c1_u18_06",
+        "c1_u18_07",
+        "c1_u18_08"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_18_b",
+      "unit_id": "vocab_unit_18",
+      "title": "Häufige Verben II: Denken, Sprechen und Wahrnehmung",
+      "description": "Lerne 10 Wörter zum Thema „Häufige Verben II: Denken, Sprechen und Wahrnehmung“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_18_b",
+      "new_word_ids": [
+        "c1_u18_09",
+        "c1_u18_10",
+        "c1_u18_11",
+        "c1_u18_12",
+        "c1_u18_13",
+        "c1_u18_14",
+        "c1_u18_15",
+        "c1_u18_16",
+        "c1_u18_17",
+        "c1_u18_18"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_18_c",
+      "unit_id": "vocab_unit_18",
+      "title": "Häufige Verben II: Denken, Sprechen und Wahrnehmung",
+      "description": "Lerne 10 Wörter zum Thema „Häufige Verben II: Denken, Sprechen und Wahrnehmung“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_18_c",
+      "new_word_ids": [
+        "c1_u18_19",
+        "c1_u18_20",
+        "c1_u18_21",
+        "c1_u18_22",
+        "c1_u18_23",
+        "c1_u18_24",
+        "c1_u18_25",
+        "c1_u18_26",
+        "c1_u18_27",
+        "c1_u18_28"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_19_a",
+      "unit_id": "vocab_unit_19",
+      "title": "Häufige Adjektive und Gegensätze",
+      "description": "Lerne 10 Wörter zum Thema „Häufige Adjektive und Gegensätze“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_19_a",
+      "new_word_ids": [
+        "c1_u19_01",
+        "c1_u19_02",
+        "c1_u19_03",
+        "c1_u19_04",
+        "c1_u19_05",
+        "c1_u19_06",
+        "c1_u19_07",
+        "c1_u19_08",
+        "c1_u19_09",
+        "c1_u19_10"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_19_b",
+      "unit_id": "vocab_unit_19",
+      "title": "Häufige Adjektive und Gegensätze",
+      "description": "Lerne 10 Wörter zum Thema „Häufige Adjektive und Gegensätze“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_19_b",
+      "new_word_ids": [
+        "c1_u19_11",
+        "c1_u19_12",
+        "c1_u19_13",
+        "c1_u19_14",
+        "c1_u19_15",
+        "c1_u19_16",
+        "c1_u19_17",
+        "c1_u19_18",
+        "c1_u19_19",
+        "c1_u19_20"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_19_c",
+      "unit_id": "vocab_unit_19",
+      "title": "Häufige Adjektive und Gegensätze",
+      "description": "Lerne 10 Wörter zum Thema „Häufige Adjektive und Gegensätze“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_19_c",
+      "new_word_ids": [
+        "c1_u19_21",
+        "c1_u19_22",
+        "c1_u19_23",
+        "c1_u19_24",
+        "c1_u19_25",
+        "c1_u19_26",
+        "c1_u19_27",
+        "c1_u19_28",
+        "c1_u19_29",
+        "c1_u19_30"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_20_a",
+      "unit_id": "vocab_unit_20",
+      "title": "Stadt, Gebäude und öffentliche Orte",
+      "description": "Lerne 10 Wörter zum Thema „Stadt, Gebäude und öffentliche Orte“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_20_a",
+      "new_word_ids": [
+        "place_city",
+        "place_village",
+        "place_street",
+        "place_restaurant",
+        "place_hospital",
+        "place_station",
+        "place_office",
+        "place_mosque",
+        "c1_u20_01",
+        "c1_u20_02"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_20_b",
+      "unit_id": "vocab_unit_20",
+      "title": "Stadt, Gebäude und öffentliche Orte",
+      "description": "Lerne 10 Wörter zum Thema „Stadt, Gebäude und öffentliche Orte“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_20_b",
+      "new_word_ids": [
+        "c1_u20_03",
+        "c1_u20_04",
+        "c1_u20_05",
+        "c1_u20_06",
+        "c1_u20_07",
+        "c1_u20_08",
+        "c1_u20_09",
+        "c1_u20_10",
+        "c1_u20_11",
+        "c1_u20_12"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_20_c",
+      "unit_id": "vocab_unit_20",
+      "title": "Stadt, Gebäude und öffentliche Orte",
+      "description": "Lerne 10 Wörter zum Thema „Stadt, Gebäude und öffentliche Orte“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_20_c",
+      "new_word_ids": [
+        "c1_u20_13",
+        "c1_u20_14",
+        "c1_u20_15",
+        "c1_u20_16",
+        "c1_u20_17",
+        "c1_u20_18",
+        "c1_u20_19",
+        "c1_u20_20",
+        "c1_u20_21",
+        "c1_u20_22"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_21_a",
+      "unit_id": "vocab_unit_21",
+      "title": "Position, Richtung und wichtige Präpositionen",
+      "description": "Lerne 10 Wörter zum Thema „Position, Richtung und wichtige Präpositionen“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_21_a",
+      "new_word_ids": [
+        "c1_u21_01",
+        "c1_u21_02",
+        "c1_u21_03",
+        "c1_u21_04",
+        "c1_u21_05",
+        "c1_u21_06",
+        "c1_u21_07",
+        "c1_u21_08",
+        "c1_u21_09",
+        "c1_u21_10"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_21_b",
+      "unit_id": "vocab_unit_21",
+      "title": "Position, Richtung und wichtige Präpositionen",
+      "description": "Lerne 10 Wörter zum Thema „Position, Richtung und wichtige Präpositionen“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_21_b",
+      "new_word_ids": [
+        "c1_u21_11",
+        "c1_u21_12",
+        "c1_u21_13",
+        "c1_u21_14",
+        "c1_u21_15",
+        "c1_u21_16",
+        "c1_u21_17",
+        "c1_u21_18",
+        "c1_u21_19",
+        "c1_u21_20"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_21_c",
+      "unit_id": "vocab_unit_21",
+      "title": "Position, Richtung und wichtige Präpositionen",
+      "description": "Lerne 10 Wörter zum Thema „Position, Richtung und wichtige Präpositionen“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_21_c",
+      "new_word_ids": [
+        "c1_u21_21",
+        "c1_u21_22",
+        "c1_u21_23",
+        "c1_u21_24",
+        "c1_u21_25",
+        "c1_u21_26",
+        "c1_u21_27",
+        "c1_u21_28",
+        "c1_u21_29",
+        "c1_u21_30"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_22_a",
+      "unit_id": "vocab_unit_22",
+      "title": "Verkehr, Reisen und Hotel",
+      "description": "Lerne 10 Wörter zum Thema „Verkehr, Reisen und Hotel“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_22_a",
+      "new_word_ids": [
+        "transport_car",
+        "transport_bus",
+        "transport_train",
+        "transport_plane",
+        "transport_bike",
+        "transport_ship",
+        "c1_u22_01",
+        "c1_u22_02",
+        "c1_u22_03",
+        "c1_u22_04"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_22_b",
+      "unit_id": "vocab_unit_22",
+      "title": "Verkehr, Reisen und Hotel",
+      "description": "Lerne 10 Wörter zum Thema „Verkehr, Reisen und Hotel“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_22_b",
+      "new_word_ids": [
+        "c1_u22_05",
+        "c1_u22_06",
+        "c1_u22_07",
+        "c1_u22_08",
+        "c1_u22_09",
+        "c1_u22_10",
+        "c1_u22_11",
+        "c1_u22_12",
+        "c1_u22_13",
+        "c1_u22_14"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_22_c",
+      "unit_id": "vocab_unit_22",
+      "title": "Verkehr, Reisen und Hotel",
+      "description": "Lerne 10 Wörter zum Thema „Verkehr, Reisen und Hotel“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_22_c",
+      "new_word_ids": [
+        "c1_u22_15",
+        "c1_u22_16",
+        "c1_u22_17",
+        "c1_u22_18",
+        "c1_u22_19",
+        "c1_u22_20",
+        "c1_u22_21",
+        "c1_u22_22",
+        "c1_u22_23",
+        "c1_u22_24"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_23_a",
+      "unit_id": "vocab_unit_23",
+      "title": "Schule, Unterricht und Schulsachen",
+      "description": "Lerne 10 Wörter zum Thema „Schule, Unterricht und Schulsachen“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_23_a",
+      "new_word_ids": [
+        "school_bag",
+        "school_board",
+        "school_eraser",
+        "school_ruler",
+        "c1_u23_01",
+        "c1_u23_02",
+        "c1_u23_03",
+        "c1_u23_04",
+        "c1_u23_05",
+        "c1_u23_06"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_23_b",
+      "unit_id": "vocab_unit_23",
+      "title": "Schule, Unterricht und Schulsachen",
+      "description": "Lerne 10 Wörter zum Thema „Schule, Unterricht und Schulsachen“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_23_b",
+      "new_word_ids": [
+        "c1_u23_07",
+        "c1_u23_08",
+        "c1_u23_09",
+        "c1_u23_10",
+        "c1_u23_11",
+        "c1_u23_12",
+        "c1_u23_13",
+        "c1_u23_14",
+        "c1_u23_15",
+        "c1_u23_16"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_23_c",
+      "unit_id": "vocab_unit_23",
+      "title": "Schule, Unterricht und Schulsachen",
+      "description": "Lerne 10 Wörter zum Thema „Schule, Unterricht und Schulsachen“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_23_c",
+      "new_word_ids": [
+        "c1_u23_17",
+        "c1_u23_18",
+        "c1_u23_19",
+        "c1_u23_20",
+        "c1_u23_21",
+        "c1_u23_22",
+        "c1_u23_23",
+        "c1_u23_24",
+        "c1_u23_25",
+        "c1_u23_26"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_24_a",
+      "unit_id": "vocab_unit_24",
+      "title": "Universität, Studium und Prüfungen",
+      "description": "Lerne 10 Wörter zum Thema „Universität, Studium und Prüfungen“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_24_a",
+      "new_word_ids": [
+        "uni_university",
+        "uni_student_m",
+        "uni_student_f",
+        "uni_professor",
+        "uni_lecture",
+        "uni_exam",
+        "uni_library",
+        "c1_u24_01",
+        "c1_u24_02",
+        "c1_u24_03"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_24_b",
+      "unit_id": "vocab_unit_24",
+      "title": "Universität, Studium und Prüfungen",
+      "description": "Lerne 10 Wörter zum Thema „Universität, Studium und Prüfungen“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_24_b",
+      "new_word_ids": [
+        "c1_u24_04",
+        "c1_u24_05",
+        "c1_u24_06",
+        "c1_u24_07",
+        "c1_u24_08",
+        "c1_u24_09",
+        "c1_u24_10",
+        "c1_u24_11",
+        "c1_u24_12",
+        "c1_u24_13"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_24_c",
+      "unit_id": "vocab_unit_24",
+      "title": "Universität, Studium und Prüfungen",
+      "description": "Lerne 10 Wörter zum Thema „Universität, Studium und Prüfungen“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_24_c",
+      "new_word_ids": [
+        "c1_u24_14",
+        "c1_u24_15",
+        "c1_u24_16",
+        "c1_u24_17",
+        "c1_u24_18",
+        "c1_u24_19",
+        "c1_u24_20",
+        "c1_u24_21",
+        "c1_u24_22",
+        "c1_u24_23"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_25_a",
+      "unit_id": "vocab_unit_25",
+      "title": "Arbeit, Berufe und Büro",
+      "description": "Lerne 10 Wörter zum Thema „Arbeit, Berufe und Büro“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_25_a",
+      "new_word_ids": [
+        "job_doctor",
+        "job_engineer",
+        "job_teacher",
+        "job_nurse",
+        "job_police",
+        "job_cook",
+        "job_driver",
+        "c1_u25_01",
+        "c1_u25_02",
+        "c1_u25_03"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_25_b",
+      "unit_id": "vocab_unit_25",
+      "title": "Arbeit, Berufe und Büro",
+      "description": "Lerne 10 Wörter zum Thema „Arbeit, Berufe und Büro“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_25_b",
+      "new_word_ids": [
+        "c1_u25_04",
+        "c1_u25_05",
+        "c1_u25_06",
+        "c1_u25_07",
+        "c1_u25_08",
+        "c1_u25_09",
+        "c1_u25_10",
+        "c1_u25_11",
+        "c1_u25_12",
+        "c1_u25_13"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_25_c",
+      "unit_id": "vocab_unit_25",
+      "title": "Arbeit, Berufe und Büro",
+      "description": "Lerne 10 Wörter zum Thema „Arbeit, Berufe und Büro“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_25_c",
+      "new_word_ids": [
+        "c1_u25_14",
+        "c1_u25_15",
+        "c1_u25_16",
+        "c1_u25_17",
+        "c1_u25_18",
+        "c1_u25_19",
+        "c1_u25_20",
+        "c1_u25_21",
+        "c1_u25_22",
+        "c1_u25_23"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_26_a",
+      "unit_id": "vocab_unit_26",
+      "title": "Technik, Internet und Medien",
+      "description": "Lerne 10 Wörter zum Thema „Technik, Internet und Medien“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_26_a",
+      "new_word_ids": [
+        "tech_computer",
+        "tech_phone",
+        "tech_internet",
+        "tech_screen",
+        "tech_program",
+        "c1_u26_01",
+        "c1_u26_02",
+        "c1_u26_03",
+        "c1_u26_04",
+        "c1_u26_05"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_26_b",
+      "unit_id": "vocab_unit_26",
+      "title": "Technik, Internet und Medien",
+      "description": "Lerne 10 Wörter zum Thema „Technik, Internet und Medien“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_26_b",
+      "new_word_ids": [
+        "c1_u26_06",
+        "c1_u26_07",
+        "c1_u26_08",
+        "c1_u26_09",
+        "c1_u26_10",
+        "c1_u26_11",
+        "c1_u26_12",
+        "c1_u26_13",
+        "c1_u26_14",
+        "c1_u26_15"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_26_c",
+      "unit_id": "vocab_unit_26",
+      "title": "Technik, Internet und Medien",
+      "description": "Lerne 10 Wörter zum Thema „Technik, Internet und Medien“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_26_c",
+      "new_word_ids": [
+        "c1_u26_16",
+        "c1_u26_17",
+        "c1_u26_18",
+        "c1_u26_19",
+        "c1_u26_20",
+        "c1_u26_21",
+        "c1_u26_22",
+        "c1_u26_23",
+        "c1_u26_24",
+        "c1_u26_25"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_27_a",
+      "unit_id": "vocab_unit_27",
+      "title": "Natur, Wetter und Umwelt",
+      "description": "Lerne 10 Wörter zum Thema „Natur, Wetter und Umwelt“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_27_a",
+      "new_word_ids": [
+        "weather_sun",
+        "weather_rain",
+        "weather_snow",
+        "weather_wind",
+        "weather_cloud",
+        "weather_hot",
+        "weather_cold",
+        "c1_u27_01",
+        "c1_u27_02",
+        "c1_u27_03"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_27_b",
+      "unit_id": "vocab_unit_27",
+      "title": "Natur, Wetter und Umwelt",
+      "description": "Lerne 10 Wörter zum Thema „Natur, Wetter und Umwelt“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_27_b",
+      "new_word_ids": [
+        "c1_u27_04",
+        "c1_u27_05",
+        "c1_u27_06",
+        "c1_u27_07",
+        "c1_u27_08",
+        "c1_u27_09",
+        "c1_u27_10",
+        "c1_u27_11",
+        "c1_u27_12",
+        "c1_u27_13"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_27_c",
+      "unit_id": "vocab_unit_27",
+      "title": "Natur, Wetter und Umwelt",
+      "description": "Lerne 10 Wörter zum Thema „Natur, Wetter und Umwelt“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_27_c",
+      "new_word_ids": [
+        "c1_u27_14",
+        "c1_u27_15",
+        "c1_u27_16",
+        "c1_u27_17",
+        "c1_u27_18",
+        "c1_u27_19",
+        "c1_u27_20",
+        "c1_u27_21",
+        "c1_u27_22",
+        "c1_u27_23"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_28_a",
+      "unit_id": "vocab_unit_28",
+      "title": "Tiere und Pflanzen",
+      "description": "Lerne 10 Wörter zum Thema „Tiere und Pflanzen“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_28_a",
+      "new_word_ids": [
+        "animal_cat",
+        "animal_dog",
+        "animal_horse",
+        "animal_lion",
+        "animal_bird",
+        "animal_fish",
+        "animal_rabbit",
+        "animal_chicken",
+        "animal_cow",
+        "animal_mouse"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_28_b",
+      "unit_id": "vocab_unit_28",
+      "title": "Tiere und Pflanzen",
+      "description": "Lerne 10 Wörter zum Thema „Tiere und Pflanzen“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_28_b",
+      "new_word_ids": [
+        "c1_u28_01",
+        "c1_u28_02",
+        "c1_u28_03",
+        "c1_u28_04",
+        "c1_u28_05",
+        "c1_u28_06",
+        "c1_u28_07",
+        "c1_u28_08",
+        "c1_u28_09",
+        "c1_u28_10"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_28_c",
+      "unit_id": "vocab_unit_28",
+      "title": "Tiere und Pflanzen",
+      "description": "Lerne 10 Wörter zum Thema „Tiere und Pflanzen“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_28_c",
+      "new_word_ids": [
+        "c1_u28_11",
+        "c1_u28_12",
+        "c1_u28_13",
+        "c1_u28_14",
+        "c1_u28_15",
+        "c1_u28_16",
+        "c1_u28_17",
+        "c1_u28_18",
+        "c1_u28_19",
+        "c1_u28_20"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_29_a",
+      "unit_id": "vocab_unit_29",
+      "title": "Freizeit, Sport und Kultur",
+      "description": "Lerne 10 Wörter zum Thema „Freizeit, Sport und Kultur“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_29_a",
+      "new_word_ids": [
+        "leisure_film",
+        "leisure_music",
+        "leisure_sport",
+        "leisure_game",
+        "c1_u29_01",
+        "c1_u29_02",
+        "c1_u29_03",
+        "c1_u29_04",
+        "c1_u29_05",
+        "c1_u29_06"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_29_b",
+      "unit_id": "vocab_unit_29",
+      "title": "Freizeit, Sport und Kultur",
+      "description": "Lerne 10 Wörter zum Thema „Freizeit, Sport und Kultur“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_29_b",
+      "new_word_ids": [
+        "c1_u29_07",
+        "c1_u29_08",
+        "c1_u29_09",
+        "c1_u29_10",
+        "c1_u29_11",
+        "c1_u29_12",
+        "c1_u29_13",
+        "c1_u29_14",
+        "c1_u29_15",
+        "c1_u29_16"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_29_c",
+      "unit_id": "vocab_unit_29",
+      "title": "Freizeit, Sport und Kultur",
+      "description": "Lerne 10 Wörter zum Thema „Freizeit, Sport und Kultur“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_29_c",
+      "new_word_ids": [
+        "c1_u29_17",
+        "c1_u29_18",
+        "c1_u29_19",
+        "c1_u29_20",
+        "c1_u29_21",
+        "c1_u29_22",
+        "c1_u29_23",
+        "c1_u29_24",
+        "c1_u29_25",
+        "c1_u29_26"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_30_a",
+      "unit_id": "vocab_unit_30",
+      "title": "Fragewörter, Konnektoren und Funktionswörter",
+      "description": "Lerne 10 Wörter zum Thema „Fragewörter, Konnektoren und Funktionswörter“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_30_a",
+      "new_word_ids": [
+        "q_who",
+        "q_what",
+        "q_where",
+        "q_when",
+        "q_how",
+        "q_why",
+        "q_howmany",
+        "c1_u30_01",
+        "c1_u30_02",
+        "c1_u30_03"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_30_b",
+      "unit_id": "vocab_unit_30",
+      "title": "Fragewörter, Konnektoren und Funktionswörter",
+      "description": "Lerne 10 Wörter zum Thema „Fragewörter, Konnektoren und Funktionswörter“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_30_b",
+      "new_word_ids": [
+        "c1_u30_04",
+        "c1_u30_05",
+        "c1_u30_06",
+        "c1_u30_07",
+        "c1_u30_08",
+        "c1_u30_09",
+        "c1_u30_10",
+        "c1_u30_11",
+        "c1_u30_12",
+        "c1_u30_13"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
+      }
+    },
+    {
+      "session_id": "vocab_unit_30_c",
+      "unit_id": "vocab_unit_30",
+      "title": "Fragewörter, Konnektoren und Funktionswörter",
+      "description": "Lerne 10 Wörter zum Thema „Fragewörter, Konnektoren und Funktionswörter“.",
+      "estimated_minutes": 10,
+      "theory_id": "theory_vocab_unit_30_c",
+      "new_word_ids": [
+        "c1_u30_14",
+        "c1_u30_15",
+        "c1_u30_16",
+        "c1_u30_17",
+        "c1_u30_18",
+        "c1_u30_19",
+        "c1_u30_20",
+        "c1_u30_21",
+        "c1_u30_22",
+        "c1_u30_23"
+      ],
+      "review_count": 5,
+      "phases": [
+        {
+          "type": "theory",
+          "required_first_time": true
+        },
+        {
+          "type": "word_preview"
+        },
+        {
+          "type": "recognition"
+        },
+        {
+          "type": "reconstruction"
+        },
+        {
+          "type": "guided_production"
+        },
+        {
+          "type": "independent_production"
+        },
+        {
+          "type": "application"
+        },
+        {
+          "type": "summary"
+        }
+      ],
+      "completion_rules": {
+        "minimum_score": 0.75,
+        "all_words_exposed": true,
+        "required_phases": [
+          "theory",
+          "word_preview",
+          "recognition",
+          "independent_production"
+        ]
       }
     }
   ]

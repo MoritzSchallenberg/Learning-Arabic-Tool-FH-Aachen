@@ -49,7 +49,14 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
 ### Fertig
 - **12 Lektionen (0-11)**, davon Kurs 1 (~ alte Lektionen 0-2) zu **11 Units** (0-10) umgebaut,
   Kurs 2-5 als Navigations-Gruppierung um die bestehenden Lektionen 3-11.
-- **~141 Vokabeln** über 21 Themenkategorien (Lektionen 3, 6, 8), inkl. Audio.
+- **900 Vokabeln in Kurs 1** über 30 Vokabel-Units / 90 Sessions (Entwicklungsauftrag 6+7+8+9,
+  Details Abschnitt 10+11+12+13) — davon 141 Wörter mit vorhandener Audiodatei (die ursprünglichen
+  21 Themenkategorien aus Lektionen 3/6/8, jetzt zusätzlich mit Unit-/Session-Zuordnung, aber
+  bislang OHNE eigenen Sprachprüfeintrag — siehe ROADMAP-Folgepunkt "Batch 0" unten).
+  **657/900** Wörter (Units 1-20, 60/90 Sessions) mit vollem Lernmodell + echter Theorie,
+  sprachlich aber weiterhin ungeprüft (`content_status: needs_language_review`); die restlichen
+  243 Wörter (Units 21-30) vorerst als Struktur-Gerüst. Kein Wort hat bereits eine Audiodatei
+  außer den ursprünglichen 141.
 - **Alphabet:** alle 28 Buchstaben, Kontextformen live berechnet (`wordShaping.js`), 2 Übungstypen
   in der Alt-Ansicht + **volle 9-Phasen-Lessons** pro Buchstaben-Unit (Units 1-7): Einführung,
   Wiedererkennen, Zuordnen, Unterscheiden, Rekonstruieren (Verbindungstrainer), Geführte Eingabe,
@@ -100,11 +107,57 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
 - Weiterführende Grammatik (Verbstämme II-X, Passiv, Partizipien, Bedingungssätze, unregelmäßige/
   schwache Verben) — bewusst ausgelassen, zu hohes Fehlerrisiko ohne Prüfung.
 - Bild-/Wortfamilien-/Minimalpaar-Aufgaben (keine Bilddaten vorhanden).
-- **Inhaltliche Prüfung durch eine Person mit Arabischkenntnissen** — bislang nicht erfolgt.
+- **Inhaltliche Prüfung durch eine Person mit Arabischkenntnissen** — bislang nicht erfolgt (gilt
+  für alle 900 Wörter, `content_status` weiterhin durchgängig `needs_language_review`; 516 davon
+  bereits in Sprachprüfdateien aufbereitet — `language-review/batch_01.json` bis `batch_04.json`,
+  jeweils inkl. `theory_review`-Metadaten (60 Theorie-Prüfeinträge insgesamt, korrekt über alle
+  vier Batches erfasst — siehe Entwicklungsauftrag 9, Abschnitt 2, zur zuvor fehlerhaften
+  Behauptung in dieser ROADMAP) — die übrigen 384 folgen mit den nächsten Batches).
+- **"Batch 0" — die 141 ursprünglichen Bestandswörter formal sprachprüfen** (neuer Folgepunkt,
+  Entwicklungsauftrag 9, Abschnitt 3/7): diese Wörter haben zwar bereits eine Audiodatei, aber
+  KEINEN eigenen Sprachprüfeintrag — eine vorhandene Audiodatei ist keine Sprachprüfung. Ein
+  künftiger Auftrag sollte `language-review/batch_00.json` nach demselben Muster wie die Batches
+  1-4 erzeugen und diese 141 Wörter einer echten Prüfung zuführen.
+- Units 21-30 (243 Wörter) haben noch das Meilenstein-2-Minimalmodell (keine Vokalisierung,
+  Umschrift, Grammatikangaben, application_prompts) und nur Platzhalter-Theorie (30 von 90
+  Sessions) — folgt in den Batches 5-6 (Entwicklungsauftrag 9, Abschnitt 13). Units 1-20 (657
+  Wörter, 60 Sessions) sind bereits vollständig (Entwicklungsauftrag 6 Batch 1 + Entwicklungsauftrag
+  7 Batch 2 + Entwicklungsauftrag 8 Batch 3 + Entwicklungsauftrag 9 Batch 4).
+- Audioerzeugung für alle 759 neuen Wörter (bewusst noch nicht ausgeführt, siehe
+  `audio_generation_manifest.json` — 516 Einträge, alle Status `needs_language_review`, nicht
+  `ready_for_generation`).
+- ~~part_of_speech-Vokabular nicht zentral festgeschrieben~~ — in Entwicklungsauftrag 8 als
+  geschlossene, deutschsprachige 12-Werte-Liste in `scripts/validateCourse.js` festgeschrieben.
+- `opposite_id`/`confusion_group` erst für Units 11-20 vergeben (76 bzw. 14 Gruppen über 55
+  Wörter) — für Units 1-10 rückwirkend zu ergänzen bleibt optional (kein harter Fehler, nur
+  Hinweis bei fehlender Nutzung).
+- ~~Schrift-Theorie fehlt für die Buchstabengruppen-Units 3-7~~ — nachträglich in
+  Entwicklungsauftrag 7 ergänzt (`scripts/apply-script-theory-units3to5.js`,
+  `scripts/apply-script-theory-units6to7.js`); alle 8/8 Schrift-Units haben jetzt Theorie.
+- ~~"Deine schwierigen Wörter" hatte nur eine Sammelaktion~~ — nachträglich in
+  Entwicklungsauftrag 7 ergänzt: alle fünf vorgeschlagenen Einzelaktionen pro Wort sind jetzt
+  umgesetzt (Noch einmal lernen/Audio anhören/Schreibweise ansehen/Verbindung ansehen/Beispiele
+  ansehen), siehe Abschnitt 11 unten für Details (`onlyWordIds`-Filter in `freePractice.js`).
+- 3 Wortpaare mit identischer erster deutscher Übersetzung bleiben bewusst so (siehe
+  `npm run report:language-review`) — "gern geschehen" (zwei gültige Synonyme) sowie "über"/"vor"
+  (Präpositionen mit mehreren Bedeutungen, bereits im Wortplan mit "/" notiert). Die übrigen 12
+  Kollisionen aus der ersten Fassung von Entwicklungsauftrag 7 wurden aufgelöst.
 - Noch nie in einer laufenden Electron-Instanz von der KI selbst getestet (Sandbox-Einschränkung
   in früheren Sessions) — der Nutzer verifiziert jeweils per `npm start`.
+- Der zuvor bekannte flakige Test (`test/unit/sessionEngine.test.js`, „Fehlerwiederholung …“) ist
+  seit Entwicklungsauftrag 7 behoben (injizierbarer `RandomProvider`, siehe Abschnitt 11) —
+  `npm test` wurde zehnmal hintereinander mit 10/10 Erfolg verifiziert.
 
 ## 4. Nächste Schritte (priorisiert)
+
+**Aktueller Stand (nach Entwicklungsauftrag 9, Abschnitt 13): Units 1-20 vollständig (657/900
+Lernfähig/Vollständig, 60/90 Sessions mit echter Theorie, 516/900 Wörter zur Sprachprüfung
+vorbereitet). Zwei mögliche nächste Schritte laut Nutzer, noch nicht priorisiert entschieden:
+(a) Batch 5 (Units 21-25) nach demselben Muster wie Batches 1-4, oder (b) eine echte
+Sprachprüfung durch eine Person mit Arabischkenntnissen (inkl. der neu identifizierten 141
+ursprünglichen Bestandswörter, "Batch 0") — beides NICHT eigenständig vorgezogen, sondern wartet
+auf den nächsten Entwicklungsauftrag. Der Rest dieses Abschnitts ist die ursprüngliche, vor
+Entwicklungsauftrag 6 verfasste Planung und historisch zu lesen.**
 
 **Abgeschlossen: Entwicklungsauftrag 5 "Lernfluss fertigstellen, Interface verbessern und
 Pilotkurs vervollständigen" (Abschnitt 9) — alle drei Pilot-Units (Begrüßung, Familie, Zuhause)
@@ -379,11 +432,15 @@ neuen Units/Sessions zuordnen, Theorie für bestehende Inhalte schreiben, Fortsc
 ~759 neue Einträge in 6 Batches à 5 Units, nach jedem Batch Validierung + Inhaltsbericht, alle
 neuen Einträge zunächst `content_status: "needs_language_review"`.
 
-### Meilenstein F — Audio (noch nicht begonnen)
+### Meilenstein F — Audio: Wiedergabe-Fallback ERLEDIGT, Erzeugung für neue Wörter offen
 
-Ein Audio pro neuem Wort (kein separates Slow-File mehr nötig), langsame Wiedergabe über
-`HTMLAudioElement.playbackRate` (Standard ~0.75), bestehende `_slow.wav`-Dateien weiterhin
-unterstützt und bevorzugt falls vorhanden. Zentraler AudioManager.
+Die hier ursprünglich geplante Wiedergabelogik ist seit Entwicklungsauftrag 5 implementiert und
+getestet (`src/js/audioPlayer.js`, `test/unit/audioPlayer.test.js`): ein Audio pro Wort reicht
+aus, langsame Wiedergabe nutzt `HTMLAudioElement.playbackRate` (0.75), bestehende `_slow.wav`-
+Dateien werden weiterhin bevorzugt, falls vorhanden — kein separates Slow-File mehr nötig für
+neue Wörter. Weiterhin offen: die tatsächliche Audioerzeugung für die 759 neuen Kurs-1-Wörter
+selbst (das eigentliche `.wav`-Erzeugen), die erst nach Sprachprüfung erfolgen darf (siehe
+Entwicklungsauftrag 6/7, `audio_generation_manifest.json`).
 
 ### Meilenstein G — Kurs-1-Abschluss (noch nicht begonnen)
 
@@ -733,3 +790,748 @@ Audio überlagert sich nicht und langsame Wiedergabe funktioniert ohne separate 
 Kursansicht trennt Schrift und Wortschatz visuell; `node_modules` ist nicht Teil des
 Git-Repositorys; `.gitignore` ist vorhanden; `npm test`/`npm run lint`/`npm run validate:course`
 sind erfolgreich.
+sind erfolgreich.
+
+---
+
+## 10. Entwicklungsauftrag 6: Kurs 1 von 141 auf 900 Vokabeln ausbauen (vom Nutzer, 2026-08-08)
+
+Sechster Entwicklungsauftrag: den kompletten Grundwortschatz von 141 auf die im ursprünglichen
+Pflichtenheft vorgesehenen 900 Vokabeln (30 Vokabel-Units à 30 Wörter / 90 Sessions à 10 Wörter)
+ausbauen, inklusive Datenmodell, Theorie, Sprachprüfvorbereitung und Audio-Vorbereitung — in
+kontrollierten Batches statt einem einzigen ungeprüften Sprung. Grundlage: die vom Nutzer
+gelieferte Datei `kurs1_900_wortplan.json` (30 Units, bestehende + 759 neue Wort-IDs, Session-
+Gruppierung).
+
+Auftragsgemäß umgesetzt in dieser Runde: **Meilenstein 1 + 2 + 3 (Batch 1, Units 1-5)** — die
+explizit angeforderte "erste konkrete Arbeitsanweisung" aus Auftrag Abschnitt 32. Units 6-30
+(Batches 2-6) folgen in weiteren Runden.
+
+### Wichtig: Kodierungsfehler in den Nutzer-Quelldateien
+
+Die vom Nutzer im Chat übergebenen Dateien `neue_vokabeln_759.md`, `neue_vokabeln_759.json` und
+`kurs1_900_wortplan.json` kamen mit beschädigter Zeichenkodierung an (UTF-8-Bytes wurden auf dem
+Transportweg als Latin-1 fehlinterpretiert — und zwar verlustbehaftet: Bytes im Bereich 0x80-0x9F
+gingen dabei komplett verloren, nicht nur "vertauscht"). Ergebnis: deutsche Umlaute (ä/ö/ü) ließen
+sich zuverlässig zurückrechnen (`Buffer.from(text, 'latin1').toString('utf8')`), "ß" ging dabei
+aber vereinzelt komplett verloren (von Hand anhand des Wortbilds korrigiert, z. B. "Begrüßung").
+Die arabischen Textteile waren dagegen NICHT zuverlässig rekonstruierbar — beim Test mit einem
+tatsächlich aus der Konversation kopierten Abschnitt blieben nach dem Rückrechnen nur einzelne
+Buchstaben übrig, der Rest wurde zu Ersatzzeichen (`�`). Die arabischen Formen wurden deshalb
+**nicht** aus den beschädigten Dateien übernommen, sondern für diese Runde komplett neu erstellt
+(Standard-MSA-Wortschatz für die jeweilige deutsche Bedeutung). Deutsche Bedeutungen, Wort-IDs,
+Unit-Titel/-Reihenfolge und Session-Gruppierung (ASCII, von der Beschädigung nicht betroffen)
+wurden dagegen 1:1 aus den Quelldateien übernommen. Details und die genaue Herleitung stehen im
+Kommentarkopf von `scripts/data/kurs1UnitPlan.js`. Konsequenz: **alle** arabischen Angaben dieser
+Runde (auch die mit vollem Datenmodell für Units 1-5) sind `content_status: "needs_language_review"`
+und müssen vor Audioerzeugung von einer Person mit Arabischkenntnissen geprüft werden — siehe
+`language-review/batch_01.json`.
+
+### Meilenstein 1: restliche 116 Bestandswörter migriert
+
+`scripts/build-kurs1-batch.js` migriert alle 141 bestehenden Wörter (unverändert IDs, unverändert
+Audiobezug) auf das erweiterte Datenmodell aus Auftrag Abschnitt 3: `arabic_vocalized` (aus dem
+bereits vokalisierten `arabic`-Feld übernommen), `arabic_unvocalized` (Diakritika programmatisch
+entfernt, `scripts/build-kurs1-batch.js#stripDiacritics`), `german_answers`,
+`accepted_arabic_answers`, `application_prompts` (die 25 bereits kuratierten Einträge bleiben
+unverändert erhalten, nur die restlichen 116 bekommen automatisch generierte, aber inhaltlich
+passende Kontext-Sätze je Themenkategorie), `content_status`, `unit_id`, `session_id`,
+`audio_key`, `difficulty_level`. Genus/Plural/Umschrift waren im Bestand bereits fast vollständig
+vorhanden und wurden nur ergänzt, nie überschrieben.
+
+### Meilenstein 2: volle 30-Unit-/90-Session-Struktur
+
+`vocabSessions.json` wird komplett aus der Wortplan-Struktur neu aufgebaut: 30 `vocab_units`
+(Titel aus dem Wortplan) mit je 3 Sessions (`_a`/`_b`/`_c`) zu je 10 Wörtern — berechnet durch
+simples Aufteilen von (bestehende Wort-IDs + neue Wort-IDs in Wortplan-Reihenfolge) in 10er-Gruppen.
+Das reproduziert exakt die im Wortplan vorgegebene Session-Zuordnung (verifiziert), ohne dass die
+90 Wortlisten von Hand abgetippt werden mussten. Die drei bisherigen Pilot-Units behalten ihre
+Unit-IDs; Session `_a` jeder dieser drei Units enthält weiterhin zuerst die alten Wörter in
+unveränderter Reihenfolge, danach das erste neue Wort — kein bestehender Sessionfortschritt wird
+dadurch ungültig. Für alle 759 neuen Wörter wurden Kategorien in `vocabulary.json` ergänzt: Units
+1-5 mit vollem Datenmodell (siehe Meilenstein 3), Units 6-30 zunächst mit den für diesen
+Meilenstein geforderten Minimalfeldern (ID, deutsche Bedeutung(en), unvokalisierte arabische
+Form, `content_status`, Unit-/Session-Zuordnung, `audio_status: "missing"`) — bewusst noch ohne
+Vokalisierung/Umschrift/Grammatik, die folgt Batch für Batch. Für jede der 90 Sessions legt das
+Skript ein Theoriedokument an; für Units 6-30 zunächst als klar als Platzhalter gekennzeichnetes
+Dokument (`content_status: needs_language_review`, Hinweistext + `word_preview`), damit
+`validate:course` nicht wegen fehlender Theorie hart fehlschlägt, aber niemand den Platzhalter für
+fertige Theorie hält.
+
+### Meilenstein 3 (Batch 1): Units 1-5 vollständig
+
+Alle 115 neuen Wörter aus Units 1-5 (Begrüßung/Familie/Zuhause-Rest, Persönliche Angaben, Zahlen)
+haben das volle Datenmodell inkl. Vokalisierung, Umschrift, Wortart, Genus/Plural (wo sinnvoll —
+bei Präpositionen/Ländernamen/Verben bewusst nicht erzwungen) und individuell verfasste
+`application_prompts`. Für alle 15 Sessions dieser fünf Units gibt es echte Theorie
+(`scripts/apply-kurs1-theory-batch1.js`, Struktur laut Auftrag Abschnitt 8): 2-3 Lernziele,
+"Kurz erklärt" (ca. 150-250 Wörter, geht auf die tatsächlichen 10 Wörter der Session ein statt
+generischer Floskeln), "Mehr erfahren" (100-250 Wörter, oft als bewusste Grammatik-Vorschau ohne
+volle Regeln, z. B. Iḍāfa-Konstruktion in Unit 3, nisba-Endung in Unit 4, Zahlen-Genus-Polarität
+in Unit 5), ein Merke- und ein Typischer-Fehler-Hinweis, 3-4 Beispielsätze (bevorzugt nur mit
+bereits bekanntem Wortschatz — unbekannte Wörter sind im `note`-Feld sichtbar markiert und
+übersetzt statt vorausgesetzt), `word_preview` mit den 10 Wort-IDs, Mini-Check mit 3 Fragen. Die
+drei bestehenden Pilot-Theoriedokumente (Unit 1/2/3, Session A) wurden idempotent um das jeweils
+zehnte (neue) Wort ergänzt (ein zusätzlicher Absatz + ein zusätzliches Beispiel), ohne den
+bestehenden, bereits funktionierenden Text zu ersetzen.
+
+### Validierung erweitert
+
+`scripts/validateCourse.js` bekam zwei Änderungen: (1) einen neuen harten Prüfblock für die
+900-Wort-Zielstruktur — sobald 30 `vocab_units` existieren, muss jede Unit exakt 30 zugeordnete
+Wörter haben und jedes zugeordnete Wort genau einer Session entsprechen (`word.session_id`
+konsistent mit der tatsächlichen `new_word_ids`-Zuordnung); (2) fehlende Audiodateien sind für
+Wörter mit `content_status: "needs_language_review"` nur noch ein Hinweis statt eines harten
+Fehlers (Auftrag Abschnitt 15: keine Audioerzeugung vor Sprachprüfung) — für bereits sprachlich
+geprüfte Wörter bleibt eine fehlende Audiodatei weiterhin ein harter Fehler, das Sicherheitsnetz
+für den bestehenden Bestand bleibt also erhalten.
+
+### Neue Dateien dieser Runde
+
+- `scripts/data/kurs1UnitPlan.js`, `scripts/data/kurs1Units1to5.js`,
+  `scripts/data/kurs1Units6to30.js`: die eigentlichen Wortplan-Daten (Unit-Titel, bestehende
+  Wort-ID-Zuordnung, neue Wörter mit deutscher Bedeutung + arabischer Form, für Units 1-5
+  zusätzlich das volle Datenmodell) — die "Single Source of Truth" für die Batches 2-6.
+- `scripts/build-kurs1-batch.js`: wendet die Plandaten auf `vocabulary.json`/`vocabSessions.json`/
+  `theory.json` (Platzhalter) an. Wiederholbar/idempotent.
+- `scripts/apply-kurs1-theory-batch1.js`: die 12 vollständigen neuen Theoriedokumente + 3 Patches
+  auf die bestehenden Pilot-Theoriedokumente für Units 1-5.
+- `scripts/build-language-review-and-manifest.js`: erzeugt `language-review/batch_01.json` und
+  aktualisiert `audio_generation_manifest.json` aus dem aktuellen Stand von `vocabulary.json`.
+- `language-review/batch_01.json`: Sprachprüfdatei für die 115 neuen Wörter aus Units 1-5 (Format
+  laut Auftrag Abschnitt 14).
+- `audio_generation_manifest.json`: 115 Einträge, alle mit Status `pending_language_review` —
+  bewusst NICHT `ready_for_generation`, da noch keine Sprachprüfung stattgefunden hat (Auftrag
+  Abschnitt 16).
+
+### Bestehende Tests angepasst statt gebrochen
+
+Die drei Pilot-Sessions haben jetzt 10 statt 9/8/8 neue Wörter in Session `_a`, plus je zwei
+weitere Sessions (`_b`/`_c`). Angepasst wurden ausschließlich Erwartungswerte, die sich direkt
+aus dieser gewollten Datenänderung ergeben — keine Produktionslogik wurde für die Tests
+verändert: `test/unit/courseView.test.js` (31 statt 4 Unit-Karten, 3 statt 1 Session-Karte für
+Unit 1, angepasste Unit-Titel „Begrüßung, Höflichkeit und kurze Antworten“/„Familie, Beziehungen
+und Personen“, "completed"-Badge braucht jetzt alle 3 Sessions statt einer) sowie
+`test/unit/sessionController.e2e.test.js` (10 statt 9 neue Wörter/Tageslimit-Erhöhungen für Unit
+1, 10 statt 8 für Unit 2/3).
+
+```text
+npm test:                238/239 Unit-Tests grün (1 bekannter, von dieser Runde unabhängiger
+                          flakiger Test in sessionEngine.test.js, siehe "Bekannte Lücken" oben),
+                          1 Integrationstest weiterhin übersprungen (unverändert)
+npm run lint:             erfolgreich
+npm run validate:course:  0 Fehler, 4 Hinweise (Schrift-Theorie Unit 3-7 noch offen, Units 6-30
+                          noch Minimalmodell — beides für spätere Batches vorgesehen)
+```
+
+### Bewusst nicht Teil dieser Runde (siehe Auftrag Abschnitt 32/13)
+
+Units 6-30 mit vollem Datenmodell und echter Theorie (Batches 2-6), tatsächliche Audioerzeugung
+für die 759 neuen Wörter, Sprachprüfung durch eine Person mit Arabischkenntnissen,
+Verwechslungsgruppen/Gegensatzpaare/Wortfamilien (`confusion_group`/`opposite_id`/`root`),
+"Warum merke ich mir das Wort nicht?"-Funktion, "Deine schwierigen Wörter"-Dashboard-Karte,
+dauerhaft erreichbare Theorie außerhalb der Session, Theorie für die restlichen Schrift-Units,
+erweiterte Duplikat-/Homonym-Erkennung im Validator, `.arabiccourse`-Paketformat,
+`npm run package:source`, reproduzierbarer Migrationstest (`progressMigration.test.js`
+weiterhin übersprungen).
+
+### Akzeptanzkriterien dieser Runde (Auszug — bezogen auf Auftrag Abschnitt 31, soweit für
+Meilenstein 1-3 relevant)
+
+Alle 141 bestehenden Wort-IDs unverändert und migriert; keine bestehende Wort-ID verloren; 759
+neue Wort-IDs vorhanden (davon 115 mit vollem Datenmodell); genau 900 Einträge insgesamt; 30
+Vokabel-Units mit je exakt 30 Wörtern; 90 Sessions mit je 10 Wörtern; alle 15 Sessions aus Units
+1-5 haben echte, zugeschnittene Theorie statt Boilerplate; Beispiele markieren unbekannten
+Wortschatz statt ihn vorauszusetzen; jedes neue Wort trägt `needs_language_review`; kein
+ungeprüftes Wort wird als sprachlich endgültig bezeichnet; fehlendes Audio für neue Wörter führt
+nicht zum Absturz und nicht zum harten Validierungsfehler; Audio-Generierungsmanifest vorhanden
+und korrekt als "noch nicht freigegeben" markiert; `npm test`/`npm run lint`/
+`npm run validate:course` erfolgreich (bis auf den dokumentierten, vorbestehenden Flaky-Test).
+
+---
+
+## 11. Entwicklungsauftrag 7: Kurs 1 inhaltlich vervollständigen und technische Restfehler beseitigen (vom Nutzer, 2026-08-08)
+
+Siebter Entwicklungsauftrag, direkt auf Entwicklungsauftrag 6 aufbauend: zwei technische
+Restfehler beheben (zufallsabhängiger Test, übersprungener Migrationstest), den Kursvalidator von
+einer pauschalen "erweitertes Modell: X/900"-Zahl auf drei klar unterschiedene
+Vollständigkeitsstufen umstellen, und **Batch 2** (Units 6-10, 150 Wörter/15 Sessions) auf
+dasselbe vollständige Niveau wie Batch 1 (Units 1-5, Entwicklungsauftrag 6) heben — wieder in
+kontrollierten Batches, danach stoppen und erst nach erfolgreicher Prüfung mit Units 11-15
+fortfahren.
+
+### Schritt 1: technische Restfehler behoben
+
+**Flaky Test.** Ursache war NICHT reiner Zufall, sondern eine echte Kombination aus zwei
+Faktoren: `SessionEngine.selectWordsForPhase()` wählt für "graded" Phasen bewusst nur einen Teil
+aller Wörter aus (`RECOMMENDED_RATIO`, z. B. 0.6 bei `recognition`) — bei 5 Test-Wörtern also nur
+3 von 5, zufällig gemischt. Der Test nahm an, dass `words[0]` (sein "immer falsch beantwortetes"
+Zielwort) IMMER in dieser Auswahl landet — tat es aber nur mit ~60 % Wahrscheinlichkeit. Behoben
+durch zwei unabhängige Maßnahmen: (1) `src/js/session/randomProvider.js` (neu) — ein
+injizierbarer Zufallszahlengenerator (`RandomProvider.create(seed)`, mulberry32-PRNG; ohne Seed
+weiterhin `Math.random`, produktives Verhalten unverändert). `SessionQueue.pickRandomOrder()`/
+`.create()`/`.scheduleRepeat()` und `SessionEngine.create()` akzeptieren jetzt optional eine
+`rng`-Funktion. (2) Der Test selbst wählt sein Zielwort jetzt aus der TATSÄCHLICH gebauten
+Warteschlange (`engine.currentTask().wordId`) statt eine feste Annahme zu treffen — das behebt
+die Ursache unabhängig vom Seed. Zusätzlicher Regressionstest über 50 verschiedene Seeds.
+**Verifiziert:** `npm test` zehnmal hintereinander ausgeführt, 10/10 erfolgreich (vorher:
+gelegentliches Fehlschlagen, siehe Abschnitt 3 "Bekannte Lücken" der letzten Runde).
+
+**Migrationstest.** `test/integration/realProgressMigration.test.js` hing von einer lokalen
+Sicherheitskopie einer echten `progress.json` ab (`skip`, wenn nicht vorhanden — in CI immer).
+Umbenannt zu `test/integration/progressMigration.test.js`, läuft jetzt IMMER gegen anonymisierte,
+selbst erstellte Fixtures unter `test/fixtures/` (keine echten Nutzerdaten):
+`progress_v1.json` (unversioniertes Alt-Format), `progress_v2.json` (aktuelles Format,
+`_version: 1`), `progress_v3.json` (simuliertes KÜNFTIGES Format mit `_version: 2`, testet dass
+`migrateProgress()` unbekannte künftige Versionen übernimmt statt zu verwerfen),
+`progress_corrupted.json` (absichtlich kaputtes JSON, testet die `.bak`-Fallback-Logik von
+`readJsonFileSafe()` inkl. Erzeugung einer echten temporären `.bak`-Datei und Prüfung, dass die
+intakte Sicherung statt der beschädigten Hauptdatei geliefert wird). 6 Tests, kein `skip` mehr.
+
+### Schritt 2: Kursvalidator — drei Vollständigkeitsstufen
+
+Die alte Meldung "X von 900 Wörtern nutzen das erweiterte Modell" zählte ein Wort bereits mit,
+sobald AUCH NUR EINES der Zusatzfelder vorhanden war — irreführend optimistisch. `scripts/
+validateCourse.js` unterscheidet jetzt explizit:
+
+```text
+Minimalmodell:  id, arabic_unvocalized, german_answers, unit_id, session_id, content_status
+Lernfähig:      + arabic_vocalized, transliteration, part_of_speech, accepted_arabic_answers
+Vollständig:    + gender/plural (Feld muss existieren, auch als null, wenn geprüft und bewusst
+                  nicht zutreffend — ein komplett fehlender Schlüssel zählt als "nicht bearbeitet"),
+                  + mindestens ein application_prompt
+```
+
+Zusätzlich neu in `validateCourse.js`:
+- **Homonym-/Duplikatbericht**: gruppiert alle Wörter nach `arabic_unvocalized` über die gesamte
+  Vokabelliste (nicht nur pro Kategorie wie der bisherige harte Exact-Match-Check). Mehrere
+  Wörter mit identischer unvokalisierter Schreibweise, aber OHNE übereinstimmenden
+  `homonym_group`-Tag → WARNUNG (informativ). Mit übereinstimmendem Tag → INFO (bewusstes
+  Homonym). Aktuell 3 bestätigte Fälle: ذهب (ذَهَبَ "er ging" / ذَهَب "Gold"), ظهر (ظُهْر "Mittag" /
+  ظَهْر "Rücken"), من (مَنْ "wer" / مِنْ "von") — alle sechs betroffenen Wörter tragen jetzt ein
+  passendes `homonym_group`-Feld.
+- **Sprachprüfungs-Übersicht**: zählt alle 900 Wörter nach `content_status`, listet vorhandene
+  `language-review/*.json`-Batches mit Wortanzahl, prüft `audio_generation_manifest.json` auf
+  gültige Wort-Referenzen und darauf, dass kein Wort dort `ready_for_generation` ist, solange sein
+  `content_status` noch `needs_language_review` ist.
+- **Veraltete Meldung entfernt**: der Hinweis, langsame Wiedergabe über `playbackRate` sei "noch
+  nicht umgesetzt", stimmte nicht mehr (das ist seit Entwicklungsauftrag 5 fertig, siehe
+  `audioPlayer.js`/`audioPlayer.test.js`) — durch eine zutreffende Meldung ersetzt. Dieselbe
+  Korrektur auch in dieser ROADMAP (Meilenstein F, Abschnitt 7 der alten Planung) und README
+  nachgezogen.
+- Ein neuer harter Prüfblock: sobald `is_placeholder`-Flag an einem Theoriedokument gesetzt ist
+  (siehe unten), zählt der Validator "Session-Theorie (vollständig)" vs. "(Platzhalter)" getrennt
+  — aktuell 30/90 vollständig, 60/90 Platzhalter.
+
+### Schritt 3-5: Batch 2 (Units 6-10) vollständig
+
+Gleiches Vorgehen wie Batch 1 (Entwicklungsauftrag 6): `scripts/data/kurs1Units6to10Full.js`
+(vokalisierte Form, Umschrift, Wortart, Genus/Plural wo sinnvoll, individuelle
+`application_prompts` für alle 132 neuen Wörter) + `scripts/upgrade-kurs1-units6to10.js` (hebt
+die bereits als Minimalmodell-Stub angelegten Wörter in `vocabulary.json` an, keine neuen
+IDs/Kategorien). 15 vollständige Theoriedokumente (`scripts/apply-kurs1-theory-batch2.js`,
+ersetzt die von Entwicklungsauftrag 6 angelegten `is_placeholder: true`-Platzhalter):
+
+- **Unit 6 (Uhrzeit/Kalender):** Uhrzeit (سَاعَة) vs. Tageszeit als getrennte Konzepte, "غَداً
+  (morgen)" vs. "غَدَاء (Mittagessen)"-Verwechslungsgefahr, Wochentage 2-5 von den Zahlen
+  abgeleitet, internationale vs. traditionelle Monatsnamen.
+- **Unit 7 (Farben/Formen/Materialien):** zwei unterschiedliche Farbadjektiv-Baumuster (أَ-Grundfarben
+  vs. ي-nisba-Farben von Substantiven abgeleitet), Iḍāfa-Vorschau bei "aus Material X", das
+  Homonym ذهب bewusst erklärt statt nur markiert.
+- **Unit 8 (Möbel/Haushalt):** produktives Geräte-Wortmuster auf -ة, "Bettdecke" klar von
+  "Zimmerdecke" (Unit 3) abgegrenzt, Lehnwörter für neue Technik (دُشّ).
+- **Unit 9 (Lebensmittel):** Gattungsname-Muster (بَيْضَة Ei / بَيْض Eier als Gattung), Oberbegriffe
+  (فَاكِهَة/خُضْرَوَات) vs. konkrete Früchte, Herkunft des deutschen Lehnworts "Hummus" von حِمَّص.
+- **Unit 10 (Getränke/Küche):** Oberbegriffe (مَشْرُوب/وَجْبَة), Wurzel-Verwandtschaft زُجَاجَة/زُجَاج und
+  غَلَّايَة/غَلَى, allgemeines vs. spezifische Kochverben.
+
+**Deutsche Mehrdeutigkeiten aufgelöst** (Auftrag Abschnitt 10) — sowohl innerhalb Batch 2 als auch
+rückwirkend bei zwei damit kollidierenden Batch-1-Wörtern und zwei noch unbearbeiteten
+Minimalmodell-Stubs (nur der deutsche Text korrigiert, ohne die volle Bearbeitung vorzuziehen):
+"Decke (Zimmerdecke)" (`c1_u03_14`, rückwirkend) / "Decke (Bettdecke)" (`c1_u08_10`), "Morgen
+(Tageszeit)" (`time_morning`, rückwirkend) / "morgen (der nächste Tag)" (`c1_u06_05`), "orange
+(Farbe)" (`c1_u07_01`) / "Orange (Frucht)" (`c1_u09_14`), "kochen (zubereiten, allgemein)"
+(`c1_u10_21`) / "kochen (sieden, im Wasser)" (`c1_u10_23`), "Arm (Körperteil)" (`c1_u13_08`,
+rückwirkend, noch Minimalmodell) / "arm (nicht reich)" (`c1_u19_24`, rückwirkend, noch
+Minimalmodell), "Karte (Bankkarte)" (`c1_u11_14`, noch Minimalmodell) / "Landkarte" zuerst
+genannt (`c1_u22_19`, noch Minimalmodell), "Rezept (ärztliche Verordnung)" (`c1_u14_25`, noch
+Minimalmodell, zur Abgrenzung von "Rezept (Kochrezept)" `c1_u10_17`). 15 weitere Kollisionen
+bleiben offen (betreffen fast ausschließlich Units, die noch nicht im vollen Datenmodell
+bearbeitet wurden) — sichtbar über `npm run report:language-review`.
+
+### Schritt 6-7: Sprachprüfdatei + Audio-Manifest
+
+`scripts/build-language-review-and-manifest.js` generalisiert (nimmt jetzt Batch-Nummer + Units
+als CLI-Argumente statt hart codierter Batch-1-Werte) und für Batch 2 ausgeführt:
+`language-review/batch_02.json` (132 Einträge, Format exakt wie Auftrag Abschnitt 18 — ohne
+gender/plural, die dort nicht verlangt sind). `audio_generation_manifest.json` um dieselben 132
+Wörter erweitert (jetzt 247 Einträge insgesamt) und der Status-Name vereinheitlicht: Batch 1
+verwendete noch `pending_language_review` (Entwicklungsauftrag 6), jetzt einheitlich
+`needs_language_review` (exakt der in Auftrag Abschnitt 21 vorgegebene Name) — bestehende
+Einträge wurden beim Ausführen automatisch migriert. Keine Audiodatei wurde erzeugt (kein
+TTS-API-Aufruf im Skript).
+
+### Neue Skripte
+
+- **`npm run report:language-review`** (`scripts/reportLanguageReview.js`, Auftrag Abschnitt 19):
+  automatischer Sprachprüfbericht — Gesamtstand nach `content_status`, Batch-Übersicht mit
+  Wortanzahl, fehlende Vokalisierung/Umschrift/Wortart, mehrdeutige deutsche Übersetzungen,
+  mögliche Homonyme (bestätigt vs. offen). Rein lesend, optional zusätzlich als JSON-Datei
+  (`--json <pfad>`).
+- **`npm run package:source`** (`scripts/packageSource.js`, Auftrag Abschnitt 26/27): erzeugt
+  `dist-source/learning-arabic-source.zip` über eine Allowlist (nicht Blockliste) an
+  Top-Level-Pfaden, schließt zusätzlich `node_modules`/`dist`/`.git`/`__pycache__`/Nutzerdaten/
+  Logs/temporäre Dateien aus, und verifiziert nach dem Packen selbst per `unzip -Z1`, dass keine
+  dieser verbotenen Pfade enthalten sind und dass `.gitignore`/`.github/workflows/` vorhanden
+  sind (bricht mit Exit-Code 1 ab, falls doch). Ergebnis aktuell: 10,8 MB, 483 Dateien, keine
+  verbotenen Einträge. `.gitignore` um `dist-source/` ergänzt.
+- CI-Workflow (`.github/workflows/build.yml`) war bereits vollständig (npm ci → lint →
+  validate:course → test, danach erst der Multi-Plattform-Build) — in dieser Runde nur verifiziert,
+  keine Änderung nötig.
+
+### "Deine schwierigen Wörter" (Dashboard, Auftrag Abschnitt 23 — Teilumsetzung)
+
+`src/js/views/dashboard.js`: neue Karte, sichtbar sobald mindestens ein Wort mit
+`card.consecutiveWrong[skill] >= 3` existiert (derselbe Schwellenwert wie
+`srs.js#INTENSIVE_REVIEW_THRESHOLD`, hier bewusst als eigene Konstante dupliziert statt als
+impliziter globaler Bezeichner referenziert, damit `dashboard.js` unabhängig von der
+Ladereihenfolge in Tests bleibt). Zeigt bis zu 5 Wörter (Arabisch, Deutsch, Fehleranzahl),
+sortiert nach Fehleranzahl absteigend, mit einem "Üben"-Button, der über die bereits vorhandene
+`App.navigateToFreePractice({ presetFilters: {...} })`-Schnittstelle direkt gefiltert in den
+freien Übungsmodus springt (`recentlyWrongOnly`, bereits vorhandener Filter in
+`freePractice.js`). **Nicht umgesetzt:** die im Auftrag zusätzlich vorgeschlagenen fünf
+Einzelaktionen pro Wort (Noch einmal lernen/Audio anhören/Schreibweise ansehen/Verbindung
+ansehen/Beispiele ansehen) — das wäre ein eigenständiges Wort-Detail-Feature (Modal o. ä.) mit
+entsprechendem Testaufwand; bewusst als offener Punkt vermerkt statt überstürzt und ungetestet
+umgesetzt.
+
+### Nachträgliche Vervollständigung (auf Nutzerwunsch, direkt im Anschluss)
+
+Nach dem ersten Durchlauf durch Schritt 1-10 bat der Nutzer, so viel wie im Rahmen dieses
+Auftrags möglich zusätzlich fertigzustellen, bevor der nächste Auftrag kommt. Drei Punkte, die
+zuvor bewusst als offen dokumentiert waren, wurden daraufhin zusätzlich abgeschlossen:
+
+1. **Deutsche Mehrdeutigkeiten** von 15 auf 3 reduziert — 11 Wortpaare direkt korrigiert
+   (teils rückwirkend auch außerhalb von Units 6-10, z. B. "gehen"/verb_go vs. c1_u16_17,
+   "lernen"/verb_study vs. c1_u18_05), 3 bewusst als legitime Mehrdeutigkeit belassen ("gern
+   geschehen"-Synonyme, "über"/"vor" als mehrdeutige Präpositionen).
+2. **"Deine schwierigen Wörter" vollständig**: alle fünf im Auftrag vorgeschlagenen
+   Einzelaktionen pro Wort umgesetzt statt nur einer Sammelaktion. Dafür wurde
+   `src/js/views/freePractice.js` um einen neuen Filter `onlyWordIds` erweitert (schränkt den
+   Übungspool auf ein einzelnes Wort ein, inkl. korrekter Behandlung sowohl von
+   `category: 'vocabulary'`-Einträgen — `item.data` ist direkt das Wort — als auch von
+   `category: 'connections'`-Einträgen — `item.data.word` ist das Wort). "Noch einmal lernen"
+   und "Verbindung ansehen" nutzen diesen Filter über die bereits vorhandene
+   `App.navigateToFreePractice({ presetFilters, autoStart })`-Schnittstelle, "Audio anhören" ruft
+   `AudioPlayer.speak()` direkt auf, "Schreibweise ansehen"/"Beispiele ansehen" blenden
+   Detail-Panels mit bereits vorhandenen Wortfeldern ein (`arabic_vocalized`/`transliteration`
+   bzw. `application_prompts`). "Verbindung ansehen" erscheint nur, wenn für das Wort tatsächlich
+   ein Verbindungstrainer-Eintrag existiert. Getestet in `dashboard.test.js` (neue Tests für Bau
+   der Aktionsleiste, Navigation mit korrekten Filtern, Audiowiedergabe, Panel-Toggle) und
+   `freePractice.test.js` (neuer Test für `onlyWordIds` end-to-end: bestätigt, dass ein
+   ausgeschlossenes zweites Wort über die gesamte Session hinweg nie erscheint).
+3. **Schrift-Theorie für alle 8 Buchstabengruppen-Units** (vorher 3/8) —
+   `scripts/apply-script-theory-units3to5.js` (ج ح خ / س ش ص ض / ط ظ) und
+   `scripts/apply-script-theory-units6to7.js` (ع غ / ف ق ك ل م ه), im identischen Blockformat wie
+   die bestehende Theorie für Unit 1/2 (Vorlage: `theory_unit_2`). Inhaltlich u. a.: Rachenlaute
+   ح/ع als Lautgruppe ohne deutsche Entsprechung, die vollständige Gruppe der vier emphatischen
+   Buchstaben (ص ض ط ظ) im Zusammenhang erklärt statt isoliert pro Unit, ق vs. ك, die
+   لا-Ligatur (Lām-Alif) als normales statt als Sonderfall erklärtes Verbindungsverhalten.
+   `scripts/validateCourse.js` meldet diesen Abschnitt jetzt als "OK" statt als Hinweis, sobald
+   alle Schrift-Units abgedeckt sind.
+
+Weiterhin bewusst nicht Teil dieser Runde (siehe Auftrag Abschnitt 24/25 sowie oben): Units 11-30
+mit vollem Datenmodell und echter Theorie (Batches 3-6). Tatsächliche Audioerzeugung.
+Sprachprüfung durch eine Person mit Arabischkenntnissen. `.arabiccourse`-Paketformat (Auftrag
+Abschnitt 25: bewusst erst nach inhaltlicher Fertigstellung).
+
+```text
+npm test:                 252/252 Unit-Tests + 6/6 Integrationstests, 10× hintereinander
+                           ausgeführt: 10/10 erfolgreich
+npm run lint:              erfolgreich
+npm run validate:course:   0 Fehler, 2 Hinweise
+npm run report:language-review: erfolgreich
+npm run package:source:    erfolgreich, 10,8 MB, keine node_modules/.git/__pycache__-Einträge
+```
+
+Datenstand (von `validate:course` berechnet): 900/900 Minimalmodell, 388/900 Lernfähig/
+Vollständig (141 Bestand + 115 Batch 1 + 132 Batch 2), 30/90 Sessions mit vollständiger Theorie
+(unverändert — Sessionanzahl ist unabhängig von der neu ergänzten Schrift-Theorie), 8/8
+Schrift-Units mit Theorie, 3 bestätigte Homonym-Paare, 3 verbleibende (bewusst akzeptierte)
+deutsche Mehrdeutigkeiten, 0 Wörter approved/reviewed (alle weiterhin `needs_language_review`).
+
+### Akzeptanzkriterien dieser Runde (Auszug)
+
+`npm test` zehnmal hintereinander erfolgreich; Migrationstest läuft ohne `skip` gegen Fixtures;
+Validator unterscheidet Minimal/Lernfähig/Vollständig; veraltete `playbackRate`-Meldung entfernt;
+Units 6-10 vollständig (150 Wörter geprüft/vervollständigt, 15 Theoriedokumente, keine
+Wort-ID aus diesem Batch im JavaScript hart codiert); `language-review/batch_02.json` vorhanden;
+Audio-Manifest erweitert, ohne tatsächlich Audio zu erzeugen; `npm run package:source` erzeugt
+eine ZIP ohne `node_modules`; `.gitignore`/CI verifiziert; alle Zahlen im Bericht vom Validator
+berechnet, nicht hart codiert.
+
+## 12. Entwicklungsauftrag 8: Units 11-15 vollständig ausarbeiten und Release-Struktur korrigieren (vom Nutzer, 2026-08-09)
+
+Achter Entwicklungsauftrag, direkt auf Entwicklungsauftrag 7 aufbauend: **Batch 3** (Units 11-15
+— Einkaufen/Geld/Preise, Kleidung/Schuhe/Accessoires, Körper/Sinne, Gesundheit/Beschwerden/
+Apotheke, Gefühle/Eigenschaften/Zustände; 135 neue Wörter/15 Sessions) auf dasselbe vollständige
+Niveau wie Batch 1/2 heben, ein zentrales `part_of_speech`-Vokabular festschreiben,
+`opposite_id`/`confusion_group` als neue Felder einführen, und die im Auftrag behauptete
+fehlende `.gitignore`/CI-Struktur prüfen/korrigieren. Danach stoppen — Units 16-30, tatsächliche
+Audioerzeugung, `.arabiccourse` und Kurs 2 sind explizit nicht Teil dieser Runde.
+
+### Vorab: Auftragsbaseline gegen den echten Repository-Zustand geprüft
+
+Der Auftrag ging von folgender Ausgangslage aus: `.gitignore` und `.github/workflows/build.yml`
+fehlen, `npm run package:source` meldet sie als fehlend. Bei Prüfung zu Beginn dieser Runde waren
+beide Dateien bereits vorhanden (seit Entwicklungsauftrag 3, Meilenstein A) und
+`npm run package:source` meldete bereits korrekt:
+
+```text
+.gitignore enthalten: ja
+.github/workflows/ enthalten: ja
+```
+
+Erneut ausgeführt, unverändert korrekt — keine Änderung nötig. Dieser Widerspruch zur
+Auftragsbeschreibung wird hier bewusst dokumentiert (ehrliches Reporten statt stillschweigend
+etwas "reparieren", das nicht kaputt war, oder den Widerspruch zu ignorieren). Die übrigen
+Baseline-Annahmen des Auftrags (4/5/6/0/0 bereits vollständige Wörter in Units 11-15, 388/900
+Lernfähig, 30/90 Theorie, 8/8 Schrift-Theorie) stimmten dagegen exakt.
+
+### Schritt 1: geschlossenes `part_of_speech`-Vokabular festgeschrieben
+
+Der Auftrag schlug ein eigenes, englisches Wortarten-Vokabular vor (noun/verb/adjective/…). Über
+die 388 bereits vorher vollständigen Wörter (Units 1-10) hatte sich aber längst ein
+deutschsprachiges Vokabular etabliert. Statt disruptiv zwei parallele Vokabulare zu führen oder
+388 fertige Wörter rückwirkend umzustellen, schreibt `scripts/validateCourse.js` jetzt genau die
+bereits etablierten 12 Werte als EINE zentrale, geschlossene Liste fest
+(`Substantiv`/`Substantiv (Dual)`/`Substantiv (Plural)`/`Substantiv (Pluraletantum)`/
+`Substantiv/Adjektiv`/`Adjektiv`/`Verb (3. Pers. m. Vergangenheit)`/`Adverb`/`Ausdruck`/
+`Zahlwort`/`Fragewort`/`Eigenname`) und meldet jeden abweichenden Wert als Hinweis. Alle 135
+neuen Wörter aus Units 11-15 nutzen ausschließlich Werte aus dieser Liste (per Test abgesichert).
+
+### Schritt 2: `opposite_id`/`confusion_group` neu eingeführt und validiert
+
+Zwei neue, optionale Wortfelder: `opposite_id` (Antonympaar, gegenseitig auf beiden Wörtern
+gesetzt) und `confusion_group` (String-Tag für didaktisch sinnvoll gemeinsam zu lernende,
+leicht verwechselbare Wörter — bewusst NICHT für jedes Wort vergeben). `scripts/
+upgrade-kurs1-units11to15.js` setzt beide Felder aus den Vorgaben in
+`scripts/data/kurs1Units11to15Full.js` und prüft die Gegenseitigkeit von `opposite_id` bereits
+beim Schreiben selbst. `scripts/validateCourse.js` prüft zusätzlich (als harter Fehler bei
+Verstoß): jede `opposite_id` zeigt auf ein existierendes Wort, UND die Verknüpfung ist
+gegenseitig (A→B impliziert B→A). Ergebnis: **22 Wörter** in **11 Gegensatzpaaren** (u. a.
+رَخِيص↔غَالٍ billig/teuer, مَفْتُوح↔مُغْلَق geöffnet/geschlossen, لَبِسَ↔خَلَعَ anziehen/ausziehen,
+سَعِيد↔حَزِين glücklich/traurig, قَوِيّ↔ضَعِيف stark/schwach, حَيّ↔مَيِّت lebendig/tot,
+سَهْل↔صَعْب einfach/schwierig, مُسْتَيْقِظ↔نَائِم wach/schlafend, هَادِئ↔مُتَوَتِّر ruhig/nervös,
+مَشْغُول↔مُتَفَرِّغ beschäftigt/frei, صِحَّة↔مَرَض Gesundheit/Krankheit), **32 Wörter** in **8**
+`confusion_group`-Gruppen (u. a. `c1_price_terms`, `c1_payment_methods`, `c1_accessories`,
+`c1_senses`, `c1_torso`, `c1_symptoms`, `c1_medical_words`, `c1_muta_adjectives` — Letztere
+bündelt die sechs مُتَ-präfigierten Gefühlsadjektive aus Unit 15, die sich optisch stark ähneln).
+
+### Schritt 3-4: Batch 3 (Units 11-15) vollständig
+
+Gleiches Vorgehen wie Batch 1/2: `scripts/data/kurs1Units11to15Full.js` (vokalisierte Form,
+Umschrift, Wortart, Genus/Plural wo sinnvoll, individuelle `application_prompts`, `opposite_id`/
+`confusion_group` wo zutreffend, für alle 135 neuen Wörter) + `scripts/upgrade-kurs1-units11to15.js`
+(hebt die bereits als Minimalmodell-Stub angelegten Wörter in `vocabulary.json` an, keine neuen
+IDs/Kategorien — die 15 bereits vorher vollständigen Wörter, z. B. `shop_money`, `clothing_shirt`,
+`body_head`, kommen in den Eingabedaten dieses Skripts gar nicht vor und bleiben dadurch
+unangetastet). Diakritika-Stripping-Regex diesmal über `String.fromCodePoint`-Zahlenlisten statt
+`\uXXXX`-Escapes im Quelltext aufgebaut, nachdem sich beim Schreiben der Datei zeigte, dass ein
+Zwischenschritt beim Speichern `\uXXXX`-Escapes in echte Zeichen umwandelt (Codepoints selbst
+verifiziert identisch mit der vorherigen Escape-Notation, aber die neue Bauweise ist gegen
+diesen Effekt robust — sie enthält gar keine Escapes mehr, die umgewandelt werden könnten).
+
+15 vollständige Theoriedokumente (`scripts/apply-kurs1-theory-batch3.js`):
+
+- **Unit 11 (Einkaufen/Geld/Preise):** die vier Grundverben kaufen/verkaufen/bezahlen/kosten
+  auseinandergehalten, Markt vs. Supermarkt, die drei Bezahlwege bar/Karte/Bank/Konto, das
+  Passiv-Partizip-Muster hinter مَفْتُوح/مُغْلَق erklärt.
+- **Unit 12 (Kleidung/Schuhe/Accessoires):** Kleid (einteilig) vs. Rock (braucht Oberteil), zwei
+  arabische Wörter für "Tasche" (جَيْب an der Kleidung vs. حَقِيبَة als separater Gegenstand)
+  bewusst gegenübergestellt, die Iḍāfa-Konstruktion سَاعَة يَد als zusammengesetzter Begriff.
+- **Unit 13 (Körper/Sinne):** systematischer Aufbau vom Kopf abwärts, das ظَهْر/ظُهْر-Homonym
+  (Rücken/Mittag) explizit als bewusstes Homonym statt als Fehler erklärt, die vier
+  Sinnesverben rأى/سمع/شمّ/لمس je einem Körperteil zugeordnet.
+- **Unit 14 (Gesundheit/Beschwerden/Apotheke):** vom Symptom über Untersuchung zu Behandlung,
+  وَصْفَة طِبِّيَّة (ärztliches Rezept) explizit von einem Kochrezept abgegrenzt (beide teilen nur
+  das Wort وَصْفَة) — bewusst als reiner Sprachunterricht gehalten, siehe eigener Abschnitt unten.
+- **Unit 15 (Gefühle/Eigenschaften/Zustände):** das مُتَ-Wortbildungsmuster bei
+  Gefühlsadjektiven als wiederkehrendes Baumuster statt Einzelvokabeln erklärt, vier
+  Gegensatzpaare gebündelt in der letzten Session.
+
+### Unit 14 bewusst als reiner Sprachunterricht gehalten
+
+Auftrag Abschnitt (Unit 14) verlangt ausdrücklich, dass die Theorie **keine** medizinische
+Beratung/Diagnose/Behandlungsanweisung enthält, sondern ausschließlich Wortschatz für
+Alltagssituationen (Arztbesuch, Apotheke) vermittelt. Umgesetzt: alle drei Theoriedokumente
+formulieren durchgehend "so sagst du X auf Arabisch", nie "bei Symptom X tue Y".
+`theory_vocab_unit_14_a` trägt zusätzlich einen expliziten "Wichtiger Hinweis"-Callout ("Diese
+Unit dient ausschließlich dem Wortschatzaufbau … kein medizinischer Ratgeber"), per Test
+abgesichert (`test/unit/kurs1Units11to15Content.test.js`, prüft sowohl das Vorhandensein des
+Callouts als auch, dass sein Text explizit "keine medizinische …" enthält).
+
+### Schritt 5: Sprachprüfdatei + Audio-Manifest, inkl. neuer Theorie-Prüfmetadaten
+
+`scripts/build-language-review-and-manifest.js` erweitert: erzeugt jetzt zusätzlich zu den
+Wort-Prüfeinträgen ein `theory_review`-Array (ein Eintrag pro zur Unit-Auswahl gehörendem
+Theoriedokument, aus `vocabSessions.json`/`theory.json` automatisch abgeleitet — nicht manuell
+gepflegt) mit `theory_id`, `title`, `review_status` sowie den vier unabhängig abhakbaren Booleans
+`arabic_examples_reviewed`/`german_explanation_reviewed`/`mini_check_reviewed`/
+`application_prompts_reviewed` (alle initial `false`). Für Batch 3 ausgeführt:
+`language-review/batch_03.json` (135 Wort-Einträge + 15 Theorie-Einträge).
+`audio_generation_manifest.json` um dieselben 135 Wörter erweitert (jetzt 382 Einträge
+insgesamt, weiterhin ausschließlich `status: "needs_language_review"` — kein einziger Eintrag
+`ready_for_generation`, wie im Auftrag gefordert; kein TTS-API-Aufruf im Skript).
+
+### Schritt 6: `report:language-review` um Theorie-Prüfstand erweitert
+
+`scripts/reportLanguageReview.js` zeigt jetzt pro Batch (sofern das Batch-File ein
+`theory_review`-Feld mitliefert) die Anzahl vorgemerkter und vollständig geprüfter
+Theoriedokumente, sowie eine über alle Batches aggregierte Gesamtzeile. Ältere Batch-Dateien ohne
+dieses Feld (Batch 1/2, vor dieser Runde erzeugt) werden dabei korrekt ausgelassen statt
+fälschlich mit 0 gezählt zu werden.
+
+### Schritt 7: Inhaltstests für Units 11-15
+
+`test/unit/kurs1Units11to15Content.test.js` (15 Tests, analog zu
+`kurs1Units6to10Content.test.js`, ergänzt um die in dieser Runde neuen Aspekte): Wort-/Session-/
+Unit-Zahlen (150 Wörter, davon 135 neu, 15 Sessions), Unversehrtheit der 15 bereits vorher
+vollständigen Wörter (IDs/Zuordnung unverändert), vollständiges Lernfähig-Modell für alle 135
+neuen Wörter, `part_of_speech`-Vokabular-Konformität, `opposite_id`-Gegenseitigkeit (≥20 Wörter),
+`confusion_group`-Selektivität (vergeben, aber NICHT für jedes Wort), vollständige Theorie ohne
+Platzhalter für alle 15 Sessions (Lernziele, Kurz/Mehr-Text, word_preview exakt passend zur
+Session, ≥2 Beispiele, Mini-Check mit ≥2 Fragen, Merke-/Hinweis-Callout), der explizite
+Unit-14-Sprachunterricht-Hinweis, keine hart codierte Wort-ID aus diesem Batch im JavaScript,
+`batch_03.json`- und Manifest-Konsistenz.
+
+### Schritt 8: vollständige Verifikation
+
+```text
+npm run lint:              erfolgreich
+npm test:                  267/267 Unit-Tests + 6/6 Integrationstests, 10× hintereinander
+                            ausgeführt: 10/10 erfolgreich (keine Flakiness beobachtet)
+npm run validate:course:   0 Fehler, 2 Hinweise
+npm run report:language-review: erfolgreich, zeigt Batch 1/2/3 + Theorie-Prüfstand
+npm run package:source:    erfolgreich, 10,9 MB, 490 Dateien, keine node_modules/.git/
+                            __pycache__-Einträge, .gitignore/.github/workflows/ enthalten
+```
+
+Datenstand (von `validate:course` berechnet, nicht hart codiert): 900/900 Minimalmodell,
+**523/900** Lernfähig/Vollständig (141 Bestand + 115 Batch 1 + 132 Batch 2 + 135 Batch 3),
+**45/90** Sessions mit vollständiger Theorie (die übrigen 45 weiterhin klar als Platzhalter
+markiert), 8/8 Schrift-Units mit Theorie (unverändert), 3 bestätigte Homonym-Paare (unverändert),
+**11** neue Gegensatzpaare, **8** neue Verwechslungsgruppen über 32 Wörter, 0 Wörter
+approved/reviewed (alle weiterhin `needs_language_review`).
+
+### Akzeptanzkriterien dieser Runde (Auszug)
+
+`npm test` zehnmal hintereinander erfolgreich, keine Flakiness; Units 11-15 vollständig (135
+neue Wörter geprüft/vervollständigt, die bereits vorher vollständigen 15 Wörter unverändert, 15
+Theoriedokumente, keine Wort-ID aus diesem Batch im JavaScript hart codiert); `opposite_id`
+gegenseitig und validiert; `confusion_group` nur selektiv vergeben; `part_of_speech` auf ein
+zentrales, geschlossenes Vokabular festgeschrieben; `language-review/batch_03.json` inkl.
+`theory_review`-Metadaten vorhanden; Audio-Manifest auf 382 Einträge erweitert, ohne tatsächlich
+Audio zu erzeugen; `.gitignore`/`.github/workflows/build.yml` verifiziert (waren bereits korrekt
+— Auftragsbaseline hier widerlegt, siehe oben); `npm run package:source` erzeugt weiterhin eine
+saubere ZIP; alle Zahlen im Bericht vom Validator berechnet, nicht hart codiert. Units 16-30,
+tatsächliche Audioerzeugung, Sprachprüfung durch eine Person mit Arabischkenntnissen,
+`.arabiccourse`-Paketformat und Kurs 2 bewusst nicht Teil dieser Runde.
+
+## 13. Entwicklungsauftrag 9: Kurs 1 – Batch 4 (Units 16-20) vervollständigen und Sprachprüfprozess konsolidieren (vom Nutzer, 2026-08-09)
+
+Neunter Entwicklungsauftrag, direkt auf Entwicklungsauftrag 8 aufbauend: **Batch 4** (Units 16-20
+— Tagesablauf/Gewohnheiten, häufige Verben I Bewegung/Handlungen, häufige Verben II Denken/
+Sprechen/Wahrnehmung, häufige Adjektive/Gegensätze, Stadt/Gebäude/öffentliche Orte; 134 neue
+Wörter/15 Sessions) vervollständigen, den Sprachprüfprozess selbst konsolidieren (reichhaltigere
+Prüffelder, korrigierte theory_review-Lücke), und zwei vom Nutzer explizit benannte Unstimmigkeiten
+untersuchen. Explizit NICHT Teil: Units 21-30, tatsächliche Audioerzeugung, Sprachprüfung durch
+eine Person mit Arabischkenntnissen, Kurs-2-5-Neustrukturierung, größerer Session-Engine-Umbau.
+
+### Schritt 1: verpflichtende Bestandsaufnahme — Ist-Stand deckt sich mit der Auftragsbaseline
+
+Alle in Abschnitt 1 des Auftrags genannten Dateien gelesen und der Ist-Stand per Node-Skript
+gegen die Auftragsbaseline geprüft: 900 Wörter, 30 Units, 90 Sessions, 523 lernfähige Wörter in
+Units 1-15, 377 Minimalmodell-Wörter in Units 16-30, 45 vollständige/45 Platzhalter-Theorien, 900
+Wörter `needs_language_review`, 382 Wörter in batch_01-03.json, 759 Wörter ohne Audiodatei, 267
+Unit-Tests + 6 Integrationstests, 0 Validierungsfehler — **alle Werte stimmten exakt überein**,
+keine Abweichung zu dokumentieren (anders als bei Entwicklungsauftrag 8, wo die .gitignore/CI-
+Baseline nicht stimmte). Zusätzlich festgestellt: Units 16-20 hatten bereits **16** vorher
+vollständige Wörter (1 in Unit 16, 5 in Unit 17, 2 in Unit 18, 0 in Unit 19, 8 in Unit 20 — z. B.
+`verb_live`, `verb_go`, `place_city`), nicht 0 — Batch 4 hebt deshalb **134** statt 150 Wörter an.
+Die vom Auftrag als Orientierung genannte Zielzahl "673 vollständige Wörter, falls alle 150 Wörter
+vorher minimal waren" wird dadurch korrekt auf **657** (523 + 134) angepasst — im Abschlussbericht
+transparent erklärt, wie schon bei Units 11-15 in Entwicklungsauftrag 8.
+
+### Schritt 2: Untersuchung der ersten Unstimmigkeit (Abschnitt 6) — ROADMAP hatte unrecht
+
+Befund: `batch_01.json` und `batch_02.json` hatten **tatsächlich kein** `theory_review`-Feld —
+kein Fehler im Berichtsskript, sondern eine echte Datenlücke, weil beide Dateien vor der
+Einführung dieses Feldes (Entwicklungsauftrag 8, Batch 3) erzeugt wurden. Die ROADMAP-Formulierung
+in Entwicklungsauftrag 8 ("inkl. theory_review-Metadaten für alle 45 vollständigen
+Theoriedokumente") war also schlicht ungenau/falsch. Behoben durch ein neues, gezieltes Skript
+`scripts/backfill-theory-review.js`: ergänzt nur das fehlende `theory_review`-Array (15 Einträge
+je Batch, aus `vocabSessions.json`/`theory.json` automatisch abgeleitet, alle vier Prüf-Booleans
+`false`), lässt die bestehenden `entries` (Wort-Prüfeinträge) unverändert — vorab verifiziert, dass
+dort noch keine menschlichen Prüfnotizen standen (0 nicht-leere `notes`, 0 abweichende
+`review_status`). Für Batch 1 (Units 1-5) und Batch 2 (Units 6-10) ausgeführt. Ergebnis: Report,
+Batch-Dateien und diese ROADMAP zeigen jetzt übereinstimmend **60** Theorie-Prüfeinträge (45 aus
+Batch 1-3 + 15 aus Batch 4) — keine Sprachprüfung wird dabei behauptet, die nicht stattgefunden
+hat (alle Booleans bleiben `false`, `review_status` bleibt `needs_language_review`).
+
+### Schritt 3: Untersuchung der zweiten Unstimmigkeit (Abschnitt 7) — die 141 ursprünglichen Wörter
+
+Befund: Die vom Nutzer vermutete Erklärung war korrekt. Von 900 Wörtern sind nach Batch 3 (382
+erfasste + 377 Minimalmodell-Wörter in Units 16-30 = 759) genau **141** Wörter in keiner
+Review-Datei — und diese 141 sind exakt die Wörter mit einer bereits vorhandenen echten
+Audiodatei (verifiziert per Dateisystem-Abgleich: alle 141 Wörter mit `.wav`-Datei sind
+unbatched, und kein batched Wort hat eine `.wav`-Datei — 1:1-Deckung). Ursache: Die
+Batch-Erzeugungsskripte (`build-language-review-and-manifest.js`) filtern seit Entwicklungsauftrag
+6 bewusst nur auf neue `c1_`-IDs, weil die ursprünglichen Wörter aus Lektionen 3/6/8 bereits eine
+Audiodatei UND einen funktionierenden Session-/Progress-Bezug haben. Eine vorhandene Audiodatei
+ist aber KEINE Sprachprüfung — diese 141 Wörter bleiben deshalb auch weiterhin
+`content_status: needs_language_review`. Diese Runde vervollständigt sie bewusst NICHT (würde den
+Batch-4-Rahmen sprengen), macht die Lücke aber automatisch nachvollziehbar:
+`scripts/reportLanguageReview.js` und `scripts/validateCourse.js` zeigen jetzt beide einen eigenen
+Abschnitt mit der vollständigen ID-Liste. Neuer ROADMAP-Folgepunkt ("Batch 0") unten.
+
+### Schritt 4-5: Batch 4 (Units 16-20) vollständig
+
+Gleiches Vorgehen wie Batch 1-3: `scripts/data/kurs1Units16to20Full.js` (vokalisierte Form,
+Umschrift, Wortart, Genus/Plural wo sinnvoll, individuelle `application_prompts`, `opposite_id`/
+`confusion_group` wo zutreffend, für alle 134 neuen Wörter) + `scripts/upgrade-kurs1-units16to20.js`
+(hebt die bereits als Minimalmodell-Stub angelegten Wörter in `vocabulary.json` an, keine neuen
+IDs/Kategorien — die 16 bereits vorher vollständigen Wörter bleiben unangetastet, weil sie in den
+Eingabedaten dieses Skripts gar nicht vorkommen). Neu gegenüber den Vorgänger-Skripten: eine
+eingebaute Konsistenzprüfung, dass die neu vokalisierte Form exakt zur bereits bestehenden
+`arabic_unvocalized`-Grundform strippt — fand dabei eine einzige Abweichung
+(`c1_u19_22`, "schlecht"): der Minimalmodell-Stub hatte `سيء` (Hamza auf der Zeile), die
+MSA-übliche Schreibweise mit Ya-Träger ist aber `سَيِّئ` (strippt zu `سيئ`). Nach Prüfung als
+Orthographie-Korrektur übernommen (nicht als stillschweigende Ersetzung, sondern hier und im
+README dokumentiert) — analog zur `تنفس`-Korrektur in Entwicklungsauftrag 8.
+
+15 vollständige Theoriedokumente (`scripts/apply-kurs1-theory-batch4.js`):
+
+- **Unit 16 (Tagesablauf/Gewohnheiten):** die Morgenroutine als Verbkette (اِسْتَيْقَظَ→نَهَضَ→
+  غَسَلَ/اِسْتَحَمَّ→اِرْتَدَى), فَرَّشَ أَسْنَانَهُ als feste Verb-Objekt-Wendung statt Einzelverb erklärt,
+  drei neue Gegensatzpaare (بَدَأَ/اِنْتَهَى, فَتَحَ/أَغْلَقَ, وَصَلَ/غَادَرَ).
+- **Unit 17 (häufige Verben I, Bewegung):** جَاءَ als Gegenstück zum bereits bekannten ذَهَبَ,
+  das اِسْتَ-Verbmuster (Verbstamm X) als wiederkehrende Bauform erklärt, eine Kette verwandter
+  Ein-/Ausstiegs-Verben über mehrere Units hinweg (دَخَلَ/خَرَجَ, صَعِدَ/نَزَلَ, وَصَلَ/غَادَرَ).
+- **Unit 18 (häufige Verben II, Denken/Sprechen):** تَعَلَّمَ/عَلَّمَ als Verbstamm-Paar (Lernen vs.
+  Lehren) erklärt, drei ähnliche Modalverben أَرَادَ/اِحْتَاجَ/اِسْتَطَاعَ (Wollen/Brauchen/Können)
+  bewusst gegenübergestellt statt vermischt.
+- **Unit 19 (häufige Adjektive/Gegensätze):** bewusst als dichtes Gegensatzpaar-Netzwerk gestaltet
+  — 13 vollständige Paare über die drei Sessions, mehr als in jeder anderen Unit dieses Kurses;
+  خَطَأ als Substantiv/Adjektiv-Grenzfall erklärt (analog zu مَرِيض aus Unit 14).
+- **Unit 20 (Stadt/Gebäude/öffentliche Orte):** mehrere Iḍāfa-Genitivverbindungen (مَكْتَب بَرِيد,
+  مَرْكَز الشُّرْطَة, إِشَارَة مُرُور/حَرَكَة الْمُرُور — teilen sich das Wort مُرُور), das مَفْعَل-Ortsmuster
+  bei مَتْحَف/مَسْرَح/مَقْهَى erklärt.
+
+Ergebnis: **76** Gegensatzpaare insgesamt (`opposite_id`, 54 neu in diesem Batch — davon 13 allein
+in Unit 19), **14** Verwechslungsgruppen über 55 Wörter (`confusion_group`, 8 neu, u. a.
+`c1_morning_routine`, `c1_exchange_verbs`, `c1_direction_verbs`, `c1_learn_teach`,
+`c1_communication_verbs`, `c1_leisure_venues`). Zweimal hintereinander ausgeführt und per
+Byte-für-Byte-Vergleich der resultierenden `vocabulary.json` als idempotent verifiziert (Auftrag
+Abschnitt 9/11) — zusätzlich in `kurs1Units16to20Content.test.js` als echter Regressionstest
+verankert (führt das Skript im Test tatsächlich ein zweites Mal aus, statt Idempotenz nur zu
+behaupten).
+
+### Schritt 6: Application-Prompts — expected_word_id vs. expected_meaning
+
+Der Auftrag verlangt explizit, dass jeder `application_prompt` eine gültige `expected_word_id`
+referenziert (anders als die bisherige Konvention mit `expected_meaning`). Prüfung des
+tatsächlichen Übungscodes (`renderContextualChoice` in `src/js/session/exerciseRegistry.js`)
+ergab: die Korrektheit wird dort über "die angeklickte Option ist dasselbe Wortobjekt wie das
+gefragte Wort" bestimmt (`opt.id === word.id`) — der Prompt-Text wird nur angezeigt, aber
+`expected_word_id`/`expected_meaning` werden vom Renderer selbst nicht ausgewertet. Die einzige
+`expected_word_id`, die zur tatsächlichen Übungslogik passt, ist deshalb die ID des Wortes selbst.
+Alle 134 neuen `application_prompts` setzen deshalb `expected_word_id: <eigene ID>` UND zusätzlich
+`expected_meaning` (Abwärtskompatibilität/Sprachprüfung) — diese Designentscheidung ist im
+Abschlussbericht und README dokumentiert, keine der bestehenden Prompt-Auswertungen wurde
+verändert.
+
+### Schritt 7: Sprachprüfprozess konsolidiert
+
+`scripts/build-language-review-and-manifest.js` erweitert: jeder Wort-Eintrag in
+`language-review/batch_NN.json` enthält jetzt zusätzlich Genus, Plural,
+`accepted_arabic_answers`, `application_prompts`, `homonym_group`/`opposite_id`/
+`confusion_group` (jeweils `null`, wenn nicht zutreffend) sowie ein `review`-Objekt mit vier
+unabhängig abhakbaren Booleans (`arabic_vocalization_reviewed`, `transliteration_reviewed`,
+`german_translation_reviewed`, `application_prompts_reviewed`) statt nur eines einzigen
+`review_status` — wie vom Auftrag Abschnitt 5 gefordert ("getrennte Prüffelder für die sprachlich
+relevanten Aspekte"). Rückwirkend für Batch 1-3 neu erzeugt (verlustfrei, da keine bestehenden
+Prüfnotizen vorhanden waren, vorab verifiziert). `scripts/validateCourse.js` um einen
+Presentation-Forms-Check erweitert (Auftrag Abschnitt 2, Punkt 8): keine arabischen Felder dürfen
+Codepoints aus U+FB50-FDFF/U+FE70-FEFF (vorgerenderte Glyphenformen) enthalten — Bereich per
+Zahlen statt `\uXXXX`-Escapes oder roher Zeichen im Quelltext aufgebaut, nachdem sich beim
+Batch-3-Diakritika-Stripper zeigte, dass ein Tooling-Schritt `\uXXXX`-Escapes beim Speichern in
+echte Zeichen umwandeln kann.
+
+### Schritt 8: Content-Tests
+
+`test/unit/kurs1Units16to20Content.test.js` — 20 Tests, exakt die 20 im Auftrag (Abschnitt 10)
+genannten Prüfpunkte abdeckend, plus ein zusätzlicher Konsistenztest für `theory_review` über alle
+vier Batches (Abschnitt 11). Deckt u. a. ab: Wort-/Session-/Unit-Zahlen, Unversehrtheit der 16
+bereits vorher vollständigen Wörter, vollständiges Lernmodell, `expected_word_id`-Gültigkeit,
+Genus/Plural-Pflichtfelder, zentrales `part_of_speech`-Vokabular, vollständige Theorie ohne
+Platzhalter, Batch-4-Review-Struktur samt Prüf-Booleans, Audio-Manifest-Konsistenz, keine hart
+codierten Wort-IDs, `opposite_id`-Gegenseitigkeit, `confusion_group`-Selektivität, keine
+Presentation-Forms, echte Idempotenz-Verifikation des Upgrade-Skripts.
+
+### Schritt 9: vollständige Verifikation
+
+```text
+npm run lint:              erfolgreich
+npm test:                  287/287 Unit-Tests + 6/6 Integrationstests, 10× hintereinander
+                            ausgeführt: 10/10 erfolgreich (keine Flakiness beobachtet)
+npm run validate:course:   0 Fehler, 3 Hinweise
+npm run report:language-review: erfolgreich, zeigt Batch 1-4 + Theorie-Prüfstand + 141
+                            ursprüngliche Bestandswörter ohne Sprachprüfeintrag
+npm run package:source:    erfolgreich, 11,0 MB, 496 Dateien, keine node_modules/.git/
+                            __pycache__-Einträge
+```
+
+Alle bearbeiteten JSON-Dateien zusätzlich mit einem echten JSON-Parser (Python `json.load`)
+geprüft. Batch-Erzeugung (`upgrade-kurs1-units16to20.js` UND
+`build-language-review-and-manifest.js`) je zweimal hintereinander ausgeführt und per
+Datei-Diff als idempotent belegt.
+
+Datenstand (von `validate:course`/`report:language-review` berechnet, nicht hart codiert):
+900/900 Minimalmodell, **657/900** Lernfähig/Vollständig (523 vorher + 134 Batch 4), **60/90**
+Sessions mit vollständiger Theorie, **516/900** Wörter zur Sprachprüfung vorbereitet (382 vorher +
+134 Batch 4), **60** Theorie-Prüfeinträge, **0/900** durch eine arabischkundige Person tatsächlich
+geprüft, **0** Wörter für Audio freigegeben, weiterhin **141** Wörter mit echter Audiodatei
+(unverändert), **76** Gegensatzpaare, **14** Verwechslungsgruppen über 55 Wörter, 3 bestätigte
+Homonym-Paare (unverändert).
+
+### Manuelle Prüfliste für `npm start` (Auftrag Abschnitt 13 — noch nicht von der KI ausgeführt)
+
+Die KI hat die App in dieser Runde NICHT selbst in einer laufenden Electron-Instanz geöffnet
+(dieselbe Einschränkung wie in allen vorigen Runden, siehe Abschnitt 3 "Bekannte Lücken"). Eine
+konkrete Prüfliste für den Nutzer steht im Abschlussbericht dieser Runde; die Ergebnisse dieser
+manuellen Prüfung sind hier nicht dokumentiert, weil sie nicht durchgeführt wurde.
+
+### Neuer ROADMAP-Folgepunkt: "Batch 0" — die 141 ursprünglichen Bestandswörter formal sprachprüfen
+
+Die 141 ursprünglichen Wörter (Lektionen 3/6/8, bereits mit Audiodatei) sind bislang in keiner
+`language-review/batch_NN.json` erfasst. Ein künftiger, kleiner Auftrag sollte für sie — analog zu
+den Batches 1-4 — eine `language-review/batch_00.json` erzeugen (inkl. der bereits vollständigen
+Vokalisierung/Umschrift/Grammatik, die für diese Wörter zum großen Teil schon vorhanden ist) und
+sie einer echten Sprachprüfung zuführen, BEVOR ihre bereits vorhandenen Audiodateien als
+"sprachlich geprüft" gelten dürfen.
+
+### Akzeptanzkriterien dieser Runde (Auszug)
+
+`npm test` zehnmal hintereinander erfolgreich, keine Flakiness; Units 16-20 vollständig (134 neue
+Wörter geprüft/vervollständigt, die bereits vorher vollständigen 16 Wörter unverändert, 15
+Theoriedokumente, keine Wort-ID aus diesem Batch im JavaScript hart codiert); Batch-Erzeugung
+zweimal ausgeführt und als idempotent belegt; beide vom Nutzer benannten Unstimmigkeiten
+untersucht und mit klarem Befund dokumentiert (nicht nur behauptet); `language-review/batch_04.json`
+mit angereicherten Prüffeldern vorhanden, Batch 1-3 rückwirkend konsolidiert; Audio-Manifest auf
+516 Einträge erweitert, ohne tatsächlich Audio zu erzeugen, keine bestehende Audiodatei verändert;
+`part_of_speech`/`opposite_id`/`confusion_group`-Regeln eingehalten; keine Arabic-Presentation-
+Forms; alle Zahlen im Bericht vom Validator berechnet, nicht hart codiert; Abweichungen von den
+Auftrags-Schätzwerten (657 statt 673 vollständige Wörter) präzise erklärt. Units 21-30,
+tatsächliche Audioerzeugung, Sprachprüfung durch eine Person mit Arabischkenntnissen,
+`.arabiccourse`-Paketformat und Kurs-2-5-Neustrukturierung bewusst nicht Teil dieser Runde.

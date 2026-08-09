@@ -178,7 +178,7 @@ test('vollständiger Durchlauf der Pilot-Session "Begrüßung und Höflichkeit":
 
   // 1) Sessionübersicht ist die ERSTE Ansicht — kein direkter Zugriff auf Theorie/Übungen
   // (Abschnitt 14).
-  assert.ok(container.textContent.includes('9 neue Wörter'), 'Übersicht sollte die Wortanzahl zeigen');
+  assert.ok(container.textContent.includes('10 neue Wörter'), 'Übersicht sollte die Wortanzahl zeigen');
   assert.ok(container.textContent.includes('Heute lernst du'));
   assert.ok(container.textContent.includes('Ablauf'));
   assert.ok(!container.textContent.includes('Lernziele'), 'Theorie darf auf der Übersicht noch nicht sichtbar sein');
@@ -202,12 +202,12 @@ test('vollständiger Durchlauf der Pilot-Session "Begrüßung und Höflichkeit":
 
   // 3) Wörter in Dreiergruppen: Einzelansicht ist Standard, "Wort 1 von 9" sichtbar, kein
   // Kartenraster mit allen Wörtern gleichzeitig.
-  assert.ok(container.textContent.includes('Wort 1 von 9'));
+  assert.ok(container.textContent.includes('Wort 1 von 10'));
   assert.equal(container.querySelectorAll('.word-card').length, 1, 'Einzelansicht sollte Standard sein, kein volles Raster');
   assert.ok(findButtonByText(container, 'Alle Wörter anzeigen'));
   assert.ok(findButtonByText(container, 'Kenne ich schon'));
 
-  // Durch alle 3 Gruppen (3+3+3=9 Wörter) inkl. der jeweiligen Gruppen-Mini-Checks laufen.
+  // Durch alle Gruppen (10 Wörter in Dreiergruppen) inkl. der jeweiligen Gruppen-Mini-Checks laufen.
   let learningGuard = 0;
   while (!container.textContent.includes('Wiedererkennen') || !container.querySelectorAll('.step-indicator-item.current').some((el) => el.textContent === 'Wiedererkennen')) {
     learningGuard += 1;
@@ -273,10 +273,10 @@ test('vollständiger Durchlauf der Pilot-Session "Begrüßung und Höflichkeit":
   assert.ok(/Gesamt: \d+ %/.test(container.textContent));
   assert.ok(findButtonByText(container, 'Zur Unit'));
 
-  // Tageslimit: jedes der 9 neuen Wörter wurde genau einmal gezählt (nicht mehrfach durch
+  // Tageslimit: jedes der 10 neuen Wörter wurde genau einmal gezählt (nicht mehrfach durch
   // erneutes Anzeigen/"Zurück"/Gruppen-Mini-Checks).
   const totalIncrements = fakeAppState._incrementCalls.reduce((a, b) => a + b, 0);
-  assert.equal(totalIncrements, 9, 'jedes neue Wort sollte das Tageslimit genau einmal erhöhen');
+  assert.equal(totalIncrements, 10, 'jedes neue Wort sollte das Tageslimit genau einmal erhöhen');
 });
 
 test('Session-Wiederaufnahme: exakte Aufgaben-Warteschlange (inkl. geplanter Wiederholung) bleibt nach einem Neustart erhalten', async () => {
@@ -366,7 +366,7 @@ test('Theorie ist während der Session jederzeit über "Theorie ansehen" erreich
 
   const backBtn = findButtonByText(container, 'Zurück zur Übung');
   backBtn.click();
-  assert.ok(container.querySelectorAll('.word-card').length > 0 || container.textContent.includes('Wort 1 von 9'), 'nach "Zurück zur Übung" sollte die Wortlernphase wieder sichtbar sein');
+  assert.ok(container.querySelectorAll('.word-card').length > 0 || container.textContent.includes('Wort 1 von 10'), 'nach "Zurück zur Übung" sollte die Wortlernphase wieder sichtbar sein');
 });
 
 test('Tageslimit: eine Session mit mehr neuen Wörtern als heute erlaubt zeigt eine Wahlmöglichkeit an', async () => {
@@ -385,7 +385,7 @@ test('Tageslimit: eine Session mit mehr neuen Wörtern als heute erlaubt zeigt e
   assert.ok(container.textContent.includes('5 neue Wörter'), 'Übersicht sollte die gekürzte Wortanzahl zeigen');
 });
 
-for (const [unitId, sessionId, wordCount] of [['vocab_unit_02', 'vocab_unit_02_a', 8], ['vocab_unit_03', 'vocab_unit_03_a', 8]]) {
+for (const [unitId, sessionId, wordCount] of [['vocab_unit_02', 'vocab_unit_02_a', 10], ['vocab_unit_03', 'vocab_unit_03_a', 10]]) {
   test(`Pilot-Session ${sessionId} lässt sich mit korrekten Antworten vollständig und erfolgreich abschließen`, async () => {
     const fakeAppState = createFakeAppState();
     const context = buildContext(fakeAppState);

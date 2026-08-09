@@ -8,18 +8,27 @@
 const SessionQueue = (() => {
   const DEFAULT_MAX_REPEATS_PER_WORD = 3;
 
-  function pickRandomOrder(arr) {
+  /**
+   * @param {object[]} arr
+   * @param {() => number} [random] - Zufallsquelle in [0, 1); Standard Math.random (produktives
+   *   Verhalten unverändert). Tests können hier RandomProvider.create(seed).random übergeben,
+   *   um eine deterministische Mischreihenfolge zu erzwingen (Entwicklungsauftrag 7, Abschnitt 4.1).
+   */
+  function pickRandomOrder(arr, random = Math.random) {
     const copy = [...arr];
     for (let i = copy.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+      const j = Math.floor(random() * (i + 1));
       [copy[i], copy[j]] = [copy[j], copy[i]];
     }
     return copy;
   }
 
-  /** @param {object[]} items - z. B. [{ wordId, ... }] */
-  function create(items) {
-    return { pending: pickRandomOrder(items), index: 0, total: items.length, repeatCounts: {} };
+  /**
+   * @param {object[]} items - z. B. [{ wordId, ... }]
+   * @param {() => number} [random] - siehe pickRandomOrder().
+   */
+  function create(items, random = Math.random) {
+    return { pending: pickRandomOrder(items, random), index: 0, total: items.length, repeatCounts: {} };
   }
 
   function current(queueState) {
@@ -46,11 +55,12 @@ const SessionQueue = (() => {
    */
   function scheduleRepeat(queueState, item, options = {}) {
     const maxRepeats = options.maxRepeats || DEFAULT_MAX_REPEATS_PER_WORD;
+    const random = options.random || Math.random;
     if (!queueState.repeatCounts) queueState.repeatCounts = {};
     const count = repeatCountFor(queueState, item.wordId);
     if (count >= maxRepeats) return false;
     queueState.repeatCounts[item.wordId] = count + 1;
-    const delay = 3 + Math.floor(Math.random() * 3); // 3, 4 oder 5
+    const delay = 3 + Math.floor(random() * 3); // 3, 4 oder 5
     const insertAt = Math.min(queueState.index + 1 + delay, queueState.pending.length);
     queueState.pending.splice(insertAt, 0, { ...item, isRepeat: true, repeatNumber: count + 1 });
     queueState.total += 1;
