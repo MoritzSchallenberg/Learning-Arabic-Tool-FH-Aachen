@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; media-src 'self' data:" />
+<title>Learning Arabic Tool — Sprachprüfung (Review-Modus)</title>
+<link rel="stylesheet" href="css/review.css" />
+</head>
+<body>
+<div id="app-root">Lade…</div>
+
+<!-- Entwicklungsauftrag 12: eigener, komplett getrennter Redaktions-/Prüfmodus. Klassische
+     <script>-Tags im geteilten globalen Browser-Scope, konsistent mit src/index.html -- keine
+     neue Build-Toolchain für dieses Projekt. -->
+<script src="js/reviewDom.js"></script>
+<script src="js/reviewApp.js"></script>
+<script src="js/reviewDashboard.js"></script>
+<script src="js/reviewWordList.js"></script>
+<script src="js/reviewWordDetail.js"></script>
+<script src="js/reviewTheoryList.js"></script>
+<script src="js/reviewTheoryDetail.js"></script>
+<script src="js/reviewShell.js"></script>
+</body>
+</html>

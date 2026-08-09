@@ -126,7 +126,13 @@ for (const w of batchNewWords) {
     output_file: `${w.id}.wav`,
     status: 'needs_language_review'
   };
-  if (byId.has(w.id)) manifest.entries[byId.get(w.id)] = entry;
+  // Entwicklungsauftrag 12, Abschnitt 9: ein erneuter Lauf (z. B. durch einen Idempotenz-Test)
+  // darf das seither erweiterte Statusmodell (language_status/generation_status/
+  // audio_review_status/generation-Metadaten, ggf. bereits erzeugte Audios) NICHT zurücksetzen —
+  // bei einem bereits vorhandenen Eintrag werden deshalb nur die hier bekannten Basisfelder
+  // aufgefrischt (falls sich z. B. arabic_vocalized durch eine Korrektur geändert hat), alle
+  // zusätzlichen Felder des bestehenden Eintrags bleiben unangetastet erhalten.
+  if (byId.has(w.id)) manifest.entries[byId.get(w.id)] = { ...manifest.entries[byId.get(w.id)], ...entry };
   else { manifest.entries.push(entry); byId.set(w.id, manifest.entries.length - 1); }
 }
 writeJsonFileAtomic(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);

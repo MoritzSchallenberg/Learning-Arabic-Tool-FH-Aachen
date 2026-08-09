@@ -27,6 +27,28 @@ npm install     # installiert Electron + electron-builder
 npm start       # startet die App im Entwicklungsmodus
 ```
 
+### Lokaler Sprachprüf-Arbeitsbereich (Entwicklungsauftrag 12)
+
+```bash
+npm run review:start   # eigenes, getrenntes Prüfprogramm für die Sprachprüfung von Kurs 1
+```
+
+Startet ein eigenständiges Electron-Fenster (eigener Hauptprozess `reviewMain.js`/
+`reviewPreload.js`, eigene Oberfläche unter `src/review/`) für eine Person mit Arabischkenntnissen
+— siehe `REVIEWER_QUICKSTART.md` für die Bedienung und `LANGUAGE_REVIEW_GUIDE.md` für die
+inhaltlichen Prüfkriterien. Verändert die normale Lernoberfläche (`npm start`) nicht.
+
+### Audio-Erzeugungspipeline (Entwicklungsauftrag 12)
+
+```bash
+npm run audio:plan              # nur lesen: Plan-Vorschau (Dateien, Zeichen, API-Aufrufe)
+npm run audio:generate:sample   # 20-Wörter-Stichprobe erzeugen
+npm run audio:generate          # alle noch fehlenden Vokabelaudios erzeugen
+npm run audio:verify            # rein lesende Konsistenzprüfung
+```
+
+Siehe `AUDIO_GENERATION_GUIDE.md` für Details (Statusmodell, Kostenschutz, Provider-Einrichtung).
+
 ### Fertige Pakete lokal bauen
 
 ```bash
@@ -1176,6 +1198,66 @@ Arabic-101-Tastatur, Transliterations-Eingabemodus, Bildaufgaben, größerer Umb
 Engine, umfassendes Interface-Redesign, weiterführende Grammatiklektionen, Cloud-Dienste/neue
 Online-Abhängigkeiten.
 
+## Lokaler Sprachprüf-Arbeitsbereich und technisch freigegebene Vorschau-Audioerzeugung (Entwicklungsauftrag 12)
+
+Zwei Ziele: (1) ein sicheres lokales Prüfwerkzeug für eine Person mit Arabischkenntnissen, (2) die
+vom Nutzer ausdrücklich erlaubte technische Erzeugung der fehlenden Vokabelaudios als
+**ausdrücklich ungeprüfte Vorschauaufnahmen** — Audioerzeugung ist dabei nicht gleich
+Audiofreigabe.
+
+**Review-Modus** (`npm run review:start`, eigener Electron-Prozess `reviewMain.js`/
+`reviewPreload.js`, eigene Oberfläche `src/review/`, komplett getrennt von der normalen
+Lernoberfläche): Dashboard mit ausschließlich berechneten Zählungen (nie hart codiert), filterbare
+Wort-/Theorieliste (Batch/Unit/Session/Wortart/Prüfstatus/Audiozustand/Suche), Wort- und
+Theoriedetailansicht mit nebeneinander sichtbarem Original- und Korrekturvorschlag, neun getrennte
+Prüfaspekte je Wort/Theorie mit fünf möglichen Ergebnissen, ein Statusmodell
+(`needs_language_review` → `in_review`/`corrections_required` → `reviewed` → `approved`, mit
+verbindlichen Regeln: Öffnen ändert nie den Status, `approved` verlangt eine explizite
+Bestätigung nach Anzeige der vollständigen Änderungsübersicht, unsichere Einträge sind nicht
+freigebbar), Audioabspielung mit Anhörprüfung, und ein Export des Arbeitsstands ohne API-Schlüssel/
+Quellcode/Lernfortschritt/Audio-Rohdaten. Speicherung über `scripts/review/reviewWorkspaceStore.js`
+(wiederverwendet die bereits etablierten atomaren Schreib-/Backup-/Warteschlangen-Bausteine aus
+`src/js/progressStore.js`), inkl. vollständigem Änderungsverlauf und Konflikterkennung bei
+zwischenzeitlich extern geänderten Einträgen. `vocabulary.json`/`theory.json` bleiben dabei
+unverändert — Korrekturen landen ausschließlich in `language-review/workspace/`.
+
+**Audio-Erzeugungspipeline** (`scripts/audio/`, CLI `scripts/audioCli.js`, Befehle `audio:plan`/
+`audio:generate:sample`/`audio:generate`/`audio:verify`, Details in
+`AUDIO_GENERATION_GUIDE.md`): manifest-gesteuert (verarbeitet ausschließlich die 759 im
+Audio-Manifest gelisteten fehlenden Wörter, nie pauschal das ganze Vokabular), liest
+`arabic_vocalized` live aus `vocabulary.json`, erzeugt standardmäßig NUR die normale Datei (keine
+`_slow.wav` — der bestehende `playbackRate`-Fallback in `audioPlayer.js` deckt die langsame
+Wiedergabe bereits ab), mit Staging + technischer WAV-Prüfung + atomarer Übernahme, begrenztem
+Backoff-Retry, Prüfsummen/Text-Hash/Provider/Modell/Zeitpunkt in den Metadaten, und einem
+erweiterten, rückwärtskompatiblen Manifest-Statusmodell (`language_status`/`generation_status`/
+`audio_review_status` zusätzlich zum unverändert erhaltenen alten `status`-Feld). Kein `--force`
+für den Gesamtlauf — die 141 vorhandenen normalen und 141 vorhandenen langsamen Aufnahmen werden
+dadurch strukturell nie überschrieben (zusätzlich durch eine eigene Laufzeitprüfung abgesichert).
+
+**Ergebnis dieser Runde:** In dieser Entwicklungsumgebung war kein `ELEVENLABS_API_KEY` gesetzt —
+die Pipeline ist vollständig fertiggestellt und automatisiert getestet, hat aber beim Versuch,
+die 20-Wörter-Stichprobe zu erzeugen, sauber und ohne jede Manifest-Änderung abgebrochen (Fail-
+Fast-Prüfung vor dem ersten Wort). **0 von 759 Audiodateien wurden in dieser Runde tatsächlich
+erzeugt** — das ist keine verschwiegene Einschränkung, sondern exakt das im Auftrag für diesen
+Fall vorgesehene Verhalten ("keine falsche Erfolgsmeldung, Pipeline und Review-Modus trotzdem
+fertigstellen"). Sobald `ELEVENLABS_API_KEY` gesetzt ist, sind alle Befehle unverändert
+einsatzbereit. Details, Zahlen und die vollständige Abgrenzung zwischen technisch erzeugt/
+technisch validiert/manuell angehört/sprachlich geprüft/endgültig freigegeben stehen im
+Abschlussbericht zu diesem Auftrag (siehe Commit-Historie) sowie in `AUDIO_GENERATION_GUIDE.md`.
+
+Neue Tests: `test/unit/audioWavValidation.test.js`, `test/unit/ttsProviders.test.js`,
+`test/unit/audioManifestModel.test.js`, `test/unit/audioPipeline.test.js`,
+`test/unit/audioCli.test.js`, `test/unit/reviewWorkspaceStore.test.js`,
+`test/unit/reviewDataLoader.test.js`, `test/unit/reviewModeUi.test.js` — alle gegen isolierte
+temporäre Verzeichnisse bzw. mit eingeschleusten Mocks, kein einziger echter API-Aufruf in einem
+automatisierten Test.
+
+**Bewusst nicht Teil dieser Runde:** Sprachprüfung durch Claude, endgültige Audiofreigabe, Kauf
+bezahlter Credits, Überschreiben vorhandener Audios mit `--force`, automatische Übernahme von
+Review-Korrekturen in `vocabulary.json`/`theory.json` (das bleibt ein eigener, späterer Auftrag
+mit Dry-Run/Diff/Backup/Rollback), Kurs 2-5, `.arabiccourse`-Format, Cloud-Synchronisierung,
+Benutzerkonten, großes Interface-Redesign.
+
 ## Bekannte Einschränkungen
 
 - Für Vokabeln/Buchstaben ohne generierte Audiodatei (z. B. neu hinzugefügte Inhalte vor dem
@@ -1195,6 +1277,13 @@ Online-Abhängigkeiten.
 - **Kurs 1 ist seit Entwicklungsauftrag 11 strukturell vollständig** (900/900 Wörter, 90/90
   Theorien) — die **inhaltliche Sprachprüfung** durch eine oder mehrere Personen mit
   Arabischkenntnissen steht aber für alle 900 Wörter weiterhin aus (`content_status` durchgängig
-  `needs_language_review`, 0 tatsächlich geprüft). Alle 900 Wörter sind dafür in
-  `language-review/batch_00.json` bis `batch_06.json` vorbereitet — siehe
-  `LANGUAGE_REVIEW_GUIDE.md` für den Ablauf. Audio wird erst NACH abgeschlossener Prüfung erzeugt.
+  `needs_language_review`, 0 tatsächlich geprüft, 0 Audios endgültig freigegeben). Ein eigenes
+  lokales Prüfprogramm dafür existiert seit Entwicklungsauftrag 12 (`npm run review:start`, siehe
+  `REVIEWER_QUICKSTART.md` und `LANGUAGE_REVIEW_GUIDE.md`).
+- Für die 759 zuvor fehlenden Vokabelaudios wurde mit Entwicklungsauftrag 12 die technische
+  Vorschau-Audioerzeugung ausdrücklich erlaubt (siehe eigener Abschnitt oben und
+  `AUDIO_GENERATION_GUIDE.md`) — in dieser Entwicklungsumgebung fehlte jedoch ein
+  `ELEVENLABS_API_KEY`, weshalb bislang **0 dieser 759 Dateien tatsächlich erzeugt wurden**. Die
+  141 ursprünglichen Wörter haben weiterhin ihre unveränderten Bestandsaufnahmen. Sobald ein
+  gültiger Schlüssel gesetzt ist, genügt `npm run audio:generate:sample` gefolgt von
+  `npm run audio:generate`.

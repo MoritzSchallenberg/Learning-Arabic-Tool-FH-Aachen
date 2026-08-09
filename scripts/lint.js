@@ -36,7 +36,10 @@ function checkJsSyntax() {
     ...findFiles(path.join(ROOT, 'scripts'), ['.js']),
     ...findFiles(path.join(ROOT, 'test'), ['.js']),
     path.join(ROOT, 'main.js'),
-    path.join(ROOT, 'preload.js')
+    path.join(ROOT, 'preload.js'),
+    // Entwicklungsauftrag 12: eigener, getrennter Review-Modus-Einstiegspunkt.
+    path.join(ROOT, 'reviewMain.js'),
+    path.join(ROOT, 'reviewPreload.js')
   ].filter((f) => fs.existsSync(f));
 
   for (const file of files) {

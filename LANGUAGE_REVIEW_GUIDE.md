@@ -11,7 +11,24 @@ VS Code ist aber angenehmer, weil er die Struktur der Dateien übersichtlicher d
 modernem Hocharabisch (MSA) erstellt, nicht von einer Person mit Arabischkenntnissen geprüft.**
 Eine KI-Vervollständigung ist keine echte Sprachprüfung — deshalb brauchen wir dich. Bis du
 (oder eine andere qualifizierte Person) eine Datei geprüft hast, gilt sie als **nicht geprüft**,
-egal wie "fertig" sie technisch aussieht.
+egal wie "fertig" sie technisch aussieht. Das gilt seit Entwicklungsauftrag 12 ausdrücklich
+**auch für die Audiodateien** — dazu mehr in Abschnitt 0.1 und 5.
+
+### 0.1 Neu (Entwicklungsauftrag 12): ein eigenes Prüf-Werkzeug statt manueller JSON-Bearbeitung
+
+Es gibt jetzt ein eigenes, lokales Prüfprogramm im Projekt selbst — der **empfohlene Weg**, um
+diesen Leitfaden praktisch umzusetzen: einfach im Projektordner `npm run review:start` ausführen
+öffnet ein eigenes Fenster mit Übersicht, Filtern, Suche, einem Formular pro Wort/Theorie (Original
+und dein Korrekturvorschlag stehen dabei immer nebeneinander) und einem eingebauten Audio-Player.
+Die kurze Schritt-für-Schritt-Anleitung dafür steht in **`REVIEWER_QUICKSTART.md`** — falls du sie
+noch nicht gelesen hast, fang dort an, nicht hier.
+
+Der Rest dieses Dokuments beschreibt weiterhin, WAS geprüft wird und WAS die einzelnen Felder
+bedeuten (das gilt unverändert, ob du das Prüfprogramm oder einen Texteditor benutzt) — nur der
+Abschnitt "wie trage ich eine Korrektur ein" (Abschnitt 3) hat jetzt zwei Wege: über das
+Prüfprogramm (empfohlen) oder weiterhin von Hand direkt in den `batch_NN.json`-Dateien (falls du
+das Programm aus irgendeinem Grund nicht nutzen kannst oder willst — beide Wege führen am Ende zum
+selben Ziel und schließen sich nicht aus).
 
 ## 1. Welche Dateien geprüft werden
 
@@ -110,6 +127,17 @@ einfach nach der `theory_id` (z. B. `"theory_vocab_unit_11_a"`).
 
 ## 3. Wie du Korrekturen und Notizen einträgst
 
+**Weg A — mit dem Prüfprogramm (empfohlen, siehe `REVIEWER_QUICKSTART.md`):** öffne das Wort im
+Programm, trage deinen Korrekturvorschlag direkt im dafür vorgesehenen Feld ein (der
+Ausgangswert bleibt daneben sichtbar) und klicke "Vorschlag speichern". Für jeden der neun
+Prüfaspekte (Vokalisierung, Umschrift, Übersetzung, Wortart, Genus/Plural, akzeptierte arabische
+Antworten, Application-Prompts, Homonym/Gegensatz/Verwechslung, Audioaussprache) wählst du
+getrennt "korrekt" / "Korrektur vorgeschlagen" / "unsicher" / "nicht anwendbar". Das Programm
+speichert automatisch, sicher und mit Verlauf (siehe Abschnitt 7) — die `batch_NN.json`-Dateien
+selbst werden dabei **nicht** verändert, deine Korrekturen landen in einem eigenen, separaten
+Arbeitsbereich (`language-review/workspace/`).
+
+**Weg B — von Hand direkt in der Datei** (falls du das Programm nicht nutzt):
 - **Kleine Korrekturen** (z. B. falsche Vokalisierung, falscher Plural): trage den korrekten Wert
   direkt in `notes` ein, z. B.: `"notes": "Plural sollte أَسْعَار sein, nicht أَسْعَارٌ (Tanwin am Wortende ungewöhnlich für die Grundform)."`
   Ändere die eigentlichen Felder (`proposed_arabic_vocalized` usw.) NICHT selbst direkt um —
@@ -141,20 +169,36 @@ vorgesehen:
 Setze **niemals** einen anderen Statuswert als diese vier — insbesondere kein `"approved"` (das
 ist ein separater, späterer Schritt, siehe Abschnitt 5) und keinen frei erfundenen Text.
 
-## 5. Wichtig: Audiofreigabe erfolgt erst NACH abgeschlossener Prüfung
+## 5. Wichtig: eine vorhandene Audiodatei ist KEINE Sprachprüfung — auch technisch erzeugte nicht
 
-Kein Wort in diesem Kurs hat bisher eine automatisch erzeugte Audiodatei — das
-`audio_generation_manifest.json` enthält alle 759 neuen Wörter ausdrücklich mit dem Status
-`"needs_language_review"`, niemals `"ready_for_generation"`. Das ist beabsichtigt: **Audio wird
-erst erzeugt, nachdem ALLE vier Prüf-Aspekte eines Wortes als `true` markiert UND der
-`review_status` auf `"reviewed"` gesetzt wurden.** Deine Prüfung ist also keine Formsache,
-sondern die Voraussetzung dafür, dass am Ende überhaupt Audiodateien mit der richtigen
-Aussprache erzeugt werden.
+Ursprünglich (bis Entwicklungsauftrag 11) galt: kein neues Wort bekommt eine Audiodatei, bevor die
+Sprachprüfung abgeschlossen ist. **Seit Entwicklungsauftrag 12 hat der Projektinhaber (Moritz
+Schallenberg) ausdrücklich erlaubt, die fehlenden Audiodateien bereits VOR der Sprachprüfung
+technisch zu erzeugen**, als reine unveröffentlichte Vorschau — um Zeit zu sparen, nicht um die
+Prüfung zu ersetzen. Das ändert an deiner Aufgabe nichts Grundsätzliches, nur der Ausgangspunkt
+ist jetzt ein anderer:
 
-Die 141 Wörter aus `batch_00.json` haben zwar **bereits** eine Audiodatei (aus einer früheren
-Projektphase) — das bedeutet aber **nicht**, dass diese Wörter bereits geprüft sind. Eine
-vorhandene Audiodatei ist keine Sprachprüfung. Bitte prüfe auch diese 141 Wörter wie alle
-anderen.
+- Wörter, deren Audio so erzeugt wurde, tragen im Audio-Manifest den Erzeugungsstatus
+  `"generated_unreviewed"` ("erzeugt, aber ungeprüft") und den Anhörprüfstatus `"not_reviewed"`.
+  **Beides ist ausdrücklich NICHT dasselbe wie eine sprachliche Freigabe.**
+- Der `content_status` des Wortes bleibt trotz vorhandener Datei `"needs_language_review"`, bis du
+  (oder eine andere Person mit Arabischkenntnissen) es tatsächlich geprüft hast.
+- **Neue Teilaufgabe für dich:** wenn eine Audiodatei existiert, höre sie dir im Prüfprogramm an
+  (Aspekt "Audioaussprache") und markiere sie als korrekt, fehlerhaft ("Korrektur vorgeschlagen")
+  oder unsicher. Klingt die Aussprache falsch, wird die Datei **nicht gelöscht**, sondern nur zur
+  Neuerzeugung vorgemerkt (`"regeneration_required"`) — es passiert dabei nichts automatisch,
+  jemand aus dem Entwicklungsteam stößt die Neuerzeugung gezielt an.
+- Manche Wörter haben (noch) keine Audiodatei, z. B. wenn die Erzeugung technisch fehlgeschlagen
+  ist oder noch nicht ausgeführt wurde — das siehst du im Prüfprogramm am Audiozustand des Wortes.
+
+Die 141 Wörter aus `batch_00.json` haben schon länger eine Audiodatei (aus einer früheren
+Projektphase, unverändert) — auch das war und ist keine Sprachprüfung. Bitte prüfe auch diese 141
+Wörter wie alle anderen, inklusive ihrer Aussprache.
+
+**Eine ausdrückliche, endgültige Audiofreigabe (`audio_review_status: "approved"` als
+abschließendes Signal für "diese Aufnahme darf so im fertigen Kurs bleiben") ist weiterhin ein
+eigener, bewusster letzter Schritt** — er setzt voraus, dass sowohl der Inhalt (Vokalisierung
+usw.) als auch die Aussprache tatsächlich geprüft wurden.
 
 ## 6. Umgang mit widersprüchlichen oder unsicheren Einträgen
 
@@ -177,6 +221,14 @@ anderen.
   finalen Einschätzung. Wichtig ist der Stand am Ende, nicht die Historie einzelner Änderungen.
 
 ## 7. Wichtig: keine Review-Datei darf von Batch-Skripten überschrieben werden
+
+**Falls du das Prüfprogramm nutzt (Weg A):** deine Eingaben werden automatisch atomar
+gespeichert, mit Sicherungskopie und vollständigem Änderungsverlauf (wer/wann/welches Feld/alter
+Wert/neuer Wert) — dazu musst du nichts weiter tun. Das Programm erkennt außerdem, wenn ein
+Eintrag zwischenzeitlich anderswo geändert wurde (z. B. in einem zweiten geöffneten Fenster), und
+überschreibt ihn dann nicht stillschweigend, sondern meldet einen Konflikt.
+
+**Für Weg B (manuelle Bearbeitung) gilt zusätzlich:**
 
 Die technischen Erzeugungsskripte dieses Projekts (`scripts/build-language-review-and-manifest.js`
 und ähnliche) sind so geschrieben, dass sie **niemals** eine bereits erzeugte `batch_NN.json`

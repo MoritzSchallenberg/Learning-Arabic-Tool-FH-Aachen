@@ -87,6 +87,13 @@ class FakeElement {
     if (this.parentNode) this.parentNode.removeChild(this);
   }
 
+  // Entwicklungsauftrag 12: von den neuen Review-Modus-Views verwendet (moderner Standard-DOM,
+  // Ersatz für "erst leeren, dann anhängen"). Additive Ergänzung, ändert kein bestehendes Verhalten.
+  replaceChildren(...nodes) {
+    for (const child of [...this.children]) this.removeChild(child);
+    for (const node of nodes) if (node !== undefined && node !== null) this.appendChild(node);
+  }
+
   get value() {
     if (this.tagName === 'select') {
       const selectedOption = this.children.find((c) => c.tagName === 'option' && c.selected);
@@ -334,7 +341,23 @@ function queryAll(root, selector) {
 }
 
 function createDocumentStub() {
-  return { createElement: (tag) => new FakeElement(tag) };
+  const body = new FakeElement('body');
+  const listeners = {};
+  return {
+    body,
+    createElement: (tag) => new FakeElement(tag),
+    createTextNode: (text) => {
+      const node = new FakeElement('#text');
+      node._text = text;
+      node.appendChild = undefined; // Textknoten haben keine Kinder -- fasst niemand in diesem Repo an
+      return node;
+    },
+    // Entwicklungsauftrag 12: von den neuen Review-Modus-Views verwendet. Sucht ausschließlich
+    // innerhalb von document.body -- Tests müssen ihre Wurzel-Elemente dort anhängen.
+    getElementById: (id) => body.querySelector(`#${id}`),
+    addEventListener(type, fn) { (listeners[type] = listeners[type] || []).push(fn); },
+    dispatchEvent(event) { for (const fn of (listeners[event.type] || [])) fn(event); return true; }
+  };
 }
 
 class FakeKeyboardEvent {

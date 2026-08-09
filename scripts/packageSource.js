@@ -28,6 +28,8 @@ const INCLUDE = [
   'README.md',
   'ROADMAP.md',
   'LANGUAGE_REVIEW_GUIDE.md',
+  'REVIEWER_QUICKSTART.md',
+  'AUDIO_GENERATION_GUIDE.md',
   'LICENSE',
   'LICENSES.md',
   'CONTRIBUTING.md',
@@ -37,6 +39,9 @@ const INCLUDE = [
   '.github',
   'main.js',
   'preload.js',
+  // Entwicklungsauftrag 12: eigener, getrennter Review-Modus-Einstiegspunkt (npm run review:start).
+  'reviewMain.js',
+  'reviewPreload.js',
   'audio_generation_manifest.json'
 ].filter((entry) => fs.existsSync(path.join(ROOT, entry)));
 
@@ -51,7 +56,9 @@ const EXCLUDE_PATTERNS = [
   '*/__pycache__/*', '__pycache__/*', '*.pyc',
   '*/user_data/*', 'user_data/*',
   '*.log', '*.DS_Store', 'Thumbs.db',
-  '*.tmp', '*.tmp-*', '*.bak'
+  '*.tmp', '*.tmp-*', '*.bak',
+  // Entwicklungsauftrag 12: transienter Staging-Bereich der Audio-Pipeline, nie Teil der Übergabe.
+  '*/audio/.staging/*', '*/.staging/*'
 ];
 
 function which(cmd) {

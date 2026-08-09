@@ -1,0 +1,115 @@
+/* Entwicklungsauftrag 12 — eigenständiges, schlichtes Stylesheet für den Review-Modus. Kein
+   Anspruch auf visuelles Redesign der Lernoberfläche (Abschnitt 21: kein großes Redesign) --
+   rein funktional für ein internes Redaktionswerkzeug. */
+
+:root {
+  --bg: #f5f6f8;
+  --panel-bg: #ffffff;
+  --border: #d7dbe0;
+  --text: #1f2430;
+  --text-muted: #667085;
+  --accent: #2563eb;
+  --ok: #16a34a;
+  --warn: #d97706;
+  --danger: #dc2626;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--panel-bg);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.app-header h1 { font-size: 1.1rem; margin: 0; flex: 0 0 auto; }
+.nav-tabs { display: flex; gap: 0.5rem; flex: 1; }
+.nav-tab {
+  background: none; border: 1px solid transparent; padding: 0.4rem 0.9rem; border-radius: 6px;
+  cursor: pointer; font-size: 0.95rem; color: var(--text-muted);
+}
+.nav-tab.active { background: var(--accent); color: white; }
+
+.app-content { padding: 1.25rem; max-width: 1200px; margin: 0 auto; }
+
+/* Arabischer Text: rechts-nach-links, eigene Schriftgröße für Lesbarkeit. */
+.arabic-text {
+  font-family: "Traditional Arabic", "Scheherazade New", "Amiri", serif;
+  font-size: 1.3rem;
+  unicode-bidi: isolate;
+}
+
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.75rem; margin: 1rem 0; }
+.stat-card { background: var(--panel-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem; text-align: center; }
+.stat-value { font-size: 1.8rem; font-weight: 700; }
+.stat-label { color: var(--text-muted); font-size: 0.85rem; }
+
+.panel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.75rem; }
+.panel { background: var(--panel-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; }
+.panel h3 { margin-top: 0; font-size: 1rem; }
+
+.status-row { display: flex; justify-content: space-between; padding: 0.2rem 0; font-size: 0.9rem; }
+.status-count { font-weight: 600; }
+
+.badge { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 999px; font-size: 0.78rem; }
+.badge-neutral { background: #eef1f5; color: var(--text-muted); }
+.badge-progress { background: #dbeafe; color: #1d4ed8; }
+.badge-warning { background: #fef3c7; color: #92400e; }
+.badge-reviewed { background: #dcfce7; color: #166534; }
+.badge-approved { background: #bbf7d0; color: #14532d; font-weight: 700; }
+
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.data-table th, .data-table td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--border); }
+.data-table.clickable tbody tr { cursor: pointer; }
+.data-table.clickable tbody tr:hover { background: #f0f4ff; }
+
+.filter-bar { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-bottom: 0.75rem; background: var(--panel-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; }
+.filter-field select, .search-input, .correction-input, .aspect-note, .notes-area {
+  padding: 0.35rem 0.5rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.88rem;
+}
+.filter-checkbox { display: flex; align-items: center; gap: 0.3rem; font-size: 0.85rem; }
+.hint { color: var(--text-muted); font-size: 0.85rem; }
+
+.field-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.field-row { display: grid; grid-template-columns: 200px 1fr 1fr; gap: 0.75rem; padding: 0.5rem; background: var(--panel-bg); border: 1px solid var(--border); border-radius: 6px; align-items: center; }
+.field-label { font-weight: 600; font-size: 0.85rem; }
+.correction-editor { display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
+.correction-status { font-size: 0.78rem; color: var(--warn); }
+
+.aspect-row { display: flex; gap: 0.6rem; align-items: center; padding: 0.3rem 0; }
+.aspect-label { flex: 0 0 260px; font-size: 0.88rem; }
+
+.overall-status-panel { display: flex; align-items: center; gap: 1rem; margin: 0.75rem 0; }
+.overall-status-actions { display: flex; gap: 0.5rem; }
+
+.btn { padding: 0.4rem 0.85rem; border-radius: 6px; border: 1px solid var(--border); background: var(--panel-bg); cursor: pointer; font-size: 0.88rem; }
+.btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+.btn-small { padding: 0.25rem 0.6rem; font-size: 0.8rem; }
+.btn-link { background: none; border: none; color: var(--accent); cursor: pointer; padding: 0; margin-bottom: 0.5rem; }
+.btn-export { margin-left: auto; }
+
+.notes-area { width: 100%; min-height: 60px; display: block; margin-bottom: 0.4rem; }
+
+.block-heading { margin: 1rem 0 0.3rem; }
+.block-paragraph { line-height: 1.5; }
+.block-callout { border-left: 3px solid var(--accent); padding: 0.5rem 0.75rem; background: #f0f4ff; margin: 0.5rem 0; }
+.block-example { border: 1px dashed var(--border); border-radius: 6px; padding: 0.5rem 0.75rem; margin: 0.4rem 0; }
+.block-word-preview { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.word-preview-chip { border: 1px solid var(--border); border-radius: 6px; padding: 0.3rem 0.6rem; display: flex; flex-direction: column; gap: 0.15rem; }
+.mini-check-question { margin-bottom: 0.6rem; }
+.option-correct { color: var(--ok); }
+.block-unknown { background: #fef2f2; padding: 0.5rem; font-size: 0.75rem; white-space: pre-wrap; }
+
+.prompt-row { padding: 0.3rem 0; border-bottom: 1px solid var(--border); }

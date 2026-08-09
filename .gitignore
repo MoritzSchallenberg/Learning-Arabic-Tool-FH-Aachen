@@ -28,6 +28,11 @@ user_data/
 audio_cache/
 *.audio-tmp
 
+# Entwicklungsauftrag 12, Abschnitt 13: Staging-Bereich der Audio-Pipeline (scripts/audio/
+# audioPipeline.js) -- transiente Zwischenablage vor der technischen Prüfung/Übernahme, nie
+# dauerhaft, gehört nicht ins Repository.
+language-packs/*/audio/.staging/
+
 # Kurspakete (.arabiccourse-ZIPs, Meilenstein C) werden als Release-Artefakte verteilt, nicht
 # im Quellcode-Repository versioniert. Allgemeine Export-/Backup-ZIPs ebenfalls ausschließen.
 *.arabiccourse
