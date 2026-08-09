@@ -96,19 +96,14 @@ if (statusCounts.size > 3 || (approved + reviewed + needsReview) !== words.lengt
 }
 
 for (const b of batches) {
-  console.log(`\nBatch ${b.batch} (Units ${(b.units_covered || []).join(', ')}):`);
+  const unitsLabel = Array.isArray(b.units_covered) ? b.units_covered.join(', ') : String(b.units_covered || '(unbekannt)');
+  console.log(`\nBatch ${b.batch} (Units ${unitsLabel}):`);
   console.log(`${b.word_count} Wörter vorbereitet (${b.file})`);
   if (b.theory_review.length > 0) {
     const fullyReviewed = b.theory_review.filter((t) => t.arabic_examples_reviewed && t.german_explanation_reviewed && t.mini_check_reviewed && t.application_prompts_reviewed).length;
     console.log(`${b.theory_review.length} Theoriedokument(e) zur Prüfung vorgemerkt (${fullyReviewed} davon vollständig geprüft).`);
   }
 }
-const coveredByBatches = batches.reduce((sum, b) => sum + b.word_count, 0);
-const uncoveredNew = words.filter((w) => w.id.startsWith('c1_')).length - coveredByBatches;
-if (uncoveredNew > 0) {
-  console.log(`\nNoch in keiner Sprachprüfdatei erfasst: ${uncoveredNew} neue Wörter (spätere Batches).`);
-}
-
 // --- Bestandswörter mit vorhandener Audiodatei, aber (noch) in keiner Sprachprüfdatei
 // (Entwicklungsauftrag 9, Abschnitt 7) — computed rein aus den tatsächlich vorhandenen
 // batch_NN.json-Dateien und dem tatsächlichen Audioverzeichnis, nicht hart codiert. Ursache: die
@@ -128,7 +123,7 @@ if (legacyWithAudioNotBatched.length > 0) {
   console.log(`  IDs: ${legacyWithAudioNotBatched.map((w) => w.id).sort().join(', ')}`);
 }
 if (stillMinimalNotBatched.length > 0) {
-  console.log(`\nWörter ohne Audiodatei UND noch in keiner Sprachprüfdatei (spätere Batches, Units 16-30 minus bereits erfasste Batches): ${stillMinimalNotBatched.length}`);
+  console.log(`\nNoch in keiner Sprachprüfdatei erfasst (neue Wörter ohne Audiodatei, spätere Batches): ${stillMinimalNotBatched.length}`);
 }
 if (allTheoryReview.length > 0) {
   console.log(`\nTheorie-Prüfstand gesamt: ${allTheoryReview.length} Theoriedokument(e) vorgemerkt, ${theoryFullyReviewed} vollständig geprüft (alle 4 Aspekte: arabische Beispiele, deutsche Erklärung, Mini-Check, Application-Prompts).`);

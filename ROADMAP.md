@@ -51,12 +51,15 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
   Kurs 2-5 als Navigations-Gruppierung um die bestehenden Lektionen 3-11.
 - **900 Vokabeln in Kurs 1** über 30 Vokabel-Units / 90 Sessions (Entwicklungsauftrag 6+7+8+9,
   Details Abschnitt 10+11+12+13) — davon 141 Wörter mit vorhandener Audiodatei (die ursprünglichen
-  21 Themenkategorien aus Lektionen 3/6/8, jetzt zusätzlich mit Unit-/Session-Zuordnung, aber
-  bislang OHNE eigenen Sprachprüfeintrag — siehe ROADMAP-Folgepunkt "Batch 0" unten).
-  **657/900** Wörter (Units 1-20, 60/90 Sessions) mit vollem Lernmodell + echter Theorie,
-  sprachlich aber weiterhin ungeprüft (`content_status: needs_language_review`); die restlichen
-  243 Wörter (Units 21-30) vorerst als Struktur-Gerüst. Kein Wort hat bereits eine Audiodatei
-  außer den ursprünglichen 141.
+  21 Themenkategorien aus Lektionen 3/6/8, jetzt zusätzlich mit Unit-/Session-Zuordnung; seit der
+  Nachtrag-Runde direkt nach Entwicklungsauftrag 9 auch mit eigenem Sprachprüfeintrag in
+  `language-review/batch_00.json` — die tatsächliche Prüfung durch eine Person mit
+  Arabischkenntnissen steht aber weiterhin aus). **657/900** Wörter (Units 1-20, 60/90 Sessions)
+  mit vollem Lernmodell + echter Theorie, sprachlich aber weiterhin ungeprüft
+  (`content_status: needs_language_review`); die restlichen 243 Wörter (Units 21-30) vorerst als
+  Struktur-Gerüst. Kein Wort hat bereits eine Audiodatei außer den ursprünglichen 141. Damit sind
+  jetzt alle 657 vollständig modellierten Wörter (516 neue + 141 Bestand) in einer der fünf
+  Sprachprüfdateien (`batch_00.json` bis `batch_04.json`) erfasst.
 - **Alphabet:** alle 28 Buchstaben, Kontextformen live berechnet (`wordShaping.js`), 2 Übungstypen
   in der Alt-Ansicht + **volle 9-Phasen-Lessons** pro Buchstaben-Unit (Units 1-7): Einführung,
   Wiedererkennen, Zuordnen, Unterscheiden, Rekonstruieren (Verbindungstrainer), Geführte Eingabe,
@@ -108,16 +111,18 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
   schwache Verben) — bewusst ausgelassen, zu hohes Fehlerrisiko ohne Prüfung.
 - Bild-/Wortfamilien-/Minimalpaar-Aufgaben (keine Bilddaten vorhanden).
 - **Inhaltliche Prüfung durch eine Person mit Arabischkenntnissen** — bislang nicht erfolgt (gilt
-  für alle 900 Wörter, `content_status` weiterhin durchgängig `needs_language_review`; 516 davon
-  bereits in Sprachprüfdateien aufbereitet — `language-review/batch_01.json` bis `batch_04.json`,
-  jeweils inkl. `theory_review`-Metadaten (60 Theorie-Prüfeinträge insgesamt, korrekt über alle
-  vier Batches erfasst — siehe Entwicklungsauftrag 9, Abschnitt 2, zur zuvor fehlerhaften
-  Behauptung in dieser ROADMAP) — die übrigen 384 folgen mit den nächsten Batches).
-- **"Batch 0" — die 141 ursprünglichen Bestandswörter formal sprachprüfen** (neuer Folgepunkt,
-  Entwicklungsauftrag 9, Abschnitt 3/7): diese Wörter haben zwar bereits eine Audiodatei, aber
-  KEINEN eigenen Sprachprüfeintrag — eine vorhandene Audiodatei ist keine Sprachprüfung. Ein
-  künftiger Auftrag sollte `language-review/batch_00.json` nach demselben Muster wie die Batches
-  1-4 erzeugen und diese 141 Wörter einer echten Prüfung zuführen.
+  für alle 900 Wörter, `content_status` weiterhin durchgängig `needs_language_review`; **657**
+  davon bereits in Sprachprüfdateien aufbereitet — `language-review/batch_00.json` (141
+  ursprüngliche Bestandswörter, siehe unten) bis `batch_04.json`, Batch 1-4 jeweils inkl.
+  `theory_review`-Metadaten (60 Theorie-Prüfeinträge insgesamt, korrekt über alle vier Batches
+  erfasst — siehe Entwicklungsauftrag 9, Abschnitt 2, zur zuvor fehlerhaften Behauptung in dieser
+  ROADMAP) — die übrigen 243 folgen mit den nächsten Batches).
+- ~~"Batch 0" — die 141 ursprünglichen Bestandswörter formal sprachprüfen~~ — die
+  **Erfassung** ist erledigt (direkt im Anschluss an Entwicklungsauftrag 9, auf Nutzerwunsch):
+  `scripts/build-batch0-legacy-review.js` erzeugt `language-review/batch_00.json` mit allen 141
+  Wörtern (bereits vollständig modelliert, nur nie in einer Review-Datei erfasst). Die
+  **tatsächliche Prüfung** durch eine Person mit Arabischkenntnissen steht für diese 141 Wörter
+  — wie für alle anderen 516 vorbereiteten Wörter auch — weiterhin aus.
 - Units 21-30 (243 Wörter) haben noch das Meilenstein-2-Minimalmodell (keine Vokalisierung,
   Umschrift, Grammatikangaben, application_prompts) und nur Platzhalter-Theorie (30 von 90
   Sessions) — folgt in den Batches 5-6 (Entwicklungsauftrag 9, Abschnitt 13). Units 1-20 (657
@@ -1535,3 +1540,53 @@ Forms; alle Zahlen im Bericht vom Validator berechnet, nicht hart codiert; Abwei
 Auftrags-Schätzwerten (657 statt 673 vollständige Wörter) präzise erklärt. Units 21-30,
 tatsächliche Audioerzeugung, Sprachprüfung durch eine Person mit Arabischkenntnissen,
 `.arabiccourse`-Paketformat und Kurs-2-5-Neustrukturierung bewusst nicht Teil dieser Runde.
+
+### Nachträgliche Vervollständigung (auf Nutzerwunsch, direkt im Anschluss)
+
+Nach Entwicklungsauftrag 9 bat der Nutzer, offene Punkte so weit wie sinnvoll möglich zusätzlich
+zu schließen, bevor der nächste Auftrag kommt — **ausdrücklich ohne** die in Auftrag 9 Abschnitt
+14 explizit ausgeschlossenen Punkte (Units 21-30, Audioerzeugung, Sprachprüfung markieren, Kurs
+2-5, `.arabiccourse`, Session-Engine-Umbau u. a.) vorzuziehen. Zwei Punkte wurden geschlossen:
+
+1. **"Batch 0" — Erfassung erledigt** (nicht die Prüfung selbst, die bleibt einer qualifizierten
+   Person vorbehalten): neues Skript `scripts/build-batch0-legacy-review.js` erzeugt
+   `language-review/batch_00.json` mit allen 141 ursprünglichen Bestandswörtern. Da diese Wörter
+   bereits das volle "Vollständig"-Datenmodell erfüllten (verifiziert: 0/141 fehlt irgendein
+   Feld), war hier kein Datenmodell-Upgrade nötig, nur das Nachliefern eines Sprachprüfeintrags im
+   selben angereicherten Format wie Batch 1-4 (Genus/Plural/akzeptierte Formen/Application-
+   Prompts/Homonym-Gegensatz-Verwechslungs-Hinweise/vier getrennte Prüf-Booleans). Bewusst NICHT
+   im `audio_generation_manifest.json` (das Manifest steuert nur die Erzeugung NEUER
+   Audiodateien) und ohne `theory_review`-Feld (ihre Sessions sind entweder schon über Batch 1-4
+   abgedeckt oder haben noch keine echte Theorie). Dabei einen echten Bug in
+   `scripts/reportLanguageReview.js` gefunden und behoben: die Berechnung "noch nicht erfasste
+   Wörter" war eine einfache Subtraktion (`Gesamtzahl neuer Wörter minus Summe aller
+   Batch-Wortzahlen`), die mit Batch 0 (kein "neues" Wort, sondern Bestand) einen falschen,
+   zu niedrigen Wert ergeben hätte — jetzt korrekt aus den tatsächlichen Wort-IDs aller Batches
+   berechnet. Neuer Test `test/unit/legacyBatch0Review.test.js` (5 Tests, inkl. echter
+   Zwei-Läufe-Idempotenzprüfung des neuen Skripts).
+2. **Electron-Startfähigkeit erneut untersucht:** ein Startversuch zeigte zunächst denselben
+   Fehler wie in früheren Runden dokumentiert — Ursache jetzt genauer identifiziert: die
+   Umgebungsvariable `ELECTRON_RUN_AS_NODE=1` ist in dieser Sandbox gesetzt und zwingt den
+   Electron-Prozess, als reines Node auszuführen (wodurch `require('electron').app` undefined
+   ist). Ohne diese Variable startet der Prozess tatsächlich (kein Absturz mehr, nur die
+   erwarteten GPU-Sandbox-Fehlermeldungen einer Container-Umgebung ohne echte GPU). Trotzdem
+   bleibt eine **visuelle** Prüfung durch die KI weiterhin nicht möglich (kein Screenshot-/
+   Bildschirm-Werkzeug in diesem Toolset) — die manuelle Prüfliste aus Entwicklungsauftrag 9,
+   Abschnitt 13, muss weiterhin vom Nutzer selbst durchgeführt werden.
+
+```text
+npm test:                 292/292 Unit-Tests + 6/6 Integrationstests — 10× hintereinander
+                           ausgeführt, 10/10 erfolgreich
+npm run lint:              erfolgreich
+npm run validate:course:   0 Fehler, 2 Hinweise
+npm run report:language-review: erfolgreich, zeigt jetzt Batch 0-4 (657 vorbereitete Wörter)
+npm run package:source:    erfolgreich, keine node_modules/.git/__pycache__-Einträge
+```
+
+Datenstand danach: 900/900 Minimalmodell, 657/900 Lernfähig/Vollständig (unverändert gegenüber
+Batch 4 — kein neues Datenmodell-Upgrade in diesem Nachtrag), aber jetzt **657/657** vollständig
+modellierte Wörter auch tatsächlich in einer Sprachprüfdatei erfasst (vorher 516/657, die 141
+Bestandswörter fehlten). 0 Wörter tatsächlich geprüft, 0 für Audio freigegeben — unverändert.
+
+**Weiterhin bewusst nicht Teil dieser Runde:** Units 21-30, tatsächliche Audioerzeugung/
+Sprachprüfung durch eine qualifizierte Person, alle in Auftrag 9 Abschnitt 14 genannten Punkte.

@@ -910,6 +910,43 @@ Bestandswörter ("Batch 0"), tatsächliche Audioerzeugung, Sprachprüfung durch 
 Arabischkenntnissen, `.arabiccourse`-Paketformat, Kurs-2-5-Neustrukturierung, weiterführende
 Grammatik, Redesign der Oberfläche.
 
+### Nachträgliche Vervollständigung (auf Nutzerwunsch, direkt im Anschluss)
+
+Nach Entwicklungsauftrag 9 bat der Nutzer, offene Punkte so weit wie sinnvoll möglich zusätzlich
+zu schließen, bevor der nächste Auftrag kommt — **ausdrücklich ohne** die in Auftrag 9 explizit
+zurückgestellten Units 21-30 vorzuziehen (bleibt weiterhin dem nächsten Auftrag vorbehalten).
+Zwei Punkte wurden daraufhin geschlossen:
+
+- **"Batch 0" erledigt:** `language-review/batch_00.json` (neues Skript
+  `scripts/build-batch0-legacy-review.js`) erfasst jetzt alle 141 ursprünglichen Bestandswörter
+  mit vorhandener Audiodatei — sie waren bereits vollständig modelliert, hatten aber schlicht nie
+  einen Sprachprüfeintrag. Bewusst NICHT im `audio_generation_manifest.json` (das steuert nur die
+  Erzeugung NEUER Audiodateien, diese Wörter haben bereits eine) und ohne `theory_review`-Feld
+  (ihre Sessions sind entweder schon über Batch 1-4 abgedeckt oder haben noch gar keine echte
+  Theorie). Damit sind jetzt **alle 657 vollständig modellierten Wörter** (516 neue + 141
+  Bestand) in einer Sprachprüfdatei erfasst — 0 davon als geprüft markiert. Ein Bug in
+  `report:language-review` wurde dabei gefunden und behoben: die Zählung "noch nicht erfasste
+  Wörter" verwechselte vorher Wort-Zahlen unterschiedlicher Batch-Typen (neue vs. Bestandswörter)
+  und hätte mit Batch 0 einen falschen (zu niedrigen) Wert gemeldet — jetzt berechnet aus den
+  tatsächlichen Batch-IDs statt einer einfachen Subtraktion. Neuer Test:
+  `test/unit/legacyBatch0Review.test.js` (5 Tests, inkl. echter Idempotenz-Verifikation).
+- **Electron-Startfähigkeit erneut geprüft:** ein kurzer Startversuch (`npm start`-Äquivalent)
+  zeigt, dass die App in dieser Sandbox grundsätzlich startet (kein Absturz mehr, wenn die
+  Umgebungsvariable `ELECTRON_RUN_AS_NODE` entfernt wird — vorher schlug der Start mit einem
+  irreführenden Fehler in `main.js` fehl, weil Electron dadurch als reines Node ausgeführt wurde).
+  Trotzdem bleibt eine echte **visuelle** Prüfung weiterhin nicht möglich (kein Screenshot-/
+  Bildschirm-Werkzeug in dieser Umgebung) — die manuelle Prüfliste aus dem letzten
+  Entwicklungsauftrag muss weiterhin vom Nutzer selbst per `npm start` durchgeführt werden.
+
+```text
+npm test:                 292/292 Unit-Tests + 6/6 Integrationstests — 10× hintereinander
+                           ausgeführt, 10/10 erfolgreich
+npm run lint:              erfolgreich
+npm run validate:course:   0 Fehler, 2 Hinweise
+npm run report:language-review: erfolgreich, zeigt jetzt Batch 0-4 (657 vorbereitete Wörter)
+npm run package:source:    erfolgreich, keine node_modules/.git/__pycache__-Einträge
+```
+
 ## Bekannte Einschränkungen
 
 - Für Vokabeln/Buchstaben ohne generierte Audiodatei (z. B. neu hinzugefügte Inhalte vor dem
@@ -925,5 +962,7 @@ Grammatik, Redesign der Oberfläche.
   ZIP-Dateien (bleibt Ordnerstruktur), Bilder/Wortfamilien/Minimalpaar-Audio-Aufgaben, die
   generische datenbasierte Session Engine (Bausteine fertig, Zusammenbau folgt mit der
   Vokabel-Migration), Verbindungstrainer mit echten visuellen Verbindungsfehlern statt reiner
-  Buchstaben-Umsortierung, Kurs-1-Units 21-30 im vollen Datenmodell (Batches 5-6, siehe ROADMAP),
-  formale Sprachprüfung der 141 ursprünglichen Bestandswörter ("Batch 0", siehe ROADMAP).
+  Buchstaben-Umsortierung, Kurs-1-Units 21-30 im vollen Datenmodell (Batches 5-6, siehe ROADMAP).
+- **Inhaltliche Sprachprüfung** durch eine Person mit Arabischkenntnissen steht für alle 900
+  Wörter weiterhin aus (`content_status` durchgängig `needs_language_review`) — 657 davon sind
+  inzwischen in `language-review/batch_00.json` bis `batch_04.json` dafür vorbereitet.
