@@ -13,6 +13,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { writeJsonFileAtomic } = require('./writeJsonAtomic.js');
 
 const ROOT = path.join(__dirname, '..');
 const PACK = path.join(ROOT, 'language-packs', 'arabic');
@@ -96,7 +97,7 @@ for (const entry of ALL_ENTRIES) {
   }
 }
 
-fs.writeFileSync(VOCAB_PATH, `${JSON.stringify(vocabulary, null, 2)}\n`, 'utf-8');
+writeJsonFileAtomic(VOCAB_PATH, `${JSON.stringify(vocabulary, null, 2)}\n`);
 console.log(`Wörter auf volles Datenmodell angehoben: ${upgraded}`);
 console.log(`opposite_id gesetzt: ${opposites}`);
 console.log(`confusion_group gesetzt: ${confusionTags}`);

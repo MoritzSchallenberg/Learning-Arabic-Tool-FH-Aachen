@@ -19,6 +19,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { writeJsonFileAtomic } = require('./writeJsonAtomic.js');
 
 const ROOT = path.join(__dirname, '..');
 const PACK = path.join(ROOT, 'language-packs', 'arabic');
@@ -66,5 +67,5 @@ const theoryReview = theoryIds.map((theoryId) => {
 const hadField = Array.isArray(batchDoc.theory_review);
 batchDoc.theory_review = theoryReview;
 
-fs.writeFileSync(batchPath, `${JSON.stringify(batchDoc, null, 2)}\n`, 'utf-8');
+writeJsonFileAtomic(batchPath, `${JSON.stringify(batchDoc, null, 2)}\n`);
 console.log(`${path.relative(ROOT, batchPath)}: theory_review ${hadField ? 'aktualisiert' : 'ergänzt (fehlte bisher komplett)'} — ${theoryReview.length} Theoriedokument(e), "entries" unverändert (${batchDoc.entries.length} Wort-Einträge).`);

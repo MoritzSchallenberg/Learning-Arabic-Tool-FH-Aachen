@@ -1,21 +1,19 @@
 #!/usr/bin/env node
-// Entwicklungsauftrag 9 — hebt die 134 neuen Wörter der Units 16-20 vom Minimalmodell auf das
-// volle Datenmodell an: findet die bereits bestehenden Wort-Objekte anhand ihrer ID (keine neuen
-// IDs, keine neuen Kategorien) und ergänzt/überschreibt die inhaltlichen Felder aus
-// scripts/data/kurs1Units16to20Full.js. Die bereits vollständigen Wörter (1 in Unit 16, 5 in
-// Unit 17, 2 in Unit 18, 0 in Unit 19, 8 in Unit 20 — insgesamt 16, z. B. verb_live, verb_go,
-// verb_study, place_city) werden NICHT angefasst, weil sie schlicht nicht in ALL_ENTRIES
-// vorkommen.
+// Entwicklungsauftrag 11 — hebt die 117 letzten unvollständigen Wörter der Units 26-30 vom
+// Minimalmodell auf das volle Datenmodell an: findet die bereits bestehenden Wort-Objekte anhand
+// ihrer ID (keine neuen IDs, keine neuen Kategorien) und ergänzt/überschreibt die inhaltlichen
+// Felder aus scripts/data/kurs1Units26to30Full.js. Die bereits vollständigen Bestandswörter (5 in
+// Unit 26, 7 in Unit 27, 10 in Unit 28, 4 in Unit 29, 7 in Unit 30 — insgesamt 33, z. B.
+// tech_computer, weather_sun, animal_cat, leisure_game, q_who) werden NICHT angefasst, weil sie
+// schlicht nicht in ALL_ENTRIES vorkommen. Nach diesem Skript ist Kurs 1 strukturell vollständig
+// (900/900 Wörter im vollen Lernmodell).
 //
-// application_prompts bekommen sowohl expected_word_id (die eigene ID) als auch expected_meaning:
-// die tatsächliche Anwendungsübung (renderContextualChoice in exerciseRegistry.js) wertet
-// Korrektheit über "die angeklickte Option ist dasselbe Wortobjekt wie das gefragte" aus, nicht
-// über einen Vergleich mit dem Prompt-Feld selbst — die einzige Wort-ID, die für dieses Wort
-// tatsächlich "erwartet" wird, ist deshalb seine eigene. expected_meaning bleibt zusätzlich
-// gesetzt für Sprachprüfung/Anzeige und Abwärtskompatibilität mit der bisherigen Konvention.
+// application_prompts bekommen wie in den Vorgänger-Skripten sowohl expected_word_id (die eigene
+// ID) als auch expected_meaning (siehe Entwicklungsauftrag 11, Abschnitt 7: verbindliche
+// Application-Prompt-Semantik — das Besitzerwort ist immer die richtige Lösung).
 //
-// Wie upgrade-kurs1-units11to15.js setzt dieses Skript zusätzlich opposite_id (gegenseitig) und
-// confusion_group (selektiv). Idempotent.
+// Setzt zusätzlich opposite_id (gegenseitig), confusion_group (selektiv) und homonym_group (nur
+// wo im Datenmodell angegeben). Idempotent.
 
 const fs = require('fs');
 const path = require('path');
@@ -25,15 +23,12 @@ const ROOT = path.join(__dirname, '..');
 const PACK = path.join(ROOT, 'language-packs', 'arabic');
 const VOCAB_PATH = path.join(PACK, 'vocabulary.json');
 
-const { UNIT_16, UNIT_17, UNIT_18, UNIT_19, UNIT_20 } = require('./data/kurs1Units16to20Full.js');
-const ALL_ENTRIES = [...UNIT_16, ...UNIT_17, ...UNIT_18, ...UNIT_19, ...UNIT_20];
+const { UNIT_26, UNIT_27, UNIT_28, UNIT_29, UNIT_30 } = require('./data/kurs1Units26to30Full.js');
+const ALL_ENTRIES = [...UNIT_26, ...UNIT_27, ...UNIT_28, ...UNIT_29, ...UNIT_30];
 
 // Diakritika-Bereiche als Hex-Codepoints statt \uXXXX-Escapes im Quelltext bzw. roher
-// combining-mark-Zeichen definiert -- ein Editier-/Tooling-Schritt kann \uXXXX-Escapes beim
-// Speichern in echte Zeichen umwandeln; über String.fromCodePoint aus Zahlen aufgebaut bleibt die
-// Zeichenklasse eindeutig nachvollziehbar und unveränderlich. Siehe auch den Bugfix-Hinweis in
-// build-kurs1-batch.js (eine falsch kopierte Zeichenklasse strippte dort einmal ganze Woerter
-// auf '').
+// combining-mark-Zeichen definiert (siehe Bugfix-Hinweis in build-kurs1-batch.js /
+// upgrade-kurs1-units11to15.js).
 const DIACRITIC_RANGES = [
   [0x064B, 0x0652], [0x0653, 0x0655], [0x0656, 0x065F], [0x0670, 0x0670], [0x06D6, 0x06ED], [0x0640, 0x0640]
 ];
@@ -57,15 +52,13 @@ let upgraded = 0;
 let missing = 0;
 let opposites = 0;
 let confusionTags = 0;
+let homonymTags = 0;
 let strippedMismatch = 0;
 for (const entry of ALL_ENTRIES) {
   const w = byId.get(entry.id);
   if (!w) { console.error(`WARNUNG: Wort-ID "${entry.id}" nicht in vocabulary.json gefunden — übersprungen.`); missing += 1; continue; }
 
   const strippedNew = stripDiacritics(entry.ar);
-  // Die unvokalisierte Grundform darf sich durch dieses Skript NICHT ändern (Auftrag 9, Abschnitt
-  // 2: "Bereits vorhandene ... korrekte Inhalte dürfen nicht unnötig ersetzt werden") — wenn schon
-  // eine arabic_unvocalized-Angabe existiert, muss die neu vokalisierte Form exakt dazu strippen.
   if (w.arabic_unvocalized && w.arabic_unvocalized !== strippedNew) {
     console.error(`WARNUNG: "${entry.id}" — vokalisierte Form strippt zu "${strippedNew}", weicht aber von der bestehenden arabic_unvocalized "${w.arabic_unvocalized}" ab. Bitte prüfen.`);
     strippedMismatch += 1;
@@ -83,7 +76,7 @@ for (const entry of ALL_ENTRIES) {
   const arabicAnswers = [entry.ar, strippedNew].filter((v, i, arr) => arr.indexOf(v) === i);
   w.accepted_arabic_answers = arabicAnswers;
   w.application_prompts = [{ type: 'context_choice', prompt: entry.app, expected_word_id: entry.id, expected_meaning: entry.de[0] }];
-  if (entry.homonymGroup) w.homonym_group = entry.homonymGroup;
+  if (entry.homonymGroup) { w.homonym_group = entry.homonymGroup; homonymTags += 1; }
 
   if (entry.opp) {
     if (!entryById.has(entry.opp)) {
@@ -116,6 +109,7 @@ writeJsonFileAtomic(VOCAB_PATH, `${JSON.stringify(vocabulary, null, 2)}\n`);
 console.log(`Wörter auf volles Datenmodell angehoben: ${upgraded}`);
 console.log(`opposite_id gesetzt: ${opposites}`);
 console.log(`confusion_group gesetzt: ${confusionTags}`);
+console.log(`homonym_group gesetzt/bestätigt: ${homonymTags}`);
 if (missing > 0) console.log(`Nicht gefunden (bitte prüfen): ${missing}`);
 if (asymmetric > 0) console.log(`Nicht-gegenseitige opposite_id-Paare (bitte prüfen): ${asymmetric}`);
 if (strippedMismatch > 0) console.log(`Abweichungen zur bestehenden arabic_unvocalized (bitte prüfen): ${strippedMismatch}`);

@@ -1,0 +1,4501 @@
+{
+  "note": "Sprachprüfdatei für Kurs 1, Batch 6 (Units 26, 27, 28, 29, 30). Arabische Angaben (unvokalisiert + vorgeschlagene Vokalisierung/Umschrift/Grammatik) wurden neu erstellt, siehe Hinweis in scripts/data/kurs1UnitPlan.js zur Kodierungskorruption der ursprünglich vom Nutzer gelieferten Quelldateien. Vor Freigabe zur Audioerzeugung durch eine Person mit Arabischkenntnissen gegenlesen lassen. Zusätzlich pro Session zu prüfen (siehe zugehöriges Theoriedokument in theory.json): Theorietext, Beispiele, Mini-Check, Application-Prompts.",
+  "batch": 6,
+  "units_covered": [
+    26,
+    27,
+    28,
+    29,
+    30
+  ],
+  "word_count": 117,
+  "entries": [
+    {
+      "id": "c1_u26_01",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_a",
+      "arabic_unvocalized": "لوحة مفاتيح",
+      "proposed_arabic_vocalized": "لَوْحَة مَفَاتِيح",
+      "proposed_transliteration": "lawḥat mafātīḥ",
+      "german_answers": [
+        "Tastatur"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "لَوْحَة مَفَاتِيح",
+        "لوحة مفاتيح"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du tippst deinen Text mit diesem Gerät ein.",
+          "expected_word_id": "c1_u26_01",
+          "expected_meaning": "Tastatur"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_computer_parts",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_02",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_a",
+      "arabic_unvocalized": "فأرة",
+      "proposed_arabic_vocalized": "فَأْرَة",
+      "proposed_transliteration": "faʾra",
+      "german_answers": [
+        "Computermaus"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "فَأْرَات",
+      "accepted_arabic_answers": [
+        "فَأْرَة",
+        "فأرة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit bewegst du den Zeiger auf dem Bildschirm.",
+          "expected_word_id": "c1_u26_02",
+          "expected_meaning": "Computermaus"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_computer_parts",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_03",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_a",
+      "arabic_unvocalized": "طابعة",
+      "proposed_arabic_vocalized": "طَابِعَة",
+      "proposed_transliteration": "ṭābiʿa",
+      "german_answers": [
+        "Drucker"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "طَابِعَات",
+      "accepted_arabic_answers": [
+        "طَابِعَة",
+        "طابعة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit druckst du ein Dokument auf Papier aus.",
+          "expected_word_id": "c1_u26_03",
+          "expected_meaning": "Drucker"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_computer_parts",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_04",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_a",
+      "arabic_unvocalized": "ملف",
+      "proposed_arabic_vocalized": "مَلَفّ",
+      "proposed_transliteration": "malaff",
+      "german_answers": [
+        "Datei"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "مِلَفَّات",
+      "accepted_arabic_answers": [
+        "مَلَفّ",
+        "ملف"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du speicherst dein Dokument als einzelne Datei.",
+          "expected_word_id": "c1_u26_04",
+          "expected_meaning": "Datei"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_files_docs",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_05",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_a",
+      "arabic_unvocalized": "مجلد",
+      "proposed_arabic_vocalized": "مُجَلَّد",
+      "proposed_transliteration": "mujallad",
+      "german_answers": [
+        "Ordner"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "مُجَلَّدَات",
+      "accepted_arabic_answers": [
+        "مُجَلَّد",
+        "مجلد"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du sortierst mehrere Dateien in diesen Ordner.",
+          "expected_word_id": "c1_u26_05",
+          "expected_meaning": "Ordner"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_files_docs",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_06",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_b",
+      "arabic_unvocalized": "مستند",
+      "proposed_arabic_vocalized": "مُسْتَنَد",
+      "proposed_transliteration": "mustanad",
+      "german_answers": [
+        "Dokument"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "مُسْتَنَدَات",
+      "accepted_arabic_answers": [
+        "مُسْتَنَد",
+        "مستند"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du öffnest dieses wichtige Dokument am Computer.",
+          "expected_word_id": "c1_u26_06",
+          "expected_meaning": "Dokument"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_files_docs",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_07",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_b",
+      "arabic_unvocalized": "كلمة مرور",
+      "proposed_arabic_vocalized": "كَلِمَة مُرُور",
+      "proposed_transliteration": "kalimat murūr",
+      "german_answers": [
+        "Passwort"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "كَلِمَة مُرُور",
+        "كلمة مرور"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du gibst dieses geheime Wort ein, um dich anzumelden.",
+          "expected_word_id": "c1_u26_07",
+          "expected_meaning": "Passwort"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_account_security",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_08",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_b",
+      "arabic_unvocalized": "اسم مستخدم",
+      "proposed_arabic_vocalized": "اِسْم مُسْتَخْدِم",
+      "proposed_transliteration": "ism mustakhdim",
+      "german_answers": [
+        "Benutzername"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "اِسْم مُسْتَخْدِم",
+        "اسم مستخدم"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du gibst diesen Namen zusammen mit deinem Passwort ein.",
+          "expected_word_id": "c1_u26_08",
+          "expected_meaning": "Benutzername"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_account_security",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_09",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_b",
+      "arabic_unvocalized": "موقع إلكتروني",
+      "proposed_arabic_vocalized": "مَوْقِع إِلِكْتْرُونِيّ",
+      "proposed_transliteration": "mawqiʿ iliktrūnī",
+      "german_answers": [
+        "Webseite"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "مَوْقِع إِلِكْتْرُونِيّ",
+        "موقع إلكتروني"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du besuchst diese Adresse im Internet.",
+          "expected_word_id": "c1_u26_09",
+          "expected_meaning": "Webseite"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_10",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_b",
+      "arabic_unvocalized": "متصفح",
+      "proposed_arabic_vocalized": "مُتَصَفِّح",
+      "proposed_transliteration": "mutaṣaffiḥ",
+      "german_answers": [
+        "Browser"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "مُتَصَفِّحَات",
+      "accepted_arabic_answers": [
+        "مُتَصَفِّح",
+        "متصفح"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Mit diesem Programm öffnest du Webseiten.",
+          "expected_word_id": "c1_u26_10",
+          "expected_meaning": "Browser"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_11",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_b",
+      "arabic_unvocalized": "تنزيل",
+      "proposed_arabic_vocalized": "تَنْزِيل",
+      "proposed_transliteration": "tanzīl",
+      "german_answers": [
+        "Download",
+        "Herunterladen"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "تَنْزِيل",
+        "تنزيل"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du speicherst eine Datei aus dem Internet auf deinem Gerät.",
+          "expected_word_id": "c1_u26_11",
+          "expected_meaning": "Download"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": "c1_u26_12",
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_12",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_b",
+      "arabic_unvocalized": "رفع",
+      "proposed_arabic_vocalized": "رَفْع",
+      "proposed_transliteration": "rafʿ",
+      "german_answers": [
+        "Upload",
+        "Hochladen"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "رَفْع",
+        "رفع"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du sendest eine Datei von deinem Gerät ins Internet.",
+          "expected_word_id": "c1_u26_12",
+          "expected_meaning": "Upload"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": "c1_u26_11",
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_13",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_b",
+      "arabic_unvocalized": "رابط",
+      "proposed_arabic_vocalized": "رَابِط",
+      "proposed_transliteration": "rābiṭ",
+      "german_answers": [
+        "Link"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "رَوَابِط",
+      "accepted_arabic_answers": [
+        "رَابِط",
+        "رابط"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du klickst darauf, um zu einer anderen Webseite zu gelangen.",
+          "expected_word_id": "c1_u26_13",
+          "expected_meaning": "Link"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_14",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_b",
+      "arabic_unvocalized": "رسالة",
+      "proposed_arabic_vocalized": "رِسَالَة",
+      "proposed_transliteration": "risāla",
+      "german_answers": [
+        "Nachricht"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "رَسَائِل",
+      "accepted_arabic_answers": [
+        "رِسَالَة",
+        "رسالة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du schickst deinem Freund diese kurze Textnachricht.",
+          "expected_word_id": "c1_u26_14",
+          "expected_meaning": "Nachricht"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_15",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_b",
+      "arabic_unvocalized": "صورة",
+      "proposed_arabic_vocalized": "صُورَة",
+      "proposed_transliteration": "ṣūra",
+      "german_answers": [
+        "Foto",
+        "Bild"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "صُوَر",
+      "accepted_arabic_answers": [
+        "صُورَة",
+        "صورة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du machst dieses mit deiner Handykamera.",
+          "expected_word_id": "c1_u26_15",
+          "expected_meaning": "Foto"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_16",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_c",
+      "arabic_unvocalized": "فيديو",
+      "proposed_arabic_vocalized": "فِيدْيُو",
+      "proposed_transliteration": "vidyū",
+      "german_answers": [
+        "Video"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "فِيدْيُو",
+        "فيديو"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du siehst dir diese bewegten Bilder mit Ton an.",
+          "expected_word_id": "c1_u26_16",
+          "expected_meaning": "Video"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_audio_video_devices",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_17",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_c",
+      "arabic_unvocalized": "كاميرا",
+      "proposed_arabic_vocalized": "كَامِيرَا",
+      "proposed_transliteration": "kāmirā",
+      "german_answers": [
+        "Kamera"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "كَامِيرَا",
+        "كاميرا"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Mit diesem Gerät nimmst du Fotos oder Videos auf.",
+          "expected_word_id": "c1_u26_17",
+          "expected_meaning": "Kamera"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_audio_video_devices",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_18",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_c",
+      "arabic_unvocalized": "ميكروفون",
+      "proposed_arabic_vocalized": "مَيْكْرُوفُون",
+      "proposed_transliteration": "mīkrūfūn",
+      "german_answers": [
+        "Mikrofon"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "مَيْكْرُوفُون",
+        "ميكروفون"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit nimmst du deine Stimme auf.",
+          "expected_word_id": "c1_u26_18",
+          "expected_meaning": "Mikrofon"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_audio_video_devices",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_19",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_c",
+      "arabic_unvocalized": "مكبر صوت",
+      "proposed_arabic_vocalized": "مُكَبِّر صَوْت",
+      "proposed_transliteration": "mukabbir ṣawt",
+      "german_answers": [
+        "Lautsprecher"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "مُكَبِّر صَوْت",
+        "مكبر صوت"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit hörst du Musik laut im Raum.",
+          "expected_word_id": "c1_u26_19",
+          "expected_meaning": "Lautsprecher"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_audio_video_devices",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_20",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_c",
+      "arabic_unvocalized": "سماعات",
+      "proposed_arabic_vocalized": "سَمَّاعَات",
+      "proposed_transliteration": "sammāʿāt",
+      "german_answers": [
+        "Kopfhörer"
+      ],
+      "part_of_speech": "Substantiv (Plural)",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "سَمَّاعَات",
+        "سماعات"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit hörst du Musik, ohne andere zu stören.",
+          "expected_word_id": "c1_u26_20",
+          "expected_meaning": "Kopfhörer"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_audio_video_devices",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_21",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_c",
+      "arabic_unvocalized": "بطارية",
+      "proposed_arabic_vocalized": "بَطَّارِيَّة",
+      "proposed_transliteration": "baṭṭāriyya",
+      "german_answers": [
+        "Batterie",
+        "Akku"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "بَطَّارِيَّات",
+      "accepted_arabic_answers": [
+        "بَطَّارِيَّة",
+        "بطارية"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dein Telefon braucht Energie aus diesem Teil.",
+          "expected_word_id": "c1_u26_21",
+          "expected_meaning": "Batterie"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_22",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_c",
+      "arabic_unvocalized": "شاحن",
+      "proposed_arabic_vocalized": "شَاحِن",
+      "proposed_transliteration": "shāḥin",
+      "german_answers": [
+        "Ladegerät"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "شَوَاحِن",
+      "accepted_arabic_answers": [
+        "شَاحِن",
+        "شاحن"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Damit füllst du die Batterie deines Telefons wieder auf.",
+          "expected_word_id": "c1_u26_22",
+          "expected_meaning": "Ladegerät"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_23",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_c",
+      "arabic_unvocalized": "كابل",
+      "proposed_arabic_vocalized": "كَابِل",
+      "proposed_transliteration": "kābil",
+      "german_answers": [
+        "Kabel"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "كَابِلَات",
+      "accepted_arabic_answers": [
+        "كَابِل",
+        "كابل"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du verbindest dein Telefon mit dem Ladegerät über dieses Teil.",
+          "expected_word_id": "c1_u26_23",
+          "expected_meaning": "Kabel"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_24",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_c",
+      "arabic_unvocalized": "شبكة",
+      "proposed_arabic_vocalized": "شَبَكَة",
+      "proposed_transliteration": "shabaka",
+      "german_answers": [
+        "Netzwerk"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "شَبَكَات",
+      "accepted_arabic_answers": [
+        "شَبَكَة",
+        "شبكة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dein Computer verbindet sich mit dem Internet über dieses.",
+          "expected_word_id": "c1_u26_24",
+          "expected_meaning": "Netzwerk"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u26_25",
+      "unit_id": "vocab_unit_26",
+      "session_id": "vocab_unit_26_c",
+      "arabic_unvocalized": "بيانات",
+      "proposed_arabic_vocalized": "بَيَانَات",
+      "proposed_transliteration": "bayānāt",
+      "german_answers": [
+        "Daten"
+      ],
+      "part_of_speech": "Substantiv (Pluraletantum)",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "بَيَانَات",
+        "بيانات"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dein Programm speichert diese Informationen.",
+          "expected_word_id": "c1_u26_25",
+          "expected_meaning": "Daten"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_01",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_a",
+      "arabic_unvocalized": "سماء",
+      "proposed_arabic_vocalized": "سَمَاء",
+      "proposed_transliteration": "samāʾ",
+      "german_answers": [
+        "Himmel"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "سَمَاء",
+        "سماء"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du schaust nach oben und siehst Wolken und die Sonne.",
+          "expected_word_id": "c1_u27_01",
+          "expected_meaning": "Himmel"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_02",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_a",
+      "arabic_unvocalized": "أرض",
+      "proposed_arabic_vocalized": "أَرْض",
+      "proposed_transliteration": "arḍ",
+      "german_answers": [
+        "Erde",
+        "Boden"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "أَرَاضٍ",
+      "accepted_arabic_answers": [
+        "أَرْض",
+        "أرض"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du stehst mit deinen Füßen darauf.",
+          "expected_word_id": "c1_u27_02",
+          "expected_meaning": "Erde"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_03",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_a",
+      "arabic_unvocalized": "بحر",
+      "proposed_arabic_vocalized": "بَحْر",
+      "proposed_transliteration": "baḥr",
+      "german_answers": [
+        "Meer"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "بِحَار",
+      "accepted_arabic_answers": [
+        "بَحْر",
+        "بحر"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses große Gewässer ist salzig.",
+          "expected_word_id": "c1_u27_03",
+          "expected_meaning": "Meer"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_water_bodies",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_04",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_b",
+      "arabic_unvocalized": "نهر",
+      "proposed_arabic_vocalized": "نَهْر",
+      "proposed_transliteration": "nahr",
+      "german_answers": [
+        "Fluss"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "أَنْهَار",
+      "accepted_arabic_answers": [
+        "نَهْر",
+        "نهر"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses Wasser fließt vom Berg bis zum Meer.",
+          "expected_word_id": "c1_u27_04",
+          "expected_meaning": "Fluss"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_water_bodies",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_05",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_b",
+      "arabic_unvocalized": "بحيرة",
+      "proposed_arabic_vocalized": "بُحَيْرَة",
+      "proposed_transliteration": "buḥayra",
+      "german_answers": [
+        "See"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "بُحَيْرَات",
+      "accepted_arabic_answers": [
+        "بُحَيْرَة",
+        "بحيرة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses Gewässer ist von Land umgeben, aber kleiner als ein Meer.",
+          "expected_word_id": "c1_u27_05",
+          "expected_meaning": "See"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_water_bodies",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_06",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_b",
+      "arabic_unvocalized": "جبل",
+      "proposed_arabic_vocalized": "جَبَل",
+      "proposed_transliteration": "jabal",
+      "german_answers": [
+        "Berg"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "جِبَال",
+      "accepted_arabic_answers": [
+        "جَبَل",
+        "جبل"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du steigst diese hohe Erhebung hinauf.",
+          "expected_word_id": "c1_u27_06",
+          "expected_meaning": "Berg"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_07",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_b",
+      "arabic_unvocalized": "غابة",
+      "proposed_arabic_vocalized": "غَابَة",
+      "proposed_transliteration": "ghāba",
+      "german_answers": [
+        "Wald"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "غَابَات",
+      "accepted_arabic_answers": [
+        "غَابَة",
+        "غابة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Hier stehen sehr viele Bäume dicht beieinander.",
+          "expected_word_id": "c1_u27_07",
+          "expected_meaning": "Wald"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_08",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_b",
+      "arabic_unvocalized": "شجرة",
+      "proposed_arabic_vocalized": "شَجَرَة",
+      "proposed_transliteration": "shajara",
+      "german_answers": [
+        "Baum"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "أَشْجَار",
+      "accepted_arabic_answers": [
+        "شَجَرَة",
+        "شجرة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses große Gewächs hat einen Stamm und Blätter.",
+          "expected_word_id": "c1_u27_08",
+          "expected_meaning": "Baum"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_09",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_b",
+      "arabic_unvocalized": "زهرة",
+      "proposed_arabic_vocalized": "زَهْرَة",
+      "proposed_transliteration": "zahra",
+      "german_answers": [
+        "Blume"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "زُهُور",
+      "accepted_arabic_answers": [
+        "زَهْرَة",
+        "زهرة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Diese Pflanze schenkst du jemandem, den du magst.",
+          "expected_word_id": "c1_u27_09",
+          "expected_meaning": "Blume"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_10",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_b",
+      "arabic_unvocalized": "عشب",
+      "proposed_arabic_vocalized": "عُشْب",
+      "proposed_transliteration": "ʿushb",
+      "german_answers": [
+        "Gras"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "عُشْب",
+        "عشب"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses grüne Gewächs bedeckt den Boden im Park.",
+          "expected_word_id": "c1_u27_10",
+          "expected_meaning": "Gras"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_11",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_b",
+      "arabic_unvocalized": "رمل",
+      "proposed_arabic_vocalized": "رَمْل",
+      "proposed_transliteration": "raml",
+      "german_answers": [
+        "Sand"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "رَمْل",
+        "رمل"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieser feine Stoff bedeckt den Strand.",
+          "expected_word_id": "c1_u27_11",
+          "expected_meaning": "Sand"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_12",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_b",
+      "arabic_unvocalized": "صحراء",
+      "proposed_arabic_vocalized": "صَحْرَاء",
+      "proposed_transliteration": "ṣaḥrāʾ",
+      "german_answers": [
+        "Wüste"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "صَحَارَى",
+      "accepted_arabic_answers": [
+        "صَحْرَاء",
+        "صحراء"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Diese sehr trockene Landschaft besteht oft aus viel Sand.",
+          "expected_word_id": "c1_u27_12",
+          "expected_meaning": "Wüste"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_13",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_b",
+      "arabic_unvocalized": "شاطئ",
+      "proposed_arabic_vocalized": "شَاطِئ",
+      "proposed_transliteration": "shāṭiʾ",
+      "german_answers": [
+        "Strand"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "شَوَاطِئ",
+      "accepted_arabic_answers": [
+        "شَاطِئ",
+        "شاطئ"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Hier liegst du im Sommer am Meer.",
+          "expected_word_id": "c1_u27_13",
+          "expected_meaning": "Strand"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_14",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_c",
+      "arabic_unvocalized": "هواء",
+      "proposed_arabic_vocalized": "هَوَاء",
+      "proposed_transliteration": "hawāʾ",
+      "german_answers": [
+        "Luft"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "هَوَاء",
+        "هواء"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du atmest dieses unsichtbare Gas ständig ein und aus.",
+          "expected_word_id": "c1_u27_14",
+          "expected_meaning": "Luft"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_15",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_c",
+      "arabic_unvocalized": "درجة الحرارة",
+      "proposed_arabic_vocalized": "دَرَجَة الْحَرَارَة",
+      "proposed_transliteration": "darajat al-ḥarāra",
+      "german_answers": [
+        "Temperatur (Wetter)"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "دَرَجَة الْحَرَارَة",
+        "درجة الحرارة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Der Wetterbericht sagt dir, wie warm oder kalt es heute wird.",
+          "expected_word_id": "c1_u27_15",
+          "expected_meaning": "Temperatur (Wetter)"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_weather_vs_climate",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_16",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_c",
+      "arabic_unvocalized": "عاصفة",
+      "proposed_arabic_vocalized": "عَاصِفَة",
+      "proposed_transliteration": "ʿāṣifa",
+      "german_answers": [
+        "Sturm"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "عَوَاصِف",
+      "accepted_arabic_answers": [
+        "عَاصِفَة",
+        "عاصفة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Bei diesem Wetter weht der Wind sehr stark.",
+          "expected_word_id": "c1_u27_16",
+          "expected_meaning": "Sturm"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_storm_phenomena",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_17",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_c",
+      "arabic_unvocalized": "رعد",
+      "proposed_arabic_vocalized": "رَعْد",
+      "proposed_transliteration": "raʿd",
+      "german_answers": [
+        "Donner"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "رَعْد",
+        "رعد"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses laute Geräusch hörst du kurz nach einem Blitz.",
+          "expected_word_id": "c1_u27_17",
+          "expected_meaning": "Donner"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_storm_phenomena",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_18",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_c",
+      "arabic_unvocalized": "برق",
+      "proposed_arabic_vocalized": "بَرْق",
+      "proposed_transliteration": "barq",
+      "german_answers": [
+        "Blitz"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "بُرُوق",
+      "accepted_arabic_answers": [
+        "بَرْق",
+        "برق"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses helle Licht siehst du kurz vor dem Donner.",
+          "expected_word_id": "c1_u27_18",
+          "expected_meaning": "Blitz"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_storm_phenomena",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_19",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_c",
+      "arabic_unvocalized": "ضباب",
+      "proposed_arabic_vocalized": "ضَبَاب",
+      "proposed_transliteration": "ḍabāb",
+      "german_answers": [
+        "Nebel"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "ضَبَاب",
+        "ضباب"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Bei diesem Wetter siehst du nur sehr wenig weit.",
+          "expected_word_id": "c1_u27_19",
+          "expected_meaning": "Nebel"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_storm_phenomena",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_20",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_c",
+      "arabic_unvocalized": "مناخ",
+      "proposed_arabic_vocalized": "مُنَاخ",
+      "proposed_transliteration": "munākh",
+      "german_answers": [
+        "Klima"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "مُنَاخ",
+        "مناخ"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses Wort beschreibt das typische Wetter einer Region über viele Jahre.",
+          "expected_word_id": "c1_u27_20",
+          "expected_meaning": "Klima"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_weather_vs_climate",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_21",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_c",
+      "arabic_unvocalized": "بيئة",
+      "proposed_arabic_vocalized": "بِيئَة",
+      "proposed_transliteration": "bīʾa",
+      "german_answers": [
+        "Umwelt"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "بِيئَة",
+        "بيئة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Wir sollten diese gemeinsame Natur um uns herum schützen.",
+          "expected_word_id": "c1_u27_21",
+          "expected_meaning": "Umwelt"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_weather_vs_climate",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_22",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_c",
+      "arabic_unvocalized": "تلوث",
+      "proposed_arabic_vocalized": "تَلَوُّث",
+      "proposed_transliteration": "talawwuth",
+      "german_answers": [
+        "Verschmutzung"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "تَلَوُّث",
+        "تلوث"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Abgase und Müll verursachen dies in der Umwelt.",
+          "expected_word_id": "c1_u27_22",
+          "expected_meaning": "Verschmutzung"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u27_23",
+      "unit_id": "vocab_unit_27",
+      "session_id": "vocab_unit_27_c",
+      "arabic_unvocalized": "إعادة تدوير",
+      "proposed_arabic_vocalized": "إِعَادَة تَدْوِير",
+      "proposed_transliteration": "iʿādat tadwīr",
+      "german_answers": [
+        "Recycling"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "إِعَادَة تَدْوِير",
+        "إعادة تدوير"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du trennst deinen Müll, damit er wiederverwendet werden kann.",
+          "expected_word_id": "c1_u27_23",
+          "expected_meaning": "Recycling"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_01",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_b",
+      "arabic_unvocalized": "خروف",
+      "proposed_arabic_vocalized": "خَرُوف",
+      "proposed_transliteration": "kharūf",
+      "german_answers": [
+        "Schaf"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "خِرْفَان",
+      "accepted_arabic_answers": [
+        "خَرُوف",
+        "خروف"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses wollige Tier lebt auf einer Weide.",
+          "expected_word_id": "c1_u28_01",
+          "expected_meaning": "Schaf"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_farm_animals",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_02",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_b",
+      "arabic_unvocalized": "ماعز",
+      "proposed_arabic_vocalized": "مَاعِز",
+      "proposed_transliteration": "māʿiz",
+      "german_answers": [
+        "Ziege"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "مَاعِز",
+        "ماعز"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses Tier klettert gerne auf Felsen und frisst fast alles.",
+          "expected_word_id": "c1_u28_02",
+          "expected_meaning": "Ziege"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_farm_animals",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_03",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_b",
+      "arabic_unvocalized": "جمل",
+      "proposed_arabic_vocalized": "جَمَل",
+      "proposed_transliteration": "jamal",
+      "german_answers": [
+        "Kamel"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "جِمَال",
+      "accepted_arabic_answers": [
+        "جَمَل",
+        "جمل"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses Tier trägt schwere Lasten durch die Wüste.",
+          "expected_word_id": "c1_u28_03",
+          "expected_meaning": "Kamel"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_farm_animals",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_04",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_b",
+      "arabic_unvocalized": "حمار",
+      "proposed_arabic_vocalized": "حِمَار",
+      "proposed_transliteration": "ḥimār",
+      "german_answers": [
+        "Esel"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "حَمِير",
+      "accepted_arabic_answers": [
+        "حِمَار",
+        "حمار"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses Tier ähnelt einem kleinen Pferd und trägt Lasten.",
+          "expected_word_id": "c1_u28_04",
+          "expected_meaning": "Esel"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_farm_animals",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_05",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_b",
+      "arabic_unvocalized": "فيل",
+      "proposed_arabic_vocalized": "فِيل",
+      "proposed_transliteration": "fīl",
+      "german_answers": [
+        "Elefant"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "أَفْيَال",
+      "accepted_arabic_answers": [
+        "فِيل",
+        "فيل"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses riesige Tier hat einen langen Rüssel.",
+          "expected_word_id": "c1_u28_05",
+          "expected_meaning": "Elefant"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_06",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_b",
+      "arabic_unvocalized": "قرد",
+      "proposed_arabic_vocalized": "قِرْد",
+      "proposed_transliteration": "qird",
+      "german_answers": [
+        "Affe"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "قُرُود",
+      "accepted_arabic_answers": [
+        "قِرْد",
+        "قرد"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses Tier klettert geschickt zwischen Bäumen.",
+          "expected_word_id": "c1_u28_06",
+          "expected_meaning": "Affe"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_07",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_b",
+      "arabic_unvocalized": "ثعبان",
+      "proposed_arabic_vocalized": "ثُعْبَان",
+      "proposed_transliteration": "thuʿbān",
+      "german_answers": [
+        "Schlange"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "ثَعَابِين",
+      "accepted_arabic_answers": [
+        "ثُعْبَان",
+        "ثعبان"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses lange Tier hat keine Beine und kriecht am Boden.",
+          "expected_word_id": "c1_u28_07",
+          "expected_meaning": "Schlange"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_08",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_b",
+      "arabic_unvocalized": "سلحفاة",
+      "proposed_arabic_vocalized": "سُلَحْفَاة",
+      "proposed_transliteration": "sulaḥfāh",
+      "german_answers": [
+        "Schildkröte"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "سَلَاحِف",
+      "accepted_arabic_answers": [
+        "سُلَحْفَاة",
+        "سلحفاة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses Tier trägt sein Haus auf dem Rücken und bewegt sich langsam.",
+          "expected_word_id": "c1_u28_08",
+          "expected_meaning": "Schildkröte"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_09",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_b",
+      "arabic_unvocalized": "ضفدع",
+      "proposed_arabic_vocalized": "ضِفْدَع",
+      "proposed_transliteration": "ḍifdaʿ",
+      "german_answers": [
+        "Frosch"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "ضَفَادِع",
+      "accepted_arabic_answers": [
+        "ضِفْدَع",
+        "ضفدع"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses Tier lebt im und am Wasser und springt gut.",
+          "expected_word_id": "c1_u28_09",
+          "expected_meaning": "Frosch"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_10",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_b",
+      "arabic_unvocalized": "نحلة",
+      "proposed_arabic_vocalized": "نَحْلَة",
+      "proposed_transliteration": "naḥla",
+      "german_answers": [
+        "Biene"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "نَحْل",
+      "accepted_arabic_answers": [
+        "نَحْلَة",
+        "نحلة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses kleine fliegende Insekt macht Honig.",
+          "expected_word_id": "c1_u28_10",
+          "expected_meaning": "Biene"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_small_creatures",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_11",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_c",
+      "arabic_unvocalized": "ذبابة",
+      "proposed_arabic_vocalized": "ذُبَابَة",
+      "proposed_transliteration": "dhubāba",
+      "german_answers": [
+        "Fliege"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "ذُبَاب",
+      "accepted_arabic_answers": [
+        "ذُبَابَة",
+        "ذبابة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses kleine Insekt summt oft ums Essen herum.",
+          "expected_word_id": "c1_u28_11",
+          "expected_meaning": "Fliege"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_small_creatures",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_12",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_c",
+      "arabic_unvocalized": "بعوضة",
+      "proposed_arabic_vocalized": "بَعُوضَة",
+      "proposed_transliteration": "baʿūḍa",
+      "german_answers": [
+        "Mücke"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "بَعُوض",
+      "accepted_arabic_answers": [
+        "بَعُوضَة",
+        "بعوضة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses kleine Insekt sticht dich nachts und juckt danach.",
+          "expected_word_id": "c1_u28_12",
+          "expected_meaning": "Mücke"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_small_creatures",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_13",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_c",
+      "arabic_unvocalized": "فراشة",
+      "proposed_arabic_vocalized": "فَرَاشَة",
+      "proposed_transliteration": "farāsha",
+      "german_answers": [
+        "Schmetterling"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "فَرَاشَات",
+      "accepted_arabic_answers": [
+        "فَرَاشَة",
+        "فراشة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses bunte Insekt fliegt von Blume zu Blume.",
+          "expected_word_id": "c1_u28_13",
+          "expected_meaning": "Schmetterling"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_small_creatures",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_14",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_c",
+      "arabic_unvocalized": "ذئب",
+      "proposed_arabic_vocalized": "ذِئْب",
+      "proposed_transliteration": "dhiʾb",
+      "german_answers": [
+        "Wolf"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "ذِئَاب",
+      "accepted_arabic_answers": [
+        "ذِئْب",
+        "ذئب"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses wilde Tier lebt und jagt im Rudel.",
+          "expected_word_id": "c1_u28_14",
+          "expected_meaning": "Wolf"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_wild_predators",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_15",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_c",
+      "arabic_unvocalized": "ثعلب",
+      "proposed_arabic_vocalized": "ثَعْلَب",
+      "proposed_transliteration": "thaʿlab",
+      "german_answers": [
+        "Fuchs"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "ثَعَالِب",
+      "accepted_arabic_answers": [
+        "ثَعْلَب",
+        "ثعلب"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses schlaue Tier hat einen buschigen Schwanz.",
+          "expected_word_id": "c1_u28_15",
+          "expected_meaning": "Fuchs"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_wild_predators",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_16",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_c",
+      "arabic_unvocalized": "دب",
+      "proposed_arabic_vocalized": "دُبّ",
+      "proposed_transliteration": "dubb",
+      "german_answers": [
+        "Bär"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "دِبَبَة",
+      "accepted_arabic_answers": [
+        "دُبّ",
+        "دب"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses große, starke Tier lebt im Wald.",
+          "expected_word_id": "c1_u28_16",
+          "expected_meaning": "Bär"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_wild_predators",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_17",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_c",
+      "arabic_unvocalized": "غزال",
+      "proposed_arabic_vocalized": "غَزَال",
+      "proposed_transliteration": "ghazāl",
+      "german_answers": [
+        "Gazelle",
+        "Hirsch"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "غِزْلَان",
+      "accepted_arabic_answers": [
+        "غَزَال",
+        "غزال"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses schlanke Tier läuft sehr schnell und schön.",
+          "expected_word_id": "c1_u28_17",
+          "expected_meaning": "Gazelle"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_18",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_c",
+      "arabic_unvocalized": "نبات",
+      "proposed_arabic_vocalized": "نَبَات",
+      "proposed_transliteration": "nabāt",
+      "german_answers": [
+        "Pflanze"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "نَبَاتَات",
+      "accepted_arabic_answers": [
+        "نَبَات",
+        "نبات"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieses Lebewesen wächst im Boden und braucht Licht.",
+          "expected_word_id": "c1_u28_18",
+          "expected_meaning": "Pflanze"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_19",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_c",
+      "arabic_unvocalized": "جذر",
+      "proposed_arabic_vocalized": "جِذْر",
+      "proposed_transliteration": "jidhr",
+      "german_answers": [
+        "Wurzel"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "جُذُور",
+      "accepted_arabic_answers": [
+        "جِذْر",
+        "جذر"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieser Teil der Pflanze steckt unter der Erde.",
+          "expected_word_id": "c1_u28_19",
+          "expected_meaning": "Wurzel"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u28_20",
+      "unit_id": "vocab_unit_28",
+      "session_id": "vocab_unit_28_c",
+      "arabic_unvocalized": "بذرة",
+      "proposed_arabic_vocalized": "بَذْرَة",
+      "proposed_transliteration": "badhra",
+      "german_answers": [
+        "Samen"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "بُذُور",
+      "accepted_arabic_answers": [
+        "بَذْرَة",
+        "بذرة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du pflanzt dieses kleine Korn in die Erde, damit eine neue Pflanze wächst.",
+          "expected_word_id": "c1_u28_20",
+          "expected_meaning": "Samen"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_01",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_a",
+      "arabic_unvocalized": "قراءة",
+      "proposed_arabic_vocalized": "قِرَاءَة",
+      "proposed_transliteration": "qirāʾa",
+      "german_answers": [
+        "Lesen (als Hobby)"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "قِرَاءَة",
+        "قراءة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du machst dies abends gern mit einem guten Buch.",
+          "expected_word_id": "c1_u29_01",
+          "expected_meaning": "Lesen (als Hobby)"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_02",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_a",
+      "arabic_unvocalized": "رسم",
+      "proposed_arabic_vocalized": "رَسْم",
+      "proposed_transliteration": "rasm",
+      "german_answers": [
+        "Zeichnen"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "رَسْم",
+        "رسم"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du machst dies mit einem Stift auf Papier.",
+          "expected_word_id": "c1_u29_02",
+          "expected_meaning": "Zeichnen"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_03",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_a",
+      "arabic_unvocalized": "فن",
+      "proposed_arabic_vocalized": "فَنّ",
+      "proposed_transliteration": "fann",
+      "german_answers": [
+        "Kunst"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "فُنُون",
+      "accepted_arabic_answers": [
+        "فَنّ",
+        "فن"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Ein Gemälde im Museum ist ein Beispiel dafür.",
+          "expected_word_id": "c1_u29_03",
+          "expected_meaning": "Kunst"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_04",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_a",
+      "arabic_unvocalized": "رقص",
+      "proposed_arabic_vocalized": "رَقْص",
+      "proposed_transliteration": "raqṣ",
+      "german_answers": [
+        "Tanzen"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "رَقْص",
+        "رقص"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du bewegst dich dabei zur Musik.",
+          "expected_word_id": "c1_u29_04",
+          "expected_meaning": "Tanzen"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_05",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_a",
+      "arabic_unvocalized": "سباحة",
+      "proposed_arabic_vocalized": "سِبَاحَة",
+      "proposed_transliteration": "sibāḥa",
+      "german_answers": [
+        "Schwimmen"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "سِبَاحَة",
+        "سباحة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du machst dies im Schwimmbad oder im Meer.",
+          "expected_word_id": "c1_u29_05",
+          "expected_meaning": "Schwimmen"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_06",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_a",
+      "arabic_unvocalized": "كرة القدم",
+      "proposed_arabic_vocalized": "كُرَة الْقَدَم",
+      "proposed_transliteration": "kurat al-qadam",
+      "german_answers": [
+        "Fußball"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "كُرَة الْقَدَم",
+        "كرة القدم"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Bei diesem Sport schießt du einen Ball mit dem Fuß ins Tor.",
+          "expected_word_id": "c1_u29_06",
+          "expected_meaning": "Fußball"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_07",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_b",
+      "arabic_unvocalized": "كرة السلة",
+      "proposed_arabic_vocalized": "كُرَة السَّلَّة",
+      "proposed_transliteration": "kurat as-salla",
+      "german_answers": [
+        "Basketball"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "كُرَة السَّلَّة",
+        "كرة السلة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Bei diesem Sport wirfst du den Ball in einen hohen Korb.",
+          "expected_word_id": "c1_u29_07",
+          "expected_meaning": "Basketball"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_08",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_b",
+      "arabic_unvocalized": "تنس",
+      "proposed_arabic_vocalized": "تِنِس",
+      "proposed_transliteration": "tanis",
+      "german_answers": [
+        "Tennis"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "تِنِس",
+        "تنس"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Bei diesem Sport schlägst du einen kleinen Ball über ein Netz.",
+          "expected_word_id": "c1_u29_08",
+          "expected_meaning": "Tennis"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_09",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_b",
+      "arabic_unvocalized": "جري",
+      "proposed_arabic_vocalized": "جَرْي",
+      "proposed_transliteration": "jary",
+      "german_answers": [
+        "Laufen (Joggen, als Hobby)",
+        "Joggen"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "جَرْي",
+        "جري"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du machst dies morgens im Park, um fit zu bleiben.",
+          "expected_word_id": "c1_u29_09",
+          "expected_meaning": "Laufen (Joggen, als Hobby)"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_10",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_b",
+      "arabic_unvocalized": "ركوب الدراجة",
+      "proposed_arabic_vocalized": "رُكُوب الدَّرَّاجَة",
+      "proposed_transliteration": "rukūb ad-darrāja",
+      "german_answers": [
+        "Fahrradfahren"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "رُكُوب الدَّرَّاجَة",
+        "ركوب الدراجة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du machst dies auf zwei Rädern ohne Motor.",
+          "expected_word_id": "c1_u29_10",
+          "expected_meaning": "Fahrradfahren"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_11",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_b",
+      "arabic_unvocalized": "تصوير",
+      "proposed_arabic_vocalized": "تَصْوِير",
+      "proposed_transliteration": "taṣwīr",
+      "german_answers": [
+        "Fotografie",
+        "Fotografieren"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "تَصْوِير",
+        "تصوير"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du machst dies gerne mit deiner Kamera in der Natur.",
+          "expected_word_id": "c1_u29_11",
+          "expected_meaning": "Fotografie"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_12",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_b",
+      "arabic_unvocalized": "هواية",
+      "proposed_arabic_vocalized": "هِوَايَة",
+      "proposed_transliteration": "hiwāya",
+      "german_answers": [
+        "Hobby"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "هِوَايَات",
+      "accepted_arabic_answers": [
+        "هِوَايَة",
+        "هواية"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du fragst jemanden, was er in seiner Freizeit gerne macht.",
+          "expected_word_id": "c1_u29_12",
+          "expected_meaning": "Hobby"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_13",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_b",
+      "arabic_unvocalized": "حفلة موسيقية",
+      "proposed_arabic_vocalized": "حَفْلَة مُوسِيقِيَّة",
+      "proposed_transliteration": "ḥafla mūsīqiyya",
+      "german_answers": [
+        "Konzert"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "حَفْلَة مُوسِيقِيَّة",
+        "حفلة موسيقية"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du gehst hin, um deine Lieblingsband live singen zu hören.",
+          "expected_word_id": "c1_u29_13",
+          "expected_meaning": "Konzert"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_leisure_terms",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_14",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_b",
+      "arabic_unvocalized": "أغنية",
+      "proposed_arabic_vocalized": "أُغْنِيَة",
+      "proposed_transliteration": "ughniya",
+      "german_answers": [
+        "Lied"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "أَغَانٍ",
+      "accepted_arabic_answers": [
+        "أُغْنِيَة",
+        "أغنية"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du hörst dieses gesungene Musikstück im Radio.",
+          "expected_word_id": "c1_u29_14",
+          "expected_meaning": "Lied"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_15",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_b",
+      "arabic_unvocalized": "مغني",
+      "proposed_arabic_vocalized": "مُغَنِّي",
+      "proposed_transliteration": "mughannī",
+      "german_answers": [
+        "Sänger"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "مُغَنُّون",
+      "accepted_arabic_answers": [
+        "مُغَنِّي",
+        "مغني"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Diese Person steht auf der Bühne und singt.",
+          "expected_word_id": "c1_u29_15",
+          "expected_meaning": "Sänger"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_16",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_b",
+      "arabic_unvocalized": "ممثل",
+      "proposed_arabic_vocalized": "مُمَثِّل",
+      "proposed_transliteration": "mumaththil",
+      "german_answers": [
+        "Schauspieler"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "مُمَثِّلُون",
+      "accepted_arabic_answers": [
+        "مُمَثِّل",
+        "ممثل"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Dieser Mann spielt eine Rolle in einem Film.",
+          "expected_word_id": "c1_u29_16",
+          "expected_meaning": "Schauspieler"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": "c1_u29_17",
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_17",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_c",
+      "arabic_unvocalized": "ممثلة",
+      "proposed_arabic_vocalized": "مُمَثِّلَة",
+      "proposed_transliteration": "mumaththila",
+      "german_answers": [
+        "Schauspielerin"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "مُمَثِّلَات",
+      "accepted_arabic_answers": [
+        "مُمَثِّلَة",
+        "ممثلة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Diese Frau spielt eine Rolle in einem Film.",
+          "expected_word_id": "c1_u29_17",
+          "expected_meaning": "Schauspielerin"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": "c1_u29_16",
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_18",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_c",
+      "arabic_unvocalized": "مباراة",
+      "proposed_arabic_vocalized": "مُبَارَاة",
+      "proposed_transliteration": "mubārāh",
+      "german_answers": [
+        "Spiel (Wettkampf, Match)"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "مُبَارَيَات",
+      "accepted_arabic_answers": [
+        "مُبَارَاة",
+        "مباراة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Zwei Mannschaften treten heute Abend gegeneinander an.",
+          "expected_word_id": "c1_u29_18",
+          "expected_meaning": "Spiel (Wettkampf, Match)"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_game_words",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_19",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_c",
+      "arabic_unvocalized": "فريق",
+      "proposed_arabic_vocalized": "فَرِيق",
+      "proposed_transliteration": "farīq",
+      "german_answers": [
+        "Mannschaft",
+        "Team"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "فِرَق",
+      "accepted_arabic_answers": [
+        "فَرِيق",
+        "فريق"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Mehrere Spieler zusammen bilden diese Gruppe.",
+          "expected_word_id": "c1_u29_19",
+          "expected_meaning": "Mannschaft"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_20",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_c",
+      "arabic_unvocalized": "لاعب",
+      "proposed_arabic_vocalized": "لَاعِب",
+      "proposed_transliteration": "lāʿib",
+      "german_answers": [
+        "Spieler"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "لَاعِبُون",
+      "accepted_arabic_answers": [
+        "لَاعِب",
+        "لاعب"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Diese Person nimmt aktiv an einem Sportspiel teil.",
+          "expected_word_id": "c1_u29_20",
+          "expected_meaning": "Spieler"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_21",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_c",
+      "arabic_unvocalized": "فائز",
+      "proposed_arabic_vocalized": "فَائِز",
+      "proposed_transliteration": "fāʾiz",
+      "german_answers": [
+        "Gewinner"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": "فَائِزُون",
+      "accepted_arabic_answers": [
+        "فَائِز",
+        "فائز"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Diese Person oder Mannschaft hat den Wettbewerb gewonnen.",
+          "expected_word_id": "c1_u29_21",
+          "expected_meaning": "Gewinner"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_22",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_c",
+      "arabic_unvocalized": "مسابقة",
+      "proposed_arabic_vocalized": "مُسَابَقَة",
+      "proposed_transliteration": "musābaqa",
+      "german_answers": [
+        "Wettbewerb"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "مُسَابَقَات",
+      "accepted_arabic_answers": [
+        "مُسَابَقَة",
+        "مسابقة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Mehrere Teilnehmer treten hier gegeneinander an, um zu gewinnen.",
+          "expected_word_id": "c1_u29_22",
+          "expected_meaning": "Wettbewerb"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_23",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_c",
+      "arabic_unvocalized": "عطلة",
+      "proposed_arabic_vocalized": "عُطْلَة",
+      "proposed_transliteration": "ʿuṭla",
+      "german_answers": [
+        "Ferien",
+        "freie Tage"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "عُطَل",
+      "accepted_arabic_answers": [
+        "عُطْلَة",
+        "عطلة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Die Schule ist für einige Wochen geschlossen.",
+          "expected_word_id": "c1_u29_23",
+          "expected_meaning": "Ferien"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_leisure_terms",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_24",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_c",
+      "arabic_unvocalized": "حفلة",
+      "proposed_arabic_vocalized": "حَفْلَة",
+      "proposed_transliteration": "ḥafla",
+      "german_answers": [
+        "Feier",
+        "Party"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": "حَفَلَات",
+      "accepted_arabic_answers": [
+        "حَفْلَة",
+        "حفلة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du lädst Freunde zu deinem Geburtstag ein.",
+          "expected_word_id": "c1_u29_24",
+          "expected_meaning": "Feier"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_leisure_terms",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_25",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_c",
+      "arabic_unvocalized": "شطرنج",
+      "proposed_arabic_vocalized": "شَطْرَنْج",
+      "proposed_transliteration": "shaṭranj",
+      "german_answers": [
+        "Schach"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "شَطْرَنْج",
+        "شطرنج"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Bei diesem Brettspiel bewegst du König, Dame und Bauern.",
+          "expected_word_id": "c1_u29_25",
+          "expected_meaning": "Schach"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u29_26",
+      "unit_id": "vocab_unit_29",
+      "session_id": "vocab_unit_29_c",
+      "arabic_unvocalized": "سياحة",
+      "proposed_arabic_vocalized": "سِيَاحَة",
+      "proposed_transliteration": "siyāḥa",
+      "german_answers": [
+        "Tourismus"
+      ],
+      "part_of_speech": "Substantiv",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "سِيَاحَة",
+        "سياحة"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Menschen reisen aus der ganzen Welt hierher, um die Stadt zu besichtigen.",
+          "expected_word_id": "c1_u29_26",
+          "expected_meaning": "Tourismus"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": "c1_leisure_terms",
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_01",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_a",
+      "arabic_unvocalized": "أي",
+      "proposed_arabic_vocalized": "أَيّ",
+      "proposed_transliteration": "ayy",
+      "german_answers": [
+        "welcher",
+        "welche",
+        "welches"
+      ],
+      "part_of_speech": "Fragewort",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "أَيّ",
+        "أي"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du fragst nach EINEM bestimmten Ding aus mehreren möglichen: أَيُّ كِتَابٍ تُرِيد؟ (Welches Buch möchtest du?)",
+          "expected_word_id": "c1_u30_01",
+          "expected_meaning": "welcher"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_02",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_a",
+      "arabic_unvocalized": "هل",
+      "proposed_arabic_vocalized": "هَلْ",
+      "proposed_transliteration": "hal",
+      "german_answers": [
+        "Fragepartikel für Ja/Nein-Fragen"
+      ],
+      "part_of_speech": "Partikel",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "هَلْ",
+        "هل"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du stellst eine Frage, die nur mit \"ja\" oder \"nein\" beantwortet wird — هَلْ steht dafür immer ganz am Satzanfang: هَلْ أَنْتَ جَاهِز؟ (Bist du bereit?)",
+          "expected_word_id": "c1_u30_02",
+          "expected_meaning": "Fragepartikel für Ja/Nein-Fragen"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_03",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_a",
+      "arabic_unvocalized": "لأن",
+      "proposed_arabic_vocalized": "لِأَنَّ",
+      "proposed_transliteration": "liʾanna",
+      "german_answers": [
+        "weil"
+      ],
+      "part_of_speech": "Konjunktion",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "لِأَنَّ",
+        "لأن"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du erklärst einen Grund für etwas: تَعَبْتُ لِأَنَّنِي عَمِلْتُ كَثِيراً (Ich bin müde, weil ich viel gearbeitet habe).",
+          "expected_word_id": "c1_u30_03",
+          "expected_meaning": "weil"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_04",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_b",
+      "arabic_unvocalized": "لكن",
+      "proposed_arabic_vocalized": "لَكِنْ",
+      "proposed_transliteration": "lākin",
+      "german_answers": [
+        "aber"
+      ],
+      "part_of_speech": "Konjunktion",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "لَكِنْ",
+        "لكن"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du stellst einen Gegensatz zwischen zwei Aussagen dar: الْجَوُّ جَمِيلٌ لَكِنْ بَارِد (Das Wetter ist schön, aber kalt).",
+          "expected_word_id": "c1_u30_04",
+          "expected_meaning": "aber"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_05",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_b",
+      "arabic_unvocalized": "و",
+      "proposed_arabic_vocalized": "وَ",
+      "proposed_transliteration": "wa",
+      "german_answers": [
+        "und"
+      ],
+      "part_of_speech": "Konjunktion",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "وَ",
+        "و"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du verbindest zwei Wörter oder Sätze miteinander: أَنَا وَأَنْتَ (ich und du).",
+          "expected_word_id": "c1_u30_05",
+          "expected_meaning": "und"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_06",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_b",
+      "arabic_unvocalized": "أو",
+      "proposed_arabic_vocalized": "أَوْ",
+      "proposed_transliteration": "aw",
+      "german_answers": [
+        "oder"
+      ],
+      "part_of_speech": "Konjunktion",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "أَوْ",
+        "أو"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du bietest eine Auswahl zwischen zwei Möglichkeiten an: شَايٌ أَوْ قَهْوَة؟ (Tee oder Kaffee?).",
+          "expected_word_id": "c1_u30_06",
+          "expected_meaning": "oder"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_07",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_b",
+      "arabic_unvocalized": "ثم",
+      "proposed_arabic_vocalized": "ثُمَّ",
+      "proposed_transliteration": "thumma",
+      "german_answers": [
+        "dann",
+        "danach"
+      ],
+      "part_of_speech": "Konjunktion",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "ثُمَّ",
+        "ثم"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du beschreibst, was zeitlich als Nächstes passiert: اِسْتَيْقَظْتُ ثُمَّ اِغْتَسَلْتُ (Ich bin aufgewacht, dann habe ich mich gewaschen).",
+          "expected_word_id": "c1_u30_07",
+          "expected_meaning": "dann"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_08",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_b",
+      "arabic_unvocalized": "لذلك",
+      "proposed_arabic_vocalized": "لِذَلِكَ",
+      "proposed_transliteration": "lidhālika",
+      "german_answers": [
+        "deshalb",
+        "daher"
+      ],
+      "part_of_speech": "Adverb",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "لِذَلِكَ",
+        "لذلك"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du nennst die Folge einer bereits genannten Ursache: كُنْتُ مَرِيضاً، لِذَلِكَ لَمْ أَذْهَبْ (Ich war krank, deshalb bin ich nicht gegangen).",
+          "expected_word_id": "c1_u30_08",
+          "expected_meaning": "deshalb"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_09",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_b",
+      "arabic_unvocalized": "أيضا",
+      "proposed_arabic_vocalized": "أَيْضاً",
+      "proposed_transliteration": "ayḍan",
+      "german_answers": [
+        "auch"
+      ],
+      "part_of_speech": "Adverb",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "أَيْضاً",
+        "أيضا"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du fügst eine weitere zutreffende Sache hinzu: أَنَا جَائِعٌ، وَأَنْتَ أَيْضاً (Ich habe Hunger, und du auch).",
+          "expected_word_id": "c1_u30_09",
+          "expected_meaning": "auch"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_10",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_b",
+      "arabic_unvocalized": "فقط",
+      "proposed_arabic_vocalized": "فَقَطْ",
+      "proposed_transliteration": "faqaṭ",
+      "german_answers": [
+        "nur"
+      ],
+      "part_of_speech": "Adverb",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "فَقَطْ",
+        "فقط"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du beschränkst etwas auf eine einzige Sache: عِنْدِي دِينَارٌ وَاحِدٌ فَقَطْ (Ich habe nur einen einzigen Dinar).",
+          "expected_word_id": "c1_u30_10",
+          "expected_meaning": "nur"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_11",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_b",
+      "arabic_unvocalized": "جدا",
+      "proposed_arabic_vocalized": "جِدّاً",
+      "proposed_transliteration": "jiddan",
+      "german_answers": [
+        "sehr"
+      ],
+      "part_of_speech": "Adverb",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "جِدّاً",
+        "جدا"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du verstärkst eine Eigenschaft: هَذَا الْكِتَابُ مُفِيدٌ جِدّاً (Dieses Buch ist sehr nützlich).",
+          "expected_word_id": "c1_u30_11",
+          "expected_meaning": "sehr"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_12",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_b",
+      "arabic_unvocalized": "أكثر",
+      "proposed_arabic_vocalized": "أَكْثَر",
+      "proposed_transliteration": "akthar",
+      "german_answers": [
+        "mehr"
+      ],
+      "part_of_speech": "Adverb",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "أَكْثَر",
+        "أكثر"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du vergleichst eine Menge mit einer anderen: أُرِيدُ أَكْثَرَ مِنْ ذَلِكَ (Ich möchte mehr davon).",
+          "expected_word_id": "c1_u30_12",
+          "expected_meaning": "mehr"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_13",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_b",
+      "arabic_unvocalized": "الآن",
+      "proposed_arabic_vocalized": "اَلْآن",
+      "proposed_transliteration": "al-ān",
+      "german_answers": [
+        "jetzt"
+      ],
+      "part_of_speech": "Adverb",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "اَلْآن",
+        "الآن"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du sprichst über den gegenwärtigen Moment: أَنَا مَشْغُولٌ الْآن (Ich bin jetzt beschäftigt).",
+          "expected_word_id": "c1_u30_13",
+          "expected_meaning": "jetzt"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_14",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_c",
+      "arabic_unvocalized": "كل",
+      "proposed_arabic_vocalized": "كُلّ",
+      "proposed_transliteration": "kull",
+      "german_answers": [
+        "alle",
+        "jeder"
+      ],
+      "part_of_speech": "Pronomen (Indefinit)",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "كُلّ",
+        "كل"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du sprichst über die gesamte Menge ohne Ausnahme: كُلُّ الطُّلَّابِ حَضَرُوا (Alle Studierenden sind gekommen).",
+          "expected_word_id": "c1_u30_14",
+          "expected_meaning": "alle"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": "c1_u30_15",
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_15",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_c",
+      "arabic_unvocalized": "بعض",
+      "proposed_arabic_vocalized": "بَعْض",
+      "proposed_transliteration": "baʿḍ",
+      "german_answers": [
+        "einige",
+        "manche"
+      ],
+      "part_of_speech": "Pronomen (Indefinit)",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "بَعْض",
+        "بعض"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du sprichst über einen Teil einer Menge, nicht über alles: بَعْضُ الطُّلَّابِ غَائِبُون (Einige Studierende fehlen).",
+          "expected_word_id": "c1_u30_15",
+          "expected_meaning": "einige"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": "c1_u30_14",
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_16",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_c",
+      "arabic_unvocalized": "لا أحد",
+      "proposed_arabic_vocalized": "لَا أَحَد",
+      "proposed_transliteration": "lā aḥad",
+      "german_answers": [
+        "niemand"
+      ],
+      "part_of_speech": "Pronomen (Indefinit)",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "لَا أَحَد",
+        "لا أحد"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du sagst, dass keine einzige Person etwas getan hat: لَا أَحَدَ فِي الْغُرْفَة (Niemand ist im Zimmer).",
+          "expected_word_id": "c1_u30_16",
+          "expected_meaning": "niemand"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_17",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_c",
+      "arabic_unvocalized": "شيء",
+      "proposed_arabic_vocalized": "شَيْء",
+      "proposed_transliteration": "shayʾ",
+      "german_answers": [
+        "etwas",
+        "Sache"
+      ],
+      "part_of_speech": "Pronomen (Indefinit)",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "شَيْء",
+        "شيء"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du sprichst über eine unbestimmte Sache: أُرِيدُ أَنْ أَقُولَ شَيْئاً (Ich möchte etwas sagen).",
+          "expected_word_id": "c1_u30_17",
+          "expected_meaning": "etwas"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": "c1_u30_18",
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_18",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_c",
+      "arabic_unvocalized": "لا شيء",
+      "proposed_arabic_vocalized": "لَا شَيْء",
+      "proposed_transliteration": "lā shayʾ",
+      "german_answers": [
+        "nichts"
+      ],
+      "part_of_speech": "Pronomen (Indefinit)",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "لَا شَيْء",
+        "لا شيء"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du sagst, dass es keine einzige Sache gibt: لَا شَيْءَ فِي الصُّنْدُوق (Es gibt nichts in der Kiste).",
+          "expected_word_id": "c1_u30_18",
+          "expected_meaning": "nichts"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": "c1_u30_17",
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_19",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_c",
+      "arabic_unvocalized": "هنا",
+      "proposed_arabic_vocalized": "هُنَا",
+      "proposed_transliteration": "hunā",
+      "german_answers": [
+        "hier"
+      ],
+      "part_of_speech": "Adverb",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "هُنَا",
+        "هنا"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du zeigst auf den Ort, an dem du dich gerade befindest: أَنَا هُنَا (Ich bin hier).",
+          "expected_word_id": "c1_u30_19",
+          "expected_meaning": "hier"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": "c1_u30_20",
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_20",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_c",
+      "arabic_unvocalized": "هناك",
+      "proposed_arabic_vocalized": "هُنَاكَ",
+      "proposed_transliteration": "hunāka",
+      "german_answers": [
+        "dort"
+      ],
+      "part_of_speech": "Adverb",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "هُنَاكَ",
+        "هناك"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du zeigst auf einen Ort, der von dir entfernt ist: هُوَ هُنَاكَ (Er ist dort).",
+          "expected_word_id": "c1_u30_20",
+          "expected_meaning": "dort"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": "c1_u30_19",
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_21",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_c",
+      "arabic_unvocalized": "هذا",
+      "proposed_arabic_vocalized": "هَذَا",
+      "proposed_transliteration": "hādhā",
+      "german_answers": [
+        "dieser",
+        "dieses (m.)"
+      ],
+      "part_of_speech": "Pronomen (Demonstrativ)",
+      "gender": "maskulin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "هَذَا",
+        "هذا"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du zeigst auf ein nahes männliches oder sächliches Ding: هَذَا كِتَابِي (Dies ist mein Buch).",
+          "expected_word_id": "c1_u30_21",
+          "expected_meaning": "dieser"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_22",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_c",
+      "arabic_unvocalized": "هذه",
+      "proposed_arabic_vocalized": "هَذِهِ",
+      "proposed_transliteration": "hādhihi",
+      "german_answers": [
+        "diese",
+        "dieses (f.)"
+      ],
+      "part_of_speech": "Pronomen (Demonstrativ)",
+      "gender": "feminin",
+      "plural": null,
+      "accepted_arabic_answers": [
+        "هَذِهِ",
+        "هذه"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du zeigst auf ein nahes weibliches Ding: هَذِهِ سَيَّارَتِي (Dies ist mein Auto).",
+          "expected_word_id": "c1_u30_22",
+          "expected_meaning": "diese"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    },
+    {
+      "id": "c1_u30_23",
+      "unit_id": "vocab_unit_30",
+      "session_id": "vocab_unit_30_c",
+      "arabic_unvocalized": "إذا",
+      "proposed_arabic_vocalized": "إِذَا",
+      "proposed_transliteration": "idhā",
+      "german_answers": [
+        "wenn",
+        "falls"
+      ],
+      "part_of_speech": "Konjunktion",
+      "gender": null,
+      "plural": null,
+      "accepted_arabic_answers": [
+        "إِذَا",
+        "إذا"
+      ],
+      "application_prompts": [
+        {
+          "type": "context_choice",
+          "prompt": "Du beschreibst eine Bedingung: إِذَا كَانَ الْجَوُّ جَمِيلاً، سَنَخْرُج (Wenn das Wetter schön ist, gehen wir raus).",
+          "expected_word_id": "c1_u30_23",
+          "expected_meaning": "wenn"
+        }
+      ],
+      "homonym_group": null,
+      "opposite_id": null,
+      "confusion_group": null,
+      "notes": "",
+      "review_status": "needs_language_review",
+      "review": {
+        "arabic_vocalization_reviewed": false,
+        "transliteration_reviewed": false,
+        "german_translation_reviewed": false,
+        "application_prompts_reviewed": false
+      }
+    }
+  ],
+  "theory_review": [
+    {
+      "theory_id": "theory_vocab_unit_26_a",
+      "title": "Technik, Internet und Medien (1)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_26_b",
+      "title": "Technik, Internet und Medien (2)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_26_c",
+      "title": "Technik, Internet und Medien (3)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_27_a",
+      "title": "Natur, Wetter und Umwelt (1)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_27_b",
+      "title": "Natur, Wetter und Umwelt (2)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_27_c",
+      "title": "Natur, Wetter und Umwelt (3)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_28_a",
+      "title": "Tiere und Pflanzen (1)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_28_b",
+      "title": "Tiere und Pflanzen (2)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_28_c",
+      "title": "Tiere und Pflanzen (3)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_29_a",
+      "title": "Freizeit, Sport und Kultur (1)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_29_b",
+      "title": "Freizeit, Sport und Kultur (2)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_29_c",
+      "title": "Freizeit, Sport und Kultur (3)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_30_a",
+      "title": "Fragewörter, Konnektoren und Funktionswörter (1)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_30_b",
+      "title": "Fragewörter, Konnektoren und Funktionswörter (2)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    },
+    {
+      "theory_id": "theory_vocab_unit_30_c",
+      "title": "Fragewörter, Konnektoren und Funktionswörter (3)",
+      "review_status": "needs_language_review",
+      "arabic_examples_reviewed": false,
+      "german_explanation_reviewed": false,
+      "mini_check_reviewed": false,
+      "application_prompts_reviewed": false
+    }
+  ]
+}

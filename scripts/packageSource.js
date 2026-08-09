@@ -27,6 +27,7 @@ const INCLUDE = [
   'package-lock.json',
   'README.md',
   'ROADMAP.md',
+  'LANGUAGE_REVIEW_GUIDE.md',
   'LICENSE',
   'LICENSES.md',
   'CONTRIBUTING.md',

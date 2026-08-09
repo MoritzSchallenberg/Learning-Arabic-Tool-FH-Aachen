@@ -5136,6 +5136,942 @@
       "german": "Lager",
       "output_file": "c1_u25_23.wav",
       "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_01",
+      "arabic_vocalized": "لَوْحَة مَفَاتِيح",
+      "arabic_unvocalized": "لوحة مفاتيح",
+      "german": "Tastatur",
+      "output_file": "c1_u26_01.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_02",
+      "arabic_vocalized": "فَأْرَة",
+      "arabic_unvocalized": "فأرة",
+      "german": "Computermaus",
+      "output_file": "c1_u26_02.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_03",
+      "arabic_vocalized": "طَابِعَة",
+      "arabic_unvocalized": "طابعة",
+      "german": "Drucker",
+      "output_file": "c1_u26_03.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_04",
+      "arabic_vocalized": "مَلَفّ",
+      "arabic_unvocalized": "ملف",
+      "german": "Datei",
+      "output_file": "c1_u26_04.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_05",
+      "arabic_vocalized": "مُجَلَّد",
+      "arabic_unvocalized": "مجلد",
+      "german": "Ordner",
+      "output_file": "c1_u26_05.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_06",
+      "arabic_vocalized": "مُسْتَنَد",
+      "arabic_unvocalized": "مستند",
+      "german": "Dokument",
+      "output_file": "c1_u26_06.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_07",
+      "arabic_vocalized": "كَلِمَة مُرُور",
+      "arabic_unvocalized": "كلمة مرور",
+      "german": "Passwort",
+      "output_file": "c1_u26_07.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_08",
+      "arabic_vocalized": "اِسْم مُسْتَخْدِم",
+      "arabic_unvocalized": "اسم مستخدم",
+      "german": "Benutzername",
+      "output_file": "c1_u26_08.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_09",
+      "arabic_vocalized": "مَوْقِع إِلِكْتْرُونِيّ",
+      "arabic_unvocalized": "موقع إلكتروني",
+      "german": "Webseite",
+      "output_file": "c1_u26_09.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_10",
+      "arabic_vocalized": "مُتَصَفِّح",
+      "arabic_unvocalized": "متصفح",
+      "german": "Browser",
+      "output_file": "c1_u26_10.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_11",
+      "arabic_vocalized": "تَنْزِيل",
+      "arabic_unvocalized": "تنزيل",
+      "german": "Download",
+      "output_file": "c1_u26_11.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_12",
+      "arabic_vocalized": "رَفْع",
+      "arabic_unvocalized": "رفع",
+      "german": "Upload",
+      "output_file": "c1_u26_12.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_13",
+      "arabic_vocalized": "رَابِط",
+      "arabic_unvocalized": "رابط",
+      "german": "Link",
+      "output_file": "c1_u26_13.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_14",
+      "arabic_vocalized": "رِسَالَة",
+      "arabic_unvocalized": "رسالة",
+      "german": "Nachricht",
+      "output_file": "c1_u26_14.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_15",
+      "arabic_vocalized": "صُورَة",
+      "arabic_unvocalized": "صورة",
+      "german": "Foto",
+      "output_file": "c1_u26_15.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_16",
+      "arabic_vocalized": "فِيدْيُو",
+      "arabic_unvocalized": "فيديو",
+      "german": "Video",
+      "output_file": "c1_u26_16.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_17",
+      "arabic_vocalized": "كَامِيرَا",
+      "arabic_unvocalized": "كاميرا",
+      "german": "Kamera",
+      "output_file": "c1_u26_17.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_18",
+      "arabic_vocalized": "مَيْكْرُوفُون",
+      "arabic_unvocalized": "ميكروفون",
+      "german": "Mikrofon",
+      "output_file": "c1_u26_18.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_19",
+      "arabic_vocalized": "مُكَبِّر صَوْت",
+      "arabic_unvocalized": "مكبر صوت",
+      "german": "Lautsprecher",
+      "output_file": "c1_u26_19.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_20",
+      "arabic_vocalized": "سَمَّاعَات",
+      "arabic_unvocalized": "سماعات",
+      "german": "Kopfhörer",
+      "output_file": "c1_u26_20.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_21",
+      "arabic_vocalized": "بَطَّارِيَّة",
+      "arabic_unvocalized": "بطارية",
+      "german": "Batterie",
+      "output_file": "c1_u26_21.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_22",
+      "arabic_vocalized": "شَاحِن",
+      "arabic_unvocalized": "شاحن",
+      "german": "Ladegerät",
+      "output_file": "c1_u26_22.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_23",
+      "arabic_vocalized": "كَابِل",
+      "arabic_unvocalized": "كابل",
+      "german": "Kabel",
+      "output_file": "c1_u26_23.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_24",
+      "arabic_vocalized": "شَبَكَة",
+      "arabic_unvocalized": "شبكة",
+      "german": "Netzwerk",
+      "output_file": "c1_u26_24.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u26_25",
+      "arabic_vocalized": "بَيَانَات",
+      "arabic_unvocalized": "بيانات",
+      "german": "Daten",
+      "output_file": "c1_u26_25.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_01",
+      "arabic_vocalized": "سَمَاء",
+      "arabic_unvocalized": "سماء",
+      "german": "Himmel",
+      "output_file": "c1_u27_01.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_02",
+      "arabic_vocalized": "أَرْض",
+      "arabic_unvocalized": "أرض",
+      "german": "Erde",
+      "output_file": "c1_u27_02.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_03",
+      "arabic_vocalized": "بَحْر",
+      "arabic_unvocalized": "بحر",
+      "german": "Meer",
+      "output_file": "c1_u27_03.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_04",
+      "arabic_vocalized": "نَهْر",
+      "arabic_unvocalized": "نهر",
+      "german": "Fluss",
+      "output_file": "c1_u27_04.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_05",
+      "arabic_vocalized": "بُحَيْرَة",
+      "arabic_unvocalized": "بحيرة",
+      "german": "See",
+      "output_file": "c1_u27_05.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_06",
+      "arabic_vocalized": "جَبَل",
+      "arabic_unvocalized": "جبل",
+      "german": "Berg",
+      "output_file": "c1_u27_06.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_07",
+      "arabic_vocalized": "غَابَة",
+      "arabic_unvocalized": "غابة",
+      "german": "Wald",
+      "output_file": "c1_u27_07.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_08",
+      "arabic_vocalized": "شَجَرَة",
+      "arabic_unvocalized": "شجرة",
+      "german": "Baum",
+      "output_file": "c1_u27_08.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_09",
+      "arabic_vocalized": "زَهْرَة",
+      "arabic_unvocalized": "زهرة",
+      "german": "Blume",
+      "output_file": "c1_u27_09.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_10",
+      "arabic_vocalized": "عُشْب",
+      "arabic_unvocalized": "عشب",
+      "german": "Gras",
+      "output_file": "c1_u27_10.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_11",
+      "arabic_vocalized": "رَمْل",
+      "arabic_unvocalized": "رمل",
+      "german": "Sand",
+      "output_file": "c1_u27_11.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_12",
+      "arabic_vocalized": "صَحْرَاء",
+      "arabic_unvocalized": "صحراء",
+      "german": "Wüste",
+      "output_file": "c1_u27_12.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_13",
+      "arabic_vocalized": "شَاطِئ",
+      "arabic_unvocalized": "شاطئ",
+      "german": "Strand",
+      "output_file": "c1_u27_13.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_14",
+      "arabic_vocalized": "هَوَاء",
+      "arabic_unvocalized": "هواء",
+      "german": "Luft",
+      "output_file": "c1_u27_14.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_15",
+      "arabic_vocalized": "دَرَجَة الْحَرَارَة",
+      "arabic_unvocalized": "درجة الحرارة",
+      "german": "Temperatur (Wetter)",
+      "output_file": "c1_u27_15.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_16",
+      "arabic_vocalized": "عَاصِفَة",
+      "arabic_unvocalized": "عاصفة",
+      "german": "Sturm",
+      "output_file": "c1_u27_16.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_17",
+      "arabic_vocalized": "رَعْد",
+      "arabic_unvocalized": "رعد",
+      "german": "Donner",
+      "output_file": "c1_u27_17.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_18",
+      "arabic_vocalized": "بَرْق",
+      "arabic_unvocalized": "برق",
+      "german": "Blitz",
+      "output_file": "c1_u27_18.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_19",
+      "arabic_vocalized": "ضَبَاب",
+      "arabic_unvocalized": "ضباب",
+      "german": "Nebel",
+      "output_file": "c1_u27_19.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_20",
+      "arabic_vocalized": "مُنَاخ",
+      "arabic_unvocalized": "مناخ",
+      "german": "Klima",
+      "output_file": "c1_u27_20.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_21",
+      "arabic_vocalized": "بِيئَة",
+      "arabic_unvocalized": "بيئة",
+      "german": "Umwelt",
+      "output_file": "c1_u27_21.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_22",
+      "arabic_vocalized": "تَلَوُّث",
+      "arabic_unvocalized": "تلوث",
+      "german": "Verschmutzung",
+      "output_file": "c1_u27_22.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u27_23",
+      "arabic_vocalized": "إِعَادَة تَدْوِير",
+      "arabic_unvocalized": "إعادة تدوير",
+      "german": "Recycling",
+      "output_file": "c1_u27_23.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_01",
+      "arabic_vocalized": "خَرُوف",
+      "arabic_unvocalized": "خروف",
+      "german": "Schaf",
+      "output_file": "c1_u28_01.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_02",
+      "arabic_vocalized": "مَاعِز",
+      "arabic_unvocalized": "ماعز",
+      "german": "Ziege",
+      "output_file": "c1_u28_02.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_03",
+      "arabic_vocalized": "جَمَل",
+      "arabic_unvocalized": "جمل",
+      "german": "Kamel",
+      "output_file": "c1_u28_03.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_04",
+      "arabic_vocalized": "حِمَار",
+      "arabic_unvocalized": "حمار",
+      "german": "Esel",
+      "output_file": "c1_u28_04.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_05",
+      "arabic_vocalized": "فِيل",
+      "arabic_unvocalized": "فيل",
+      "german": "Elefant",
+      "output_file": "c1_u28_05.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_06",
+      "arabic_vocalized": "قِرْد",
+      "arabic_unvocalized": "قرد",
+      "german": "Affe",
+      "output_file": "c1_u28_06.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_07",
+      "arabic_vocalized": "ثُعْبَان",
+      "arabic_unvocalized": "ثعبان",
+      "german": "Schlange",
+      "output_file": "c1_u28_07.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_08",
+      "arabic_vocalized": "سُلَحْفَاة",
+      "arabic_unvocalized": "سلحفاة",
+      "german": "Schildkröte",
+      "output_file": "c1_u28_08.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_09",
+      "arabic_vocalized": "ضِفْدَع",
+      "arabic_unvocalized": "ضفدع",
+      "german": "Frosch",
+      "output_file": "c1_u28_09.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_10",
+      "arabic_vocalized": "نَحْلَة",
+      "arabic_unvocalized": "نحلة",
+      "german": "Biene",
+      "output_file": "c1_u28_10.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_11",
+      "arabic_vocalized": "ذُبَابَة",
+      "arabic_unvocalized": "ذبابة",
+      "german": "Fliege",
+      "output_file": "c1_u28_11.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_12",
+      "arabic_vocalized": "بَعُوضَة",
+      "arabic_unvocalized": "بعوضة",
+      "german": "Mücke",
+      "output_file": "c1_u28_12.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_13",
+      "arabic_vocalized": "فَرَاشَة",
+      "arabic_unvocalized": "فراشة",
+      "german": "Schmetterling",
+      "output_file": "c1_u28_13.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_14",
+      "arabic_vocalized": "ذِئْب",
+      "arabic_unvocalized": "ذئب",
+      "german": "Wolf",
+      "output_file": "c1_u28_14.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_15",
+      "arabic_vocalized": "ثَعْلَب",
+      "arabic_unvocalized": "ثعلب",
+      "german": "Fuchs",
+      "output_file": "c1_u28_15.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_16",
+      "arabic_vocalized": "دُبّ",
+      "arabic_unvocalized": "دب",
+      "german": "Bär",
+      "output_file": "c1_u28_16.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_17",
+      "arabic_vocalized": "غَزَال",
+      "arabic_unvocalized": "غزال",
+      "german": "Gazelle",
+      "output_file": "c1_u28_17.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_18",
+      "arabic_vocalized": "نَبَات",
+      "arabic_unvocalized": "نبات",
+      "german": "Pflanze",
+      "output_file": "c1_u28_18.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_19",
+      "arabic_vocalized": "جِذْر",
+      "arabic_unvocalized": "جذر",
+      "german": "Wurzel",
+      "output_file": "c1_u28_19.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u28_20",
+      "arabic_vocalized": "بَذْرَة",
+      "arabic_unvocalized": "بذرة",
+      "german": "Samen",
+      "output_file": "c1_u28_20.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_01",
+      "arabic_vocalized": "قِرَاءَة",
+      "arabic_unvocalized": "قراءة",
+      "german": "Lesen (als Hobby)",
+      "output_file": "c1_u29_01.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_02",
+      "arabic_vocalized": "رَسْم",
+      "arabic_unvocalized": "رسم",
+      "german": "Zeichnen",
+      "output_file": "c1_u29_02.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_03",
+      "arabic_vocalized": "فَنّ",
+      "arabic_unvocalized": "فن",
+      "german": "Kunst",
+      "output_file": "c1_u29_03.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_04",
+      "arabic_vocalized": "رَقْص",
+      "arabic_unvocalized": "رقص",
+      "german": "Tanzen",
+      "output_file": "c1_u29_04.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_05",
+      "arabic_vocalized": "سِبَاحَة",
+      "arabic_unvocalized": "سباحة",
+      "german": "Schwimmen",
+      "output_file": "c1_u29_05.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_06",
+      "arabic_vocalized": "كُرَة الْقَدَم",
+      "arabic_unvocalized": "كرة القدم",
+      "german": "Fußball",
+      "output_file": "c1_u29_06.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_07",
+      "arabic_vocalized": "كُرَة السَّلَّة",
+      "arabic_unvocalized": "كرة السلة",
+      "german": "Basketball",
+      "output_file": "c1_u29_07.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_08",
+      "arabic_vocalized": "تِنِس",
+      "arabic_unvocalized": "تنس",
+      "german": "Tennis",
+      "output_file": "c1_u29_08.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_09",
+      "arabic_vocalized": "جَرْي",
+      "arabic_unvocalized": "جري",
+      "german": "Laufen (Joggen, als Hobby)",
+      "output_file": "c1_u29_09.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_10",
+      "arabic_vocalized": "رُكُوب الدَّرَّاجَة",
+      "arabic_unvocalized": "ركوب الدراجة",
+      "german": "Fahrradfahren",
+      "output_file": "c1_u29_10.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_11",
+      "arabic_vocalized": "تَصْوِير",
+      "arabic_unvocalized": "تصوير",
+      "german": "Fotografie",
+      "output_file": "c1_u29_11.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_12",
+      "arabic_vocalized": "هِوَايَة",
+      "arabic_unvocalized": "هواية",
+      "german": "Hobby",
+      "output_file": "c1_u29_12.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_13",
+      "arabic_vocalized": "حَفْلَة مُوسِيقِيَّة",
+      "arabic_unvocalized": "حفلة موسيقية",
+      "german": "Konzert",
+      "output_file": "c1_u29_13.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_14",
+      "arabic_vocalized": "أُغْنِيَة",
+      "arabic_unvocalized": "أغنية",
+      "german": "Lied",
+      "output_file": "c1_u29_14.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_15",
+      "arabic_vocalized": "مُغَنِّي",
+      "arabic_unvocalized": "مغني",
+      "german": "Sänger",
+      "output_file": "c1_u29_15.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_16",
+      "arabic_vocalized": "مُمَثِّل",
+      "arabic_unvocalized": "ممثل",
+      "german": "Schauspieler",
+      "output_file": "c1_u29_16.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_17",
+      "arabic_vocalized": "مُمَثِّلَة",
+      "arabic_unvocalized": "ممثلة",
+      "german": "Schauspielerin",
+      "output_file": "c1_u29_17.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_18",
+      "arabic_vocalized": "مُبَارَاة",
+      "arabic_unvocalized": "مباراة",
+      "german": "Spiel (Wettkampf, Match)",
+      "output_file": "c1_u29_18.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_19",
+      "arabic_vocalized": "فَرِيق",
+      "arabic_unvocalized": "فريق",
+      "german": "Mannschaft",
+      "output_file": "c1_u29_19.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_20",
+      "arabic_vocalized": "لَاعِب",
+      "arabic_unvocalized": "لاعب",
+      "german": "Spieler",
+      "output_file": "c1_u29_20.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_21",
+      "arabic_vocalized": "فَائِز",
+      "arabic_unvocalized": "فائز",
+      "german": "Gewinner",
+      "output_file": "c1_u29_21.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_22",
+      "arabic_vocalized": "مُسَابَقَة",
+      "arabic_unvocalized": "مسابقة",
+      "german": "Wettbewerb",
+      "output_file": "c1_u29_22.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_23",
+      "arabic_vocalized": "عُطْلَة",
+      "arabic_unvocalized": "عطلة",
+      "german": "Ferien",
+      "output_file": "c1_u29_23.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_24",
+      "arabic_vocalized": "حَفْلَة",
+      "arabic_unvocalized": "حفلة",
+      "german": "Feier",
+      "output_file": "c1_u29_24.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_25",
+      "arabic_vocalized": "شَطْرَنْج",
+      "arabic_unvocalized": "شطرنج",
+      "german": "Schach",
+      "output_file": "c1_u29_25.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u29_26",
+      "arabic_vocalized": "سِيَاحَة",
+      "arabic_unvocalized": "سياحة",
+      "german": "Tourismus",
+      "output_file": "c1_u29_26.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_01",
+      "arabic_vocalized": "أَيّ",
+      "arabic_unvocalized": "أي",
+      "german": "welcher",
+      "output_file": "c1_u30_01.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_02",
+      "arabic_vocalized": "هَلْ",
+      "arabic_unvocalized": "هل",
+      "german": "Fragepartikel für Ja/Nein-Fragen",
+      "output_file": "c1_u30_02.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_03",
+      "arabic_vocalized": "لِأَنَّ",
+      "arabic_unvocalized": "لأن",
+      "german": "weil",
+      "output_file": "c1_u30_03.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_04",
+      "arabic_vocalized": "لَكِنْ",
+      "arabic_unvocalized": "لكن",
+      "german": "aber",
+      "output_file": "c1_u30_04.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_05",
+      "arabic_vocalized": "وَ",
+      "arabic_unvocalized": "و",
+      "german": "und",
+      "output_file": "c1_u30_05.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_06",
+      "arabic_vocalized": "أَوْ",
+      "arabic_unvocalized": "أو",
+      "german": "oder",
+      "output_file": "c1_u30_06.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_07",
+      "arabic_vocalized": "ثُمَّ",
+      "arabic_unvocalized": "ثم",
+      "german": "dann",
+      "output_file": "c1_u30_07.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_08",
+      "arabic_vocalized": "لِذَلِكَ",
+      "arabic_unvocalized": "لذلك",
+      "german": "deshalb",
+      "output_file": "c1_u30_08.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_09",
+      "arabic_vocalized": "أَيْضاً",
+      "arabic_unvocalized": "أيضا",
+      "german": "auch",
+      "output_file": "c1_u30_09.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_10",
+      "arabic_vocalized": "فَقَطْ",
+      "arabic_unvocalized": "فقط",
+      "german": "nur",
+      "output_file": "c1_u30_10.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_11",
+      "arabic_vocalized": "جِدّاً",
+      "arabic_unvocalized": "جدا",
+      "german": "sehr",
+      "output_file": "c1_u30_11.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_12",
+      "arabic_vocalized": "أَكْثَر",
+      "arabic_unvocalized": "أكثر",
+      "german": "mehr",
+      "output_file": "c1_u30_12.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_13",
+      "arabic_vocalized": "اَلْآن",
+      "arabic_unvocalized": "الآن",
+      "german": "jetzt",
+      "output_file": "c1_u30_13.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_14",
+      "arabic_vocalized": "كُلّ",
+      "arabic_unvocalized": "كل",
+      "german": "alle",
+      "output_file": "c1_u30_14.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_15",
+      "arabic_vocalized": "بَعْض",
+      "arabic_unvocalized": "بعض",
+      "german": "einige",
+      "output_file": "c1_u30_15.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_16",
+      "arabic_vocalized": "لَا أَحَد",
+      "arabic_unvocalized": "لا أحد",
+      "german": "niemand",
+      "output_file": "c1_u30_16.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_17",
+      "arabic_vocalized": "شَيْء",
+      "arabic_unvocalized": "شيء",
+      "german": "etwas",
+      "output_file": "c1_u30_17.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_18",
+      "arabic_vocalized": "لَا شَيْء",
+      "arabic_unvocalized": "لا شيء",
+      "german": "nichts",
+      "output_file": "c1_u30_18.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_19",
+      "arabic_vocalized": "هُنَا",
+      "arabic_unvocalized": "هنا",
+      "german": "hier",
+      "output_file": "c1_u30_19.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_20",
+      "arabic_vocalized": "هُنَاكَ",
+      "arabic_unvocalized": "هناك",
+      "german": "dort",
+      "output_file": "c1_u30_20.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_21",
+      "arabic_vocalized": "هَذَا",
+      "arabic_unvocalized": "هذا",
+      "german": "dieser",
+      "output_file": "c1_u30_21.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_22",
+      "arabic_vocalized": "هَذِهِ",
+      "arabic_unvocalized": "هذه",
+      "german": "diese",
+      "output_file": "c1_u30_22.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u30_23",
+      "arabic_vocalized": "إِذَا",
+      "arabic_unvocalized": "إذا",
+      "german": "wenn",
+      "output_file": "c1_u30_23.wav",
+      "status": "needs_language_review"
     }
   ]
 }

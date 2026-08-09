@@ -93,11 +93,7 @@ test('Units 21-25: Substantive haben ein bearbeitetes gender-/plural-Feld (auch 
 
 // 9. Alle Wortarten sind gültig.
 test('Units 21-25: alle part_of_speech-Werte gehören zum zentralen Vokabular (inkl. "Präposition")', () => {
-  const KNOWN_PART_OF_SPEECH = new Set([
-    'Substantiv', 'Substantiv (Dual)', 'Substantiv (Plural)', 'Substantiv (Pluraletantum)',
-    'Substantiv/Adjektiv', 'Adjektiv', 'Verb (3. Pers. m. Vergangenheit)', 'Adverb', 'Ausdruck',
-    'Zahlwort', 'Fragewort', 'Eigenname', 'Präposition'
-  ]);
+  const KNOWN_PART_OF_SPEECH = new Set(require('../../scripts/partOfSpeechVocabulary.js').PART_OF_SPEECH_VALUES);
   for (const id of NEW_WORD_IDS) {
     const w = wordsById.get(id);
     assert.ok(KNOWN_PART_OF_SPEECH.has(w.part_of_speech), `${id}: part_of_speech "${w.part_of_speech}" ist nicht im zentralen Vokabular`);

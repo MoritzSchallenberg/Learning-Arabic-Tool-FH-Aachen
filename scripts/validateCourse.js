@@ -26,7 +26,13 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = path.join(__dirname, '..');
+// COURSE_VALIDATE_ROOT-Override (Entwicklungsauftrag 11): erlaubt Tests, den Validator gegen eine
+// isolierte, temporäre Kopie der Sprachpaketdateien laufen zu lassen, statt die echten,
+// gemeinsam genutzten Dateien im Repository zu mutieren -- verhindert eine Race Condition mit
+// anderen, nebenläufig laufenden Testdateien, die dieselben Dateien lesen (node --test führt
+// mehrere Testdateien standardmäßig parallel aus). Ohne die Umgebungsvariable unverändertes
+// Verhalten (echter Projekt-Root).
+const ROOT = process.env.COURSE_VALIDATE_ROOT || path.join(__dirname, '..');
 const PACK_DIR = path.join(ROOT, 'language-packs', 'arabic');
 const AUDIO_DIR = path.join(PACK_DIR, 'audio');
 const LANGUAGE_REVIEW_DIR = path.join(ROOT, 'language-review');
@@ -190,16 +196,39 @@ for (const w of words) {
   if ('accepted_arabic_answers' in w && !hasNonEmptyStringArray(w.accepted_arabic_answers)) {
     fail(`Wort "${w.id}" hat ein ungültiges "accepted_arabic_answers"-Feld (erwartet: nicht-leeres Array von Strings)`);
   }
+  // Verbindliche Application-Prompt-Semantik (Entwicklungsauftrag 11, Abschnitt 7): ein
+  // application_prompt gehört IMMER zu dem Wort, in dessen application_prompts-Array er
+  // gespeichert ist ("Besitzerwort") — dieses Besitzerwort ist die richtige Lösung. Der
+  // tatsächliche Renderer (renderContextualChoice in exerciseRegistry.js) wertet Korrektheit
+  // ausschließlich über Objektidentität aus (opt.id === ctx.word.id) und liest
+  // expected_word_id/expected_meaning zur Laufzeit nicht — dieser Runtime-Fallback bleibt
+  // bestehen. Die KURSVALIDIERUNG muss trotzdem sicherstellen, dass diese beiden Felder NIE
+  // widersprüchliche Metadaten enthalten, damit inkonsistente Inhalte nicht unbemerkt in eine
+  // spätere, strengere Renderer-Version oder in die Sprachprüfung gelangen.
   if ('application_prompts' in w) {
     if (!Array.isArray(w.application_prompts) || w.application_prompts.length === 0) {
       fail(`Wort "${w.id}" hat ein ungültiges "application_prompts"-Feld (erwartet: nicht-leeres Array)`);
     } else {
       for (const p of w.application_prompts) {
-        if (!p || !p.prompt || !(p.expected_meaning || p.expected_word_id)) {
-          fail(`Wort "${w.id}" hat einen application_prompt ohne "prompt" bzw. ohne "expected_meaning"/"expected_word_id"`);
+        if (!p || !hasNonEmptyString(p.prompt)) {
+          fail(`Wort "${w.id}" hat einen application_prompt ohne (nicht-leeren) "prompt"`);
+          continue;
         }
-        if (p && p.expected_word_id && !idCounts.has(p.expected_word_id)) {
-          fail(`Wort "${w.id}" hat einen application_prompt mit unbekannter "expected_word_id" ("${p.expected_word_id}")`);
+        if (!hasNonEmptyString(p.expected_meaning) && !hasNonEmptyString(p.expected_word_id)) {
+          fail(`Wort "${w.id}" hat einen application_prompt ohne "expected_meaning"/"expected_word_id" (leere Lösung)`);
+        }
+        if (hasNonEmptyString(p.expected_word_id)) {
+          if (!idCounts.has(p.expected_word_id)) {
+            fail(`Wort "${w.id}" hat einen application_prompt mit unbekannter "expected_word_id" ("${p.expected_word_id}")`);
+          } else if (p.expected_word_id !== w.id) {
+            fail(`Wort "${w.id}" hat einen application_prompt, dessen "expected_word_id" ("${p.expected_word_id}") auf ein ANDERES Wort zeigt — expected_word_id muss immer der ID des Besitzerwortes entsprechen.`);
+          }
+        }
+        if (hasNonEmptyString(p.expected_meaning)) {
+          const ownerAnswers = Array.isArray(w.german_answers) ? w.german_answers : (w.german ? [w.german] : []);
+          if (!ownerAnswers.includes(p.expected_meaning)) {
+            fail(`Wort "${w.id}" hat einen application_prompt, dessen "expected_meaning" ("${p.expected_meaning}") keiner akzeptierten deutschen Antwort des Besitzerwortes entspricht (${JSON.stringify(ownerAnswers)}).`);
+          }
         }
       }
     }
@@ -230,21 +259,11 @@ if (words.length !== 900) {
 }
 
 // --- Geschlossenes part_of_speech-Vokabular (Entwicklungsauftrag 8, Abschnitt 8; erweitert in
-// Entwicklungsauftrag 10, Abschnitt 3) -------------------------------------------------------
-// Entwicklungsauftrag 8 schlug ein eigenes (englisches) Wortarten-Vokabular vor. Über die 388
-// bereits vorher vollständigen Wörter (Kurs 1, Units 1-10) hat sich aber schon ein deutsches
-// Vokabular etabliert. Statt es disruptiv umzustellen, wird HIER die bestehende Konvention als
-// die eine, zentrale, geschlossene Liste festgeschrieben (kein zweites/paralleles Vokabular) und
-// jeder unbekannte Wert als Hinweis gemeldet, statt schweigend durchzulaufen. "Präposition" kam
-// in Entwicklungsauftrag 10 als 13. Wert hinzu — Unit 21 (Position/Richtung) ist die erste Unit
-// mit einer nennenswerten Zahl echter Präpositionen; sie zuvor unter "Ausdruck" zu führen wäre
-// grammatisch ungenau gewesen. Bewusst eine einzige, durchdachte Ergänzung der zentralen Liste,
-// kein zweites Vokabular.
-const KNOWN_PART_OF_SPEECH = new Set([
-  'Substantiv', 'Substantiv (Dual)', 'Substantiv (Plural)', 'Substantiv (Pluraletantum)',
-  'Substantiv/Adjektiv', 'Adjektiv', 'Verb (3. Pers. m. Vergangenheit)', 'Adverb', 'Ausdruck',
-  'Zahlwort', 'Fragewort', 'Eigenname', 'Präposition'
-]);
+// Entwicklungsauftrag 10/11) -------------------------------------------------------------------
+// Die Liste selbst lebt jetzt in scripts/partOfSpeechVocabulary.js als EINE zentrale, maßgebliche
+// Quelle (Entwicklungsauftrag 11, Abschnitt 5) — Content-Tests importieren dieselbe Datei statt
+// eigener Kopien zu pflegen. Details/Historie siehe Kommentarkopf dort.
+const KNOWN_PART_OF_SPEECH = new Set(require('./partOfSpeechVocabulary.js').PART_OF_SPEECH_VALUES);
 const unknownPartOfSpeech = new Map();
 for (const w of words) {
   if (!w.part_of_speech) continue;

@@ -40,6 +40,52 @@ const ExerciseRegistry = (() => {
   function germanAnswers(word) {
     return Array.isArray(word.german_answers) && word.german_answers.length > 0 ? word.german_answers : [word.german];
   }
+
+  // --- Distraktorauswahl qualitativ abgesichert (Entwicklungsauftrag 11, Abschnitt 8) ---------
+  // Vorher wurden für Multiple-Choice-artige Aufgaben (Wiedererkennen, contextual_choice, ...)
+  // einfach drei ZUFÄLLIGE andere Wörter aus dem übergebenen Pool als Distraktoren verwendet —
+  // dabei konnten theoretisch Duplikate, Homonyme oder bedeutungsgleiche Wörter als "falsche"
+  // Option neben der richtigen erscheinen. pickDistractors() filtert das jetzt heraus, bleibt
+  // aber rückwärtskompatibel: bei einem zu kleinen/ungeeigneten Pool wird kontrolliert auf
+  // weniger strenge Kriterien bzw. weniger Optionen zurückgefallen, statt abzustürzen oder eine
+  // Aufgabe mit zu wenigen Buttons zu erzwingen.
+  //
+  // Ein Kandidat gilt als GUTER Distraktor, wenn er sich vom Zielwort unterscheidet in:
+  // - Wort-ID (immer vorausgesetzt, wird vom Aufrufer bereits gefiltert)
+  // - angezeigter arabischer Form (arabic_vocalized/arabic)
+  // - unvokalisierter arabischer Form (arabic_unvocalized) -- deckt auch Homonyme ab, die per
+  //   Definition dieselbe unvokalisierte Form teilen
+  // - homonym_group (falls bei beiden gesetzt und identisch -- zusätzliche Absicherung für den
+  //   seltenen Fall unterschiedlich geschriebener, aber als Homonym-Paar markierter Wörter)
+  // - der Menge akzeptierter deutscher Bedeutungen (kein vollständiger Bedeutungs-Overlap, damit
+  //   kein Synonym des Zielworts als "falsche" Option erscheint)
+  function isAcceptableDistractor(word, candidate) {
+    if (candidate.id === word.id) return false;
+    const wordArabic = word.arabic_vocalized || word.arabic;
+    const candidateArabic = candidate.arabic_vocalized || candidate.arabic;
+    if (wordArabic && candidateArabic && wordArabic === candidateArabic) return false;
+    if (word.arabic_unvocalized && candidate.arabic_unvocalized && word.arabic_unvocalized === candidate.arabic_unvocalized) return false;
+    if (word.homonym_group && candidate.homonym_group && word.homonym_group === candidate.homonym_group) return false;
+    const wordMeanings = germanAnswers(word).map((s) => (s || '').trim().toLowerCase()).filter(Boolean);
+    const candidateMeanings = new Set(germanAnswers(candidate).map((s) => (s || '').trim().toLowerCase()).filter(Boolean));
+    if (wordMeanings.length > 0 && wordMeanings.every((m) => candidateMeanings.has(m))) return false;
+    return true;
+  }
+
+  // Liefert bis zu `count` Distraktoren aus `allWords` (ohne `word` selbst). Bevorzugt Kandidaten,
+  // die isAcceptableDistractor() erfüllen; reicht der strenge Pool nicht aus, werden die
+  // übrigen (weniger geeigneten, aber immerhin unterschiedlichen) Kandidaten aufgefüllt, damit
+  // die Aufgabe auch bei einem kleinen/ungünstigen Session-Wortpool nie abstürzt oder mit zu
+  // wenigen Optionen hängen bleibt -- im Zweifel lieber ein nicht perfekter Distraktor als eine
+  // Aufgabe mit weniger als der gewünschten Optionsanzahl, wenn der Pool das nicht hergibt.
+  function pickDistractors(word, allWords, count) {
+    const others = allWords.filter((w) => w.id !== word.id);
+    const good = pickRandomOrder(others.filter((w) => isAcceptableDistractor(word, w)));
+    if (good.length >= count) return good.slice(0, count);
+    const goodIds = new Set(good.map((w) => w.id));
+    const rest = pickRandomOrder(others.filter((w) => !goodIds.has(w.id)));
+    return [...good, ...rest].slice(0, count);
+  }
   function arabicAnswers(word) {
     return Array.isArray(word.accepted_arabic_answers) && word.accepted_arabic_answers.length > 0
       ? word.accepted_arabic_answers
@@ -81,7 +127,7 @@ const ExerciseRegistry = (() => {
   function renderMultipleChoice(container, ctx, guard, onDone) {
     const { word, allWords } = ctx;
     const cfg = displayConfig(ctx);
-    const distractors = pickRandomOrder(allWords.filter((w) => w.id !== word.id)).slice(0, 3);
+    const distractors = pickDistractors(word, allWords, 3);
     const options = pickRandomOrder([word, ...distractors]);
 
     while (container.firstChild) container.removeChild(container.firstChild);
@@ -115,7 +161,7 @@ const ExerciseRegistry = (() => {
   function renderGermanToArabicChoice(container, ctx, guard, onDone) {
     const { word, allWords } = ctx;
     const cfg = displayConfig(ctx);
-    const distractors = pickRandomOrder(allWords.filter((w) => w.id !== word.id)).slice(0, 3);
+    const distractors = pickDistractors(word, allWords, 3);
     const options = pickRandomOrder([word, ...distractors]);
 
     while (container.firstChild) container.removeChild(container.firstChild);
@@ -150,7 +196,7 @@ const ExerciseRegistry = (() => {
   function renderAudioToWordChoice(container, ctx, guard, onDone) {
     const { word, allWords } = ctx;
     const cfg = displayConfig(ctx);
-    const distractors = pickRandomOrder(allWords.filter((w) => w.id !== word.id)).slice(0, 3);
+    const distractors = pickDistractors(word, allWords, 3);
     const options = pickRandomOrder([word, ...distractors]);
 
     while (container.firstChild) container.removeChild(container.firstChild);
@@ -187,7 +233,7 @@ const ExerciseRegistry = (() => {
   function renderWordToAudioChoice(container, ctx, guard, onDone) {
     const { word, allWords } = ctx;
     const cfg = displayConfig(ctx);
-    const distractors = pickRandomOrder(allWords.filter((w) => w.id !== word.id)).slice(0, 3);
+    const distractors = pickDistractors(word, allWords, 3);
     const options = pickRandomOrder([word, ...distractors]);
 
     while (container.firstChild) container.removeChild(container.firstChild);
@@ -362,7 +408,7 @@ const ExerciseRegistry = (() => {
     const { word, allWords } = ctx;
     const cfg = displayConfig(ctx);
     const promptData = applicationPromptFor(word);
-    const distractors = pickRandomOrder(allWords.filter((w) => w.id !== word.id)).slice(0, 3);
+    const distractors = pickDistractors(word, allWords, 3);
     const options = pickRandomOrder([word, ...distractors]);
 
     while (container.firstChild) container.removeChild(container.firstChild);
@@ -424,7 +470,8 @@ const ExerciseRegistry = (() => {
 
   return {
     render, PHASE_EXERCISE_TYPE, MINI_CHECK_TYPES, RENDERERS,
-    primaryGerman, germanAnswers, arabicAnswers, checkArabicInput, checkGermanInput, displayConfig, arabicDisplay
+    primaryGerman, germanAnswers, arabicAnswers, checkArabicInput, checkGermanInput, displayConfig, arabicDisplay,
+    isAcceptableDistractor, pickDistractors
   };
 })();
 

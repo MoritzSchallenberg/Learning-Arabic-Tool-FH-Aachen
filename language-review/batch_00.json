@@ -2431,8 +2431,8 @@
       "application_prompts": [
         {
           "type": "context_choice",
-          "prompt": "Das machst du in deiner Freizeit: Spiel.",
-          "expected_meaning": "Spiel"
+          "prompt": "Das machst du in deiner Freizeit: Spiel (allgemein).",
+          "expected_meaning": "Spiel (allgemein)"
         }
       ],
       "homonym_group": null,
@@ -3115,8 +3115,8 @@
       "application_prompts": [
         {
           "type": "context_choice",
-          "prompt": "Dorthin gehst du in der Stadt: Straße.",
-          "expected_meaning": "Straße"
+          "prompt": "Dorthin gehst du in der Stadt: Straße (in der Stadt).",
+          "expected_meaning": "Straße (in der Stadt)"
         }
       ],
       "homonym_group": null,
@@ -3224,8 +3224,8 @@
       "application_prompts": [
         {
           "type": "context_choice",
-          "prompt": "Damit beginnst du eine Frage: wie viel / wie viele.",
-          "expected_meaning": "wie viel / wie viele"
+          "prompt": "Damit beginnst du eine Frage: wie viel.",
+          "expected_meaning": "wie viel"
         }
       ],
       "homonym_group": null,
@@ -3441,8 +3441,8 @@
       "application_prompts": [
         {
           "type": "context_choice",
-          "prompt": "Das hast du in deiner Schultasche: Tasche / Rucksack.",
-          "expected_meaning": "Tasche / Rucksack"
+          "prompt": "Das hast du in deiner Schultasche: Tasche.",
+          "expected_meaning": "Tasche"
         }
       ],
       "homonym_group": null,
@@ -3586,8 +3586,8 @@
       "application_prompts": [
         {
           "type": "context_choice",
-          "prompt": "Das brauchst du beim Einkaufen: Tüte / Beutel.",
-          "expected_meaning": "Tüte / Beutel"
+          "prompt": "Das brauchst du beim Einkaufen: Tüte.",
+          "expected_meaning": "Tüte"
         }
       ],
       "homonym_group": null,
@@ -3695,8 +3695,8 @@
       "application_prompts": [
         {
           "type": "context_choice",
-          "prompt": "Das brauchst du beim Einkaufen: Laden / Geschäft.",
-          "expected_meaning": "Laden / Geschäft"
+          "prompt": "Das brauchst du beim Einkaufen: Laden.",
+          "expected_meaning": "Laden"
         }
       ],
       "homonym_group": null,
@@ -3983,8 +3983,8 @@
       "application_prompts": [
         {
           "type": "context_choice",
-          "prompt": "Diese Tageszeit ist gerade: Morgen.",
-          "expected_meaning": "Morgen"
+          "prompt": "Diese Tageszeit ist gerade: Morgen (Tageszeit).",
+          "expected_meaning": "Morgen (Tageszeit)"
         }
       ],
       "homonym_group": null,
@@ -4452,8 +4452,8 @@
       "application_prompts": [
         {
           "type": "context_choice",
-          "prompt": "Das gehört zum Unileben: Professor / Lehrer.",
-          "expected_meaning": "Professor / Lehrer"
+          "prompt": "Das gehört zum Unileben: Professor.",
+          "expected_meaning": "Professor"
         }
       ],
       "homonym_group": null,
@@ -4668,8 +4668,8 @@
       "application_prompts": [
         {
           "type": "context_choice",
-          "prompt": "Das machst du gerade: gehen.",
-          "expected_meaning": "gehen"
+          "prompt": "Das machst du gerade: gehen (sich begeben, allgemein).",
+          "expected_meaning": "gehen (sich begeben, allgemein)"
         }
       ],
       "homonym_group": "ذهب",
@@ -4777,8 +4777,8 @@
       "application_prompts": [
         {
           "type": "context_choice",
-          "prompt": "Das machst du gerade: lernen / studieren.",
-          "expected_meaning": "lernen / studieren"
+          "prompt": "Das machst du gerade: lernen (studieren, ein Fach).",
+          "expected_meaning": "lernen (studieren, ein Fach)"
         }
       ],
       "homonym_group": null,

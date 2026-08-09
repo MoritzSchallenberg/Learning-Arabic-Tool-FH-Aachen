@@ -9,6 +9,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { writeJsonFileAtomic } = require('./writeJsonAtomic.js');
 
 const ROOT = path.join(__dirname, '..');
 const THEORY_PATH = path.join(ROOT, 'language-packs', 'arabic', 'theory.json');
@@ -414,7 +415,7 @@ for (const patch of PATCHES) {
   patched += 1;
 }
 
-fs.writeFileSync(THEORY_PATH, `${JSON.stringify(theoryData, null, 2)}\n`, 'utf-8');
+writeJsonFileAtomic(THEORY_PATH, `${JSON.stringify(theoryData, null, 2)}\n`);
 console.log(`Theoriedokumente ersetzt/angelegt: ${replaced}`);
 console.log(`Bestehende Pilot-Theoriedokumente gepatcht: ${patched}`);
 console.log(`Theoriedokumente insgesamt: ${theoryData.theories.length}`);

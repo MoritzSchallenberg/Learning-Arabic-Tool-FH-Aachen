@@ -1044,6 +1044,138 @@ Audioerzeugung, Kurs-2-5-Neustrukturierung, `.arabiccourse`-Paketformat, physisc
 Arabic-101-Tastatur, neuer Transliterations-Eingabemodus, Bildaufgaben, größerer Umbau der
 Session Engine, umfassendes Oberflächen-Redesign, weiterführende Grammatiklektionen.
 
+## Kurs 1 abschließen – Batch 6 für Units 26-30 und Kurs-1-Gesamtaudit (Entwicklungsauftrag 11)
+
+Elfter Entwicklungsauftrag: **Batch 6** (Units 26-30 — Technik/Internet/Medien, Natur/Wetter/
+Umwelt, Tiere/Pflanzen, Freizeit/Sport/Kultur, Fragewörter/Konnektoren/Funktionswörter; 117 neue
+Wörter, 15 Sessions) vervollständigen — der letzte inhaltliche Batch. **Kurs 1 ist damit
+strukturell vollständig: 900/900 Wörter im vollen Lernmodell, 90/90 Sessions mit echter Theorie,
+0 Platzhalter mehr.**
+
+**Wichtige Klarstellung, die in diesem gesamten Abschnitt gilt:** "Strukturell vollständig"
+bedeutet NICHT "sprachlich freigegeben". Alle 900 Wörter tragen weiterhin
+`content_status: "needs_language_review"`, kein einziges Wort wurde von einer Person mit
+Arabischkenntnissen geprüft, und **eine KI-Vervollständigung ist keine echte Sprachprüfung** —
+dieser Satz gilt für den gesamten Kursinhalt, nicht nur für Batch 6.
+
+**Wortartenmodell sinnvoll erweitert:** Unit 30 (Funktionswörter) brauchte vier neue Kategorien im
+zentralen `part_of_speech`-Vokabular: **Konjunktion** (وَ/أَوْ/لَكِنْ/ثُمَّ/لِأَنَّ/إِذَا),
+**Partikel** (هَلْ, die Ja/Nein-Fragepartikel), **Pronomen (Demonstrativ)** (هَذَا/هَذِهِ) und
+**Pronomen (Indefinit)** (كُلّ/بَعْض/لَا أَحَد/شَيْء/لَا شَيْء) — Funktionswörter wurden bewusst NICHT
+unter "Ausdruck"/"Adverb" gezwängt, nur weil vorher keine passendere Kategorie existierte. Das
+gesamte Vokabular (jetzt 17 Werte) lebt seitdem in **einer einzigen zentralen Quelle**,
+`scripts/partOfSpeechVocabulary.js` — `scripts/validateCourse.js` und alle Content-Tests
+importieren dieselbe Datei, statt eigene (potenziell abweichende) Kopien zu pflegen.
+
+**Verbindliche Application-Prompt-Semantik festgelegt und global validiert:** ein
+`application_prompt` gehört immer zu dem Wort, in dessen `application_prompts`-Array er
+gespeichert ist ("Besitzerwort") — dieses Besitzerwort ist die richtige Lösung. `scripts/
+validateCourse.js` prüft das jetzt für **alle 900 Wörter** hart: Fehler, wenn `expected_word_id`
+auf ein anderes Wort zeigt oder unbekannt ist, wenn `expected_meaning` keiner akzeptierten
+deutschen Antwort des Besitzerwortes entspricht, oder wenn Prompt/Lösung leer sind. Dabei wurden
+**12 ältere application_prompts** (10 ursprüngliche Bestandswörter + 2 frühe Batch-1-Wörter)
+gefunden und korrigiert, deren `expected_meaning` nicht exakt zu `german_answers` passte (z. B.
+"Professor / Lehrer" statt exakt "Professor") — einzeln dokumentiert in
+`scripts/fix-legacy-application-prompt-meanings.js`. Der tatsächliche Renderer
+(`renderContextualChoice`) bleibt unverändert (er wertet weiterhin über Objektidentität aus,
+nicht über diese Metadatenfelder) — der bisherige "Irreführungstest" wurde präzisiert: er prüft
+jetzt ausdrücklich nur das *Laufzeitverhalten* (Fallback-Toleranz), während ein neuer,
+separater Test den echten Validator gegen absichtlich inkonsistente Daten laufen lässt und
+bestätigt, dass er sie als Fehler zurückweist.
+
+**Distraktorauswahl qualitativ abgesichert:** `pickDistractors()`/`isAcceptableDistractor()` (neu
+in `src/js/session/exerciseRegistry.js`, an allen 5 Stellen mit Multiple-Choice-artigen Aufgaben
+verwendet) schließen jetzt Distraktoren aus, die dieselbe Wort-ID, dieselbe angezeigte oder
+unvokalisierte arabische Form, dieselbe `homonym_group` oder eine vollständig überlappende Menge
+deutscher Bedeutungen wie das Zielwort haben. Bei einem zu kleinen/ungeeigneten Pool wird
+kontrolliert auf weniger strenge Kriterien bzw. weniger Optionen zurückgefallen, statt
+abzustürzen — rückwärtskompatibel, kein Verhalten für bestehende Aufgaben geändert.
+
+**Kurs-1-Gesamtaudit (25 Punkte) durchgeführt — 0 Probleme gefunden.** `test/unit/
+kurs1GlobalAudit.test.js` prüft jetzt automatisiert und dauerhaft u. a.: exakt 900 eindeutige
+IDs, 30×30 Wörter, 90×10 Sessions, vollständiges Datenmodell für alle 900 Wörter, zentrales
+`part_of_speech`-Vokabular, gegenseitige `opposite_id`, ausschließlich bewusst markierte
+Homonyme, nur die 3 dokumentierten deutschen Übersetzungskollisionen, keine Presentation Forms,
+0 Platzhalter-Theorien, exakte word_preview-Übereinstimmung je Session, genau eine richtige
+Mini-Check-Lösung pro Frage, gültige Application-Prompts, alle 900 Wörter in genau einer
+Sprachprüfdatei (keine Lücken, keine Duplikate), alle 90 Theorien in genau einem `theory_review`,
+kein vorgetäuschter Review-Status, Manifest/Review-Konsistenz, alle 141 ursprünglichen
+Audiodateien weiterhin vorhanden und keine neuen erzeugt — **plus ein Render-/Ablauftest, der
+alle 90 Vokabel-Theoriedokumente über den echten `TheoryRenderer` mountet und jeden Mini-Check
+mit der richtigen Antwort durchklickt.**
+
+**Echte Testflakiness gefunden und behoben (nicht nur wegretestet):** bei einem von 10
+aufeinanderfolgenden `npm test`-Läufen schlug ein Test mit `Unexpected end of JSON input` fehl.
+Ursache: `node --test` führt mehrere Testdateien standardmäßig **parallel** aus — mehrere neue
+Idempotenz-Tests schreiben dabei dieselben, von anderen Testdateien gleichzeitig gelesenen
+JSON-Dateien (`vocabulary.json`, `batch_NN.json`, `audio_generation_manifest.json`) nicht atomar,
+sodass ein gleichzeitiger Leser einen unvollständig geschriebenen Zwischenstand erwischen konnte.
+Behoben durch `scripts/writeJsonAtomic.js` (Schreiben in eine temporäre Datei + atomares
+Umbenennen, analog zum bereits etablierten Muster in `progressStore.js`) in allen betroffenen
+Skripten, sowie durch eine isolierte temporäre Kopie statt Mutation der echten `vocabulary.json`
+im überarbeiteten Validierungstest (`COURSE_VALIDATE_ROOT`-Override in `validateCourse.js`).
+**Verifiziert: `npm test` 20× (2×10) hintereinander ausgeführt, 20/20 erfolgreich.**
+
+**`LANGUAGE_REVIEW_GUIDE.md` (neu, im Projekt-Wurzelverzeichnis):** ein Leitfaden für eine
+Person mit Arabischkenntnissen — erklärt, welche Dateien geprüft werden, was die einzelnen
+Prüffelder bedeuten, wie Korrekturen einzutragen sind, welche Statuswerte zulässig sind, dass
+Audiofreigabe erst nach abgeschlossener Prüfung erfolgt, und wie mit unsicheren Einträgen
+umzugehen ist. In dieser Runde wurde selbst kein einziges Prüffeld auf `true` gesetzt.
+
+**Neue/erweiterte Skripte:**
+- `scripts/data/kurs1Units26to30Full.js`, `scripts/upgrade-kurs1-units26to30.js`: wie Batch 1-5,
+  zweimal hintereinander ausgeführt und per Byte-Vergleich als idempotent verifiziert.
+- `scripts/apply-kurs1-theory-batch6.js`: die letzten 15 neuen Theoriedokumente.
+- `scripts/partOfSpeechVocabulary.js` (neu): zentrale, einzige Quelle für das
+  `part_of_speech`-Vokabular.
+- `scripts/fix-legacy-application-prompt-meanings.js` (neu, Einmalkorrektur): behebt 12 ältere
+  inkonsistente `expected_meaning`-Werte, einzeln dokumentiert.
+- `scripts/writeJsonAtomic.js` (neu): atomares Schreiben für alle Batch-Erzeugungsskripte.
+- `language-review/batch_06.json` (117 Wort-Einträge + 15 Theorie-Einträge),
+  `audio_generation_manifest.json` um dieselben 117 Wörter erweitert (jetzt **759** Einträge
+  insgesamt — alle 759 neuen Wörter, `batch_00.json` bewusst weiterhin ausgeschlossen, da diese
+  141 Wörter bereits eine Audiodatei haben).
+
+**Neue Tests:** `test/unit/kurs1Units26to30Content.test.js` (17 Tests), `test/unit/
+kurs1GlobalAudit.test.js` (23 Tests, der eigentliche Gesamtaudit als dauerhafter Regressionstest),
+`test/unit/distractorSelection.test.js` (9 Tests: normaler Pool, Synonym, identische
+unvokalisierte Form, Homonym, kleiner Pool, ausschließlich ungeeignete Kandidaten, leerer Pool,
+Einzelprüfung, echtes Rendering mit genau einer richtigen Option). `test/unit/
+applicationPromptGrading.test.js` um den überarbeiteten Validierungstest erweitert.
+
+```text
+npm test:                 372/372 Unit-Tests + 6/6 Integrationstests — 20× hintereinander
+                           ausgeführt, 20/20 erfolgreich (echte Race Condition gefunden+behoben)
+npm run lint:              erfolgreich
+npm run validate:course:   0 Fehler, 2 Hinweise
+npm run report:language-review: erfolgreich, zeigt Batch 0-6 (900 vorbereitete Wörter, 90
+                           Theorie-Prüfeinträge)
+npm run package:source:    erfolgreich (nach allen Änderungen/Dokumentationskorrekturen
+                           ausgeführt), enthält Batch 0-6, LANGUAGE_REVIEW_GUIDE.md
+```
+
+**Endstand (von `validate:course`/`report:language-review` berechnet, nicht hart codiert):
+900/900 Wörter vollständig/lernfähig, 0 unvollständig. 90/90 Theorien vollständig, 0
+Platzhalter. 900/900 Wörter in Batch 0-6 zur Sprachprüfung vorbereitet, 90 Theorie-Prüfeinträge.
+Weiterhin 900/900 Wörter `needs_language_review`, 0 tatsächlich sprachlich freigegeben. 759
+Einträge im Audio-Generierungsmanifest, 0 `ready_for_generation`, weiterhin genau 141 Wörter mit
+vorhandener (unveränderter) Audiodatei — 759 Wörter weiterhin ohne erzeugte Audiodatei.**
+
+**Der nächste zwingende inhaltliche Schritt ist die echte Sprachprüfung durch eine oder mehrere
+Personen mit Arabischkenntnissen** (siehe `LANGUAGE_REVIEW_GUIDE.md`) — erst danach kann Audio
+für geprüfte Wörter erzeugt werden. Größere, weiterhin offene Architektur-/Kursthemen: Kurs 2-5
+im vollen Unit-Detail (aktuell nur Navigations-Wrapper um die alten Lektionen), `.arabiccourse`-
+Paketformat, physische Arabic-101-Tastatur, Transliterations-Eingabemodus, Bild-/Wortfamilien-/
+Minimalpaar-Aufgaben, die generische datenbasierte Session Engine (Bausteine fertig, größerer
+Umbau nicht Teil dieser Runde), weiterführende Grammatik (Verbstämme II-X, Passiv, Partizipien,
+Bedingungssätze, unregelmäßige/schwache Verben).
+
+**Bewusst nicht Teil dieser Runde:** Wörter als menschlich geprüft markieren, Audio erzeugen oder
+vorhandene Audiodateien neu generieren, Kurs 2-5 umbauen, `.arabiccourse`-Format, physische
+Arabic-101-Tastatur, Transliterations-Eingabemodus, Bildaufgaben, größerer Umbau der Session
+Engine, umfassendes Interface-Redesign, weiterführende Grammatiklektionen, Cloud-Dienste/neue
+Online-Abhängigkeiten.
+
 ## Bekannte Einschränkungen
 
 - Für Vokabeln/Buchstaben ohne generierte Audiodatei (z. B. neu hinzugefügte Inhalte vor dem
@@ -1059,7 +1191,10 @@ Session Engine, umfassendes Oberflächen-Redesign, weiterführende Grammatiklekt
   ZIP-Dateien (bleibt Ordnerstruktur), Bilder/Wortfamilien/Minimalpaar-Audio-Aufgaben, die
   generische datenbasierte Session Engine (Bausteine fertig, Zusammenbau folgt mit der
   Vokabel-Migration), Verbindungstrainer mit echten visuellen Verbindungsfehlern statt reiner
-  Buchstaben-Umsortierung, Kurs-1-Units 26-30 im vollen Datenmodell (Batch 6, siehe ROADMAP).
-- **Inhaltliche Sprachprüfung** durch eine Person mit Arabischkenntnissen steht für alle 900
-  Wörter weiterhin aus (`content_status` durchgängig `needs_language_review`) — 783 davon sind
-  inzwischen in `language-review/batch_00.json` bis `batch_05.json` dafür vorbereitet.
+  Buchstaben-Umsortierung.
+- **Kurs 1 ist seit Entwicklungsauftrag 11 strukturell vollständig** (900/900 Wörter, 90/90
+  Theorien) — die **inhaltliche Sprachprüfung** durch eine oder mehrere Personen mit
+  Arabischkenntnissen steht aber für alle 900 Wörter weiterhin aus (`content_status` durchgängig
+  `needs_language_review`, 0 tatsächlich geprüft). Alle 900 Wörter sind dafür in
+  `language-review/batch_00.json` bis `batch_06.json` vorbereitet — siehe
+  `LANGUAGE_REVIEW_GUIDE.md` für den Ablauf. Audio wird erst NACH abgeschlossener Prüfung erzeugt.

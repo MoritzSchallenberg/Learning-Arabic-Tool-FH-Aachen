@@ -24,6 +24,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { writeJsonFileAtomic } = require('./writeJsonAtomic.js');
 
 const ROOT = path.join(__dirname, '..');
 const PACK = path.join(ROOT, 'language-packs', 'arabic');
@@ -79,6 +80,6 @@ const reviewDoc = {
 };
 
 fs.mkdirSync(path.join(ROOT, 'language-review'), { recursive: true });
-fs.writeFileSync(path.join(ROOT, 'language-review', 'batch_00.json'), `${JSON.stringify(reviewDoc, null, 2)}\n`, 'utf-8');
+writeJsonFileAtomic(path.join(ROOT, 'language-review', 'batch_00.json'), `${JSON.stringify(reviewDoc, null, 2)}\n`);
 
 console.log(`language-review/batch_00.json: ${reviewEntries.length} Einträge geschrieben (ursprüngliche Bestandswörter mit vorhandener Audiodatei).`);

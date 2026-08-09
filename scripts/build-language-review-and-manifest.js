@@ -10,6 +10,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { writeJsonFileAtomic } = require('./writeJsonAtomic.js');
 
 const ROOT = path.join(__dirname, '..');
 const PACK = path.join(ROOT, 'language-packs', 'arabic');
@@ -96,7 +97,7 @@ const reviewDoc = {
 };
 
 fs.mkdirSync(path.join(ROOT, 'language-review'), { recursive: true });
-fs.writeFileSync(path.join(ROOT, 'language-review', `batch_${batchId}.json`), `${JSON.stringify(reviewDoc, null, 2)}\n`, 'utf-8');
+writeJsonFileAtomic(path.join(ROOT, 'language-review', `batch_${batchId}.json`), `${JSON.stringify(reviewDoc, null, 2)}\n`);
 
 // --- audio_generation_manifest.json (nur dieser Batch, Status "needs_language_review") ----------
 const manifestPath = path.join(ROOT, 'audio_generation_manifest.json');
@@ -128,7 +129,7 @@ for (const w of batchNewWords) {
   if (byId.has(w.id)) manifest.entries[byId.get(w.id)] = entry;
   else { manifest.entries.push(entry); byId.set(w.id, manifest.entries.length - 1); }
 }
-fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, 'utf-8');
+writeJsonFileAtomic(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
 
 console.log(`language-review/batch_${batchId}.json: ${reviewEntries.length} Einträge geschrieben, ${theoryReview.length} Theoriedokument(e) zur Prüfung vorgemerkt.`);
 console.log(`audio_generation_manifest.json: ${manifest.entries.length} Einträge insgesamt (davon ${batchNewWords.length} aus Batch ${batchNumber}, alle "needs_language_review").`);
