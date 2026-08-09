@@ -49,17 +49,17 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
 ### Fertig
 - **12 Lektionen (0-11)**, davon Kurs 1 (~ alte Lektionen 0-2) zu **11 Units** (0-10) umgebaut,
   Kurs 2-5 als Navigations-Gruppierung um die bestehenden Lektionen 3-11.
-- **900 Vokabeln in Kurs 1** über 30 Vokabel-Units / 90 Sessions (Entwicklungsauftrag 6+7+8+9,
-  Details Abschnitt 10+11+12+13) — davon 141 Wörter mit vorhandener Audiodatei (die ursprünglichen
+- **900 Vokabeln in Kurs 1** über 30 Vokabel-Units / 90 Sessions (Entwicklungsauftrag 6-10,
+  Details Abschnitt 10-14) — davon 141 Wörter mit vorhandener Audiodatei (die ursprünglichen
   21 Themenkategorien aus Lektionen 3/6/8, jetzt zusätzlich mit Unit-/Session-Zuordnung; seit der
   Nachtrag-Runde direkt nach Entwicklungsauftrag 9 auch mit eigenem Sprachprüfeintrag in
   `language-review/batch_00.json` — die tatsächliche Prüfung durch eine Person mit
-  Arabischkenntnissen steht aber weiterhin aus). **657/900** Wörter (Units 1-20, 60/90 Sessions)
+  Arabischkenntnissen steht aber weiterhin aus). **783/900** Wörter (Units 1-25, 75/90 Sessions)
   mit vollem Lernmodell + echter Theorie, sprachlich aber weiterhin ungeprüft
-  (`content_status: needs_language_review`); die restlichen 243 Wörter (Units 21-30) vorerst als
+  (`content_status: needs_language_review`); die restlichen 117 Wörter (Units 26-30) vorerst als
   Struktur-Gerüst. Kein Wort hat bereits eine Audiodatei außer den ursprünglichen 141. Damit sind
-  jetzt alle 657 vollständig modellierten Wörter (516 neue + 141 Bestand) in einer der fünf
-  Sprachprüfdateien (`batch_00.json` bis `batch_04.json`) erfasst.
+  jetzt alle 783 vollständig modellierten Wörter (642 neue + 141 Bestand) in einer der sechs
+  Sprachprüfdateien (`batch_00.json` bis `batch_05.json`) erfasst.
 - **Alphabet:** alle 28 Buchstaben, Kontextformen live berechnet (`wordShaping.js`), 2 Übungstypen
   in der Alt-Ansicht + **volle 9-Phasen-Lessons** pro Buchstaben-Unit (Units 1-7): Einführung,
   Wiedererkennen, Zuordnen, Unterscheiden, Rekonstruieren (Verbindungstrainer), Geführte Eingabe,
@@ -111,31 +111,35 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
   schwache Verben) — bewusst ausgelassen, zu hohes Fehlerrisiko ohne Prüfung.
 - Bild-/Wortfamilien-/Minimalpaar-Aufgaben (keine Bilddaten vorhanden).
 - **Inhaltliche Prüfung durch eine Person mit Arabischkenntnissen** — bislang nicht erfolgt (gilt
-  für alle 900 Wörter, `content_status` weiterhin durchgängig `needs_language_review`; **657**
+  für alle 900 Wörter, `content_status` weiterhin durchgängig `needs_language_review`; **783**
   davon bereits in Sprachprüfdateien aufbereitet — `language-review/batch_00.json` (141
-  ursprüngliche Bestandswörter, siehe unten) bis `batch_04.json`, Batch 1-4 jeweils inkl.
-  `theory_review`-Metadaten (60 Theorie-Prüfeinträge insgesamt, korrekt über alle vier Batches
+  ursprüngliche Bestandswörter, siehe unten) bis `batch_05.json`, Batch 1-5 jeweils inkl.
+  `theory_review`-Metadaten (75 Theorie-Prüfeinträge insgesamt, korrekt über alle fünf Batches
   erfasst — siehe Entwicklungsauftrag 9, Abschnitt 2, zur zuvor fehlerhaften Behauptung in dieser
-  ROADMAP) — die übrigen 243 folgen mit den nächsten Batches).
+  ROADMAP) — die übrigen 117 folgen mit dem nächsten Batch).
 - ~~"Batch 0" — die 141 ursprünglichen Bestandswörter formal sprachprüfen~~ — die
   **Erfassung** ist erledigt (direkt im Anschluss an Entwicklungsauftrag 9, auf Nutzerwunsch):
   `scripts/build-batch0-legacy-review.js` erzeugt `language-review/batch_00.json` mit allen 141
   Wörtern (bereits vollständig modelliert, nur nie in einer Review-Datei erfasst). Die
   **tatsächliche Prüfung** durch eine Person mit Arabischkenntnissen steht für diese 141 Wörter
-  — wie für alle anderen 516 vorbereiteten Wörter auch — weiterhin aus.
-- Units 21-30 (243 Wörter) haben noch das Meilenstein-2-Minimalmodell (keine Vokalisierung,
-  Umschrift, Grammatikangaben, application_prompts) und nur Platzhalter-Theorie (30 von 90
-  Sessions) — folgt in den Batches 5-6 (Entwicklungsauftrag 9, Abschnitt 13). Units 1-20 (657
-  Wörter, 60 Sessions) sind bereits vollständig (Entwicklungsauftrag 6 Batch 1 + Entwicklungsauftrag
-  7 Batch 2 + Entwicklungsauftrag 8 Batch 3 + Entwicklungsauftrag 9 Batch 4).
+  — wie für alle anderen 642 vorbereiteten Wörter auch — weiterhin aus.
+- Units 26-30 (117 Wörter) haben noch das Meilenstein-2-Minimalmodell (keine Vokalisierung,
+  Umschrift, Grammatikangaben, application_prompts) und nur Platzhalter-Theorie (15 von 90
+  Sessions) — folgt in Batch 6 (Entwicklungsauftrag 10, Abschnitt 14). Units 1-25 (783 Wörter,
+  75 Sessions) sind bereits vollständig (Entwicklungsauftrag 6 Batch 1 + Entwicklungsauftrag 7
+  Batch 2 + Entwicklungsauftrag 8 Batch 3 + Entwicklungsauftrag 9 Batch 4 + Entwicklungsauftrag
+  10 Batch 5).
 - Audioerzeugung für alle 759 neuen Wörter (bewusst noch nicht ausgeführt, siehe
-  `audio_generation_manifest.json` — 516 Einträge, alle Status `needs_language_review`, nicht
+  `audio_generation_manifest.json` — 642 Einträge, alle Status `needs_language_review`, nicht
   `ready_for_generation`).
+- ~~"76 Gegensatzpaare" ungenau formuliert~~ — in Entwicklungsauftrag 10 präzisiert: 76 war die
+  Anzahl der `opposite_id`-**Verweise** (38 gegenseitige Paare); nach Batch 5 sind es 98 Verweise
+  (49 Paare). Beide Begriffe werden jetzt konsequent unterschieden.
 - ~~part_of_speech-Vokabular nicht zentral festgeschrieben~~ — in Entwicklungsauftrag 8 als
   geschlossene, deutschsprachige 12-Werte-Liste in `scripts/validateCourse.js` festgeschrieben.
-- `opposite_id`/`confusion_group` erst für Units 11-20 vergeben (76 bzw. 14 Gruppen über 55
-  Wörter) — für Units 1-10 rückwirkend zu ergänzen bleibt optional (kein harter Fehler, nur
-  Hinweis bei fehlender Nutzung).
+- `opposite_id`/`confusion_group` erst für Units 11-25 vergeben (98 Verweise/49 Paare bzw. 25
+  Gruppen über 96 Wörter) — für Units 1-10 rückwirkend zu ergänzen bleibt optional (kein harter
+  Fehler, nur Hinweis bei fehlender Nutzung).
 - ~~Schrift-Theorie fehlt für die Buchstabengruppen-Units 3-7~~ — nachträglich in
   Entwicklungsauftrag 7 ergänzt (`scripts/apply-script-theory-units3to5.js`,
   `scripts/apply-script-theory-units6to7.js`); alle 8/8 Schrift-Units haben jetzt Theorie.
@@ -155,14 +159,15 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
 
 ## 4. Nächste Schritte (priorisiert)
 
-**Aktueller Stand (nach Entwicklungsauftrag 9, Abschnitt 13): Units 1-20 vollständig (657/900
-Lernfähig/Vollständig, 60/90 Sessions mit echter Theorie, 516/900 Wörter zur Sprachprüfung
-vorbereitet). Zwei mögliche nächste Schritte laut Nutzer, noch nicht priorisiert entschieden:
-(a) Batch 5 (Units 21-25) nach demselben Muster wie Batches 1-4, oder (b) eine echte
-Sprachprüfung durch eine Person mit Arabischkenntnissen (inkl. der neu identifizierten 141
-ursprünglichen Bestandswörter, "Batch 0") — beides NICHT eigenständig vorgezogen, sondern wartet
-auf den nächsten Entwicklungsauftrag. Der Rest dieses Abschnitts ist die ursprüngliche, vor
-Entwicklungsauftrag 6 verfasste Planung und historisch zu lesen.**
+**Aktueller Stand (nach Entwicklungsauftrag 10, Abschnitt 3): Units 1-25 vollständig (783/900
+Lernfähig/Vollständig, 75/90 Sessions mit echter Theorie, 783/900 Wörter — Batch 0 bis Batch 5 —
+zur Sprachprüfung vorbereitet, inkl. der 141 ursprünglichen Bestandswörter aus "Batch 0", das seit
+der Nachtrag-Runde direkt nach Entwicklungsauftrag 9 technisch erstellt ist). Zwei mögliche
+nächste Schritte laut Nutzer, noch nicht priorisiert entschieden: (a) Batch 6 (Units 26-30) nach
+demselben Muster wie Batches 1-5, oder (b) eine echte Sprachprüfung durch eine Person mit
+Arabischkenntnissen (783 Wörter liegen dafür bereits vorbereitet vor) — beides NICHT eigenständig
+vorgezogen, sondern wartet auf den nächsten Entwicklungsauftrag. Der Rest dieses Abschnitts ist
+die ursprüngliche, vor Entwicklungsauftrag 6 verfasste Planung und historisch zu lesen.**
 
 **Abgeschlossen: Entwicklungsauftrag 5 "Lernfluss fertigstellen, Interface verbessern und
 Pilotkurs vervollständigen" (Abschnitt 9) — alle drei Pilot-Units (Begrüßung, Familie, Zuhause)
@@ -1433,8 +1438,12 @@ README dokumentiert) — analog zur `تنفس`-Korrektur in Entwicklungsauftrag 
   مَرْكَز الشُّرْطَة, إِشَارَة مُرُور/حَرَكَة الْمُرُور — teilen sich das Wort مُرُور), das مَفْعَل-Ortsmuster
   bei مَتْحَف/مَسْرَح/مَقْهَى erklärt.
 
-Ergebnis: **76** Gegensatzpaare insgesamt (`opposite_id`, 54 neu in diesem Batch — davon 13 allein
-in Unit 19), **14** Verwechslungsgruppen über 55 Wörter (`confusion_group`, 8 neu, u. a.
+Ergebnis: **76** `opposite_id`-Verweise insgesamt, das sind **38** gegenseitige Gegensatzpaare
+(54 neue Verweise/27 neue Paare in diesem Batch — davon 13 Paare allein in Unit 19; Terminologie
+hier bewusst präzisiert: „Verweise" = Anzahl Wörter mit gesetztem `opposite_id`-Feld, „Paare" =
+Verweise geteilt durch zwei, siehe Entwicklungsauftrag 10, Abschnitt 2, zur zuvor ungenauen
+Formulierung „76 Gegensatzpaare"), **14** Verwechslungsgruppen über 55 Wörter (`confusion_group`,
+8 neu, u. a.
 `c1_morning_routine`, `c1_exchange_verbs`, `c1_direction_verbs`, `c1_learn_teach`,
 `c1_communication_verbs`, `c1_leisure_venues`). Zweimal hintereinander ausgeführt und per
 Byte-für-Byte-Vergleich der resultierenden `vocabulary.json` als idempotent verifiziert (Auftrag
@@ -1507,8 +1516,8 @@ Datenstand (von `validate:course`/`report:language-review` berechnet, nicht hart
 Sessions mit vollständiger Theorie, **516/900** Wörter zur Sprachprüfung vorbereitet (382 vorher +
 134 Batch 4), **60** Theorie-Prüfeinträge, **0/900** durch eine arabischkundige Person tatsächlich
 geprüft, **0** Wörter für Audio freigegeben, weiterhin **141** Wörter mit echter Audiodatei
-(unverändert), **76** Gegensatzpaare, **14** Verwechslungsgruppen über 55 Wörter, 3 bestätigte
-Homonym-Paare (unverändert).
+(unverändert), **76** `opposite_id`-Verweise (**38** gegenseitige Paare), **14** Verwechslungsgruppen
+über 55 Wörter, 3 bestätigte Homonym-Paare (unverändert).
 
 ### Manuelle Prüfliste für `npm start` (Auftrag Abschnitt 13 — noch nicht von der KI ausgeführt)
 
@@ -1590,3 +1599,215 @@ Bestandswörter fehlten). 0 Wörter tatsächlich geprüft, 0 für Audio freigege
 
 **Weiterhin bewusst nicht Teil dieser Runde:** Units 21-30, tatsächliche Audioerzeugung/
 Sprachprüfung durch eine qualifizierte Person, alle in Auftrag 9 Abschnitt 14 genannten Punkte.
+
+## 14. Entwicklungsauftrag 10: Kurs 1 – Konsistenzkorrektur und Batch 5 für Units 21-25 (vom Nutzer, 2026-08-09)
+
+Zehnter Entwicklungsauftrag, direkt auf Entwicklungsauftrag 9 aufbauend: zwei Dokumentationsfehler
+korrigieren, die Application-Prompt-/Grading-Semantik systematisch untersuchen und absichern, und
+**Batch 5** (Units 21-25 — Position/Richtung/Präpositionen, Verkehr/Reisen/Hotel, Schule/
+Unterricht/Schulsachen, Universität/Studium/Prüfungen, Arbeit/Berufe/Büro; 126 neue Wörter, 15
+Sessions) vervollständigen. Explizit NICHT Teil: Units 26-30, echte Sprachfreigabe,
+Audioerzeugung, Kurs-2-5-Neustrukturierung und alle übrigen in Auftrag 10 Abschnitt 12 genannten
+Punkte.
+
+### Schritt 1: Bestandsaufnahme — Ist-Stand deckt sich exakt mit der Auftragsbaseline
+
+Alle in Abschnitt 1 genannten Dateien gelesen und der Ist-Stand per Node-Skripten geprüft: 900
+Wörter, 657 vollständig/lernfähig, 243 unvollständig, 60 vollständige + 30 Platzhalter-Theorien,
+Batch 0 mit 141 Wörtern + Batches 1-4 mit 516 Wörtern = 657 in Review-Dateien, 60
+Theorie-Prüfeinträge, 900× `needs_language_review`, 0 sprachlich freigegeben, 0 für Audio
+freigegeben, Manifest mit 516 Einträgen, 141 Bestandswörter mit Audiodatei, 292 Unit-Tests + 6
+Integrationstests — **alle Werte stimmten exakt überein**, keine Abweichung zur Auftragsbaseline.
+Auch die genaue Batch-5-Aufteilung (Unit 21: 30/0, Unit 22: 24/6, Unit 23: 26/4, Unit 24: 23/7,
+Unit 25: 23/7 = 126 neue + 24 Bestandswörter) wurde vorab verifiziert und deckte sich exakt mit
+den Auftragsangaben — anders als bei früheren Batches gab es diesmal keine Korrektur der
+Ausgangszahlen nötig.
+
+### Schritt 2: Dokumentationsfehler zu Batch 0 korrigiert
+
+Untersuchung ergab: die meisten README-/ROADMAP-Stellen zu Batch 0 waren durch die
+Nachtrag-Runde direkt nach Entwicklungsauftrag 9 bereits korrekt aktualisiert (Batch 0 korrekt
+als "technisch erstellt", 657 statt 516 korrekt genannt). Eine echte, übersehene Ausnahme wurde
+gefunden: **ROADMAP.md, Abschnitt 4 ("Nächste Schritte")** enthielt noch die alte Formulierung
+"516/900 Wörter zur Sprachprüfung vorbereitet" und beschrieb Batch 0 weiterhin als "neu
+identifiziert", also implizit als noch nicht erledigt — dieser Absatz war beim Batch-0-Nachtrag
+schlicht nicht mitaktualisiert worden. Korrigiert auf den tatsächlichen, aktuellen Stand (siehe
+Abschnitt 3 dieser ROADMAP). Danach stimmen README, ROADMAP, `validate:course` und
+`report:language-review` durchgängig überein: Batch 0 ist technisch erstellt, enthält 141
+Bestandswörter, diese sind nur zur Prüfung vorbereitet (nicht geprüft), vor Batch 5 waren genau
+657 Wörter in Review-Dateien erfasst, 60 Theoriedokumente waren zur Prüfung vorbereitet, die
+vorhandenen Audiodateien der 141 Wörter stellen keine Sprachfreigabe dar, und für Batch 0 ist
+keine erneute Audioerzeugung vorgesehen (bestätigt: `batch_00.json`-Wörter tauchen nicht im
+Audio-Generierungsmanifest auf, per Test abgesichert).
+
+Zusätzlich korrigiert: die Formulierung **"76 Gegensatzpaare"** aus dem letzten Bericht war
+ungenau. 76 ist die Zahl der `opposite_id`-**Verweise** (ein Wert pro Wort mit gesetztem Feld) —
+da jedes Paar auf BEIDEN beteiligten Wörtern steht, ergeben 76 Verweise **38** gegenseitige
+Paare, nicht 76 Paare. Alle betroffenen Stellen in README.md und ROADMAP.md wurden präzisiert
+(„X Verweise (Y Paare)" statt nur „X Gegensatzpaare").
+
+### Schritt 3: Application-Prompt-/Grading-Semantik untersucht und abgesichert
+
+Analyse des tatsächlichen Codes (`renderContextualChoice`, `applicationPromptFor` in
+`src/js/session/exerciseRegistry.js`) bestätigte den bereits in Entwicklungsauftrag 9
+dokumentierten Befund im Detail:
+
+- Korrektheit wird ausschließlich über **Objektidentität** bestimmt: `correct = opt.id === word.id`,
+  wobei `word` das gerade abgefragte `ctx.word` ist (von der Session-Steuerung vorgegeben, siehe
+  `sessionController.js#renderGradedPhase`/`runGroupMiniCheck`) — NICHT über einen Vergleich mit
+  `expected_word_id`/`expected_meaning`.
+- `promptData.prompt` (der angezeigte Text) kommt aus `word.application_prompts` — dieser wird
+  tatsächlich angezeigt. `expected_word_id`/`expected_meaning` werden dagegen von der Renderfunktion
+  selbst NIRGENDS gelesen — reine Dokumentations-/Sprachprüf-Felder.
+- Distraktoren kommen aus `ctx.allWords` — in der echten Session-Steuerung ist das immer der Pool
+  der ~10 neuen Wörter der aktuellen Session (`words` in `sessionController.js`), nicht der ganze
+  900-Wort-Bestand — Distraktoren bleiben dadurch thematisch passend und nicht trivial ausschließbar.
+
+Da dieses Verhalten in sich korrekt und konsistent ist (die angezeigte Situation gehört immer zum
+tatsächlich abgefragten Wort), wurde **nichts am Produktivcode geändert** — stattdessen mit einem
+neuen Test `test/unit/applicationPromptGrading.test.js` (8 Tests, gegen den ECHTEN Code über einen
+VM-Kontext + DOM-Stub, keine Mock-Renderfunktion) fest abgesichert: je ein Fall für ein Verb
+(`c1_u16_12`), ein Substantiv (`c1_u23_03`), eine Präposition (`c1_u21_01`), ein mehrdeutig
+übersetzbares Wort (`c1_u21_25`, "über"), ein Bestandswort (`job_doctor`) und ein neues
+Batch-5-Wort (`c1_u25_01`) — jeweils mit einem Klick auf die richtige UND einen Klick auf eine
+falsche Option. Ein zusätzlicher Test verwendet ein künstliches Wortpaar mit absichtlich
+IRREFÜHRENDEN `expected_word_id`/`expected_meaning`-Werten, um zu beweisen, dass die Bewertung
+sich davon nicht beeinflussen lässt. Ein letzter Test prüft die Datenkonsistenz: für alle neuen
+Wörter aus Units 16-25 verweist `expected_word_id` immer auf das eigene Wort (die einzige
+`expected_word_id`, die zur tatsächlichen Grading-Logik passt) und widerspricht nie
+`expected_meaning`.
+
+### Schritt 4-5: Batch 5 (Units 21-25) vollständig
+
+Gleiches Vorgehen wie Batch 1-4: `scripts/data/kurs1Units21to25Full.js` (vokalisierte Form,
+Umschrift, Wortart, Genus/Plural wo sinnvoll, individuelle `application_prompts` mit
+selbstreferenzierender `expected_word_id`, `opposite_id`/`confusion_group`/`homonym_group` wo
+zutreffend, für alle 126 neuen Wörter) + `scripts/upgrade-kurs1-units21to25.js` (hebt die bereits
+als Minimalmodell-Stub angelegten Wörter in `vocabulary.json` an, keine neuen IDs/Kategorien — die
+24 bereits vorher vollständigen Bestandswörter bleiben unangetastet). Dieselbe Konsistenzprüfung
+wie bei Batch 4 (vokalisierte Form muss exakt zur bestehenden `arabic_unvocalized`-Grundform
+strippen) fand eine Abweichung bei `c1_u21_10` (بعيد عن, "weit entfernt von") — meine erste
+Vokalisierung nutzte den grammatisch korrekten Akkusativ-Tanwin (بَعِيداً), der Minimalmodell-Stub
+hatte aber die Zitierform ohne Tanwin (بعيد) — auf die bestehende Zitierform angeglichen (بَعِيد),
+keine Änderung der Grundform.
+
+**Neu in `scripts/validateCourse.js`:** die Wortart **„Präposition"** als 13. Wert im zentralen
+`part_of_speech`-Vokabular ergänzt. Unit 21 ist die erste Unit mit einer nennenswerten Zahl echter
+Präpositionen (23 von 30 Wörtern) — sie unter „Ausdruck" zu führen wäre grammatisch ungenau
+gewesen. Eine einzige, durchdachte Ergänzung der zentralen Liste (dokumentiert im Code-Kommentar),
+kein zweites/paralleles Vokabular.
+
+15 vollständige Theoriedokumente (`scripts/apply-kurs1-theory-batch5.js`):
+
+- **Unit 21 (Position/Richtung/Präpositionen) — besondere Sorgfalt wie vom Auftrag Abschnitt 4
+  verlangt:** فَوْقَ (räumlich "über") und عَنْ (nicht-räumlich "über", ein Gesprächsthema) sowie
+  أَمَامَ (räumlich "vor") und قَبْلَ (zeitlich "vor") behalten bewusst dieselbe erste deutsche
+  Übersetzung — dies wird in der Theorie zu Session A UND Session C explizit als legitime,
+  NICHT künstlich aufgelöste Mehrdeutigkeit erklärt (räumlich vs. nicht-räumlich/zeitlich) und
+  zusätzlich über `confusion_group` (`c1_prep_ueber`, `c1_prep_vor`) markiert. مِنْ (von/aus) ist
+  als bewusstes Homonym mit dem bereits bekannten مَنْ (wer, `q_who`) über `homonym_group`
+  verknüpft (bereits im Minimalmodell-Stub vorbereitet, hier bestätigt). Die bereits erkannten
+  Übersetzungskollisionen "über" (`c1_u21_04`/`c1_u21_25`) und "vor" (`c1_u21_05`/`c1_u21_26`) aus
+  `report:language-review` bleiben bewusst bestehen, nicht künstlich entfernt.
+- **Unit 22 (Verkehr/Reisen/Hotel):** drei Reisedokumente (تَذْكِرَة/جَوَاز سَفَر/تَأْشِيرَة) klar nach
+  Zweck unterschieden, der Hotel-Ablauf حَجْز→اِسْتِقْبَال→مِفْتَاح الْغُرْفَة, خَرِيطَة (Landkarte) klar von
+  بِطَاقَة (Bankkarte, Unit 11) abgegrenzt — beide im Deutschen "Karte", im Arabischen unterschiedlich.
+- **Unit 23 (Schule/Unterricht/Schulsachen):** تِلْمِيذ (Schule) klar von طَالِب/طَالِبَة (Universität,
+  Unit 24) abgegrenzt, رِيَاضِيَّات/عُلُوم als Pluraletantum-Fächernamen erklärt, دَرَجَة (Note, Schule)
+  als Vorbereitung auf عَلَامَة (Note, Universität, Unit 24) angekündigt.
+- **Unit 24 (Universität/Studium/Prüfungen):** die Struktur جَامِعَة→كُلِّيَّة→قِسْم, die drei
+  akademischen Abschlüsse بَكَالُورْيُوس→مَاجِسْتِير→دُكْتُورَاه in Reihenfolge, بَحْث (Prozess) klar von
+  أُطْرُوحَة (Ergebnis) unterschieden, عَلَامَة (Note, Universität) als Gegenstück zu دَرَجَة (Note,
+  Schule, Unit 23) aufgelöst.
+- **Unit 25 (Arbeit/Berufe/Büro):** مُوَظَّف↔صَاحِب عَمَل als Gegensatzpaar, der vollständige
+  Bewerbungsablauf طَلَب تَوْظِيف+سِيرَة ذَاتِيَّة→مُقَابَلَة عَمَل→عَقْد, مُهِمَّة (Aufgabe, Arbeit) als
+  Gegenstück zu تَكْلِيف (Aufgabe, Studium, Unit 24) aufgelöst, مِهْنَة (Beruf allgemein) von وَظِيفَة
+  (konkrete Stelle, Session A) abgegrenzt.
+
+Ergebnis: **98** `opposite_id`-Verweise insgesamt (= **49** gegenseitige Paare, 22 neue
+Verweise/11 neue Paare in diesem Batch) und **25** Verwechslungsgruppen über 96 Wörter
+(`confusion_group`, 11 neu: `c1_prep_ueber`, `c1_prep_vor`, `c1_compass_directions`,
+`c1_travel_documents`, `c1_hotel_vocab`, `c1_writing_tools`, `c1_school_subjects`,
+`c1_academic_degrees`, `c1_uni_grading`, `c1_workplace_people`, `c1_job_application`). Zweimal
+hintereinander ausgeführt und per Byte-für-Byte-Vergleich als idempotent verifiziert — zusätzlich
+in `kurs1Units21to25Content.test.js` als echter Regressionstest verankert (führt das Upgrade- UND
+das Batch/Manifest-Skript im Test tatsächlich ein zweites Mal aus).
+
+### Schritt 6: language-review/batch_05.json + Audio-Manifest
+
+`scripts/build-language-review-and-manifest.js` unverändert (bereits in Entwicklungsauftrag 9 auf
+das angereicherte Format mit Genus/Plural/akzeptierten Formen/Application-Prompts/
+Homonym-Gegensatz-Verwechslungs-Hinweisen/vier getrennten Prüf-Booleans erweitert) für Batch 5
+ausgeführt: `language-review/batch_05.json` (126 Wort-Einträge + 15 Theorie-Einträge, alle
+Prüffelder `false`). `audio_generation_manifest.json` um dieselben 126 Wörter erweitert (jetzt
+**642** Einträge insgesamt, weiterhin ausschließlich `status: "needs_language_review"`). Verifiziert:
+Batch 0 (141 Einträge) sowie Batch 1-4 (115/132/135/134 Einträge, je 15 theory_review) bleiben
+durch die Batch-5-Erzeugung vollständig unverändert — kein bestehender Review-Status oder
+Prüfvermerk wurde zurückgesetzt (per Test abgesichert).
+
+### Schritt 7: Content-Tests + Render-/Ablauftest
+
+`test/unit/kurs1Units21to25Content.test.js` (22 Tests, deckt alle 25 im Auftrag Abschnitt 9
+genannten Prüfpunkte ab) — u. a. Wort-/Session-/Unit-Zahlen, Unversehrtheit der 24 bereits vorher
+vollständigen Wörter, vollständiges Lernmodell, zentrales `part_of_speech`-Vokabular inkl.
+„Präposition", `opposite_id`-Gegenseitigkeit, das مِنْ/مَنْ-Homonym, die legitim erhaltenen
+"über"/"vor"-Kollisionen, vollständige Theorie exakt passend zum Wortbestand, Batch-5-Struktur
+samt Prüf-Booleans, Audio-Manifest-Konsistenz, keine hart codierten Wort-IDs, echte
+Zwei-Läufe-Idempotenzprüfung beider Erzeugungsskripte, Unversehrtheit von Batch 0 und Batch 1-4.
+Zusätzlich (Auftrag Abschnitt 9, letzter Absatz): ein datenbasierter Render-/Ablauftest, der alle
+15 neuen Theoriedokumente über den echten `TheoryRenderer` + einen DOM-Stub (`test/helpers/
+domStub.js`, KEINE echte Electron-Oberfläche) mountet, Titel/Lernziele prüft und jeden Mini-Check
+mit der jeweils richtigen Antwort bis zum vollständigen Ergebnis (`correct === total`) durchklickt.
+
+### Schritt 8: vollständige Verifikation
+
+```text
+npm run lint:              erfolgreich
+npm test:                  322/322 Unit-Tests + 6/6 Integrationstests, 10× hintereinander
+                            ausgeführt: 10/10 erfolgreich (keine Flakiness beobachtet)
+npm run validate:course:   0 Fehler, 2 Hinweise
+npm run report:language-review: erfolgreich, zeigt Batch 0-5 (783 vorbereitete Wörter) + 141
+                            unbatchte Bestandswörter korrekt auf 0 gefallen
+npm run package:source:    erst NACH allen Dokumentationskorrekturen ausgeführt (Auftrag
+                            Abschnitt 11), enthält Batch 0-5, alle neuen Skripte/Tests,
+                            aktualisierte README/ROADMAP/Sprachpakete
+```
+
+Alle bearbeiteten JSON-Dateien zusätzlich mit einem echten JSON-Parser (Python `json.load`)
+geprüft. Beide neuen Erzeugungsskripte (`upgrade-kurs1-units21to25.js` und
+`build-language-review-and-manifest.js` für Batch 5) je zweimal hintereinander ausgeführt und per
+Datei-Diff als idempotent belegt.
+
+Datenstand (von `validate:course`/`report:language-review` berechnet, nicht hart codiert):
+**900/900** Minimalmodell, **783/900** Lernfähig/Vollständig (657 vorher + 126 Batch 5),
+**75/90** Sessions mit vollständiger Theorie (die übrigen 15 weiterhin klar als Platzhalter
+markiert), **783/900** Wörter zur Sprachprüfung vorbereitet (Batch 0-5), **75**
+Theorie-Prüfeinträge, **0/900** durch eine arabischkundige Person tatsächlich geprüft, **642**
+Einträge im Audio-Generierungsmanifest (0 `ready_for_generation`), weiterhin nur die
+ursprünglichen **141** Wörter mit echter Audiodatei, **98** `opposite_id`-Verweise (49 Paare),
+**25** Verwechslungsgruppen über 96 Wörter, 3 bestätigte Homonym-Paare (unverändert).
+
+### Manuelle Prüfliste für `npm start` (noch nicht von der KI ausgeführt)
+
+Wie in allen vorigen Runden hat die KI die App nicht selbst visuell in einer laufenden
+Electron-Instanz geprüft (kein Screenshot-/Bildschirm-Werkzeug in dieser Umgebung, siehe
+Entwicklungsauftrag 9, Nachtrag-Abschnitt, zur genaueren Ursachenanalyse). Die konkrete Prüfliste
+für den Nutzer steht im Abschlussbericht dieser Runde.
+
+### Akzeptanzkriterien dieser Runde (Auszug)
+
+`npm test` zehnmal hintereinander erfolgreich, keine Flakiness; Units 21-25 vollständig (126 neue
+Wörter geprüft/vervollständigt, die bereits vorher vollständigen 24 Wörter unverändert, 15
+Theoriedokumente exakt passend zum Wortbestand, keine Wort-ID aus diesem Batch im JavaScript hart
+codiert); beide Erzeugungsskripte zweimal ausgeführt und als idempotent belegt, keine
+Prüfvermerke aus Batch 0-4 zurückgesetzt; Application-Prompt-/Grading-Semantik untersucht und mit
+8 zusätzlichen Tests gegen den echten Code abgesichert, ohne unnötige Codeänderung; beide
+Dokumentationsfehler (Batch-0-Status in Abschnitt 4, "76 Gegensatzpaare"-Ungenauigkeit) behoben;
+`language-review/batch_05.json` mit vollständigem Prüf-Format vorhanden; Audio-Manifest auf 642
+Einträge erweitert, ohne tatsächlich Audio zu erzeugen; `part_of_speech`/`opposite_id`/
+`confusion_group`-Regeln eingehalten (inkl. neuer Wortart „Präposition"); keine
+Arabic-Presentation-Forms; Unit-21-Mehrdeutigkeiten bewusst erhalten und erklärt statt entfernt;
+alle Zahlen im Bericht vom Validator berechnet, nicht hart codiert; `package:source` erst nach
+allen Dokumentationskorrekturen ausgeführt. Units 26-30, tatsächliche Audioerzeugung,
+Sprachprüfung durch eine Person mit Arabischkenntnissen und alle in Auftrag 10 Abschnitt 12
+genannten Punkte bewusst nicht Teil dieser Runde.

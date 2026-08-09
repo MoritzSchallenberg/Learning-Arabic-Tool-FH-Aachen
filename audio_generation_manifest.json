@@ -4128,6 +4128,1014 @@
       "german": "Tankstelle",
       "output_file": "c1_u20_22.wav",
       "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_01",
+      "arabic_vocalized": "فِي",
+      "arabic_unvocalized": "في",
+      "german": "in",
+      "output_file": "c1_u21_01.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_02",
+      "arabic_vocalized": "عَلَى",
+      "arabic_unvocalized": "على",
+      "german": "auf",
+      "output_file": "c1_u21_02.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_03",
+      "arabic_vocalized": "تَحْتَ",
+      "arabic_unvocalized": "تحت",
+      "german": "unter",
+      "output_file": "c1_u21_03.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_04",
+      "arabic_vocalized": "فَوْقَ",
+      "arabic_unvocalized": "فوق",
+      "german": "über",
+      "output_file": "c1_u21_04.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_05",
+      "arabic_vocalized": "أَمَامَ",
+      "arabic_unvocalized": "أمام",
+      "german": "vor",
+      "output_file": "c1_u21_05.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_06",
+      "arabic_vocalized": "خَلْفَ",
+      "arabic_unvocalized": "خلف",
+      "german": "hinter",
+      "output_file": "c1_u21_06.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_07",
+      "arabic_vocalized": "بَيْنَ",
+      "arabic_unvocalized": "بين",
+      "german": "zwischen",
+      "output_file": "c1_u21_07.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_08",
+      "arabic_vocalized": "بِجَانِبِ",
+      "arabic_unvocalized": "بجانب",
+      "german": "neben",
+      "output_file": "c1_u21_08.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_09",
+      "arabic_vocalized": "قُرْبَ",
+      "arabic_unvocalized": "قرب",
+      "german": "in der Nähe von",
+      "output_file": "c1_u21_09.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_10",
+      "arabic_vocalized": "بَعِيد عَنْ",
+      "arabic_unvocalized": "بعيد عن",
+      "german": "weit entfernt von",
+      "output_file": "c1_u21_10.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_11",
+      "arabic_vocalized": "دَاخِلَ",
+      "arabic_unvocalized": "داخل",
+      "german": "innen",
+      "output_file": "c1_u21_11.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_12",
+      "arabic_vocalized": "خَارِجَ",
+      "arabic_unvocalized": "خارج",
+      "german": "außen",
+      "output_file": "c1_u21_12.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_13",
+      "arabic_vocalized": "يَمِين",
+      "arabic_unvocalized": "يمين",
+      "german": "rechts",
+      "output_file": "c1_u21_13.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_14",
+      "arabic_vocalized": "يَسَار",
+      "arabic_unvocalized": "يسار",
+      "german": "links",
+      "output_file": "c1_u21_14.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_15",
+      "arabic_vocalized": "إِلَى الْأَمَام",
+      "arabic_unvocalized": "إلى الأمام",
+      "german": "geradeaus",
+      "output_file": "c1_u21_15.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_16",
+      "arabic_vocalized": "شَمَال",
+      "arabic_unvocalized": "شمال",
+      "german": "Norden",
+      "output_file": "c1_u21_16.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_17",
+      "arabic_vocalized": "جَنُوب",
+      "arabic_unvocalized": "جنوب",
+      "german": "Süden",
+      "output_file": "c1_u21_17.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_18",
+      "arabic_vocalized": "شَرْق",
+      "arabic_unvocalized": "شرق",
+      "german": "Osten",
+      "output_file": "c1_u21_18.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_19",
+      "arabic_vocalized": "غَرْب",
+      "arabic_unvocalized": "غرب",
+      "german": "Westen",
+      "output_file": "c1_u21_19.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_20",
+      "arabic_vocalized": "إِلَى",
+      "arabic_unvocalized": "إلى",
+      "german": "zu",
+      "output_file": "c1_u21_20.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_21",
+      "arabic_vocalized": "مِنْ",
+      "arabic_unvocalized": "من",
+      "german": "von",
+      "output_file": "c1_u21_21.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_22",
+      "arabic_vocalized": "مَعَ",
+      "arabic_unvocalized": "مع",
+      "german": "mit",
+      "output_file": "c1_u21_22.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_23",
+      "arabic_vocalized": "بِدُونِ",
+      "arabic_unvocalized": "بدون",
+      "german": "ohne",
+      "output_file": "c1_u21_23.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_24",
+      "arabic_vocalized": "مِنْ أَجْلِ",
+      "arabic_unvocalized": "من أجل",
+      "german": "für",
+      "output_file": "c1_u21_24.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_25",
+      "arabic_vocalized": "عَنْ",
+      "arabic_unvocalized": "عن",
+      "german": "über",
+      "output_file": "c1_u21_25.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_26",
+      "arabic_vocalized": "قَبْلَ",
+      "arabic_unvocalized": "قبل",
+      "german": "vor",
+      "output_file": "c1_u21_26.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_27",
+      "arabic_vocalized": "بَعْدَ",
+      "arabic_unvocalized": "بعد",
+      "german": "nach",
+      "output_file": "c1_u21_27.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_28",
+      "arabic_vocalized": "خِلَالَ",
+      "arabic_unvocalized": "خلال",
+      "german": "während",
+      "output_file": "c1_u21_28.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_29",
+      "arabic_vocalized": "مُقَابِلَ",
+      "arabic_unvocalized": "مقابل",
+      "german": "gegenüber",
+      "output_file": "c1_u21_29.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u21_30",
+      "arabic_vocalized": "اِتِّجَاه",
+      "arabic_unvocalized": "اتجاه",
+      "german": "Richtung",
+      "output_file": "c1_u21_30.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_01",
+      "arabic_vocalized": "تَذْكِرَة",
+      "arabic_unvocalized": "تذكرة",
+      "german": "Fahrkarte",
+      "output_file": "c1_u22_01.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_02",
+      "arabic_vocalized": "جَوَاز سَفَر",
+      "arabic_unvocalized": "جواز سفر",
+      "german": "Reisepass",
+      "output_file": "c1_u22_02.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_03",
+      "arabic_vocalized": "تَأْشِيرَة",
+      "arabic_unvocalized": "تأشيرة",
+      "german": "Visum",
+      "output_file": "c1_u22_03.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_04",
+      "arabic_vocalized": "أَمْتِعَة",
+      "arabic_unvocalized": "أمتعة",
+      "german": "Gepäck",
+      "output_file": "c1_u22_04.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_05",
+      "arabic_vocalized": "حَقِيبَة سَفَر",
+      "arabic_unvocalized": "حقيبة سفر",
+      "german": "Koffer",
+      "output_file": "c1_u22_05.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_06",
+      "arabic_vocalized": "رِحْلَة",
+      "arabic_unvocalized": "رحلة",
+      "german": "Reise",
+      "output_file": "c1_u22_06.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_07",
+      "arabic_vocalized": "سَائِح",
+      "arabic_unvocalized": "سائح",
+      "german": "Tourist",
+      "output_file": "c1_u22_07.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_08",
+      "arabic_vocalized": "حَجْز",
+      "arabic_unvocalized": "حجز",
+      "german": "Reservierung",
+      "output_file": "c1_u22_08.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_09",
+      "arabic_vocalized": "اِسْتِقْبَال",
+      "arabic_unvocalized": "استقبال",
+      "german": "Rezeption",
+      "output_file": "c1_u22_09.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_10",
+      "arabic_vocalized": "مِفْتَاح الْغُرْفَة",
+      "arabic_unvocalized": "مفتاح الغرفة",
+      "german": "Zimmerschlüssel",
+      "output_file": "c1_u22_10.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_11",
+      "arabic_vocalized": "غُرْفَة مُفْرَدَة",
+      "arabic_unvocalized": "غرفة مفردة",
+      "german": "Einzelzimmer",
+      "output_file": "c1_u22_11.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_12",
+      "arabic_vocalized": "غُرْفَة مُزْدَوِجَة",
+      "arabic_unvocalized": "غرفة مزدوجة",
+      "german": "Doppelzimmer",
+      "output_file": "c1_u22_12.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_13",
+      "arabic_vocalized": "مُغَادَرَة",
+      "arabic_unvocalized": "مغادرة",
+      "german": "Abfahrt",
+      "output_file": "c1_u22_13.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_14",
+      "arabic_vocalized": "وُصُول",
+      "arabic_unvocalized": "وصول",
+      "german": "Ankunft",
+      "output_file": "c1_u22_14.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_15",
+      "arabic_vocalized": "رَصِيف الْقِطَار",
+      "arabic_unvocalized": "رصيف القطار",
+      "german": "Bahnsteig",
+      "output_file": "c1_u22_15.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_16",
+      "arabic_vocalized": "بَوَّابَة",
+      "arabic_unvocalized": "بوابة",
+      "german": "Gate",
+      "output_file": "c1_u22_16.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_17",
+      "arabic_vocalized": "مَقْعَد",
+      "arabic_unvocalized": "مقعد",
+      "german": "Sitzplatz",
+      "output_file": "c1_u22_17.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_18",
+      "arabic_vocalized": "طَرِيق",
+      "arabic_unvocalized": "طريق",
+      "german": "Straße/Weg (Route)",
+      "output_file": "c1_u22_18.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_19",
+      "arabic_vocalized": "خَرِيطَة",
+      "arabic_unvocalized": "خريطة",
+      "german": "Landkarte",
+      "output_file": "c1_u22_19.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_20",
+      "arabic_vocalized": "مَوْقِف الْحَافِلَة",
+      "arabic_unvocalized": "موقف الحافلة",
+      "german": "Bushaltestelle",
+      "output_file": "c1_u22_20.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_21",
+      "arabic_vocalized": "سَيَّارَة أُجْرَة",
+      "arabic_unvocalized": "سيارة أجرة",
+      "german": "Taxi",
+      "output_file": "c1_u22_21.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_22",
+      "arabic_vocalized": "مِتْرُو",
+      "arabic_unvocalized": "مترو",
+      "german": "U-Bahn",
+      "output_file": "c1_u22_22.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_23",
+      "arabic_vocalized": "قَارِب",
+      "arabic_unvocalized": "قارب",
+      "german": "Boot",
+      "output_file": "c1_u22_23.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u22_24",
+      "arabic_vocalized": "رِحْلَة جَوِّيَّة",
+      "arabic_unvocalized": "رحلة جوية",
+      "german": "Flug",
+      "output_file": "c1_u22_24.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_01",
+      "arabic_vocalized": "صَفّ",
+      "arabic_unvocalized": "صف",
+      "german": "Klasse",
+      "output_file": "c1_u23_01.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_02",
+      "arabic_vocalized": "تِلْمِيذ",
+      "arabic_unvocalized": "تلميذ",
+      "german": "Schüler",
+      "output_file": "c1_u23_02.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_03",
+      "arabic_vocalized": "كِتَاب",
+      "arabic_unvocalized": "كتاب",
+      "german": "Buch",
+      "output_file": "c1_u23_03.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_04",
+      "arabic_vocalized": "دَفْتَر",
+      "arabic_unvocalized": "دفتر",
+      "german": "Heft",
+      "output_file": "c1_u23_04.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_05",
+      "arabic_vocalized": "قَلَم",
+      "arabic_unvocalized": "قلم",
+      "german": "Stift",
+      "output_file": "c1_u23_05.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_06",
+      "arabic_vocalized": "قَلَم رَصَاص",
+      "arabic_unvocalized": "قلم رصاص",
+      "german": "Bleistift",
+      "output_file": "c1_u23_06.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_07",
+      "arabic_vocalized": "وَرَقَة",
+      "arabic_unvocalized": "ورقة",
+      "german": "Blatt Papier",
+      "output_file": "c1_u23_07.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_08",
+      "arabic_vocalized": "تَمْرِين",
+      "arabic_unvocalized": "تمرين",
+      "german": "Übung",
+      "output_file": "c1_u23_08.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_09",
+      "arabic_vocalized": "وَاجِب مَنْزِلِيّ",
+      "arabic_unvocalized": "واجب منزلي",
+      "german": "Hausaufgabe",
+      "output_file": "c1_u23_09.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_10",
+      "arabic_vocalized": "حِصَّة",
+      "arabic_unvocalized": "حصة",
+      "german": "Unterrichtsstunde",
+      "output_file": "c1_u23_10.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_11",
+      "arabic_vocalized": "مَادَّة",
+      "arabic_unvocalized": "مادة",
+      "german": "Schulfach",
+      "output_file": "c1_u23_11.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_12",
+      "arabic_vocalized": "رِيَاضِيَّات",
+      "arabic_unvocalized": "رياضيات",
+      "german": "Mathematik",
+      "output_file": "c1_u23_12.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_13",
+      "arabic_vocalized": "عُلُوم",
+      "arabic_unvocalized": "علوم",
+      "german": "Naturwissenschaften",
+      "output_file": "c1_u23_13.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_14",
+      "arabic_vocalized": "تَارِيخ",
+      "arabic_unvocalized": "تاريخ",
+      "german": "Geschichte",
+      "output_file": "c1_u23_14.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_15",
+      "arabic_vocalized": "جُغْرَافْيَا",
+      "arabic_unvocalized": "جغرافيا",
+      "german": "Geografie",
+      "output_file": "c1_u23_15.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_16",
+      "arabic_vocalized": "سُؤَال",
+      "arabic_unvocalized": "سؤال",
+      "german": "Frage",
+      "output_file": "c1_u23_16.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_17",
+      "arabic_vocalized": "جَوَاب",
+      "arabic_unvocalized": "جواب",
+      "german": "Antwort",
+      "output_file": "c1_u23_17.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_18",
+      "arabic_vocalized": "دَرَجَة",
+      "arabic_unvocalized": "درجة",
+      "german": "Note (Schule)",
+      "output_file": "c1_u23_18.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_19",
+      "arabic_vocalized": "اِسْتِرَاحَة",
+      "arabic_unvocalized": "استراحة",
+      "german": "Pause",
+      "output_file": "c1_u23_19.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_20",
+      "arabic_vocalized": "سَنَة دِرَاسِيَّة",
+      "arabic_unvocalized": "سنة دراسية",
+      "german": "Schuljahr",
+      "output_file": "c1_u23_20.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_21",
+      "arabic_vocalized": "صَفْحَة",
+      "arabic_unvocalized": "صفحة",
+      "german": "Seite",
+      "output_file": "c1_u23_21.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_22",
+      "arabic_vocalized": "مِقَصّ",
+      "arabic_unvocalized": "مقص",
+      "german": "Schere",
+      "output_file": "c1_u23_22.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_23",
+      "arabic_vocalized": "صَمْغ",
+      "arabic_unvocalized": "صمغ",
+      "german": "Klebstoff",
+      "output_file": "c1_u23_23.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_24",
+      "arabic_vocalized": "قَامُوس",
+      "arabic_unvocalized": "قاموس",
+      "german": "Wörterbuch",
+      "output_file": "c1_u23_24.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_25",
+      "arabic_vocalized": "مُخْتَبَر مَدْرَسِيّ",
+      "arabic_unvocalized": "مختبر مدرسي",
+      "german": "Schullabor",
+      "output_file": "c1_u23_25.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u23_26",
+      "arabic_vocalized": "اِمْتِحَان شَفَوِيّ",
+      "arabic_unvocalized": "امتحان شفوي",
+      "german": "mündliche Prüfung",
+      "output_file": "c1_u23_26.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_01",
+      "arabic_vocalized": "كُلِّيَّة",
+      "arabic_unvocalized": "كلية",
+      "german": "Fakultät",
+      "output_file": "c1_u24_01.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_02",
+      "arabic_vocalized": "قِسْم",
+      "arabic_unvocalized": "قسم",
+      "german": "Fachbereich",
+      "output_file": "c1_u24_02.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_03",
+      "arabic_vocalized": "حَرَم جَامِعِيّ",
+      "arabic_unvocalized": "حرم جامعي",
+      "german": "Campus",
+      "output_file": "c1_u24_03.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_04",
+      "arabic_vocalized": "فَصْل دِرَاسِيّ",
+      "arabic_unvocalized": "فصل دراسي",
+      "german": "Semester",
+      "output_file": "c1_u24_04.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_05",
+      "arabic_vocalized": "مُقَرَّر",
+      "arabic_unvocalized": "مقرر",
+      "german": "Kurs",
+      "output_file": "c1_u24_05.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_06",
+      "arabic_vocalized": "وَحْدَة دِرَاسِيَّة",
+      "arabic_unvocalized": "وحدة دراسية",
+      "german": "Modul",
+      "output_file": "c1_u24_06.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_07",
+      "arabic_vocalized": "دَرَجَة عِلْمِيَّة",
+      "arabic_unvocalized": "درجة علمية",
+      "german": "akademischer Abschluss",
+      "output_file": "c1_u24_07.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_08",
+      "arabic_vocalized": "بَكَالُورْيُوس",
+      "arabic_unvocalized": "بكالوريوس",
+      "german": "Bachelor",
+      "output_file": "c1_u24_08.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_09",
+      "arabic_vocalized": "مَاجِسْتِير",
+      "arabic_unvocalized": "ماجستير",
+      "german": "Master",
+      "output_file": "c1_u24_09.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_10",
+      "arabic_vocalized": "دُكْتُورَاه",
+      "arabic_unvocalized": "دكتوراه",
+      "german": "Doktorgrad",
+      "output_file": "c1_u24_10.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_11",
+      "arabic_vocalized": "أُطْرُوحَة",
+      "arabic_unvocalized": "أطروحة",
+      "german": "Abschlussarbeit",
+      "output_file": "c1_u24_11.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_12",
+      "arabic_vocalized": "بَحْث",
+      "arabic_unvocalized": "بحث",
+      "german": "Forschung",
+      "output_file": "c1_u24_12.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_13",
+      "arabic_vocalized": "مَشْرُوع",
+      "arabic_unvocalized": "مشروع",
+      "german": "Projekt",
+      "output_file": "c1_u24_13.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_14",
+      "arabic_vocalized": "مُخْتَبَر",
+      "arabic_unvocalized": "مختبر",
+      "german": "Labor",
+      "output_file": "c1_u24_14.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_15",
+      "arabic_vocalized": "تَكْلِيف",
+      "arabic_unvocalized": "تكليف",
+      "german": "Aufgabe (Studium)",
+      "output_file": "c1_u24_15.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_16",
+      "arabic_vocalized": "عَلَامَة",
+      "arabic_unvocalized": "علامة",
+      "german": "Note (Universität)",
+      "output_file": "c1_u24_16.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_17",
+      "arabic_vocalized": "نَتِيجَة",
+      "arabic_unvocalized": "نتيجة",
+      "german": "Ergebnis",
+      "output_file": "c1_u24_17.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_18",
+      "arabic_vocalized": "جَدْوَل",
+      "arabic_unvocalized": "جدول",
+      "german": "Stundenplan",
+      "output_file": "c1_u24_18.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_19",
+      "arabic_vocalized": "تَسْجِيل",
+      "arabic_unvocalized": "تسجيل",
+      "german": "Anmeldung",
+      "output_file": "c1_u24_19.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_20",
+      "arabic_vocalized": "قَبُول",
+      "arabic_unvocalized": "قبول",
+      "german": "Zulassung",
+      "output_file": "c1_u24_20.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_21",
+      "arabic_vocalized": "مِنْحَة",
+      "arabic_unvocalized": "منحة",
+      "german": "Stipendium",
+      "output_file": "c1_u24_21.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_22",
+      "arabic_vocalized": "شَهَادَة",
+      "arabic_unvocalized": "شهادة",
+      "german": "Zeugnis",
+      "output_file": "c1_u24_22.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u24_23",
+      "arabic_vocalized": "خِرِّيج",
+      "arabic_unvocalized": "خريج",
+      "german": "Absolvent",
+      "output_file": "c1_u24_23.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_01",
+      "arabic_vocalized": "وَظِيفَة",
+      "arabic_unvocalized": "وظيفة",
+      "german": "Arbeitsstelle",
+      "output_file": "c1_u25_01.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_02",
+      "arabic_vocalized": "شَرِكَة",
+      "arabic_unvocalized": "شركة",
+      "german": "Firma",
+      "output_file": "c1_u25_02.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_03",
+      "arabic_vocalized": "مُوَظَّف",
+      "arabic_unvocalized": "موظف",
+      "german": "Angestellter",
+      "output_file": "c1_u25_03.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_04",
+      "arabic_vocalized": "صَاحِب عَمَل",
+      "arabic_unvocalized": "صاحب عمل",
+      "german": "Arbeitgeber",
+      "output_file": "c1_u25_04.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_05",
+      "arabic_vocalized": "مُدِير",
+      "arabic_unvocalized": "مدير",
+      "german": "Manager",
+      "output_file": "c1_u25_05.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_06",
+      "arabic_vocalized": "رَئِيس",
+      "arabic_unvocalized": "رئيس",
+      "german": "Chef",
+      "output_file": "c1_u25_06.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_07",
+      "arabic_vocalized": "زَمِيل عَمَل",
+      "arabic_unvocalized": "زميل عمل",
+      "german": "Arbeitskollege",
+      "output_file": "c1_u25_07.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_08",
+      "arabic_vocalized": "اِجْتِمَاع",
+      "arabic_unvocalized": "اجتماع",
+      "german": "Besprechung",
+      "output_file": "c1_u25_08.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_09",
+      "arabic_vocalized": "رَاتِب",
+      "arabic_unvocalized": "راتب",
+      "german": "Gehalt",
+      "output_file": "c1_u25_09.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_10",
+      "arabic_vocalized": "عَقْد",
+      "arabic_unvocalized": "عقد",
+      "german": "Vertrag",
+      "output_file": "c1_u25_10.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_11",
+      "arabic_vocalized": "سَاعَات الْعَمَل",
+      "arabic_unvocalized": "ساعات العمل",
+      "german": "Arbeitszeit",
+      "output_file": "c1_u25_11.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_12",
+      "arabic_vocalized": "إِجَازَة",
+      "arabic_unvocalized": "إجازة",
+      "german": "Urlaub",
+      "output_file": "c1_u25_12.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_13",
+      "arabic_vocalized": "بَرِيد إِلِكْتْرُونِيّ",
+      "arabic_unvocalized": "بريد إلكتروني",
+      "german": "E-Mail",
+      "output_file": "c1_u25_13.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_14",
+      "arabic_vocalized": "مُكَالَمَة",
+      "arabic_unvocalized": "مكالمة",
+      "german": "Anruf",
+      "output_file": "c1_u25_14.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_15",
+      "arabic_vocalized": "مُهِمَّة",
+      "arabic_unvocalized": "مهمة",
+      "german": "Aufgabe (Arbeit)",
+      "output_file": "c1_u25_15.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_16",
+      "arabic_vocalized": "مَوْعِد نِهَائِيّ",
+      "arabic_unvocalized": "موعد نهائي",
+      "german": "Frist",
+      "output_file": "c1_u25_16.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_17",
+      "arabic_vocalized": "خِبْرَة",
+      "arabic_unvocalized": "خبرة",
+      "german": "Erfahrung",
+      "output_file": "c1_u25_17.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_18",
+      "arabic_vocalized": "مَهَارَة",
+      "arabic_unvocalized": "مهارة",
+      "german": "Fähigkeit",
+      "output_file": "c1_u25_18.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_19",
+      "arabic_vocalized": "طَلَب تَوْظِيف",
+      "arabic_unvocalized": "طلب توظيف",
+      "german": "Bewerbung",
+      "output_file": "c1_u25_19.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_20",
+      "arabic_vocalized": "مُقَابَلَة عَمَل",
+      "arabic_unvocalized": "مقابلة عمل",
+      "german": "Vorstellungsgespräch",
+      "output_file": "c1_u25_20.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_21",
+      "arabic_vocalized": "سِيرَة ذَاتِيَّة",
+      "arabic_unvocalized": "سيرة ذاتية",
+      "german": "Lebenslauf",
+      "output_file": "c1_u25_21.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_22",
+      "arabic_vocalized": "مِهْنَة",
+      "arabic_unvocalized": "مهنة",
+      "german": "Beruf",
+      "output_file": "c1_u25_22.wav",
+      "status": "needs_language_review"
+    },
+    {
+      "id": "c1_u25_23",
+      "arabic_vocalized": "مُسْتَوْدَع",
+      "arabic_unvocalized": "مستودع",
+      "german": "Lager",
+      "output_file": "c1_u25_23.wav",
+      "status": "needs_language_review"
     }
   ]
 }

@@ -229,16 +229,21 @@ if (words.length !== 900) {
   console.log('OK: genau 900 Vokabeleinträge vorhanden (Zielwert Entwicklungsauftrag 6 erreicht).');
 }
 
-// --- Geschlossenes part_of_speech-Vokabular (Entwicklungsauftrag 8, Abschnitt 8) -----------
+// --- Geschlossenes part_of_speech-Vokabular (Entwicklungsauftrag 8, Abschnitt 8; erweitert in
+// Entwicklungsauftrag 10, Abschnitt 3) -------------------------------------------------------
 // Entwicklungsauftrag 8 schlug ein eigenes (englisches) Wortarten-Vokabular vor. Über die 388
 // bereits vorher vollständigen Wörter (Kurs 1, Units 1-10) hat sich aber schon ein deutsches
 // Vokabular etabliert. Statt es disruptiv umzustellen, wird HIER die bestehende Konvention als
 // die eine, zentrale, geschlossene Liste festgeschrieben (kein zweites/paralleles Vokabular) und
-// jeder unbekannte Wert als Hinweis gemeldet, statt schweigend durchzulaufen.
+// jeder unbekannte Wert als Hinweis gemeldet, statt schweigend durchzulaufen. "Präposition" kam
+// in Entwicklungsauftrag 10 als 13. Wert hinzu — Unit 21 (Position/Richtung) ist die erste Unit
+// mit einer nennenswerten Zahl echter Präpositionen; sie zuvor unter "Ausdruck" zu führen wäre
+// grammatisch ungenau gewesen. Bewusst eine einzige, durchdachte Ergänzung der zentralen Liste,
+// kein zweites Vokabular.
 const KNOWN_PART_OF_SPEECH = new Set([
   'Substantiv', 'Substantiv (Dual)', 'Substantiv (Plural)', 'Substantiv (Pluraletantum)',
   'Substantiv/Adjektiv', 'Adjektiv', 'Verb (3. Pers. m. Vergangenheit)', 'Adverb', 'Ausdruck',
-  'Zahlwort', 'Fragewort', 'Eigenname'
+  'Zahlwort', 'Fragewort', 'Eigenname', 'Präposition'
 ]);
 const unknownPartOfSpeech = new Map();
 for (const w of words) {
