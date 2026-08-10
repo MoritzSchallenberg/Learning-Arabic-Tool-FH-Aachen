@@ -396,6 +396,9 @@ späteren Runde (siehe [`ROADMAP.md`](ROADMAP.md), Abschnitt 8, für den vollst�
   persistent), größere Typografie-Skala für arabische Haupt-/Beispielwörter, ~30 neue
   wiederverwendbare Komponentenklassen (Kurs-/Unit-/Session-Karten, Status-Badges,
   Wort-/Theoriekarten, feste Aktionsleiste, Dialog, Leer-/Lade-/Fehlerzustand).
+  **Überholt seit Entwicklungsauftrag 14:** der "Systemmodus" wurde als eigene Option entfernt
+  (nur noch Hell/Dunkel, siehe eigener Abschnitt unten) — das Designsystem selbst wurde in
+  Auftrag 14 grundlegend um Tokens für Abstände/Größen/Schatten/Typografie erweitert.
 - **Kursansicht** (`src/js/views/courseView.js`) und **Unit-Detailansicht**
   (`src/js/views/unitDetailView.js`): ersetzen die frühere dauerhaft ausgeklappte Lesson-Liste.
   Units erscheinen als Karten/Lernroute mit Status (verfügbar/begonnen/abgeschlossen), eine
@@ -1313,6 +1316,76 @@ Aufnahmen laden, mindestens eine Session je der 30 Units gegen die echte Zuordnu
 **Bewusst nicht Teil dieser Runde:** Sprachprüfung durch Claude, endgültige Audiofreigabe, erneute
 kostenpflichtige Audioerzeugung ohne nachgewiesenen Defekt, Überschreiben der 141
 Bestandsaufnahmen, Kurs 2-5, `.arabiccourse`-Format, großes Interface-Redesign.
+
+## Einheitliches Designsystem sowie Hell- und Dunkelmodus (Entwicklungsauftrag 14)
+
+Reines Präsentationsauftrag: zentrales, tokenbasiertes Designsystem für die normale Lernoberfläche
+(der Sprachprüf-Arbeitsbereich aus Auftrag 12 läuft unverändert weiter, wird aber bewusst nicht
+neu gestaltet) mit vollständigem Hell- und Dunkelmodus. Keine Wort-/Theorie-/Audio-Änderung.
+
+**Speicherung erweitert statt verdoppelt:** `src/js/progressStore.js` bekommt eine zweite, zum
+bestehenden Fortschritts-Migrationsmuster analoge Funktion `migrateSettings()` (`_version`-Feld,
+`normalizeThemeValue()` — nur `"light"`/`"dark"` gültig, jeder andere Wert inkl. des früheren
+`"system"` fällt kontrolliert auf Hell zurück). `main.js#loadUserData('settings')` nutzt sie und
+persistiert die Migration sofort — **keine zweite, unabhängige Speicherdatei nur für das Theme**.
+
+**Kein Aufblitzen des falschen Modus, ohne die Sicherheitsarchitektur anzufassen:** ein neuer,
+bewusst einziger synchroner IPC-Kanal `theme:getInitial` (`ipcMain.on` + `event.returnValue`),
+von `preload.js` per `ipcRenderer.sendSync()` abgefragt und als `window.initialTheme` exponiert.
+`src/js/earlyTheme.js` — als externe Datei wegen der CSP (`'unsafe-inline'` ist verboten) — ist
+das erste `<script>` im `<head>`, setzt `data-theme` auf `<html>` vor jedem Rendern.
+`contextIsolation`/`sandbox`/`nodeIntegration` bleiben dabei unverändert.
+
+**Designsystem-Tokens** (`src/css/style.css`): Farben, 5 Abstandsgrößen, 3 Eckenradien,
+Karten-/Dialogschatten, Übergangsgeschwindigkeit, Button-/Eingabehöhen, Schriftgrößen (inkl. 3
+arabischer Stufen + Zeilenhöhe) — in drei Blöcken (`:root`, `[data-theme="light"]`,
+`[data-theme="dark"]`). Die alten `--color-*`-Namen bleiben als Aliase erhalten, damit der
+bestehende Code beide Modi automatisch korrekt mitmacht, ohne jede Ansicht einzeln anfassen zu
+müssen. Ein echter Kontrastfehler behoben: `#0c1620` (feste dunkle Schrift "auf Akzentfläche") war
+in sechs Komponentenregeln unabhängig vom Modus hart verdrahtet — im neuen Hellmodus (dunkelblaue
+Akzentfarbe) wäre das kaum lesbar gewesen. Neues Token `--on-accent` mit eigenem Wert je Modus.
+
+**Theme-Umschalter:** neue gemeinsame Komponente `src/js/themeToggle.js` (zwei echte
+`<button type="button">`, `role="group"`, `aria-label`, `aria-pressed`, aktiver Zustand über
+Klasse UND `aria-pressed` erkennbar, nicht nur Farbe) — voll beschriftet in den Einstellungen,
+kompakt (nur Symbol, weiterhin mit `aria-label`) im Kopfbereich jeder Seite (der jetzt immer
+gerendert wird, vorher kollabierte er auf leeren Seiten komplett).
+
+**Arabische Typografie konsolidiert:** gemeinsamer Regelblock für `.arabic-word-main`,
+`.arabic-example`, `.arabic-text` (`direction: rtl`, `unicode-bidi: isolate`,
+`overflow-wrap: break-word`), neue `.arabic-input`-Klasse für Texteingaben.
+
+**Ansichten-Sweep:** Codesuche fand keine hartcodierten Hex-/RGB-Farben mehr in irgendeiner
+Ansicht — alle nutzen bereits Klassen und die (jetzt korrekt kaskadierenden) `--color-*`-Aliase.
+Separat fünf fehlende `aria-label` auf reinen 🔊-Symbol-Buttons gefunden und ergänzt
+(`onboarding.js`, `letterGroupLesson.js`, `alphabet.js`, `freePractice.js`, `vocabulary.js`).
+
+**Erstmals echte visuelle Verifikation gelungen:** anders als in allen vorigen Runden erwies sich
+die Sandbox-Umgebung als eine echte, aktive GNOME/Wayland-Desktopsitzung. Nach ausdrücklicher
+Nutzerzustimmung (ein sichtbares Fenster auf dem echten Bildschirm ist kein stillschweigend zu
+treffender Schritt) wurde die App über Playwrights `_electron`-API real gestartet und bedient:
+Hell ist der Standard bei frischem Start bestätigt, Theme-Wechsel in Einstellungen UND
+Kopfbereich funktioniert sofort ohne Neuladen, ein Theme-Wechsel MITTEN in einer laufenden Übung
+unterbricht diese nachweislich nicht, kein horizontaler Overflow bei der in `main.js`
+konfigurierten Mindestfenstergröße (900×600) — dabei aber ein echter kleiner Fund gemacht und
+behoben: der App-Titel wurde bei dieser Breite mitten im Wort abgeschnitten (`text-overflow:
+ellipsis` ergänzt). Die Testläufe liefen gegen das echte Nutzerprofil; vor Abschluss geprüft, dass
+`progress.json` byte-für-byte unverändert blieb, und die durch die Testklicks veränderte
+`settings.json` aus der automatischen `.bak`-Sicherung auf den Stand vor der Prüfung
+zurückgesetzt.
+
+**Tests:** 41 neue Tests (506 → 547 Unit-Tests): `settingsMigration.test.js` (18),
+`themeToggle.test.js` (9), `designSystem.test.js` (13), plus ein neuer Test in
+`settings.test.js`. 12 bestehende Tests an bewusst geänderte Verträge angepasst, nicht
+geschwächt. `npm test` 553/553, 10× hintereinander sauber; `npm run lint`/`validate:course`/
+`audio:verify`/`package:source` erfolgreich; entpacktes Quellpaket eigenständig erneut getestet.
+
+**Bewusst nicht Teil dieser Runde:** Sprachprüfung, Wort-/Theorie-/Audio-Änderungen,
+Audioerzeugung, neuer Sitzungsfluss, neues Feedbacksystem, grundlegend neue Kursübersicht.
+Vollständige visuelle Prüfung jeder einzelnen Ansicht in beiden Modi (Kursübersicht, Unit-Detail,
+Theorieanzeige, Vokabelbrowser, Hörübungen, Grammatikbereiche, Alphabet, Verbindungstrainer,
+Vokalisierungstrainer, virtuelle Tastatur, Dialoge) steht weiterhin aus — siehe manuelle Prüfliste
+im Abschlussbericht bzw. `ROADMAP.md`.
 
 ## Bekannte Einschränkungen
 

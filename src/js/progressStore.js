@@ -13,7 +13,14 @@
 // 3) migrateProgress()/isLegacyProgressFormat(): progress.json bekommt ein Versionsfeld
 //    (_version) und eine Hülle ({ _version, languages }), altes unversioniertes Format
 //    (nacktes { [languageId]: {...} }) wird beim Laden einmalig automatisch migriert.
-// 4) enqueueWrite(): zentrale Speicherwarteschlange pro Datei — mehrere schnell aufeinander
+// 4) migrateSettings()/isLegacySettingsFormat() (Entwicklungsauftrag 14, Abschnitt 8): settings.json
+//    bekommt ebenfalls ein Versionsfeld. Grund: der Theme-Wertebereich wurde von drei Werten
+//    ("system"/"light"/"dark") auf zwei ("light"/"dark") verkleinert (Abschnitt 7 nennt nur noch
+//    "Hell"/"Dunkel" als Nutzerauswahl), und der Standard hat sich von "system" auf "light"
+//    geändert (Abschnitt 5). Alte, unversionierte settings.json-Dateien (inkl. dem jetzt
+//    entfallenen "system"-Wert) werden transparent migriert -- alle ANDEREN Einstellungsfelder
+//    bleiben dabei unangetastet erhalten.
+// 5) enqueueWrite(): zentrale Speicherwarteschlange pro Datei — mehrere schnell aufeinander
 //    folgende Speicheraufrufe (viele Views rufen persistProgress() ohne await auf) werden pro
 //    Datei strikt in Aufrufreihenfolge nacheinander geschrieben statt parallel/unkontrolliert.
 
@@ -21,6 +28,27 @@ const fs = require('fs');
 const path = require('path');
 
 const CURRENT_PROGRESS_VERSION = 1;
+const CURRENT_SETTINGS_VERSION = 1;
+
+// Einzige gültige Nutzerauswahl seit Entwicklungsauftrag 14 (Abschnitt 7) -- kein "system" mehr
+// als eigener, wählbarer Wert. Ein bereits gesetztes "system" (aus einer älteren Version) wird
+// wie jeder andere unbekannte Wert behandelt: kontrollierter Rückfall auf "light" (Abschnitt 8).
+const VALID_THEMES = ['light', 'dark'];
+const DEFAULT_THEME = 'light';
+
+const SETTINGS_FIELD_DEFAULTS = {
+  inputMode: 'virtual_keyboard',
+  showDiacritics: true,
+  autoPlayWord: true,
+  replayAfterAnswer: true,
+  slowPlayback: false,
+  theme: DEFAULT_THEME,
+  sidebarCollapsed: false,
+  arabicFontScale: 'normal',
+  autoAdvanceAfterFeedback: false,
+  dailyNewLimit: 10,
+  showTransliteration: true
+};
 
 function ensureDir(dir) {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -95,6 +123,29 @@ function migrateProgress(raw) {
   return { _version: CURRENT_PROGRESS_VERSION, languages: raw.languages || {} };
 }
 
+function isLegacySettingsFormat(raw) {
+  return raw !== null && typeof raw === 'object' && !Array.isArray(raw) && !('_version' in raw);
+}
+
+function normalizeThemeValue(theme) {
+  return VALID_THEMES.includes(theme) ? theme : DEFAULT_THEME;
+}
+
+/**
+ * Bringt geladene settings.json-Daten in die aktuelle versionierte Form. Migriert transparent aus
+ * dem alten, unversionierten Format -- validiert dabei IMMER den theme-Wert (auch bei bereits
+ * aktueller Version, falls z. B. eine kaputte/manuell editierte Datei einen ungültigen Wert
+ * enthält), alle anderen Felder bleiben unverändert erhalten. Neue, seit der gespeicherten
+ * Version hinzugekommene Felder werden aufgefüllt, ohne bereits gespeicherte Werte zu
+ * überschreiben (siehe SETTINGS_FIELD_DEFAULTS).
+ */
+function migrateSettings(raw) {
+  const base = (raw !== null && typeof raw === 'object' && !Array.isArray(raw)) ? raw : {};
+  const merged = { ...SETTINGS_FIELD_DEFAULTS, ...base, _version: CURRENT_SETTINGS_VERSION };
+  merged.theme = normalizeThemeValue(merged.theme);
+  return merged;
+}
+
 // --- Zentrale Speicherwarteschlange (eine Warteschlange pro Dateipfad) ---------------------
 const saveQueues = new Map();
 
@@ -109,10 +160,17 @@ function enqueueWrite(key, task) {
 
 module.exports = {
   CURRENT_PROGRESS_VERSION,
+  CURRENT_SETTINGS_VERSION,
+  VALID_THEMES,
+  DEFAULT_THEME,
+  SETTINGS_FIELD_DEFAULTS,
   ensureDir,
   readJsonFileSafe,
   writeJsonFileAtomic,
   isLegacyProgressFormat,
   migrateProgress,
+  isLegacySettingsFormat,
+  normalizeThemeValue,
+  migrateSettings,
   enqueueWrite
 };

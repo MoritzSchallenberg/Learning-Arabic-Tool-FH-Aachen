@@ -311,7 +311,7 @@ const ConnectionTrainer = (() => {
       letters.forEach((l, i) => {
         parts.push(`<span class="arabic-text large">${l.letter}</span>`);
         if (i < letters.length - 1) {
-          parts.push(`<button type="button" class="btn secondary" data-junction="${i}" style="min-width:32px; ${selected.has(i) ? 'background:var(--color-accent); color:#0c1620;' : ''}">${selected.has(i) ? '✓' : '·'}</button>`);
+          parts.push(`<button type="button" class="btn secondary" data-junction="${i}" style="min-width:32px; ${selected.has(i) ? 'background:var(--color-accent); color:var(--on-accent);' : ''}">${selected.has(i) ? '✓' : '·'}</button>`);
         }
       });
       container.innerHTML = `

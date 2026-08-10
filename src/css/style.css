@@ -1,31 +1,79 @@
 /* ============================================================================
-   Designsystem (Entwicklungsauftrag 4, Schritt 1)
-   Semantische Variablen statt reiner Farbnamen, damit Hell-/Dunkel-/Systemmodus
-   nur die Werte austauschen müssen, nicht jede Regel im Stylesheet.
-   `--color-*`-Namen bleiben als Aliase erhalten, weil ein Großteil des bestehenden
-   Codes (Inline-Styles in den Views, ältere CSS-Regeln) sie bereits verwendet —
-   ein Massen-Rename wäre ein reines Umbenennen ohne Mehrwert und mit echtem
-   Regressionsrisiko gewesen.
+   Designsystem (Entwicklungsauftrag 4, Schritt 1; grundlegend erweitert und
+   vereinheitlicht in Entwicklungsauftrag 14)
+   Semantische Design-Tokens statt reiner Farbnamen/verstreuter Pixelwerte, damit Hell-/
+   Dunkelmodus nur die Werte austauschen müssen, nicht jede Regel im Stylesheet, und damit
+   Abstände/Größen/Schatten/Übergänge/Typografie an EINER Stelle definiert sind.
+   `--color-*`-Namen bleiben als Aliase erhalten, weil ein Großteil des bestehenden Codes
+   (Inline-Styles in den Views, ältere CSS-Regeln) sie bereits verwendet — ein Massen-Rename
+   wäre ein reines Umbenennen ohne Mehrwert und mit echtem Regressionsrisiko gewesen.
+
+   Seit Entwicklungsauftrag 14: genau zwei wählbare Modi, HELL ist der Standard (auch der
+   ungestylte Basis-:root unten, als zusätzliche Absicherung, falls data-theme aus irgendeinem
+   Grund noch nicht gesetzt ist — normalerweise setzt src/js/earlyTheme.js es bereits vor dem
+   ersten Rendern explizit). Die frühere dritte Option "Systemeinstellung" (per
+   prefers-color-scheme) entfällt bewusst (Abschnitt 7/8) — ein alter, gespeicherter
+   "system"-Wert fällt beim Laden kontrolliert auf "light" zurück (progressStore.js).
    ============================================================================ */
 :root {
-  /* Dunkelmodus ist der Standard (entspricht dem bisherigen Erscheinungsbild). */
-  --bg-primary: #1b1b1f;
-  --bg-secondary: #17171a;
-  --surface: #26262c;
-  --surface-hover: #2f2f37;
-  --border: #3a3a42;
-  --text-primary: #eaeaef;
-  --text-secondary: #a3a3ad;
-  --accent: #4fa3ff;
-  --accent-hover: #78bbff;
-  --success: #4caf6d;
-  --warning: #d9a441;
-  --error: #e0605e;
-  --info: #4fa3ff;
-  --radius: 10px;
-  --radius-sm: 6px;
-  --radius-lg: 14px;
+  /* Basiswerte = identisch zu [data-theme="light"] (siehe Kommentar oben). */
+  --bg-primary: #f4f5f7;
+  --bg-secondary: #ffffff;
+  --nav-bg: #ffffff;
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --surface-hover: #eceef1;
+  --border: #d7dae0;
+  --border-strong: #b7bcc4;
+  --border-weak: #e7e9ed;
+  --text-primary: #1b1e21;
+  --text-secondary: #5b5f66;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-secondary: #64748b;
+  --on-accent: #ffffff; /* Textfarbe AUF der Aktionsfarbe -- siehe Kontrast-Anmerkung unten */
+  --success: #1f9254;
+  --success-bg: rgba(31, 146, 84, 0.12);
+  --warning: #b3760c;
+  --warning-bg: rgba(179, 118, 12, 0.14);
+  --error: #c8372f;
+  --error-bg: rgba(200, 55, 47, 0.1);
+  --info: #2563eb;
+  --info-bg: rgba(37, 99, 235, 0.1);
+  --focus-ring: #1d4ed8;
+  --disabled-bg: #e5e7eb;
+  --disabled-text: #9ca3af;
+
+  /* Abstände (Abschnitt 4 "Größen und Abstände") */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+
+  /* Größen */
   --content-max-width: 1100px;
+  --card-padding: 24px;
+  --btn-height: 42px;
+  --input-height: 42px;
+
+  /* Darstellung */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --shadow-card: 0 1px 3px rgba(20, 20, 30, 0.08);
+  --shadow-dialog: 0 16px 40px rgba(20, 20, 30, 0.2);
+  --transition-normal: 150ms ease;
+
+  /* Schriftgrößen/Zeilenhöhen (Abschnitt 4/12) */
+  --font-size-h1: 1.6rem;
+  --font-size-h2: 1.15rem;
+  --font-size-body: 1rem;
+  --line-height-body: 1.6;
+  --arabic-font-size-lg: 2.75rem;  /* großes arabisches Lernwort */
+  --arabic-font-size-md: 1.9rem;   /* arabisches Beispiel */
+  --arabic-font-size-sm: 1.3rem;   /* kleine arabische Zusatzinformation */
+  --arabic-line-height: 1.9;
 
   /* Rückwärtskompatible Aliase — siehe Kommentar oben. */
   --color-bg: var(--bg-primary);
@@ -40,56 +88,71 @@
   --color-wrong: var(--error);
 }
 
-:root[data-theme="dark"] {
-  --bg-primary: #1b1b1f;
-  --bg-secondary: #17171a;
-  --surface: #26262c;
-  --surface-hover: #2f2f37;
-  --border: #3a3a42;
-  --text-primary: #eaeaef;
-  --text-secondary: #a3a3ad;
-  --accent: #4fa3ff;
-  --accent-hover: #78bbff;
-  --success: #4caf6d;
-  --warning: #d9a441;
-  --error: #e0605e;
-  --info: #4fa3ff;
-}
-
 :root[data-theme="light"] {
   --bg-primary: #f4f5f7;
   --bg-secondary: #ffffff;
+  --nav-bg: #ffffff;
   --surface: #ffffff;
+  --surface-elevated: #ffffff;
   --surface-hover: #eceef1;
   --border: #d7dae0;
+  --border-strong: #b7bcc4;
+  --border-weak: #e7e9ed;
   --text-primary: #1b1e21;
   --text-secondary: #5b5f66;
   --accent: #2563eb;
   --accent-hover: #1d4ed8;
+  --accent-secondary: #64748b;
+  --on-accent: #ffffff;
   --success: #1f9254;
+  --success-bg: rgba(31, 146, 84, 0.12);
   --warning: #b3760c;
+  --warning-bg: rgba(179, 118, 12, 0.14);
   --error: #c8372f;
+  --error-bg: rgba(200, 55, 47, 0.1);
   --info: #2563eb;
+  --info-bg: rgba(37, 99, 235, 0.1);
+  --focus-ring: #1d4ed8;
+  --disabled-bg: #e5e7eb;
+  --disabled-text: #9ca3af;
+  --shadow-card: 0 1px 3px rgba(20, 20, 30, 0.08);
+  --shadow-dialog: 0 16px 40px rgba(20, 20, 30, 0.2);
 }
 
-/* Systemmodus: keine explizite Wahl (kein data-theme-Attribut gesetzt) folgt der
-   Betriebssystem-Einstellung. Dunkel bleibt der Fallback (bare :root oben). */
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme]) {
-    --bg-primary: #f4f5f7;
-    --bg-secondary: #ffffff;
-    --surface: #ffffff;
-    --surface-hover: #eceef1;
-    --border: #d7dae0;
-    --text-primary: #1b1e21;
-    --text-secondary: #5b5f66;
-    --accent: #2563eb;
-    --accent-hover: #1d4ed8;
-    --success: #1f9254;
-    --warning: #b3760c;
-    --error: #c8372f;
-    --info: #2563eb;
-  }
+/* Dunkelmodus entsteht NICHT durch bloße Umkehrung -- eigene, geprüfte Werte je Ebene
+   (Abschnitt 6): erhöhte Flächen werden im Dunkeln HELLER statt dunkler (typisches
+   Tiefenempfinden), Erfolg/Fehler/Warnung sind eigens auf dunklem Grund abgestimmt statt der
+   hellen Werte, und --on-accent wechselt auf dunklen Text, weil die Akzentfarbe im Dunkelmodus
+   selbst hell ist (helle Fläche + heller Text hätte schlechten Kontrast). */
+:root[data-theme="dark"] {
+  --bg-primary: #1b1b1f;
+  --bg-secondary: #17171a;
+  --nav-bg: #17171a;
+  --surface: #26262c;
+  --surface-elevated: #2e2e36;
+  --surface-hover: #2f2f37;
+  --border: #3a3a42;
+  --border-strong: #4a4a54;
+  --border-weak: #2c2c33;
+  --text-primary: #eaeaef;
+  --text-secondary: #a3a3ad;
+  --accent: #4fa3ff;
+  --accent-hover: #78bbff;
+  --accent-secondary: #94a3b8;
+  --on-accent: #0c1620;
+  --success: #4caf6d;
+  --success-bg: rgba(76, 175, 109, 0.16);
+  --warning: #d9a441;
+  --warning-bg: rgba(217, 164, 65, 0.18);
+  --error: #e0605e;
+  --error-bg: rgba(224, 96, 94, 0.16);
+  --info: #4fa3ff;
+  --info-bg: rgba(79, 163, 255, 0.16);
+  --focus-ring: #78bbff;
+  --disabled-bg: #35353c;
+  --disabled-text: #6b6b74;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --shadow-dialog: 0 16px 40px rgba(0, 0, 0, 0.55);
 }
 
 * {
@@ -105,36 +168,76 @@ html, body {
   font-family: "Segoe UI", "Noto Sans Arabic", Tahoma, Arial, sans-serif;
 }
 
-/* --- Typografie-Skala (Entwicklungsauftrag 4, Abschnitt 7.2) --- */
-.text-page-title { font-size: 1.6rem; font-weight: 700; margin: 0 0 4px; }
-.text-section-title { font-size: 1.15rem; font-weight: 600; margin: 0 0 8px; }
-.text-body { font-size: 1rem; line-height: 1.6; }
+/* Gut sichtbarer Tastaturfokus überall (Entwicklungsauftrag 14, Abschnitt 15) -- EIN zentraler
+   Fokusring statt einzelner, evtl. vergessener :focus-Regeln je Komponente. Nur bei erkannter
+   Tastaturbedienung (:focus-visible), nicht bei jedem Mausklick. */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible,
+textarea:focus-visible, [tabindex]:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* --- Typografie-Skala (Entwicklungsauftrag 4, Abschnitt 7.2; auf Tokens umgestellt in
+   Entwicklungsauftrag 14) --- */
+.text-page-title { font-size: var(--font-size-h1); font-weight: 700; margin: 0 0 4px; }
+.text-section-title { font-size: var(--font-size-h2); font-weight: 600; margin: 0 0 8px; }
+.text-body { font-size: var(--font-size-body); line-height: var(--line-height-body); }
 .text-hint { font-size: 0.85rem; color: var(--text-secondary); }
 
-/* Arabische Lernwörter deutlich größer als deutscher Text, mit ausreichend
-   Zeilenhöhe für Vokalzeichen (die sonst abgeschnitten wirken können). */
-.arabic-word-main {
+/* --- Arabische Typografie (Entwicklungsauftrag 14, Abschnitt 12) --- gemeinsame Basis für
+   alle arabischen Textklassen: RTL-Richtung + isolierte Bidi-Einbettung (deutsche und arabische
+   Texte dürfen sich nie gegenseitig falsch ausrichten), großzügige Zeilenhöhe (schneidet
+   Vokalzeichen nicht ab), Wortumbruch statt Überlaufen aus Karten heraus. */
+.arabic-word-main,
+.arabic-example,
+.arabic-text {
   direction: rtl;
   unicode-bidi: isolate;
   font-family: "Noto Sans Arabic", "Amiri", Tahoma, sans-serif;
-  font-size: 2.75rem;
-  line-height: 2;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
+
+/* Großes arabisches Lernwort -- die zentrale Vokabel im Blickpunkt einer Aufgabe. */
+.arabic-word-main {
+  font-size: var(--arabic-font-size-lg);
+  line-height: var(--arabic-line-height);
+}
+/* Arabisches Beispiel (Theorie, Sätze). */
 .arabic-example {
-  direction: rtl;
-  unicode-bidi: isolate;
-  font-family: "Noto Sans Arabic", "Amiri", Tahoma, sans-serif;
-  font-size: 1.9rem;
-  line-height: 1.9;
+  font-size: var(--arabic-font-size-md);
+  line-height: var(--arabic-line-height);
+}
+/* Normaler arabischer Text (Standardgröße von .arabic-text ohne Modifikator). */
+.arabic-text {
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+/* Kleine arabische Zusatzinformation (z. B. in Listen/Meta-Zeilen). */
+.arabic-text.small {
+  font-size: var(--arabic-font-size-sm);
+  line-height: 1.6;
 }
 
 /* Arabische Schriftgröße "Groß" (Einstellungen, Entwicklungsauftrag 4 Abschnitt 21) — skaliert
    alle arabischen Textklassen gemeinsam über eine CSS-Variable statt jede Regel zu duplizieren. */
 :root { --arabic-scale: 1; }
 :root[data-arabic-scale="large"] { --arabic-scale: 1.25; }
-.arabic-word-main { font-size: calc(2.75rem * var(--arabic-scale)); }
-.arabic-example { font-size: calc(1.9rem * var(--arabic-scale)); }
+.arabic-word-main { font-size: calc(var(--arabic-font-size-lg) * var(--arabic-scale)); }
+.arabic-example { font-size: calc(var(--arabic-font-size-md) * var(--arabic-scale)); }
 .arabic-text.large { font-size: calc(2.4rem * var(--arabic-scale)); }
+.arabic-text.small { font-size: calc(var(--arabic-font-size-sm) * var(--arabic-scale)); }
+
+/* Arabische Eingabe (virtuelle Tastatur + Texteingabefelder mit arabischem Inhalt) -- eigene
+   Klasse, damit Eingabefelder dieselbe Schriftfamilie/Größe wie der übrige arabische Text
+   verwenden, unabhängig davon, wo sie im Markup stehen. */
+.arabic-input {
+  direction: rtl;
+  unicode-bidi: isolate;
+  font-family: "Noto Sans Arabic", "Amiri", Tahoma, sans-serif;
+  font-size: 1.3rem;
+  line-height: 1.8;
+}
 
 .app-shell {
   display: flex;
@@ -155,12 +258,12 @@ html, body {
 .sidebar {
   width: 232px;
   flex-shrink: 0;
-  background: var(--surface);
+  background: var(--nav-bg);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   padding: 12px 0;
-  transition: width 0.15s ease;
+  transition: width var(--transition-normal);
 }
 
 .sidebar.collapsed {
@@ -183,6 +286,7 @@ html, body {
   font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .sidebar.collapsed .app-title,
@@ -267,19 +371,18 @@ html, body {
 }
 
 /* --- Kopfzeile (Entwicklungsauftrag 4, Abschnitt 4.3) --- */
+/* Entwicklungsauftrag 14, Abschnitt 7/11: der Kopfbereich bleibt jetzt auf jeder Seite sichtbar
+   (trägt immer mindestens den Theme-Schalter) statt bei fehlendem Titel komplett zu
+   verschwinden -- einheitliche Orientierung auf jeder Seite. */
 .app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 14px 32px;
+  gap: var(--space-md);
+  padding: 14px var(--space-xl);
   border-bottom: 1px solid var(--border);
   background: var(--bg-secondary);
   flex-shrink: 0;
-}
-
-.app-header:empty {
-  display: none;
 }
 
 .header-left {
@@ -372,60 +475,210 @@ html, body {
   max-width: 720px;
 }
 
+/* --- Karten (Entwicklungsauftrag 14, Abschnitt 10) — EINE visuelle Grundsprache
+   (Hintergrund/Rahmen/Rundung/Schatten aus Tokens) für alle Kartentypen; Größe/Innenabstand
+   dürfen je nach Funktion abweichen, siehe .word-card/.course-card/.stat-card usw. weiter unten,
+   die alle von denselben Grundwerten ausgehen. */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 24px;
-  margin-bottom: 20px;
+  box-shadow: var(--shadow-card);
+  padding: var(--card-padding);
+  margin-bottom: var(--space-lg);
   max-width: var(--content-max-width);
 }
 
+/* --- Buttons (Entwicklungsauftrag 14, Abschnitt 10) — einheitliche Höhe/Innenabstand/Rundung/
+   Schrift/Hover/Fokus/Deaktiviert-Darstellung für alle Varianten. --- */
 .btn {
-  background: var(--color-accent);
-  color: #0c1620;
-  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  height: var(--btn-height);
+  background: var(--accent);
+  color: var(--on-accent);
+  border: 1px solid transparent;
   border-radius: var(--radius);
-  padding: 10px 18px;
+  padding: 0 18px;
   font-size: 0.95rem;
+  font-family: inherit;
   cursor: pointer;
   font-weight: 600;
+  transition: filter var(--transition-normal), background var(--transition-normal), border-color var(--transition-normal);
 }
 
-.btn:hover {
+.btn:hover:not(:disabled) {
   filter: brightness(1.08);
 }
 
+/* Sekundärer Button: unaufdringlicher als der primäre, aber weiterhin klar als Button erkennbar
+   (Rahmen + Oberflächenfarbe statt Akzentfarbe). */
 .btn.secondary {
-  background: var(--color-surface-alt);
-  color: var(--color-text);
-  border: 1px solid var(--color-border);
+  background: var(--surface-hover);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.btn.secondary:hover:not(:disabled) {
+  border-color: var(--border-strong);
+  filter: none;
+  background: var(--surface-elevated);
+}
+
+/* Unauffälliger Textbutton -- keine Fläche, nur Text/Akzentfarbe (z. B. "Abbrechen"-artige
+   Nebenaktionen, Links in Fließtext). */
+.btn.text {
+  background: none;
+  border-color: transparent;
+  color: var(--accent);
+  padding: 0 6px;
+  height: auto;
+  font-weight: 600;
+}
+.btn.text:hover:not(:disabled) {
+  text-decoration: underline;
+  filter: none;
+}
+
+/* Gefahren-/Zurücksetzen-Button (z. B. "Session verwerfen") -- deutlich als riskante Aktion
+   erkennbar, ohne bei jedem Blick auf die Seite als Fehlermeldung zu wirken (Rahmenfarbe statt
+   voller Fläche, volle Fläche erst bei Hover). */
+.btn.danger {
+  background: var(--surface-hover);
+  color: var(--error);
+  border: 1px solid var(--error);
+}
+.btn.danger:hover:not(:disabled) {
+  background: var(--error);
+  color: #ffffff;
+  filter: none;
 }
 
 .btn.icon {
-  background: var(--color-surface-alt);
-  color: var(--color-text);
-  border: 1px solid var(--color-border);
+  background: var(--surface-hover);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
   border-radius: 999px;
-  width: 42px;
-  height: 42px;
+  width: var(--btn-height);
+  height: var(--btn-height);
   padding: 0;
   font-size: 1.1rem;
 }
-
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.btn.icon:hover:not(:disabled) {
+  border-color: var(--border-strong);
+  filter: none;
+  background: var(--surface-elevated);
 }
 
+/* Zurück-Button (Kopfbereich) -- siehe auch .header-back-btn weiter unten, das dieselben Werte
+   referenziert. */
+.btn.back {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+.btn.back:hover:not(:disabled) {
+  background: var(--surface-hover);
+  filter: none;
+}
+
+.btn:disabled {
+  background: var(--disabled-bg);
+  color: var(--disabled-text);
+  border-color: var(--disabled-bg);
+  opacity: 1;
+  cursor: not-allowed;
+}
+.btn.text:disabled { background: none; }
+
+.btn-small { height: 32px; padding: 0 12px; font-size: 0.85rem; }
+
+/* --- Eingaben (Entwicklungsauftrag 14, Abschnitt 10) --- */
 .text-input {
-  background: var(--color-surface-alt);
-  border: 1px solid var(--color-border);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
-  color: var(--color-text);
-  padding: 10px 14px;
+  color: var(--text-primary);
+  height: var(--input-height);
+  padding: 0 14px;
   font-size: 1rem;
+  font-family: inherit;
   width: 100%;
+  transition: border-color var(--transition-normal);
+}
+.text-input:hover { border-color: var(--border-strong); }
+.text-input:disabled {
+  background: var(--disabled-bg);
+  color: var(--disabled-text);
+  cursor: not-allowed;
+}
+textarea.text-input { height: auto; min-height: calc(var(--input-height) * 2); padding: 10px 14px; resize: vertical; }
+
+.search-field {
+  position: relative;
+  max-width: 320px;
+}
+.search-field .text-input { padding-left: 34px; }
+[dir="rtl"] .search-field .text-input, .search-field.rtl .text-input { padding-left: 14px; padding-right: 34px; }
+.search-field-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+/* Checkbox/Radio: native Steuerelemente bleiben (volle Tastatur-/Screenreader-Unterstützung ohne
+   Zusatzaufwand), aber in Größe und Akzentfarbe an das Designsystem angeglichen. */
+input[type="checkbox"], input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  flex-wrap: wrap;
+}
+.settings-row-label { color: var(--text-primary); }
+
+/* --- Theme-Schalter (Entwicklungsauftrag 14, Abschnitt 7) --- */
+.theme-toggle {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.theme-toggle-btn {
+  background: var(--surface);
+  color: var(--text-secondary);
+  border: none;
+  padding: 8px 14px;
+  font-size: 0.88rem;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.theme-toggle-btn + .theme-toggle-btn { border-left: 1px solid var(--border); }
+.theme-toggle-btn:hover { background: var(--surface-hover); }
+.theme-toggle-btn.active {
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+.theme-toggle-compact .theme-toggle-btn {
+  padding: 6px 10px;
+  font-size: 1rem;
+  height: 36px;
 }
 
 /* --- RTL/Bidi (Spec Kapitel 3) --- */
@@ -486,13 +739,13 @@ html, body {
 
 .vk-key:hover {
   background: var(--color-accent);
-  color: #0c1620;
+  color: var(--on-accent);
 }
 
 .vk-key:active,
 .vk-key.pressed {
   background: var(--color-correct);
-  color: #0c1620;
+  color: var(--on-accent);
   transform: translateY(1px);
 }
 
@@ -512,7 +765,7 @@ html, body {
 
 .vk-key.control.toggled {
   background: var(--color-accent);
-  color: #0c1620;
+  color: var(--on-accent);
   border-color: var(--color-accent);
 }
 
@@ -917,7 +1170,7 @@ html, body {
   border-radius: 999px;
   background: var(--surface-hover);
 }
-.step-indicator-item.current { background: var(--accent); color: #0c1620; font-weight: 600; }
+.step-indicator-item.current { background: var(--accent); color: var(--on-accent); font-weight: 600; }
 .step-indicator-item.done { color: var(--success); }
 .step-indicator-sep { color: var(--text-secondary); opacity: 0.5; font-size: 0.75rem; }
 
@@ -961,10 +1214,11 @@ html, body {
   z-index: 100;
 }
 .dialog-box {
-  background: var(--surface);
+  background: var(--surface-elevated);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 24px;
+  box-shadow: var(--shadow-dialog);
+  padding: var(--space-lg);
   max-width: 420px;
   width: 90%;
 }
@@ -1039,7 +1293,7 @@ html, body {
 .chip.selected {
   background: var(--accent);
   border-color: var(--accent);
-  color: #0c1620;
+  color: var(--on-accent);
   font-weight: 600;
 }
 

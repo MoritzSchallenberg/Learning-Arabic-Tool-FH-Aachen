@@ -103,8 +103,10 @@ const App = (() => {
    * @param {string} [config.progressText]
    */
   function renderHeader(config = {}) {
+    // Entwicklungsauftrag 14, Abschnitt 7/11 — der Kopfbereich bleibt jetzt auf JEDER Seite
+    // sichtbar (vorher verschwand er komplett auf Seiten ohne Titel/Breadcrumbs, z. B. dem
+    // Dashboard, per CSS ":empty"-Regel) und trägt immer den kompakten Theme-Schalter rechts.
     while (headerEl.firstChild) headerEl.removeChild(headerEl.firstChild);
-    if (!config.title && !(config.breadcrumbs && config.breadcrumbs.length)) return;
 
     const left = el('div', { className: 'header-left' });
 
@@ -146,7 +148,12 @@ const App = (() => {
     if (config.progressText) {
       right.appendChild(el('span', { className: 'header-progress', text: config.progressText }));
     }
-    if (right.childNodes.length > 0) headerEl.appendChild(right);
+    right.appendChild(ThemeToggle.render(AppState.getSettings().theme, (theme) => {
+      AppState.updateSettings({ theme });
+      applyTheme(theme);
+      renderHeader(config); // aktiven Zustand des kompakten Schalters sofort nachziehen
+    }, { compact: true }));
+    headerEl.appendChild(right);
   }
 
   // --- Bestehende Kurs-1-Units (0-10) / Lektionen 3-11 (Rückwärtskompatibilität) -------------
@@ -260,13 +267,16 @@ const App = (() => {
     SessionController.mount(contentEl, { unitId, sessionId });
   }
 
-  // --- Theme (Hell-/Dunkel-/Systemmodus, Entwicklungsauftrag 4 Abschnitt 7.1) -----------------
+  // --- Theme (Hell/Dunkel, Entwicklungsauftrag 4 Abschnitt 7.1, vereinfacht auf zwei Werte in
+  // Entwicklungsauftrag 14 Abschnitt 7/8) -- ein unbekannter Wert (z. B. das frühere "system")
+  // fällt kontrolliert auf Hell zurück, genau wie beim Laden der Einstellungen im Hauptprozess
+  // (progressStore.js#normalizeThemeValue). document.documentElement trägt data-theme bereits vor
+  // dem ersten Rendern (src/js/earlyTheme.js, Abschnitt 9) -- dieser Aufruf hält es nach dem
+  // regulären Laden der Einstellungen synchron, falls sich zwischenzeitlich etwas geändert hat.
   function applyTheme(theme) {
-    if (theme === 'light' || theme === 'dark') {
-      document.documentElement.setAttribute('data-theme', theme);
-    } else {
-      document.documentElement.removeAttribute('data-theme'); // 'system' -> Media Query entscheidet
-    }
+    const resolved = theme === 'dark' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', resolved);
+    return resolved;
   }
 
   async function init() {

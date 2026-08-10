@@ -15,20 +15,10 @@ const USER_DATA_FILES = {
 
 const DEFAULTS = {
   progress: {},
-  settings: {
-    inputMode: 'virtual_keyboard',
-    showDiacritics: true,
-    autoPlayWord: true,
-    replayAfterAnswer: true,
-    slowPlayback: false,
-    // Entwicklungsauftrag 4, Schritt 1/Abschnitt 21: Designsystem + Einstellungen.
-    theme: 'system', // 'system' | 'light' | 'dark'
-    sidebarCollapsed: false,
-    arabicFontScale: 'normal', // 'normal' | 'large'
-    autoAdvanceAfterFeedback: false, // manuelles "Weiter" ist der Standard (Abschnitt 16.4)
-    dailyNewLimit: 10,
-    showTransliteration: true
-  },
+  // Entwicklungsauftrag 14, Abschnitt 8: die konkreten Feldwerte + das Versionsfeld leben jetzt
+  // zentral in progressStore.js#SETTINGS_FIELD_DEFAULTS/migrateSettings(), damit main.js und
+  // Tests dieselbe einzige Quelle verwenden (kein zweiter, unabhängiger Speichermechanismus).
+  settings: progressStore.SETTINGS_FIELD_DEFAULTS,
   installedLanguages: ['arabic'],
   statistics: {}
 };
@@ -57,13 +47,18 @@ function loadUserData(key) {
     return migrated;
   }
 
+  if (key === 'settings') {
+    const hadStoredData = raw !== undefined;
+    const migrated = progressStore.migrateSettings(hadStoredData ? raw : undefined);
+    if (hadStoredData && (progressStore.isLegacySettingsFormat(raw) || raw.theme !== migrated.theme)) {
+      // Alte, unversionierte Datei ODER ein ungültiger/entfallener theme-Wert (z. B. das frühere
+      // "system") gefunden — Migration sofort persistieren, analog zum progress.json-Verhalten.
+      progressStore.writeJsonFileAtomic(filePath, migrated);
+    }
+    return migrated;
+  }
+
   if (raw === undefined) return DEFAULTS[key];
-
-  // Neue Einstellungsfelder (z. B. aus späteren Versionen) transparent nachfüllen, ohne bereits
-  // gespeicherte Werte zu überschreiben — sonst würden ältere settings.json-Dateien die neuen
-  // Felder (z. B. "theme") dauerhaft als undefined zurückgeben (Entwicklungsauftrag 4, Schritt 1).
-  if (key === 'settings') return { ...DEFAULTS.settings, ...raw };
-
   return raw;
 }
 
@@ -136,6 +131,17 @@ function registerIpcHandlers() {
   ipcMain.handle('language-pack:load', (_event, languageId) => loadLanguagePack(languageId));
   ipcMain.handle('language-pack:list', () => listInstalledLanguages());
   ipcMain.handle('language-pack:audio', (_event, languageId, audioKey) => loadAudio(languageId, audioKey));
+
+  // Entwicklungsauftrag 14, Abschnitt 9 — SYNCHRONE Anfrage (bewusst kein `.handle()`/`.invoke()`,
+  // die sind immer asynchron), damit preload.js das gespeicherte Theme noch VOR dem ersten
+  // Rendern der Seite kennt und sofort als data-theme-Attribut setzen kann (verhindert das kurze
+  // Aufblitzen des falschen Modus). Liest dieselbe, bereits migrierte/validierte Einstellung wie
+  // der normale "settings"-Kanal -- kein zweiter Speichermechanismus, nur ein zweiter, schneller
+  // Lesezugriff auf denselben Wert. Kein unsicherer Dateizugriff aus dem Renderer: die Datei wird
+  // weiterhin ausschließlich im Hauptprozess gelesen.
+  ipcMain.on('theme:getInitial', (event) => {
+    event.returnValue = loadUserData('settings').theme;
+  });
 }
 
 function createWindow() {

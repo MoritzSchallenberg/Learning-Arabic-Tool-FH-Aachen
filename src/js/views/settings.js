@@ -20,14 +20,10 @@ const SettingsView = (() => {
 
         <div class="card">
           <h2 class="text-section-title">Darstellung</h2>
-          <label style="display:block; margin-bottom:10px;">
-            Farbschema:
-            <select id="settings-theme" class="text-input" style="width:auto; display:inline-block; margin-left:8px;">
-              <option value="system">Systemeinstellung</option>
-              <option value="light">Hell</option>
-              <option value="dark">Dunkel</option>
-            </select>
-          </label>
+          <div class="settings-row">
+            <span class="settings-row-label">Farbschema:</span>
+            <div id="settings-theme-toggle"></div>
+          </div>
           <label style="display:block;">
             Arabische Schriftgröße:
             <select id="settings-arabic-font-scale" class="text-input" style="width:auto; display:inline-block; margin-left:8px;">
@@ -67,14 +63,18 @@ const SettingsView = (() => {
       </div>
     `;
 
-    container.querySelector('#settings-theme').value = settings.theme || 'system';
     container.querySelector('#settings-arabic-font-scale').value = settings.arabicFontScale || 'normal';
     container.querySelector('#settings-daily-new-limit').value = String(settings.dailyNewLimit || 10);
 
-    container.querySelector('#settings-theme').addEventListener('change', (e) => {
-      AppState.updateSettings({ theme: e.target.value });
-      App.applyTheme(e.target.value);
-    });
+    const themeToggleSlot = container.querySelector('#settings-theme-toggle');
+    function renderThemeToggle(currentTheme) {
+      themeToggleSlot.replaceChildren(ThemeToggle.render(currentTheme, (theme) => {
+        AppState.updateSettings({ theme });
+        App.applyTheme(theme);
+        renderThemeToggle(theme); // aktiven Zustand des Schalters sofort nachziehen
+      }));
+    }
+    renderThemeToggle(settings.theme);
     container.querySelector('#settings-arabic-font-scale').addEventListener('change', (e) => {
       AppState.updateSettings({ arabicFontScale: e.target.value });
       document.documentElement.setAttribute('data-arabic-scale', e.target.value);

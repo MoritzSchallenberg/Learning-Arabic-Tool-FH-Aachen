@@ -106,7 +106,7 @@ const LetterGroupLessonView = (() => {
             </tr></tbody>
           </table>
           <p>Beispiel: <span class="arabic-text">${l.example_word}</span> — ${l.example_meaning}
-            <button class="btn icon" data-speak-key="letters/${l.id}" data-speak-text="${l.example_word}">🔊</button>
+            <button class="btn icon" data-speak-key="letters/${l.id}" data-speak-text="${l.example_word}" aria-label="Aussprache abspielen">🔊</button>
           </p>
         </div>
       `;

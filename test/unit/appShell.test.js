@@ -80,6 +80,10 @@ function loadApp(fakeAppState) {
     document,
     window: { addEventListener: () => {} },
     console,
+    // Entwicklungsauftrag 14: renderHeader() rendert jetzt immer den kompakten Theme-Schalter
+    // rechts -- ein einfacher Platzhalter reicht hier, das Verhalten von ThemeToggle selbst wird
+    // in test/unit/themeToggle.test.js geprüft.
+    ThemeToggle: { render: () => new FakeElement('div') },
     AppState: fakeAppState,
     OnboardingView: stubView(), KeyboardTutorialView: stubView(), AlphabetView: stubView(),
     LetterGroupLessonView: stubView(), ShortVowelsView: stubView(), LongVowelsView: stubView(),
@@ -103,7 +107,7 @@ function fakeAppStateBase(overrides = {}) {
   return {
     init: () => Promise.resolve(),
     getLanguagePack: () => Promise.resolve({ lessons: { lessons: [] }, courses: { courses: [] } }),
-    getSettings: () => ({ theme: 'system', sidebarCollapsed: false, arabicFontScale: 'normal' }),
+    getSettings: () => ({ theme: 'light', sidebarCollapsed: false, arabicFontScale: 'normal' }),
     getLessonFlag: () => ({ status: 'completed' }),
     updateSettings: () => Promise.resolve(),
     ...overrides
@@ -137,12 +141,14 @@ test('App.renderHeader(): Breadcrumbs werden sicher als eigene Elemente gerender
   assert.deepEqual(clicks, ['unit']);
 });
 
-test('App.renderHeader(): ohne Titel/Breadcrumbs bleibt die Kopfzeile leer (z. B. Startseite)', () => {
+test('App.renderHeader(): ohne Titel/Breadcrumbs bleibt der Kopfbereich sichtbar (Entwicklungsauftrag 14: trägt immer den Theme-Schalter, statt komplett zu verschwinden)', () => {
   const { App, document } = loadApp(fakeAppStateBase());
   App.renderHeader({ title: 'Etwas' });
   App.renderHeader({});
   const header = document.getElementById('app-header');
-  assert.equal(header.children.length, 0, 'renderHeader({}) sollte die Kopfzeile leeren, nicht die vorherige beibehalten');
+  assert.ok(header.children.length > 0, 'der Kopfbereich darf nicht mehr komplett leer sein -- er zeigt weiterhin den Theme-Schalter');
+  // Der alte Titel von der vorherigen renderHeader()-Aufruf darf nicht übrig bleiben.
+  assert.equal(header.querySelectorAll('.header-title').length, 0, 'ein alter Titel muss beim erneuten Rendern ohne Titel verschwinden');
 });
 
 test('App: Sidebar-Toggle klappt ein/aus und speichert den Zustand über AppState.updateSettings', async () => {
@@ -169,20 +175,24 @@ test('App: Sidebar-Toggle klappt ein/aus und speichert den Zustand über AppStat
 
 test('App: gespeicherte sidebarCollapsed=true-Einstellung wird beim Start sofort angewendet', async () => {
   const { App, document } = loadApp(fakeAppStateBase({
-    getSettings: () => ({ theme: 'system', sidebarCollapsed: true, arabicFontScale: 'normal' })
+    getSettings: () => ({ theme: 'light', sidebarCollapsed: true, arabicFontScale: 'normal' })
   }));
   await App.init();
   assert.ok(document.getElementById('sidebar').classList.contains('collapsed'));
 });
 
-test('App.applyTheme(): setzt/entfernt data-theme korrekt für hell/dunkel/system', () => {
+test('App.applyTheme(): setzt data-theme korrekt für hell/dunkel, unbekannte Werte fallen auf Hell zurück (Entwicklungsauftrag 14, Abschnitt 7/8)', () => {
   const { App, document } = loadApp(fakeAppStateBase());
   App.applyTheme('dark');
   assert.equal(document.documentElement.getAttribute('data-theme'), 'dark');
   App.applyTheme('light');
   assert.equal(document.documentElement.getAttribute('data-theme'), 'light');
-  App.applyTheme('system');
-  assert.equal(document.documentElement.getAttribute('data-theme'), null, '"system" sollte data-theme entfernen, damit die Media Query greift');
+  App.applyTheme('dark');
+  App.applyTheme('system'); // frühere dritte Option, jetzt ein unbekannter Wert
+  assert.equal(document.documentElement.getAttribute('data-theme'), 'light', 'ein unbekannter theme-Wert muss kontrolliert auf Hell zurückfallen, nicht das vorherige Dunkel beibehalten');
+  App.applyTheme('dark');
+  App.applyTheme(undefined);
+  assert.equal(document.documentElement.getAttribute('data-theme'), 'light');
 });
 
 test('App.init(): wendet das gespeicherte Theme beim Start an', async () => {
@@ -195,7 +205,7 @@ test('App.init(): wendet das gespeicherte Theme beim Start an', async () => {
 
 test('App.init(): große arabische Schrift wird als data-arabic-scale="large" gesetzt, "normal" setzt kein Attribut', async () => {
   const large = loadApp(fakeAppStateBase({
-    getSettings: () => ({ theme: 'system', sidebarCollapsed: false, arabicFontScale: 'large' })
+    getSettings: () => ({ theme: 'light', sidebarCollapsed: false, arabicFontScale: 'large' })
   }));
   await large.App.init();
   assert.equal(large.document.documentElement.getAttribute('data-arabic-scale'), 'large');

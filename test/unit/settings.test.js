@@ -26,6 +26,9 @@ function loadSettingsView(initialSettings, applyThemeCalls) {
   const context = {
     document: documentStubWithDocumentElement(),
     console,
+    // Entwicklungsauftrag 14: settings.js rendert den Theme-Schalter jetzt über die echte,
+    // gemeinsam genutzte Komponente (statt eines <select>), unten per vm.runInContext geladen --
+    // dieser Test prüft damit auch, dass settings.js sie korrekt verdrahtet.
     AppState: {
       getSettings: () => settings,
       updateSettings: (partial) => {
@@ -39,12 +42,22 @@ function loadSettingsView(initialSettings, applyThemeCalls) {
     }
   };
   vm.createContext(context);
+  const themeToggleSrc = fs.readFileSync(path.join(ROOT, 'src', 'js', 'themeToggle.js'), 'utf-8');
+  vm.runInContext(themeToggleSrc, context);
   const src = fs.readFileSync(path.join(ROOT, 'src', 'js', 'views', 'settings.js'), 'utf-8');
   vm.runInContext(`${src}\nthis.__SettingsView = SettingsView;`, context);
   return { view: context.__SettingsView, updates, getSettings: () => settings };
 }
 
-test('SettingsView.mount() zeigt die aktuell gespeicherten Werte vorausgewählt an', () => {
+/** Findet den aktiven Theme-Toggle-Button (das im Test verwendete Analogon zum alten <select>). */
+function activeThemeToggleButton(container) {
+  return container.querySelectorAll('.theme-toggle-btn').find((b) => b.getAttribute('aria-pressed') === 'true');
+}
+function themeToggleButtonByLabel(container, label) {
+  return container.querySelectorAll('.theme-toggle-btn').find((b) => b.textContent.includes(label));
+}
+
+test('SettingsView.mount() zeigt die aktuell gespeicherten Werte vorausgewählt an (inkl. aktiver Theme-Schalter-Button)', () => {
   const applyThemeCalls = [];
   const { view } = loadSettingsView({
     theme: 'dark', arabicFontScale: 'large', dailyNewLimit: 15,
@@ -53,7 +66,9 @@ test('SettingsView.mount() zeigt die aktuell gespeicherten Werte vorausgewählt 
   const container = createDocumentStub().createElement('div');
   view.mount(container);
 
-  assert.equal(container.querySelector('#settings-theme').value, 'dark');
+  const active = activeThemeToggleButton(container);
+  assert.ok(active, 'genau ein Theme-Toggle-Button muss als aktiv markiert sein');
+  assert.ok(active.textContent.includes('Dunkel'), 'bei theme:"dark" muss der "Dunkel"-Button aktiv sein');
   assert.equal(container.querySelector('#settings-arabic-font-scale').value, 'large');
   assert.equal(container.querySelector('#settings-daily-new-limit').value, '15');
   assert.equal(container.querySelector('#settings-show-transliteration').checked, false);
@@ -62,21 +77,30 @@ test('SettingsView.mount() zeigt die aktuell gespeicherten Werte vorausgewählt 
 
 test('Theme-Wechsel: wird sofort angewendet (App.applyTheme) UND über AppState.updateSettings gespeichert', () => {
   const applyThemeCalls = [];
-  const { view, updates } = loadSettingsView({ theme: 'system' }, applyThemeCalls);
+  const { view, updates } = loadSettingsView({ theme: 'light' }, applyThemeCalls);
   const container = createDocumentStub().createElement('div');
   view.mount(container);
 
-  const select = container.querySelector('#settings-theme');
-  select.value = 'dark';
-  select.dispatchEvent({ type: 'change', target: select });
+  themeToggleButtonByLabel(container, 'Dunkel').click();
 
   assert.deepEqual(applyThemeCalls, ['dark'], 'Theme sollte sofort über App.applyTheme() angewendet werden');
   assert.equal(updates[updates.length - 1].theme, 'dark', 'Theme-Änderung sollte über AppState.updateSettings gespeichert werden');
 });
 
+test('Theme-Wechsel: der aktive Zustand des Schalters wird nach der Auswahl sofort nachgezogen', () => {
+  const { view } = loadSettingsView({ theme: 'light' }, []);
+  const container = createDocumentStub().createElement('div');
+  view.mount(container);
+
+  themeToggleButtonByLabel(container, 'Dunkel').click();
+
+  const active = activeThemeToggleButton(container);
+  assert.ok(active.textContent.includes('Dunkel'), 'nach dem Klick muss der Dunkel-Button als aktiv angezeigt werden');
+});
+
 test('Erneutes Öffnen (mount) NACH einer Änderung zeigt den zuletzt gespeicherten Wert (Persistenz)', () => {
   const applyThemeCalls = [];
-  const { view, getSettings } = loadSettingsView({ theme: 'system', arabicFontScale: 'normal' }, applyThemeCalls);
+  const { view, getSettings } = loadSettingsView({ theme: 'light', arabicFontScale: 'normal' }, applyThemeCalls);
   const container1 = createDocumentStub().createElement('div');
   view.mount(container1);
   const select1 = container1.querySelector('#settings-arabic-font-scale');

@@ -17,3 +17,10 @@ contextBridge.exposeInMainWorld('api', {
   listLanguagePacks: () => ipcRenderer.invoke('language-pack:list'),
   loadAudio: (languageId, audioKey) => ipcRenderer.invoke('language-pack:audio', languageId, audioKey)
 });
+
+// Entwicklungsauftrag 14, Abschnitt 9 — das gespeicherte Theme wird HIER, synchron, vor dem
+// ersten Rendern der Seite geladen (ein früher Inline-Skript-Block in index.html liest diesen
+// Wert und setzt sofort das data-theme-Attribut, bevor der übrige App-Code lädt). Reiner Wert,
+// keine Funktion -- der Renderer bekommt dadurch weiterhin keinerlei direkten Datei-/Node-Zugriff,
+// nur dieses eine, vom Hauptprozess bereits validierte Ergebnis.
+contextBridge.exposeInMainWorld('initialTheme', ipcRenderer.sendSync('theme:getInitial'));

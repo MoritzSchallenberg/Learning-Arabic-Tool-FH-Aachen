@@ -12,7 +12,7 @@ const OnboardingView = (() => {
           <div class="card">
             <p class="mixed-text">Deutsch: ${step.example.german}</p>
             <p class="arabic-text large">${step.example.arabic}</p>
-            <button class="btn icon" id="onboarding-speak">🔊</button>
+            <button class="btn icon" id="onboarding-speak" aria-label="Aussprache abspielen">🔊</button>
           </div>
         `;
       case 'input_mode_choice':
@@ -28,7 +28,7 @@ const OnboardingView = (() => {
           <div class="card">
             <p class="mixed-text">${step.sample_word.german}</p>
             <p class="arabic-text large">${step.sample_word.arabic}</p>
-            <button class="btn icon" id="onboarding-speak">🔊</button>
+            <button class="btn icon" id="onboarding-speak" aria-label="Aussprache abspielen">🔊</button>
           </div>
         `;
       case 'repetition_info':

@@ -54,7 +54,7 @@ const AlphabetView = (() => {
           </table>
           ${selected.joining === 'right' ? '<p class="lead">Dieser Buchstabe verbindet sich nicht mit dem folgenden Buchstaben — Anfangs- und Mittelform sehen daher wie die isolierte bzw. Endform aus.</p>' : ''}
           <p>Beispiel: <span class="arabic-text">${selected.example_word}</span> — ${selected.example_meaning}</p>
-          <button class="btn icon" id="alphabet-speak">🔊</button>
+          <button class="btn icon" id="alphabet-speak" aria-label="Aussprache abspielen">🔊</button>
         </div>
 
         <button class="btn" id="alphabet-start-exercise">Übung starten</button>

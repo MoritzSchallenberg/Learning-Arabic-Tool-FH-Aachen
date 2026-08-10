@@ -2500,3 +2500,228 @@ kostenpflichtige Audioerzeugung ohne nachgewiesenen Defekt; das neue Quellpaket 
 nachweislich alle 900+141 Audiodateien und lässt sich eigenständig testen und bauen. Sprachprüfung
 durch Claude, endgültige Audiofreigabe, Kurs-2-5-Umbau, `.arabiccourse`-Format und großes
 Interface-Redesign bewusst nicht Teil dieser Runde.
+
+## 18. Entwicklungsauftrag 14: Einheitliches Designsystem sowie Hell- und Dunkelmodus (vom Nutzer, 2026-08-10)
+
+Reines Präsentationsauftrag: die normale Lernoberfläche (nicht der Sprachprüf-Arbeitsbereich aus
+Auftrag 12, der weiterläuft, aber bewusst nicht neu gestaltet wird) bekommt ein zentrales,
+tokenbasiertes Designsystem mit vollständigem Hell- und Dunkelmodus. Keine Wort-/Theorie-/
+Audio-Änderung, keine Sprachprüfung, kein neuer Sitzungsfluss, kein neues Feedbacksystem.
+
+### Schritt 1: Baseline-Prüfung
+
+Ausgangsstand exakt wie von Auftrag 13 hinterlassen bestätigt: Commit `165804e`, 506 Unit- + 6
+Integrationstests, 900 normale + 141 langsame Vokabel-Audiodateien vorhanden, kein bestehendes
+Theme-System außer einem einzelnen `<select>` mit einer toten dritten Option "Systemeinstellung".
+
+### Schritt 2: Speicherung — bestehendes Modell erweitert, kein zweiter Mechanismus (Abschnitt 8)
+
+`src/js/progressStore.js` bekommt eine zweite, zum bestehenden `migrateProgress()`-Muster
+analoge Migrationsfunktion `migrateSettings()`: `_version`-Feld, `normalizeThemeValue()` (nur
+`"light"`/`"dark"` gültig, jeder andere Wert inkl. des früheren `"system"` fällt kontrolliert auf
+Hell zurück), vollständige Feld-Defaults. `main.js#loadUserData('settings')` ruft diese Funktion
+auf und persistiert die Migration sofort, genau wie beim bestehenden Fortschritts-Modell — **keine
+zweite, unabhängige Speicherdatei**, wie im Auftrag ausdrücklich verlangt.
+
+### Schritt 3: Aufblitzen des falschen Modus verhindert, ohne die Sicherheitsarchitektur anzufassen (Abschnitt 9)
+
+Da `contextIsolation`/`sandbox`/`nodeIntegration` unverändert bleiben mussten, kann der Renderer
+das Theme nicht selbst aus einer Datei lesen. Lösung: ein neuer, bewusst der EINZIGE synchrone
+IPC-Kanal im Projekt, `theme:getInitial` (`ipcMain.on` + `event.returnValue`, kein `.handle()`,
+die sind immer asynchron), von `preload.js` per `ipcRenderer.sendSync()` abgefragt und als
+`window.initialTheme` exponiert. `src/js/earlyTheme.js` — als externe Datei, weil die
+`Content-Security-Policy` in `src/index.html` `'unsafe-inline'` verbietet — ist das allererste
+`<script>` im `<head>`, noch vor dem Stylesheet-Link, und setzt `data-theme` auf `<html>`, bevor
+irgendetwas gerendert wird.
+
+### Schritt 4: Designsystem-Tokens (Abschnitt 4)
+
+`src/css/style.css`: neuer Token-Block in drei Teilen — ungestyltes `:root` (jetzt mit
+Hell-Werten als Absicherung), `:root[data-theme="light"]`, `:root[data-theme="dark"]`. Farben,
+5 Abstandsgrößen, 3 Eckenradien, Karten-/Dialogschatten, Übergangsgeschwindigkeit, Höhen für
+Buttons/Eingaben, Schriftgrößen (inkl. dreier arabischer Stufen + Zeilenhöhe). Die alten
+`--color-*`-Namen bleiben als Aliase auf die neuen Tokens erhalten (z. B.
+`--color-text: var(--text-primary)`), damit der bestehende Code, der sie verwendet, automatisch
+beide Modi korrekt mitmacht, ohne dass jede Ansicht einzeln angefasst werden musste — geprüft:
+diese Aliase werden NICHT in den Theme-Blöcken erneut festgeschrieben, sonst würde die Kette
+brechen.
+
+### Schritt 5: ein echter Kontrastfehler gefunden und behoben
+
+`#0c1620` (eine feste, dunkle Schriftfarbe "auf Akzentflächen") war in sechs Komponentenregeln
+hart verdrahtet (`.btn`, virtuelle Tastatur, Fortschrittsanzeige, Chips) — unabhängig vom Modus.
+Im Dunkelmodus ist die Akzentfarbe hell (passt zu dunkler Schrift), im neuen Hellmodus ist sie
+dunkelblau (dunkle Schrift darauf wäre kaum lesbar gewesen). Neues Token `--on-accent` mit
+eigenem Wert je Modus, alle sechs Stellen umgestellt; `connectionTrainer.js` hatte densel­ben Wert
+zusätzlich einmal inline im JS — ebenfalls auf `var(--on-accent)` umgestellt.
+
+### Schritt 6: Grundkomponenten und Theme-Umschalter (Abschnitt 6/7)
+
+`.btn`/`.card`/`.text-input` u. a. auf die neuen Größen-/Schatten-/Radius-Tokens umgestellt, neue
+Klassen ergänzt (`.btn.text`, `.btn.danger`, `.btn.back`, `.btn-small`, `.search-field`,
+`.settings-row`, Checkbox-/Radio-Styling mit `accent-color`). Neue gemeinsame Komponente
+`src/js/themeToggle.js` (zwei echte `<button type="button">`, `role="group"`, `aria-label`,
+`aria-pressed`, sichtbarer aktiver Zustand über Klasse UND `aria-pressed`, nicht nur Farbe) — in
+zwei Varianten verwendet: voll beschriftet in den Einstellungen, kompakt (nur Symbol, aber
+weiterhin mit `aria-label`) im Kopfbereich jeder Seite. `app.js#renderHeader()` rendert den
+Kopfbereich jetzt immer (vorher kollabierte er auf leeren Seiten komplett), damit der kompakte
+Schalter überall erreichbar ist.
+
+### Schritt 7: arabische Typografie konsolidiert (Abschnitt 12)
+
+Gemeinsamer Regelblock für `.arabic-word-main`, `.arabic-example`, `.arabic-text`:
+`direction: rtl`, `unicode-bidi: isolate`, `overflow-wrap: break-word` (lange Wörter laufen nicht
+mehr aus Karten heraus), je eigene Schriftgröße/Zeilenhöhe aus den neuen Tokens. Neue
+`.arabic-input`-Klasse für Texteingaben mit denselben RTL-Grundeigenschaften.
+
+### Schritt 8: Tests
+
+41 neue Tests (Unit-Testanzahl 506 → 547): `settingsMigration.test.js` (18, inkl. Ende-zu-Ende
+gegen echte temporäre Dateien: Theme übersteht simulierten Neustart, alte `"system"`-Datei wird
+migriert UND persistiert, ein Theme-Wechsel lässt andere Einstellungen unangetastet),
+`themeToggle.test.js` (9, inkl. Tastaturbedienbarkeit über native `<button>`-Elemente),
+`designSystem.test.js` (13, inkl. Prüfung auf höchstens 4 verstreute hartcodierte Hex-Farben
+außerhalb der Tokenblöcke — bewusst kein Nulltoleranz-Verbot einzelner, begründeter Werte), plus
+ein weiterer neuer Test direkt in `settings.test.js` (sofortiges Nachziehen des aktiven
+Schalter-Zustands nach der Auswahl). 12 bestehende Tests in `appShell.test.js`/`settings.test.js`
+an die bewusst geänderten Verträge angepasst (Kopfbereich kollabiert nicht mehr; `<select>` durch
+die echte Schalter-Komponente ersetzt) — nicht geschwächt, sondern auf dasselbe zugrunde liegende
+Verhalten gegen die neue, korrekte Implementierung umgeschrieben.
+
+### Schritt 9: Ansichten-Sweep und Barrierefreiheit-Nachbesserung
+
+Codesuche über alle Ansichten (`src/js/views/*.js`, `src/js/app.js`, `src/js/session/*.js`) fand
+**keine** hartcodierten Hex-/RGB-Farben mehr in JavaScript oder HTML — alle Ansichten binden
+bereits ausschließlich Klassen und die (jetzt korrekt kaskadierenden) `--color-*`-Aliase ein,
+sodass keine einzelne Ansicht händisch umgestellt werden musste. Separat fünf echte, vom Auftrag
+verlangte Barrierefreiheits-Lücken gefunden: fünf reine Symbol-Buttons (🔊, "Aussprache abspielen")
+in `onboarding.js` (2×), `letterGroupLesson.js`, `alphabet.js`, `freePractice.js` und
+`vocabulary.js` hatten kein `aria-label` (im Unterschied zu den bereits korrekten Stellen in
+`sessionController.js`, `exerciseRegistry.js` und `listening.js`) — alle fünf ergänzt.
+
+### Schritt 10: echte visuelle Verifikation gelungen (Abweichung vom bisherigen Muster aller vorigen Runden)
+
+In allen vorigen Entwicklungsaufträgen konnte die KI die App mangels Bildschirm-Werkzeug nie
+selbst laufen sehen. Dieses Mal wurde das erstmals durchbrochen: die Sandbox-Umgebung stellte
+sich als eine echte, aktive GNOME/Wayland-Desktopsitzung heraus (nicht als isolierter
+Headless-Container), mit einem laufenden Xwayland-Server. Nach ausdrücklicher Rückfrage beim
+Nutzer (ein sichtbares Fenster auf dem echten Bildschirm ist ein spürbarer Eingriff, keine
+stillschweigend zu treffende Entscheidung) und dessen Zustimmung wurde `playwright-core` 1.51.1
+(die letzte mit dem in dieser Umgebung installierten Node 18 kompatible Version; neuere Versionen
+verlangen Node 20) als Tarball direkt von der npm-Registry bezogen — `npm install` selbst blieb
+aus ungeklärten Gründen dauerhaft hängen. Über die `_electron`-API von Playwright wurde die echte
+Electron-App gestartet (ein `ELECTRON_RUN_AS_NODE=1` in der Shell-Umgebung musste dafür entfernt
+werden, sonst startet Electron als reiner Node-Prozess ohne Fenster) und über eine reale
+Bildschirmsitzung tatsächlich bedient und fotografiert:
+
+- Frischer Start ohne vorherige Einstellungsdatei → Hellmodus aktiv (Vorgabe erfüllt).
+- Dashboard und Einstellungen in Hell- UND Dunkelmodus fotografiert — Karten klar vom Hintergrund
+  abgesetzt, guter Kontrast, keine reine Umkehrung (eigene Werte je Modus sichtbar).
+- Theme-Umschalter in den Einstellungen UND der kompakte Kopfbereich-Schalter sichtbar, korrekt
+  beschriftet (`aria-label`: "Helles Farbschema" / "Dunkeles Farbschema (aktiv)"), Wechsel wirkt
+  sofort, ohne Neuladen der Ansicht.
+- Ein Schreibtraining (echte Übung mit virtueller arabischer Tastatur) gestartet und MITTEN in
+  der laufenden Übung auf Dunkel umgeschaltet — die Übung lief unterbrechungsfrei weiter (Abschnitt
+  7, "keine Unterbrechung einer aktiven Sitzung", live bestätigt statt nur angenommen).
+- Vier Fenstergrößen geprüft: 1200×800 (Standard), 1366×768, 1920×1080, 900×600 (das in `main.js`
+  konfigurierte Minimum). Bei 900×600 kein horizontaler Overflow (`scrollWidth === clientWidth`
+  bestätigt), aber der App-Titel in der Seitenleiste wurde bei dieser Minimalbreite mitten im
+  Wort abgeschnitten — echter, kleiner Fund, behoben durch `text-overflow: ellipsis` in
+  `.app-title` (vorher nur `overflow: hidden` ohne Auslassungspunkte).
+- Zurückschalten von Dunkel auf Hell in den Einstellungen ebenfalls live bestätigt.
+
+**Wichtige Nebenfeststellung:** Diese Testläufe liefen gegen das ECHTE Nutzerprofil
+(`~/.config/Learning Arabic Tool/user_data/`, seit dem 18.07.2026 bestehend), nicht gegen ein
+isoliertes Testprofil. Vor jeder Bewertung wurde deshalb geprüft, ob echte Nutzerdaten verändert
+wurden: `progress.json` (161 KB echter Lernfortschritt) blieb nachweislich byte-für-byte
+unverändert (Soll-/Ist-Abgleich gegen die vom bestehenden Backup-Mechanismus automatisch
+angelegte `.bak`-Kopie); `settings.json` wurde durch die Testklicks tatsächlich auf `theme:
+"dark"` verändert — nach Abschluss der Verifikation aus der `.bak`-Kopie (Stand unmittelbar vor
+dem ersten Testlauf: `theme: "light"`) wiederhergestellt, damit der Nutzer keine ungewollte
+Nebenwirkung dieser Prüfung in seiner echten Installation vorfindet.
+
+### Schritt 11: vollständige Verifikation
+
+```text
+npm run lint:            erfolgreich (158 JS-Dateien, 0 Kollisionen)
+npm test:                 547/547 Unit-Tests + 6/6 Integrationstests, 10× hintereinander
+                           ausgeführt, alle 10 Läufe sauber
+npm run validate:course:  0 Fehler, 1 Hinweis (unverändert gegenüber Auftrag 13 — keine
+                           Wort-/Theorie-/Audio-Änderung in dieser Runde)
+npm run audio:verify:     759/759 in Ordnung, 0 Probleme
+npm run package:source:   35,8 MB, 1.327 Einträge
+```
+
+Zusätzlich: ZIP in ein frisches temporäres Verzeichnis entpackt, `npm install` dort ausgeführt,
+`npm test` (547/547 + 6/6), `npm run lint` und `npm run validate:course` **aus dem entpackten
+Paket heraus** erneut ausgeführt — alle erfolgreich. 1.041 Vokabel- + 56 Buchstaben-Audiodateien
+im entpackten Paket bestätigt (900 normale + 141 langsame Vokabelaufnahmen, unverändert
+gegenüber Auftrag 13); alle neuen Designsystem-Dateien (`earlyTheme.js`, `themeToggle.js`,
+`style.css` mit `data-theme`-Regeln) im Paket enthalten. Temporäre Verzeichnisse danach
+aufgeräumt (lagen außerhalb des Repositorys, in `/tmp`).
+
+### Manuelle Prüfliste für `npm start`
+
+Auch wenn diese Runde erstmals eine echte automatisierte Sichtprüfung enthielt, ersetzt das keine
+manuelle Prüfung durch den Nutzer selbst — die automatisierte Prüfung deckte gezielt einzelne
+Ansichten/Zustände ab, nicht jede Kombination aus Ansicht × Modus × Fenstergröße.
+
+**Theme-Umschaltung:**
+1. App frisch starten (falls schon einmal gestartet: `~/.config/Learning Arabic Tool/user_data/
+   settings.json` vorher löschen oder `"theme"` entfernen) → Hellmodus muss aktiv sein.
+2. In den Einstellungen auf "Dunkel" wechseln → sofortige Umstellung, kein Neuladen, keine
+   Ruckler.
+3. Mitten in einer laufenden Lernsession (z. B. während "Frei üben") über den kompakten
+   Kopfbereich-Schalter das Theme wechseln → die Übung darf nicht unterbrochen/zurückgesetzt
+   werden.
+4. App komplett beenden und neu starten → das zuletzt gewählte Theme muss weiterhin aktiv sein.
+
+**Je Ansicht in Hell UND Dunkel prüfen:** Dashboard, Kursübersicht, Unit-Detailansicht, laufende
+Session, Theorieanzeige (insbesondere längere Fließtexte), Vokabelbrowser, freie Übung,
+Hörübungen, Grammatikbereiche, Alphabet, Verbindungstrainer, Vokalisierungstrainer, virtuelle
+Tastatur, Einstellungen, Dialoge/Fehlermeldungen. Worauf achten: klare Kartenabgrenzung vom
+Hintergrund, lesbarer Text (auch grauer/gedämpfter Text), deutlich unterscheidbare
+Erfolgs-/Fehler-/Warnfarbe, arabische Vokalisierungszeichen nicht abgeschnitten, keine
+überlaufenden langen arabischen Wörter, Audio-Buttons sichtbar und anklickbar, sichtbarer
+Fokusring bei Tab-Navigation.
+
+**Fenstergrößen:** Minimalgröße des Fensters (per Fensterrand ziehen, bis es nicht mehr kleiner
+wird), 1366×768, 1920×1080. Achten auf: horizontales Scrollen, abgeschnittene Buttons,
+überlappenden Text, verschwundene Audio-Buttons, zu kleine arabische Schrift, unbenutzbare
+Einstellungsseite.
+
+**Funktionaler Kurztest (unverändertes Verhalten):** Kursnavigation, Session starten/fortsetzen,
+Theorie öffnen/schließen, normale UND langsame Audiowiedergabe, Antwortbewertung, virtuelle
+Tastatur, schwierige Wörter, Einstellungen speichern, Lernfortschritt, Wiederholungsfunktionen,
+freie Übung, Sprachprüfmodus (`npm run review:start`) startet weiterhin unverändert.
+
+### Automatisiert / manuell / technisch gerendert / visuell bestätigt — strikt getrennt
+
+- **Automatisiert getestet (553 Tests):** Theme-Migration/-Validierung/-Persistenz, Theme-Wechsel-
+  Logik, Theme-Umschalter-Komponente (inkl. Tastaturbedienbarkeit über native Buttons und
+  `aria-label`), Vorhandensein aller geforderten Design-Tokens, Hell-/Dunkel-Wertunterschied bei
+  8 zentralen Farbtoken, Höchstgrenze verstreuter Hex-Farben, RTL-Grundeigenschaften der
+  arabischen Textklassen, alle bestehenden Funktionstests (Audio, Navigation, Grading,
+  Sprachprüfmodus-Start usw.) unverändert grün.
+- **Technisch gerendert und live bestätigt (neu in dieser Runde):** Dashboard/Einstellungen in
+  Hell und Dunkel, kompakter Kopfbereich-Schalter samt `aria-label`, Theme-Wechsel ohne
+  Sitzungsunterbrechung, kein horizontaler Overflow bei 900×600, Layout bei 1366×768/1920×1080.
+- **Nicht visuell geprüft (weder automatisiert noch manuell in dieser Runde):** alle übrigen in
+  Schritt 6 des Auftrags aufgezählten Ansichten (Kursübersicht, Unit-Detail, Theorieanzeige,
+  Vokabelbrowser, Hörübungen, Grammatikbereiche, Alphabet, Verbindungstrainer,
+  Vokalisierungstrainer, virtuelle Tastatur, Dialoge) sowie jede Ansicht im Dunkelmodus einzeln —
+  hierfür gilt weiterhin die manuelle Prüfliste oben.
+
+### Akzeptanzkriterien dieser Runde (Auszug)
+
+Zentrales, tokenbasiertes Designsystem vorhanden und automatisiert gegen Regression abgesichert;
+vollständiger Hell- und Dunkelmodus mit eigenständigen, nicht bloß invertierten Werten; ein echter
+Kontrastfehler behoben; Theme-Wahl übersteht einen Neustart über das bestehende, erweiterte
+Speichermodell (keine zweite Speicherdatei); Theme-Wechsel ohne Neuladen und ohne
+Sitzungsunterbrechung (live bestätigt); kein Aufblitzen des falschen Modus dank synchronem
+Haupt-Prozess-IPC, ohne die Electron-Sicherheitsarchitektur zu verändern; arabische Typografie
+zentral konsolidiert; 900 Wörter/90 Theorien/900+141 Audiodateien nachweislich unverändert; keine
+Funktionsregression (553/553 Tests, 10× hintereinander grün); Quellpaket enthält alle
+Design-System-Dateien und alle Audiodateien und wurde entpackt eigenständig erneut getestet.
+Sprachprüfung, Audioerzeugung, neuer Sitzungsfluss, neues Feedbacksystem und grundlegend neue
+Kursübersicht bewusst nicht Teil dieser Runde.

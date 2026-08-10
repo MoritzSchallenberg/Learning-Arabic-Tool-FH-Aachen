@@ -117,7 +117,7 @@ const VocabularyView = (() => {
         <p class="lead">Karte ${queueIndex + 1} / ${queue.length}</p>
         <div class="card prompt">
           ${directionIsArabicToGerman
-            ? `<p class="arabic-text large">${promptArabic}</p><button class="btn icon" id="vocab-speak">🔊</button>`
+            ? `<p class="arabic-text large">${promptArabic}</p><button class="btn icon" id="vocab-speak" aria-label="Aussprache abspielen">🔊</button>`
             : `<p class="mixed-text" style="font-size:1.4rem;">${word.german}</p>`}
         </div>
         <input type="text" id="vocab-input" class="text-input ${directionIsArabicToGerman ? '' : 'arabic-text'}" ${directionIsArabicToGerman ? '' : 'dir="rtl"'} placeholder="${directionIsArabicToGerman ? 'Deutsche Übersetzung eingeben' : 'Arabisches Wort eingeben'}" />

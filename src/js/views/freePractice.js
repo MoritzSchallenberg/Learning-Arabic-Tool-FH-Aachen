@@ -400,7 +400,7 @@ const FreePracticeView = (() => {
     body.innerHTML = `
       <div class="card flashcard">
         ${arabicToGerman
-          ? `<p class="arabic-text large">${word.arabic}</p><button class="btn icon" id="fp-speak">🔊</button>`
+          ? `<p class="arabic-text large">${word.arabic}</p><button class="btn icon" id="fp-speak" aria-label="Aussprache abspielen">🔊</button>`
           : `<p class="mixed-text" style="font-size:1.3rem;">${word.german}</p>`}
         ${!arabicToGerman && config.showTransliteration ? `<p class="mixed-text" style="color:var(--color-text-muted);">${word.transliteration || ''}</p>` : ''}
         <input type="text" id="fp-input" class="text-input ${arabicToGerman ? '' : 'arabic-text'}" ${arabicToGerman ? '' : 'dir="rtl"'} style="max-width:320px; margin:12px auto 0; display:block;" />
