@@ -13,6 +13,9 @@ const { createDocumentStub } = require('../helpers/domStub.js');
 
 const ROOT = path.join(__dirname, '..', '..');
 const REVIEW_JS_DIR = path.join(ROOT, 'src', 'review', 'js');
+// Entwicklungsauftrag 13: AudioKeyResolver liegt bei den gemeinsam genutzten src/js-Dateien,
+// nicht unter src/review/js -- eigener absoluter Pfad statt eines weiteren REVIEW_JS_DIR-Eintrags.
+const AUDIO_KEY_RESOLVER_PATH = path.join(ROOT, 'src', 'js', 'audioKeyResolver.js');
 const SOURCE_FILES = ['reviewDom.js', 'reviewApp.js', 'reviewDashboard.js', 'reviewWordList.js', 'reviewWordDetail.js', 'reviewTheoryList.js', 'reviewTheoryDetail.js', 'reviewShell.js'];
 
 const { WORD_ASPECT_KEYS, THEORY_ASPECT_KEYS, ASPECT_RESULTS, OVERALL_STATUSES, OVERALL_STATUS_LABELS_DE, ASPECT_RESULT_LABELS_DE, WORD_ASPECT_LABELS_DE, THEORY_ASPECT_LABELS_DE } = require('../../scripts/review/reviewConstants.js');
@@ -97,7 +100,7 @@ function buildContext({ words = [makeWord()], theories = [makeTheory()], reviewA
   // window.reviewApi wird von den Views direkt als "window.reviewApi" referenziert.
   context.window.location.hash = hash;
   vm.createContext(context);
-  const src = SOURCE_FILES.map((f) => fs.readFileSync(path.join(REVIEW_JS_DIR, f), 'utf-8')).join('\n;\n');
+  const src = [fs.readFileSync(AUDIO_KEY_RESOLVER_PATH, 'utf-8'), ...SOURCE_FILES.map((f) => fs.readFileSync(path.join(REVIEW_JS_DIR, f), 'utf-8'))].join('\n;\n');
   // "window.addEventListener('hashchange', ...)" in reviewApp.js -- unser fakeWindow bietet das
   // bereits an; document.addEventListener/dispatchEvent kommt vom erweiterten domStub.
   vm.runInContext(`${src}\nthis.__ReviewApp = ReviewApp; this.__ReviewDom = ReviewDom;`, context);

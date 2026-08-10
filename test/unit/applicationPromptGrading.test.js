@@ -189,6 +189,10 @@ test('validateCourse.js weist application_prompts mit inkonsistenter expected_wo
       fs.copyFileSync(path.join(ROOT, 'language-review', name), path.join(tmpRoot, 'language-review', name));
     }
     fs.copyFileSync(path.join(ROOT, 'audio_generation_manifest.json'), path.join(tmpRoot, 'audio_generation_manifest.json'));
+    // Entwicklungsauftrag 13: validateCourse.js prüft jetzt zusätzlich audio_status gegen die
+    // tatsächlich vorhandenen Audiodateien -- ein Symlink (statt einer ~57-MB-Kopie von 900
+    // WAV-Dateien) reicht, da dieser Test die Audiodateien selbst nie verändert.
+    fs.symlinkSync(path.join(ROOT, 'language-packs', 'arabic', 'audio'), path.join(tmpPack, 'audio'));
 
     const vocab = JSON.parse(fs.readFileSync(path.join(tmpPack, 'vocabulary.json'), 'utf-8'));
     const words = vocab.categories.flatMap((c) => c.words);

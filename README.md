@@ -1234,16 +1234,19 @@ erweiterten, rückwärtskompatiblen Manifest-Statusmodell (`language_status`/`ge
 für den Gesamtlauf — die 141 vorhandenen normalen und 141 vorhandenen langsamen Aufnahmen werden
 dadurch strukturell nie überschrieben (zusätzlich durch eine eigene Laufzeitprüfung abgesichert).
 
-**Ergebnis dieser Runde:** In dieser Entwicklungsumgebung war kein `ELEVENLABS_API_KEY` gesetzt —
-die Pipeline ist vollständig fertiggestellt und automatisiert getestet, hat aber beim Versuch,
-die 20-Wörter-Stichprobe zu erzeugen, sauber und ohne jede Manifest-Änderung abgebrochen (Fail-
-Fast-Prüfung vor dem ersten Wort). **0 von 759 Audiodateien wurden in dieser Runde tatsächlich
-erzeugt** — das ist keine verschwiegene Einschränkung, sondern exakt das im Auftrag für diesen
-Fall vorgesehene Verhalten ("keine falsche Erfolgsmeldung, Pipeline und Review-Modus trotzdem
-fertigstellen"). Sobald `ELEVENLABS_API_KEY` gesetzt ist, sind alle Befehle unverändert
-einsatzbereit. Details, Zahlen und die vollständige Abgrenzung zwischen technisch erzeugt/
-technisch validiert/manuell angehört/sprachlich geprüft/endgültig freigegeben stehen im
-Abschlussbericht zu diesem Auftrag (siehe Commit-Historie) sowie in `AUDIO_GENERATION_GUIDE.md`.
+**Ergebnis dieser Runde:** In der ursprünglichen Entwicklungsumgebung war kein
+`ELEVENLABS_API_KEY` gesetzt — die Pipeline war vollständig fertiggestellt und automatisiert
+getestet, brach beim Versuch, die 20-Wörter-Stichprobe zu erzeugen, aber sauber und ohne jede
+Manifest-Änderung ab (Fail-Fast-Prüfung vor dem ersten Wort). Kurz danach hat der Nutzer einen
+gültigen API-Schlüssel direkt in der Sitzung bereitgestellt — die 20-Wörter-Stichprobe und
+anschließend der vollständige Lauf für die restlichen 739 Wörter wurden damit tatsächlich
+ausgeführt: **759/759 Audiodateien erfolgreich erzeugt, 0 Fehlschläge, alle 141 Bestandsaufnahmen
+byte-identisch unverändert.** Details zum technischen Ablauf, den genauen Zahlen und der
+vollständigen Abgrenzung zwischen technisch erzeugt/technisch validiert/manuell angehört/
+sprachlich geprüft/endgültig freigegeben stehen im Abschlussbericht zu Entwicklungsauftrag 12
+(siehe Commit-Historie) sowie in `AUDIO_GENERATION_GUIDE.md`. Die vollständige Einbindung dieser
+759 Aufnahmen in die Lernoberfläche (Wiedergabeprüfung, konsistente Paketierung) ist Gegenstand
+von Entwicklungsauftrag 13, siehe eigener Abschnitt unten.
 
 Neue Tests: `test/unit/audioWavValidation.test.js`, `test/unit/ttsProviders.test.js`,
 `test/unit/audioManifestModel.test.js`, `test/unit/audioPipeline.test.js`,
@@ -1257,6 +1260,59 @@ bezahlter Credits, Überschreiben vorhandener Audios mit `--force`, automatische
 Review-Korrekturen in `vocabulary.json`/`theory.json` (das bleibt ein eigener, späterer Auftrag
 mit Dry-Run/Diff/Backup/Rollback), Kurs 2-5, `.arabiccourse`-Format, Cloud-Synchronisierung,
 Benutzerkonten, großes Interface-Redesign.
+
+## Vollständige Audio-Integration, Wiedergabeprüfung und konsistente Paketierung (Entwicklungsauftrag 13)
+
+Nachdem alle 900 Vokabeln eine Audiodatei haben (Entwicklungsauftrag 12), stellt dieser Auftrag
+sicher, dass sie auch überall in der App zuverlässig eingebunden, geladen und abgespielt werden —
+Audioerzeugung ist nicht gleich Audiointegration.
+
+**Behobener echter Datenfehler:** `vocabulary.json` hatte ein verwaistes `audio_status`-Feld aus
+einer viel früheren Projektphase (`scripts/build-kurs1-batch.js`) — bei allen 759 neuen Wörtern
+stand es auf `"missing"`, obwohl inzwischen Audiodateien existierten; die 141 Bestandswörter
+hatten das Feld nie. Behoben durch ein neues, eindeutiges, aus Manifest + tatsächlicher
+Dateiverfügbarkeit ABGELEITETES Statusmodell (`scripts/audio/audioStatusModel.js`:
+`available_legacy_unreviewed` / `generated_unreviewed` / `reviewed` / `missing` /
+`generation_failed`), per `scripts/upgrade-vocabulary-audio-status.js` idempotent gesetzt und in
+`npm run validate:course` hart geprüft (widerspricht der Status je der tatsächlichen
+Dateiverfügbarkeit, schlägt die Validierung fehl).
+
+**Zentrale Audio-Schlüssel-Auflösung:** `src/js/audioKeyResolver.js#resolveVocabularyAudioKey()`
+ersetzt 14 verstreute, direkte `` `vocabulary/${word.id}` ``-Konstruktionen (u. a. in
+`sessionController.js`, `exerciseRegistry.js`, `listening.js`, `vocabulary.js`, `freePractice.js`,
+`dashboard.js`) — bevorzugt immer `word.audio_key`, fällt nur kontrolliert und mit sichtbarer
+Konsolenwarnung auf die ID-basierte Form zurück, statt ein fehlerhaftes `audio_key`-Feld
+stillschweigend zu verdecken.
+
+**`audioPlayer.js` überarbeitet:** `speak()` liefert jetzt ein ausführliches Statusobjekt
+(`{source: 'recorded_audio'|'tts_fallback'|'failed', mode: 'normal'|'dedicated_slow'|
+'slowed_normal'|'tts_fallback'|'failed', audioKey}`) und **wirft/rejected nie mehr** — jeder
+Fehlerfall ist ein gültiges Ergebnis. Neue Methode `AudioPlayer.speakWord(word, {slow, context,
+button})` ist der empfohlene Einstiegspunkt für alle Vokabel-Buttons: löst den Schlüssel zentral
+auf, schützt per optionalem `button`-Element gegen schnelles Mehrfachstarten, meldet Fehlschläge
+UND TTS-Fallbacks über das neue `src/js/audioFeedback.js` (kurze, sichtbare, nicht blockierende
+Meldung plus Konsolenprotokoll) — die zuvor verbreiteten stillen `.catch(() => {})`-Blöcke sind
+damit überflüssig und wurden an allen 14 Vokabel-Stellen entfernt.
+
+**Keine überlappende Wiedergabe:** `app.js#runCleanup()` (läuft vor JEDER Navigation) ruft jetzt
+zentral `AudioPlayer.stopCurrentAudio()` auf; zusätzlich beim Öffnen eines Bestätigungsdialogs und
+beim Erreichen der Session-Zusammenfassung.
+
+**IPC-Härtung:** neuer gemeinsamer Baustein `scripts/audioFileAccess.js` (von `main.js` UND
+`reviewMain.js` verwendet) — striktes `audioKey`-Muster, `path.resolve` + Verzeichnis-
+Präfixprüfung, explizite Ablehnung von absoluten Pfaden/`..`, plus unabhängige `languageId`-
+Prüfung gegen installierte Sprachpakete in `main.js`.
+
+**Ergebnis der 20-Punkte-Audits** (`test/unit/audioIntegrationAudit.test.js`, gegen die echten
+Sprachpaketdateien): alle 21 Prüfungen bestanden — 900 gültige `audio_key`, 900 ladbare normale
+Dateien mit gültigem WAV-Header, exakt 141 `_slow.wav`/759 Playback-Rate-Fallback, keine
+verwaisten/doppelten Schlüssel, Manifest und `audio_status` widerspruchsfrei, die 141
+Bestandsaufnahmen bytegenau unverändert (Prüfsummenvergleich), Sprachprüfmodus kann alle 900
+Aufnahmen laden, mindestens eine Session je der 30 Units gegen die echte Zuordnung geprüft.
+
+**Bewusst nicht Teil dieser Runde:** Sprachprüfung durch Claude, endgültige Audiofreigabe, erneute
+kostenpflichtige Audioerzeugung ohne nachgewiesenen Defekt, Überschreiben der 141
+Bestandsaufnahmen, Kurs 2-5, `.arabiccourse`-Format, großes Interface-Redesign.
 
 ## Bekannte Einschränkungen
 
@@ -1280,10 +1336,8 @@ Benutzerkonten, großes Interface-Redesign.
   `needs_language_review`, 0 tatsächlich geprüft, 0 Audios endgültig freigegeben). Ein eigenes
   lokales Prüfprogramm dafür existiert seit Entwicklungsauftrag 12 (`npm run review:start`, siehe
   `REVIEWER_QUICKSTART.md` und `LANGUAGE_REVIEW_GUIDE.md`).
-- Für die 759 zuvor fehlenden Vokabelaudios wurde mit Entwicklungsauftrag 12 die technische
-  Vorschau-Audioerzeugung ausdrücklich erlaubt (siehe eigener Abschnitt oben und
-  `AUDIO_GENERATION_GUIDE.md`) — in dieser Entwicklungsumgebung fehlte jedoch ein
-  `ELEVENLABS_API_KEY`, weshalb bislang **0 dieser 759 Dateien tatsächlich erzeugt wurden**. Die
-  141 ursprünglichen Wörter haben weiterhin ihre unveränderten Bestandsaufnahmen. Sobald ein
-  gültiger Schlüssel gesetzt ist, genügt `npm run audio:generate:sample` gefolgt von
-  `npm run audio:generate`.
+- **Alle 900 Wörter haben seit Entwicklungsauftrag 12/13 eine normale Audiodatei** (141
+  ursprüngliche Bestandsaufnahmen, unverändert, plus 759 über ElevenLabs technisch erzeugte
+  Vorschauaufnahmen). Das ist weiterhin **keine sprachliche oder akustische Freigabe** — alle 900
+  Wörter stehen weiterhin auf `content_status`/`audio_review_status` "ungeprüft", bis eine Person
+  mit Arabischkenntnissen sie im Review-Modus geprüft hat. Details: `AUDIO_GENERATION_GUIDE.md`.

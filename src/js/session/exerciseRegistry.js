@@ -188,10 +188,6 @@ const ExerciseRegistry = (() => {
     container.appendChild(card);
   }
 
-  function audioKeyFor(word) {
-    return `vocabulary/${word.id}`;
-  }
-
   // --- Mini-Check-Variante: Audio hören -> passendes Wort auswählen ---------------------------
   function renderAudioToWordChoice(container, ctx, guard, onDone) {
     const { word, allWords } = ctx;
@@ -204,10 +200,11 @@ const ExerciseRegistry = (() => {
     card.appendChild(el('p', { className: 'lead', text: 'Höre zu und wähle das richtige Wort.' }));
     const playBtn = el('button', { className: 'btn icon', text: '🔊' });
     playBtn.type = 'button';
-    playBtn.addEventListener('click', () => AudioPlayer.speak(word.arabic, 'ar-SA', { audioKey: audioKeyFor(word) }).catch(() => {}));
+    playBtn.setAttribute('aria-label', 'Audio abspielen');
+    playBtn.addEventListener('click', () => AudioPlayer.speakWord(word, { context: 'Hörübung', button: playBtn }));
     card.appendChild(playBtn);
     if (ctx.settings && ctx.settings.autoPlayWord) {
-      AudioPlayer.speak(word.arabic, 'ar-SA', { audioKey: audioKeyFor(word) }).catch(() => {});
+      AudioPlayer.speakWord(word, { context: 'Hörübung (automatisch)' });
     }
     const optionsWrap = el('div', { className: 'rating-buttons' });
     const feedback = feedbackNode();
@@ -246,8 +243,9 @@ const ExerciseRegistry = (() => {
     options.forEach((opt, i) => {
       const btn = el('button', { className: 'btn secondary', text: `🔊 Option ${i + 1}` });
       btn.type = 'button';
+      btn.setAttribute('aria-label', `Option ${i + 1} abspielen`);
       btn.addEventListener('click', () => {
-        AudioPlayer.speak(opt.arabic, 'ar-SA', { audioKey: audioKeyFor(opt) }).catch(() => {});
+        AudioPlayer.speakWord(opt, { context: 'Hörübung (Option)' });
         if (!guard.submit()) return;
         const correct = opt.id === word.id;
         feedback.textContent = correct ? 'Richtig!' : `Nicht ganz. Das war eine andere Aufnahme.`;

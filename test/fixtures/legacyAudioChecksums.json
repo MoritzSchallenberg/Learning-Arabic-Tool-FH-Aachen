@@ -1,0 +1,566 @@
+{
+  "animal_bird": {
+    "sha256": "ea88c5987e3d30725d90195393a99c7942e2223de4e76cc5bca7de11d728fbb9",
+    "size": 44336
+  },
+  "animal_cat": {
+    "sha256": "6dbb9ed14b9116c56974f511d3d03f32e01c06e19bd3b235389c538cfd953e1b",
+    "size": 35752
+  },
+  "animal_chicken": {
+    "sha256": "0c747be6cf5a855e16a9b2cb87220ce5418a3d47d6e449d27f48243a75057076",
+    "size": 49938
+  },
+  "animal_cow": {
+    "sha256": "2ba7c0cf819609b0de4708f47ad3eac1917377378e48e7b126ecef4c3e649c7b",
+    "size": 43102
+  },
+  "animal_dog": {
+    "sha256": "6f3fa78d465ac42b9db26685411366546c1f16a0119c669aa4a937dec1e94642",
+    "size": 38072
+  },
+  "animal_fish": {
+    "sha256": "144d3ee4726b19941100a4b7c40978f78dcce0c1133bde62a153c0b3f96d7d78",
+    "size": 42062
+  },
+  "animal_horse": {
+    "sha256": "c7f2ad8c166a8d43a929161b8afe6a8fe63dcffa7a9af11937978b6df58fbbf5",
+    "size": 52230
+  },
+  "animal_lion": {
+    "sha256": "dab40f85f922438ff21c003bfa5ea6c3d6604bb9b3ef0b8061d0e27aec8a9a3f",
+    "size": 38120
+  },
+  "animal_mouse": {
+    "sha256": "15a1924eb81fc0cf4d6ea094ae9278817652c541f940c1a0a6a13adf8a05f13e",
+    "size": 35526
+  },
+  "animal_rabbit": {
+    "sha256": "a631bcae4adc4a28690a16ba4be6018f6a1d534cbb7b0918d5fefbd47bcc8d7a",
+    "size": 40002
+  },
+  "body_eye": {
+    "sha256": "596cf053f392ad436b1322378c1c4bd85ceb6a4c7e58335e9408c28ce64bf389",
+    "size": 38750
+  },
+  "body_foot": {
+    "sha256": "4e0df0d432e56ee4ebf81df04d2625d4cbcee841470f2ab8c07047f4bd9ffc6a",
+    "size": 38582
+  },
+  "body_hand": {
+    "sha256": "8718b74097fdc116b872d1d6ccc0e53d6be9cc0a8c10e2dbaf064f5ea4bee00c",
+    "size": 32838
+  },
+  "body_head": {
+    "sha256": "3e90a43ca716b84c4464f08eb18d1b84284caeb53809b4a654884f001088c956",
+    "size": 36400
+  },
+  "body_mouth": {
+    "sha256": "409fe3b7a41b65dc8e5c590c18aa4f802cbc056a04573de136fc46a93fa933d0",
+    "size": 35198
+  },
+  "body_nose": {
+    "sha256": "97662459fa28a5c722d6bb863525c3d1b0d2ca0f9da508d3b53b47ec4d4eb321",
+    "size": 36570
+  },
+  "clothing_coat": {
+    "sha256": "dbcca4c3b771afc771e4df219b40f8638873694b1646a24d674313ca18ee9045",
+    "size": 45654
+  },
+  "clothing_hat": {
+    "sha256": "774947d9f4161e2431fd362aa74cd1ddb1a1ce64d4c7c0092d7b2a3d749ef089",
+    "size": 48150
+  },
+  "clothing_pants": {
+    "sha256": "c7bbd9ba4d8d6f78ffa1fb8a1887b9f615d299affe2834f97a1fa316b9a10ad8",
+    "size": 48874
+  },
+  "clothing_shirt": {
+    "sha256": "0d3fad25e95422cbd34ee860e8adf8f0571e05d90a2cd18ddf28b2cb0d87368c",
+    "size": 45182
+  },
+  "clothing_shoe": {
+    "sha256": "3f2d6300975d66f5cabb55300384345b2494cf2b34842aec4c038a80cd8038df",
+    "size": 46108
+  },
+  "color_black": {
+    "sha256": "e77915004de849d2b578e59f4065dc83d437f5488be3554cf6697ba32ef8a3ca",
+    "size": 41038
+  },
+  "color_blue": {
+    "sha256": "82973d1b45cee162da6289b45cf5329dd164217559160835fd833f6a8d7ee163",
+    "size": 43086
+  },
+  "color_green": {
+    "sha256": "31463c240b372731c78877412a327a10a39dd16692ffad5ce27fa3a06176fc39",
+    "size": 47182
+  },
+  "color_red": {
+    "sha256": "9d8107c4a77f89c4721b57417ad0371f939aa4b581c5e171575d9a5612821336",
+    "size": 45134
+  },
+  "color_white": {
+    "sha256": "e6d301ed1b2df068a0202486a623df073650bd75006c79260086def607e75823",
+    "size": 47182
+  },
+  "color_yellow": {
+    "sha256": "b0eb7d513820262e9bb918cde591e6d740e1ce9215362c5838144ea78211ba70",
+    "size": 47182
+  },
+  "family_brother": {
+    "sha256": "57653a6006cd7ff65b6d4a1bd2fff0c01688e2a5e31a9211a059f23ae7f46aef",
+    "size": 28750
+  },
+  "family_daughter": {
+    "sha256": "47ab67a8f8c895e8733b7dec827683884dfbc07f8216854752fe2ec0438692ee",
+    "size": 34894
+  },
+  "family_father": {
+    "sha256": "7bcdc5285302bf4a9a70e0d1f003ffd9e6b0dd7d3b7ec2a86fced529092c886f",
+    "size": 34894
+  },
+  "family_grandfather": {
+    "sha256": "4e3e676efe358e9e3ea1a1a4789a44ce223b3c59df3ca3d99d5d1e7bb99e32e9",
+    "size": 47182
+  },
+  "family_grandmother": {
+    "sha256": "ed02570321a9f7d815fe4fc3171721f279b0e7e40eacb5d4c946969c5f47164d",
+    "size": 36942
+  },
+  "family_mother": {
+    "sha256": "cc7195eb2fcfdaad239688de5bede1e1d85943bd52baff266271751b91d0ff29",
+    "size": 28750
+  },
+  "family_sister": {
+    "sha256": "bc2b9b622a159473c0dc3b96ece67e19fcd912c51f92882090637db91aa46aa3",
+    "size": 32846
+  },
+  "family_son": {
+    "sha256": "46cb70dd1d1963cf76ac1e18cbff397bb77d6bc4ce9b03c691383b44d31d8ba4",
+    "size": 36942
+  },
+  "food_apple": {
+    "sha256": "3477e82d30ece4c5ee304a0110eecf5ce71add3171b26a5e7feab9237d801cd9",
+    "size": 45134
+  },
+  "food_bread": {
+    "sha256": "ae4571ceb782037a07a3261345062ec55e6b11b6ea157232f6fbeff0f43ed58f",
+    "size": 34894
+  },
+  "food_coffee": {
+    "sha256": "299baf6cd5f9aa1056f199dd1f4c84a16ec339609b400dd50316bb22ed197586",
+    "size": 36942
+  },
+  "food_milk": {
+    "sha256": "c2d87ffa402efa2739d8ff1ebc9f2ff3fde72a39ff2fca64cbbbce7b7a007676",
+    "size": 38990
+  },
+  "food_tea": {
+    "sha256": "5cdc0931de49f8ccd95eafa0f480a357ec290436adb8506909f48d32820c06dd",
+    "size": 38990
+  },
+  "food_water": {
+    "sha256": "10d67b04c11d89c2e33eb81dcc3c0e85df4b0c73e8b54ae771c9cc11e0f5e19f",
+    "size": 32846
+  },
+  "greet_bye": {
+    "sha256": "88264c3ee9eb0c4e11fcd8abdd7349aa24dd81397b09e556fbb0d40aafc03c9d",
+    "size": 63566
+  },
+  "greet_evening": {
+    "sha256": "97f724af4a498d59a2b2935e2479a8bc646e195d480bb1783b4e8052d36348b3",
+    "size": 63566
+  },
+  "greet_hallo": {
+    "sha256": "bbd621ea497558192c722f986a0a556cbe1a85b0f1c317ddb16e33751827dee8",
+    "size": 55374
+  },
+  "greet_morning": {
+    "sha256": "aac0c60442e896965bf2fb4a0a0e7efd7aee42f56d2a13f2f9570bfb564bbfb8",
+    "size": 59470
+  },
+  "greet_no": {
+    "sha256": "cca1ad41ee3129e7e6523abca0c0baea11158ad69a148c84753ed2fdb5ee8818",
+    "size": 28750
+  },
+  "greet_please": {
+    "sha256": "ed994d674279d60436c5593e740946bd51b9df3a510104b7538e78e5fe1e22d4",
+    "size": 51278
+  },
+  "greet_salam": {
+    "sha256": "8269b216480d49560905c617b15bff7a268d67d118afad223038f8d47d6a988a",
+    "size": 75854
+  },
+  "greet_thanks": {
+    "sha256": "94c0882d2044e1cecc81828155a6fdf1e069cf5dc702e9b3b523d5e25bec90f9",
+    "size": 41038
+  },
+  "greet_yes": {
+    "sha256": "48c23f71f6dfd10ca508c989a9e6a20547f6f3df5bf2b214c95a4a6b1bf69505",
+    "size": 38990
+  },
+  "housing_bathroom": {
+    "sha256": "b2d2ec6d5b108933ea6a92b31b9df9831ccd592e640277e02cb4b9553d629f5c",
+    "size": 51476
+  },
+  "housing_bed": {
+    "sha256": "1c6754249e46076c1b61969e934c94cbdea35e6d6693db4867d6509bba80a8b9",
+    "size": 51794
+  },
+  "housing_door": {
+    "sha256": "07af45de22335f558b90a6ebbacec632aa7e31434db6df86cedac361047a50f2",
+    "size": 42104
+  },
+  "housing_house": {
+    "sha256": "04460180fcdd5ae162e3ae0e31d71feea9c0fc90d21e41aa06c7a5f927db5dc7",
+    "size": 33438
+  },
+  "housing_kitchen": {
+    "sha256": "c68c2ff6b176e517972d0387fbe891aa3beb06adefffbcca8ea2d8dc9ba97f39",
+    "size": 43116
+  },
+  "housing_room": {
+    "sha256": "09f3bdb295e479d3fe2647aff4670202ab4c4f55dbdce0f0e429b916f65e11b9",
+    "size": 42620
+  },
+  "housing_table": {
+    "sha256": "b1e3a9979a481d1d6965cf1de3d6fad8d961f5a2bb09e68309e308db18836698",
+    "size": 46034
+  },
+  "housing_window": {
+    "sha256": "bcaf1ac8f900ebee18bb7ae61a79c7663eae904779e55e39fb73aac788945472",
+    "size": 47746
+  },
+  "job_cook": {
+    "sha256": "c00fa30250c52ea70e13548b5830ff552d09b0b73675a5cb518c5620830e0994",
+    "size": 48158
+  },
+  "job_doctor": {
+    "sha256": "8a92bf89d425c1e0df2eb1e084252c4833ab44420fbbd5d27156e80b718d5fc8",
+    "size": 44754
+  },
+  "job_driver": {
+    "sha256": "18a11da2f3f2438c282bd584d949abf8f4ce5cbbc743f348d36703dc2994cfed",
+    "size": 40782
+  },
+  "job_engineer": {
+    "sha256": "0224d3197bf89dc219e7800e2d6c4643abe44a8fbab7c0a5ea760e823b25c70a",
+    "size": 47920
+  },
+  "job_nurse": {
+    "sha256": "c875cba2a5f2c94c8af6b830d0d69a872fd773cdf93171899b07d8b53d25365d",
+    "size": 47784
+  },
+  "job_police": {
+    "sha256": "e134ddc893e968e4d9cd4e37ab8b6f43b5215d2b37a0e2a60f7b965b55907829",
+    "size": 46768
+  },
+  "job_teacher": {
+    "sha256": "3f47bfd1c9b5025d6e8f729102fb53153f740fcf763b2586baf4b21f1998b10e",
+    "size": 44872
+  },
+  "leisure_film": {
+    "sha256": "46f546830f145c337887ebceeb28dc6b9f4580c0aac939325583c2b8178d1933",
+    "size": 47612
+  },
+  "leisure_game": {
+    "sha256": "e75cc1b948dd5920d38fdf6331b41c0ddd0c6b73005cb468042fb1854c85e6e8",
+    "size": 43386
+  },
+  "leisure_music": {
+    "sha256": "36106eaf64512769e643bba17fd926829ca3e6cdea9b12cd26196fbad1c7608b",
+    "size": 59534
+  },
+  "leisure_sport": {
+    "sha256": "ead7e559b96ca1c34096acecc578fcfec5fdf5ff0adf59d9c51c4d8291e3be71",
+    "size": 49764
+  },
+  "num_1": {
+    "sha256": "64989223b4608dba555c7ba6d9e3d2c7504d1d199ecaa1bcbf3ab1ce6a95d2db",
+    "size": 43086
+  },
+  "num_10": {
+    "sha256": "b7e8bd216992b8a48224987259e79a381d33b2f7d6b67b9422eac22109ad8297",
+    "size": 38990
+  },
+  "num_2": {
+    "sha256": "9352bfc637d64c47d508f8fa37bc7bdde115b5761701e51200a6074150848ec5",
+    "size": 65614
+  },
+  "num_3": {
+    "sha256": "f20d9c1f4f102e844505842edd4319e9e8da6beb8ef290dee453ecd00b3d3a5a",
+    "size": 43086
+  },
+  "num_4": {
+    "sha256": "95a9d8d10e534aaf2ee0629f5547344427a0f8a455e0b6438ea4dd7e73dff60a",
+    "size": 47182
+  },
+  "num_5": {
+    "sha256": "db9a8e660244933a1e83d34654581907af14af69f761f3e9f596a649d6137a25",
+    "size": 45134
+  },
+  "num_6": {
+    "sha256": "fdb900b8de48d98e40dd5a5bd0200d62b5715d042ecef5aa2ce13993db87a99b",
+    "size": 38990
+  },
+  "num_7": {
+    "sha256": "99a90c1bea8c919b4896791a2817eadfe1f56ef359b1c55377adfde0c01b7a22",
+    "size": 43086
+  },
+  "num_8": {
+    "sha256": "e01544b2e8810138fc4d6f40d28ca25b0ad40a6b47252740b692ba9defde2395",
+    "size": 55374
+  },
+  "num_9": {
+    "sha256": "18f5a885680ed4b69fb4decf836900e9cc7c8b0779e67fa411ac2172f04ee520",
+    "size": 47182
+  },
+  "place_city": {
+    "sha256": "36d71359ff3b053da8582fc22f29fbe415d430dd7816a67082ae82d8d662e683",
+    "size": 48500
+  },
+  "place_hospital": {
+    "sha256": "2dbf782e009ce8b2a8c497d7fdc6dc9c5649dfc2699f45c4d4b088cdcfe9fcbf",
+    "size": 57558
+  },
+  "place_mosque": {
+    "sha256": "012401eeefeebd1b8887cd46d55732270e417abf3ef327e8befdf891f8ad6fc9",
+    "size": 41402
+  },
+  "place_office": {
+    "sha256": "42af1f2083b0b9bef8c232f214e04e27700a18be1b7f4b6d3c0d31390816646a",
+    "size": 41780
+  },
+  "place_restaurant": {
+    "sha256": "6c6664e49ec530227b54f1298a5748f12ebb1225b0b2d73f4757629289398a90",
+    "size": 45168
+  },
+  "place_station": {
+    "sha256": "f022e779f9aca3177ced8b4cac395229f51e2374d0adf10cebc187f8d1b9cfe3",
+    "size": 50510
+  },
+  "place_street": {
+    "sha256": "ac0a0a1c3ab538f6d7cfc26c529f60d437f5b2a621d5d83a0a326de8e8cff547",
+    "size": 48798
+  },
+  "place_village": {
+    "sha256": "8c8f0a6089d99df6cae3448be1a8d75a089c7e48a870bc64a310fb88adde21fc",
+    "size": 40594
+  },
+  "q_how": {
+    "sha256": "de90d231ddc77e2591eff6a65e2cf372ee7d7818ec2490b32956e25ff4e47faf",
+    "size": 39776
+  },
+  "q_howmany": {
+    "sha256": "f9da55b8c4a012a20f8011177e6f93ab3d139919b1b8d48c8ad570ab19f5fbae",
+    "size": 35124
+  },
+  "q_what": {
+    "sha256": "0ed4968e301b6ec2a2f5349e419b02de96b82049cfd418064d25a9f0751da925",
+    "size": 50176
+  },
+  "q_when": {
+    "sha256": "39b6b93c018b56aa022491f31307abece88ffb3fe85c0a26b9c3ae780f2e7469",
+    "size": 42372
+  },
+  "q_where": {
+    "sha256": "634de6d5fc90620d865a90f29600b612bd4c28c71bba11e958ff324a5d74c243",
+    "size": 38322
+  },
+  "q_who": {
+    "sha256": "b72462fd72d84e19f48476272d00d4c7a7fd47850bcd378c1cdfa7612c671196",
+    "size": 34420
+  },
+  "q_why": {
+    "sha256": "780724f9831c5cfcd87db553eeae593c53dab75c4905cbb36cbfe560b75a0590",
+    "size": 53824
+  },
+  "school_bag": {
+    "sha256": "afb7622f1396fc66044dcaac175249944f129f22f1a1b50aa0917ce2ed81e0c1",
+    "size": 57008
+  },
+  "school_board": {
+    "sha256": "515f5efc496f07e729ea689846b0b8384634161d15afac27321c878bf7f6838b",
+    "size": 56780
+  },
+  "school_eraser": {
+    "sha256": "12e2a799b49aa8954fafc55f8231445fb0e769daa477fd6a654b1a49daf4039a",
+    "size": 50354
+  },
+  "school_ruler": {
+    "sha256": "8a9f7898348b5b463e73553fe2feeee2e494e03f35042170fc8f2550f08aad85",
+    "size": 44586
+  },
+  "shop_bag": {
+    "sha256": "80addea6e48e5731056941b4df87d60294078079d492a3e0a552161c61a09d6e",
+    "size": 42922
+  },
+  "shop_money": {
+    "sha256": "7af395fa9a7adcaab76c4d8738a8856d8bc8bd641ede8cf44e96a7644b0614f5",
+    "size": 43234
+  },
+  "shop_price": {
+    "sha256": "ed96ecf4d1e04edb9ff9d0ba7a99e87d9f548e0236a80f970ea0201abdca1d20",
+    "size": 39380
+  },
+  "shop_store": {
+    "sha256": "cc45a3aa67f0815d53131f9138bbac71222883651dc378a0a0b379232a8bdd29",
+    "size": 44072
+  },
+  "tech_computer": {
+    "sha256": "154d8151de516b1df6535ecb6381c08c1ef27a631250f1b06ea531c54e0ec4e7",
+    "size": 56370
+  },
+  "tech_internet": {
+    "sha256": "78aad9358bcd245004241d1036f248039d1a52c8c76f6fe22e9c04e0bb1ef767",
+    "size": 47704
+  },
+  "tech_phone": {
+    "sha256": "53bd49cc59761a045f1044db4fa078618ce36efed4d856b41dcd5c2b46ff3052",
+    "size": 46622
+  },
+  "tech_program": {
+    "sha256": "012ca93592151642bbb7c2aa6635a956662bf819964791f84393cf2428ac3cc8",
+    "size": 53072
+  },
+  "tech_screen": {
+    "sha256": "6bee3aa98a3850389a76b0a9d9300729aec4a8db2775e445d04955e34b5415f6",
+    "size": 48908
+  },
+  "time_day": {
+    "sha256": "6b586d808b7a72fa026fb4ba4f26b434502634b7499437eed7f6555c7118eb52",
+    "size": 35558
+  },
+  "time_evening": {
+    "sha256": "c7dedf649edc4b7d2497a9a718e8a6da5f15620b3ff2e4acc8b508c7e7fd3174",
+    "size": 42072
+  },
+  "time_morning": {
+    "sha256": "81199d016c2c5b0a80c5dc5eabfa72161522e281249e3664e1d7a504fe952cf8",
+    "size": 53140
+  },
+  "time_night": {
+    "sha256": "91eb80fa15a5b8a0ed2cee4b328950d29427f15f353338e21420bba7fc3785cd",
+    "size": 36912
+  },
+  "time_noon": {
+    "sha256": "6df5500859b71215032276512de7578ffcddad422b25adbf7c9404debdfe775c",
+    "size": 35712
+  },
+  "time_week": {
+    "sha256": "c4ed2c61292f6aedfb822cce060f14a0d70e4d538743b236ce67adec09ba6fa1",
+    "size": 47458
+  },
+  "transport_bike": {
+    "sha256": "431deb68a1dc787c22d9d5eb2d842872fa8ef43718b43295dbda623e17762af0",
+    "size": 53016
+  },
+  "transport_bus": {
+    "sha256": "4a5b3a965f7d8db08f15d7f0887c04fe877f0ce18ef993edaf5134e7c28ac476",
+    "size": 51970
+  },
+  "transport_car": {
+    "sha256": "15229f3dc34e7fb82d959cccb59cefa68236bf87895b90711f83a4f57f70bfad",
+    "size": 54602
+  },
+  "transport_plane": {
+    "sha256": "04d275e219068dfd404c2d188ad84fab5f073bd6a73b0f7ca268736cab2b2a37",
+    "size": 47114
+  },
+  "transport_ship": {
+    "sha256": "2057e168f4c53d22d9409f8f41887874fdfd36dbb4fb66a5005dacf35766230d",
+    "size": 51308
+  },
+  "transport_train": {
+    "sha256": "30ed3abd526c3aa6ebaf65727fdc3bb219ca2c9868fc3b3eb51d89a0f3a80126",
+    "size": 44152
+  },
+  "uni_exam": {
+    "sha256": "f42705bc281346ebf843993b36d5cb5eab0582f9f3917e1d2190716662faab4e",
+    "size": 59700
+  },
+  "uni_lecture": {
+    "sha256": "72e4cbc6b89474997a172c4dd3903d43fb74c3bfd469b64027306f11d4471311",
+    "size": 56590
+  },
+  "uni_library": {
+    "sha256": "a2a7b797f7e5f73a373c45cc962ba2d78ba7ae711c0814996ea9e1d1dabd029c",
+    "size": 47570
+  },
+  "uni_professor": {
+    "sha256": "88bebca1834289e64f69236afe127d5b2c3cfcb71edebfa82c863b7cef1c581b",
+    "size": 46842
+  },
+  "uni_student_f": {
+    "sha256": "1c2f32a9be73cacd9704b10659340f9de16e090c76e419c6133ade14b3b2c6da",
+    "size": 46832
+  },
+  "uni_student_m": {
+    "sha256": "cf220754cf619f8fd04060fe2d29a5ddc8396af00018f62b9eaa7f727d22f732",
+    "size": 43656
+  },
+  "uni_university": {
+    "sha256": "27a00dbdb846a04cd98e09624dc1151ce78adca923b9f732e6300882b4330d9d",
+    "size": 46776
+  },
+  "verb_drink": {
+    "sha256": "9cc82483b03fe63022d5cf90474011a579161d11ecfa94baa985f0221d2dc2e0",
+    "size": 44512
+  },
+  "verb_eat": {
+    "sha256": "2140328b944bb3799dfa5a1d81eb317c1aedaa6a982cf53e27dd568488aadbaf",
+    "size": 40938
+  },
+  "verb_go": {
+    "sha256": "f678bc84b82a59aa29a0b1b51aed897705fc222cb58be7a86bb50dd41de2e936",
+    "size": 43872
+  },
+  "verb_live": {
+    "sha256": "03b76b64e353171e7806f6de0c186ed5d09172dfc362b352f47e0736ee1f222d",
+    "size": 42018
+  },
+  "verb_play": {
+    "sha256": "79b7c397f17951ebe27b470d0f3080b6dd55951fd4af5ef55cac3bc18d570b9c",
+    "size": 44392
+  },
+  "verb_study": {
+    "sha256": "77835f454c604b3b203946f5921c6abe844512028dc6098c22b688db1b94fca3",
+    "size": 40114
+  },
+  "verb_understand": {
+    "sha256": "2ff4dba398bae40f06524609ba1f9f6110fb01c97bdf5d0a03135c473116109b",
+    "size": 41516
+  },
+  "verb_work": {
+    "sha256": "eb3910641e21779dccb354bba95d1452e356866bbbc09d457897414f24133f87",
+    "size": 42154
+  },
+  "weather_cloud": {
+    "sha256": "a200aee5d4537def1b942a997823f34b749f98efbb28f57a734fe0ee7d8297a2",
+    "size": 35778
+  },
+  "weather_cold": {
+    "sha256": "43868c6bd7a943bd1df6ae74688f70ce99edbe4fad8084c48b445acc26f432cc",
+    "size": 42550
+  },
+  "weather_hot": {
+    "sha256": "0629fc35fcc4ee201bd1907cd44b012e740488787a1c0b765be6b00a364506de",
+    "size": 47462
+  },
+  "weather_rain": {
+    "sha256": "600da2d83e8a7edba50c0cadef07a3f4404e8a0476f1265eb4692c6e0e7f1e16",
+    "size": 37270
+  },
+  "weather_snow": {
+    "sha256": "76590be2dd76a90b3dd86419853ac76e15628c57417ff6af2ecf7c9e1881c2ad",
+    "size": 40528
+  },
+  "weather_sun": {
+    "sha256": "7c17efdc88719468fc1b1f002c67144f4e6a7ee0398e57e0f36f908f390d84d9",
+    "size": 39360
+  },
+  "weather_wind": {
+    "sha256": "fc0e25243aba892c47c2a68713193099706b8c399530aee0f7d948a05a5baf37",
+    "size": 48068
+  }
+}

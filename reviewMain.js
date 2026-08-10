@@ -20,24 +20,21 @@ const ROOT = __dirname;
 const { loadReviewData, computeDashboardSummary } = require('./scripts/review/reviewDataLoader.js');
 const store = require('./scripts/review/reviewWorkspaceStore.js');
 const reviewConstants = require('./scripts/review/reviewConstants.js');
+// Entwicklungsauftrag 13, Abschnitt 9 — derselbe gehärtete Audiozugriff wie main.js (EIN Baustein
+// statt zwei leicht unterschiedlicher Implementierungen). Erwartet jetzt einen vollständigen
+// audioKey ("vocabulary/<id>", vom Renderer über AudioKeyResolver.resolveVocabularyAudioKey()
+// aufgelöst), keine rohe Wort-ID mehr -- konsistent mit main.js#loadAudio.
+const { loadAudioBase64Safe } = require('./scripts/audioFileAccess.js');
 
 const WORKSPACE_PATHS = store.paths(ROOT);
-const AUDIO_KEY_PATTERN = /^[a-zA-Z0-9_-]+$/; // nur die reine Wort-ID, kein Pfadtrennzeichen möglich
-const AUDIO_DIR = path.join(ROOT, 'language-packs', 'arabic', 'audio', 'vocabulary');
+const AUDIO_DIR = path.join(ROOT, 'language-packs', 'arabic', 'audio');
 
 function getData() {
   return loadReviewData(ROOT);
 }
 
-function loadAudioBase64(wordId) {
-  if (!AUDIO_KEY_PATTERN.test(wordId)) return null;
-  const audioPath = path.join(AUDIO_DIR, `${wordId}.wav`);
-  if (!audioPath.startsWith(`${AUDIO_DIR}${path.sep}`)) return null; // Pfad-Traversal-Schutz
-  try {
-    return fs.readFileSync(audioPath).toString('base64');
-  } catch (err) {
-    return null;
-  }
+function loadAudioBase64(audioKey) {
+  return loadAudioBase64Safe(AUDIO_DIR, audioKey, { logPrefix: '[Audio:review]' });
 }
 
 function registerIpcHandlers() {

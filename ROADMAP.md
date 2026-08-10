@@ -51,26 +51,33 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
   Kurs 2-5 als Navigations-Gruppierung um die bestehenden Lektionen 3-11.
 - **Kurs 1 ist seit Entwicklungsauftrag 11 strukturell vollständig: 900/900 Vokabeln über 30
   Vokabel-Units / 90 Sessions, alle im vollen Lernmodell, 90/90 Sessions mit echter Theorie, 0
-  Platzhalter mehr** (Entwicklungsauftrag 6-11, Details Abschnitt 10-15). Davon 141 Wörter mit
-  vorhandener Audiodatei (die ursprünglichen 21 Themenkategorien aus Lektionen 3/6/8, seit der
-  Nachtrag-Runde direkt nach Entwicklungsauftrag 9 auch mit eigenem Sprachprüfeintrag in
-  `language-review/batch_00.json`). **Strukturelle Vollständigkeit ist KEINE sprachliche
-  Freigabe** — alle 900 Wörter tragen weiterhin `content_status: needs_language_review`, 0
-  Wörter wurden von einer Person mit Arabischkenntnissen geprüft, kein Wort ist für Audio
-  freigegeben, und außer den ursprünglichen 141 hat kein Wort eine Audiodatei. Alle 900 Wörter
-  sind in einer von sieben Sprachprüfdateien (`batch_00.json` bis `batch_06.json`) erfasst und
-  bereit für die echte Sprachprüfung — siehe `LANGUAGE_REVIEW_GUIDE.md`.
+  Platzhalter mehr** (Entwicklungsauftrag 6-11, Details Abschnitt 10-15). **Seit Entwicklungsauftrag
+  12/13 haben alle 900 Wörter eine normale Audiodatei** (141 ursprüngliche Bestandsaufnahmen,
+  unverändert, seit der Nachtrag-Runde direkt nach Entwicklungsauftrag 9 mit eigenem
+  Sprachprüfeintrag in `language-review/batch_00.json`; 759 über ElevenLabs technisch erzeugte
+  Vorschauaufnahmen). **Strukturelle Vollständigkeit und technische Audioverfügbarkeit sind KEINE
+  sprachliche Freigabe** — alle 900 Wörter tragen weiterhin `content_status: needs_language_review`,
+  0 Wörter wurden von einer Person mit Arabischkenntnissen geprüft, kein Wort/keine Aufnahme ist
+  endgültig freigegeben. Alle 900 Wörter sind in einer von sieben Sprachprüfdateien
+  (`batch_00.json` bis `batch_06.json`) erfasst und bereit für die echte Sprachprüfung — siehe
+  `LANGUAGE_REVIEW_GUIDE.md`.
 - **Lokaler Sprachprüf-Arbeitsbereich (Entwicklungsauftrag 12):** eigenes, komplett getrenntes
   Electron-Prüfprogramm (`npm run review:start`, `reviewMain.js`/`reviewPreload.js`/
   `src/review/`) für eine Person mit Arabischkenntnissen — Dashboard, filterbare Wort-/
   Theorieliste, Detailansichten mit Original+Korrekturvorschlag nebeneinander, neun getrennte
   Prüfaspekte, Statusmodell mit Bestätigungspflicht vor Freigabe, Audioanhörprüfung, sicherer
   Export. Details Abschnitt 16.
-- **Manifest-gesteuerte Audio-Erzeugungspipeline (Entwicklungsauftrag 12):** `scripts/audio/` +
-  `scripts/audioCli.js` (`audio:plan`/`audio:generate:sample`/`audio:generate`/`audio:verify`),
-  Staging + technische WAV-Prüfung + atomare Übernahme, Backoff-Retry, erweitertes
-  Manifest-Statusmodell. Fertiggestellt und automatisiert getestet; in dieser Umgebung mangels
-  `ELEVENLABS_API_KEY` noch 0/759 Dateien tatsächlich erzeugt — siehe Abschnitt 16.
+- **Manifest-gesteuerte Audio-Erzeugungspipeline (Entwicklungsauftrag 12), tatsächlich ausgeführt:**
+  `scripts/audio/` + `scripts/audioCli.js` (`audio:plan`/`audio:generate:sample`/
+  `audio:generate`/`audio:verify`), Staging + technische WAV-Prüfung + atomare Übernahme,
+  Backoff-Retry, erweitertes Manifest-Statusmodell. **759/759 Dateien erfolgreich erzeugt, 0
+  Fehlschläge, 141 Bestandsaufnahmen unverändert** — Details Abschnitt 16/17.
+- **Vollständige Audio-Integration in die Lernoberfläche (Entwicklungsauftrag 13):** zentrale
+  Audio-Schlüssel-Auflösung (`src/js/audioKeyResolver.js`), überarbeiteter `AudioPlayer` mit
+  striktem Statusobjekt und `speakWord()`-Einstiegspunkt (nie mehr stille `.catch(() => {})`-
+  Fehlschläge), gehärteter IPC-Audiozugriff (`scripts/audioFileAccess.js`, von `main.js` UND
+  `reviewMain.js` verwendet), 21 automatisierte Audio-Audits gegen die echten 900 Wörter — Details
+  Abschnitt 17.
 - **Alphabet:** alle 28 Buchstaben, Kontextformen live berechnet (`wordShaping.js`), 2 Übungstypen
   in der Alt-Ansicht + **volle 9-Phasen-Lessons** pro Buchstaben-Unit (Units 1-7): Einführung,
   Wiedererkennen, Zuordnen, Unterscheiden, Rekonstruieren (Verbindungstrainer), Geführte Eingabe,
@@ -140,10 +147,11 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
   — in Entwicklungsauftrag 12 hat der Nutzer die TECHNISCHE Vorschau-Audioerzeugung VOR der
   Sprachprüfung ausdrücklich erlaubt; die Pipeline dafür ist fertig und getestet
   (`scripts/audio/`, `npm run audio:plan`/`audio:generate:sample`/`audio:generate`/
-  `audio:verify`), in dieser Entwicklungsumgebung fehlte aber ein `ELEVENLABS_API_KEY` — deshalb
-  weiterhin **0/759 Dateien tatsächlich erzeugt** (Fail-Fast, keine Manifest-Änderung). Eine
-  **endgültige Audiofreigabe** bleibt in jedem Fall an die echte Sprachprüfung gebunden, siehe
-  Abschnitt 16.
+  `audio:verify`). Nach anfänglichem Fail-Fast mangels Schlüssel hat der Nutzer kurz darauf einen
+  gültigen `ELEVENLABS_API_KEY` bereitgestellt — **759/759 Dateien erfolgreich erzeugt, 0
+  Fehlschläge**, siehe Abschnitt 16. In Entwicklungsauftrag 13 zusätzlich vollständig in die
+  Lernoberfläche integriert (siehe Abschnitt 17). Eine **endgültige Audiofreigabe** bleibt in
+  jedem Fall an die echte Sprachprüfung gebunden.
 - ~~"76 Gegensatzpaare" ungenau formuliert~~ — in Entwicklungsauftrag 10 präzisiert: 76 war die
   Anzahl der `opposite_id`-**Verweise** (38 gegenseitige Paare); nach Batch 6 sind es 108 Verweise
   (54 Paare). Beide Begriffe werden jetzt konsequent unterschieden.
@@ -180,21 +188,20 @@ Vokalzeichen). Leitprinzipien für alle künftigen Erweiterungen:
 
 ## 4. Nächste Schritte (priorisiert)
 
-**Aktueller Stand (nach Entwicklungsauftrag 12, Abschnitt 16): Kurs 1 ist weiterhin STRUKTURELL
+**Aktueller Stand (nach Entwicklungsauftrag 13, Abschnitt 17): Kurs 1 ist weiterhin STRUKTURELL
 VOLLSTÄNDIG — 900/900 Wörter im vollen Lernmodell, 90/90 Sessions mit echter Theorie, 0
 Platzhalter, alle 900 Wörter in Batch 0-6 zur Sprachprüfung vorbereitet. Seit Entwicklungsauftrag
 12 gibt es dafür ein eigenes lokales Prüfprogramm (`npm run review:start`,
-`REVIEWER_QUICKSTART.md`) UND eine fertige, getestete Audio-Erzeugungspipeline
-(`AUDIO_GENERATION_GUIDE.md`) für technisch erlaubte, aber sprachlich weiterhin ungeprüfte
-Vorschauaufnahmen. Strukturelle Vollständigkeit ist weiterhin KEINE sprachliche Freigabe:
-weiterhin 0/900 Wörter tatsächlich geprüft, 0 Audios endgültig freigegeben, und mangels
-`ELEVENLABS_API_KEY` in der Entwicklungsumgebung von Auftrag 12 weiterhin nur 141 Wörter mit
-Audiodatei (759 Dateien technisch vorbereitet, aber noch nicht erzeugt). Der einzige inhaltlich
-zwingende nächste Schritt ist jetzt die ECHTE Sprachprüfung durch eine oder mehrere Personen mit
-Arabischkenntnissen (über das neue Prüfprogramm) sowie — sobald ein API-Schlüssel verfügbar ist —
-das tatsächliche Ausführen der bereitstehenden Audio-Erzeugung. Größere, weiterhin offene
-Architekturthemen (Kurs 2-5, `.arabiccourse`, physische Tastatur, Transliterationsmodus,
-weiterführende Grammatik, automatische Übernahme von Review-Korrekturen in die Kursdateien)
+`REVIEWER_QUICKSTART.md`). **Alle 900 Wörter haben jetzt eine normale Audiodatei** (141 Bestand +
+759 technisch über ElevenLabs erzeugt, seit Entwicklungsauftrag 13 vollständig in die
+Lernoberfläche integriert und automatisiert auditiert — `AUDIO_GENERATION_GUIDE.md`). Strukturelle
+und technische Vollständigkeit sind weiterhin KEINE sprachliche Freigabe: weiterhin 0/900 Wörter
+tatsächlich geprüft, 0 Audios endgültig freigegeben. Der einzige inhaltlich zwingende nächste
+Schritt ist jetzt die ECHTE Sprachprüfung durch eine oder mehrere Personen mit Arabischkenntnissen
+über das Prüfprogramm — danach folgen gezielte Regenerierungen einzelner Aufnahmen bei gefundenen
+Fehlern sowie die endgültige Freigabe. Größere, weiterhin offene Architekturthemen (Kurs 2-5,
+`.arabiccourse`, physische Tastatur, Transliterationsmodus, weiterführende Grammatik, automatische
+Übernahme von Review-Korrekturen in die Kursdateien)
 bleiben unverändert offen, siehe "Bekannte Lücken" oben. Der Rest dieses Abschnitts ist die
 ursprüngliche, vor Entwicklungsauftrag 6 verfasste Planung und historisch zu lesen.**
 
@@ -2318,3 +2325,178 @@ Mocks, kein echter API-Aufruf in der Testsuite. Sprachprüfung durch Claude, end
 Audiofreigabe, Kauf bezahlter Credits, automatische Übernahme von Review-Korrekturen in die
 Kursdateien, Kurs-2-5-Umbau, `.arabiccourse`-Format, Cloud-Synchronisierung, Benutzerkonten und
 großes Interface-Redesign bewusst nicht Teil dieser Runde.
+
+## 17. Entwicklungsauftrag 13: Vollständige Audio-Integration, Wiedergabeprüfung und konsistente Paketierung (vom Nutzer, 2026-08-10)
+
+Nach der in Entwicklungsauftrag 12 vom Nutzer erlaubten technischen Vorschau-Audioerzeugung
+stellt dieser Auftrag sicher, dass die 900 Audiodateien auch tatsächlich zuverlässig in der
+Lernapp eingebunden, geladen und abgespielt werden — Audioerzeugung ist nicht gleich
+Audiointegration, und Audiointegration ist weiterhin nicht gleich Audiofreigabe.
+
+### Vorgeschichte: die 759 Audiodateien wurden zwischen Auftrag 12 und 13 tatsächlich erzeugt
+
+Direkt im Anschluss an den Abschlussbericht zu Entwicklungsauftrag 12 (der ehrlich "0/759
+erzeugt, mangels API-Schlüssel" dokumentierte) hat der Nutzer im Gespräch nachgefragt, was genau
+fehlt. Nach Erklärung des Blockers hat der Nutzer einen ElevenLabs-API-Schlüssel bereitgestellt —
+der erste Versuch schlug fehl (die tatsächliche Fehlermeldung von ElevenLabs zeigte: es handelte
+sich um die "Key-ID", nicht um den echten `sk_...`-API-Schlüssel; außerdem stellte sich beim
+Nachfragen heraus, dass eine dritte Person zeitweise Zugriff auf diesen ursprünglichen Schlüssel
+hatte, was die zwischenzeitlich beobachtete unerklärliche Kontingent-Bewegung erklärte). Mit einem
+zweiten, korrekten `sk_...`-Schlüssel wurde zunächst die 20-Wörter-Stichprobe erfolgreich erzeugt
+und technisch verifiziert (gültige WAV-Header, plausible Dauer 0,7-1,6s, nicht stumm), danach —
+nach einer Kontingentprüfung (10.000 Zeichen/Monat im Free-Tier, 8.893 verbleibend, Bedarf für die
+restlichen 739 Wörter ca. 5.960 Zeichen) — der vollständige Lauf für die restlichen 739 Wörter.
+**Ergebnis: 759/759 Audiodateien erfolgreich erzeugt, 0 Fehlschläge**, `npm run audio:verify`
+bestätigte anschließend 759/759 technisch in Ordnung, die 141 Bestandsaufnahmen blieben
+nachweislich byte-identisch unverändert. Kein API-Schlüssel wurde in einer Datei gespeichert,
+committet oder geloggt — er existierte ausschließlich als Umgebungsvariable für die einzelnen
+Erzeugungsaufrufe dieser Sitzung.
+
+### Schritt 1: Baseline-Prüfung
+
+Ausgangsstand exakt wie vom Auftrag angegeben verifiziert: 900/900 Wörter, 90/90 Theorien, 900
+`needs_language_review`, 900 normale + 141 langsame Audiodateien vorhanden, 759 Manifest-
+Einträge `generated_unreviewed`/`not_reviewed`, 452 Unit- + 6 Integrationstests. Zwei vom Auftrag
+selbst benannte, tatsächlich vorgefundene Abweichungen bestätigt (nicht einfach übernommen,
+sondern selbst nachgeprüft): (1) `dist-source/learning-arabic-source.zip` war vor der
+Audioerzeugung gebaut worden und enthielt nur 141+141 Audiodateien; (2) `vocabulary.json` hatte
+bei allen 759 neuen Wörtern ein verwaistes `audio_status: "missing"`-Feld aus einer sehr frühen
+Projektphase (`scripts/build-kurs1-batch.js`, Entwicklungsauftrag 6/7) — nie aktualisiert, obwohl
+die Wörter inzwischen echte Audiodateien hatten; die 141 Bestandswörter hatten das Feld nie.
+
+### Schritt 2: Audio-Statusmodell bereinigt (Abschnitt 3.2)
+
+`scripts/audio/audioStatusModel.js` definiert fünf eindeutige, sich gegenseitig ausschließende
+Werte (`available_legacy_unreviewed` / `generated_unreviewed` / `reviewed` / `missing` /
+`generation_failed`), die AUSSCHLIESSLICH technische Verfügbarkeit/Herkunft beschreiben — nie die
+sprachliche Prüfung (dafür bleibt `content_status` zuständig). `scripts/upgrade-vocabulary-audio-
+status.js` setzt das Feld bei allen 900 Wörtern idempotent, abgeleitet aus Manifest + tatsächlicher
+Dateiverfügbarkeit (kein manuell gepflegter Zweitstand, der wieder veralten könnte). Ergebnis: 141×
+`available_legacy_unreviewed`, 759× `generated_unreviewed`. Zusätzlich in `npm run validate:course`
+hart verankert: widerspricht `audio_status` je der tatsächlichen Dateiverfügbarkeit, schlägt die
+Validierung fehl.
+
+### Schritt 3: zentrale Audio-Schlüssel-Auflösung (Abschnitt 5)
+
+Codesuche fand 14 verstreute, direkte `` `vocabulary/${word.id}` ``-Konstruktionen in
+`sessionController.js` (11×), `exerciseRegistry.js`, `listening.js`, `vocabulary.js`,
+`freePractice.js` — eine davon (`exerciseRegistry.js#audioKeyFor`) ignorierte dabei ein bereits
+vorhandenes `word.audio_key` komplett. Neues `src/js/audioKeyResolver.js#resolveVocabularyAudioKey()`
+ist jetzt die EINE Stelle: bevorzugt `word.audio_key`, fällt nur bei komplett fehlendem Feld
+kontrolliert auf die ID-Form zurück, warnt sichtbar (Konsole) bei einem vorhandenen, aber leeren/
+ungültigen Feld statt es zu verdecken. Alle 14 Stellen umgestellt, inkl. Doppelklick-Schutz über
+ein optional durchgereichtes Button-Element (`mkBtn`/`mkIconBtn` in `sessionController.js`
+erweitert, geben das eigene Element jetzt an `onClick` weiter).
+
+### Schritt 4: `audioPlayer.js` überarbeitet (Abschnitt 6.4/8)
+
+`speak()` liefert jetzt `{source: 'recorded_audio'|'tts_fallback'|'failed', mode: 'normal'|
+'dedicated_slow'|'slowed_normal'|'tts_fallback'|'failed', audioKey}` und **wirft/rejected nie
+mehr** — auch ein TTS-Fehlschlag löst mit `source:'failed'` auf, statt die Promise abzulehnen.
+Neue Methode `AudioPlayer.speakWord(word, {slow, context, button})`: löst den Schlüssel über
+Schritt 3 auf, schützt per Button-Element gegen schnelles Mehrfachstarten (`WeakSet` aktiver
+Buttons + sofortiges `disabled=true`), meldet Fehlschläge/TTS-Fallbacks über das neue
+`src/js/audioFeedback.js` (sichtbare, automatisch verschwindende Meldung + Konsolenprotokoll,
+ARIA-Live-Region für Screenreader) statt sie stillschweigend zu verschlucken. Alle 14 Stellen aus
+Schritt 3 nutzen jetzt `speakWord()`; die verbreiteten `.catch(() => {})`-Blöcke sind entfallen.
+Bewusst NICHT umgestellt: die 4 rein buchstabenbezogenen Stellen (`alphabet.js`,
+`letterGroupLesson.js`, `vocalization.js`, `onboarding.js`) — außerhalb des Auftragsumfangs
+("Vokabeln"), funktionieren unverändert weiter (ihr `.catch(() => {})` ist jetzt zwar
+unerreichbarer Code, aber harmlos, da `speak()` nicht mehr wirft).
+
+### Schritt 5: keine überlappende Wiedergabe (Abschnitt 6.3)
+
+`AudioPlayer.stopCurrentAudio()` wurde vorher nirgends von außerhalb von `audioPlayer.js` selbst
+aufgerufen — nur implizit beim Start einer neuen Wiedergabe. `app.js#runCleanup()` (läuft vor
+JEDER der zehn `navigateTo*`-Funktionen) ruft jetzt zentral `AudioPlayer.stopCurrentAudio()` auf;
+zusätzlich beim Öffnen eines Bestätigungsdialogs (`sessionController.js#showDialog`) und beim
+Erreichen der Session-Zusammenfassung (`renderSummaryPhase`).
+
+### Schritt 6: IPC-Härtung (Abschnitt 9)
+
+Neuer gemeinsamer Baustein `scripts/audioFileAccess.js` (von `main.js` UND `reviewMain.js`
+verwendet, statt zwei leicht unterschiedlicher Implementierungen): strikte
+`audioKey`-Musterprüfung (genau ein Unterverzeichnis + Dateiname, keine Punkte -> `..` strukturell
+unmöglich), `path.resolve` + unabhängige Verzeichnis-Präfixprüfung als zweite Verteidigungslinie,
+explizite Ablehnung erkannter absoluter Pfade, nur `.wav`. `reviewMain.js` erwartet jetzt
+konsistent mit `main.js` einen vollständigen `audioKey` (vom Renderer über den Resolver aufgelöst)
+statt einer rohen Wort-ID. `main.js` zusätzlich um eine unabhängige `languageId`-Prüfung gegen
+eine feste Syntax UND die tatsächlich installierten Sprachpakete ergänzt (vorher gar nicht
+geprüft). 12 neue Sicherheitstests (`test/unit/audioFileAccess.test.js`): Traversal (`..`,
+verschachtelt, Backslash-Varianten), absolute Pfade, Sonderzeichen/Nullbytes, fehlende/leere
+Schlüssel — alle abgelehnt, ohne zu werfen.
+
+### Schritt 7: globaler 21-Punkte-Audio-Audit (Abschnitt 10)
+
+`test/unit/audioIntegrationAudit.test.js` implementiert alle 20 im Auftrag genannten Prüfungen
+plus die geforderte Stichprobe über alle 30 Units, gegen die echten Sprachpaketdateien, mit
+konkreten IDs bei Problemen statt bloßer Summen. Für Punkt 14 (Bestandsaufnahmen bytegenau
+unverändert) neue Referenzdatei `test/fixtures/legacyAudioChecksums.json` (141 SHA-256-Prüfsummen,
+vor jeder Auftrag-13-Änderung erfasst). **Alle 21 Tests bestanden.**
+
+### Schritt 8: ein echter Testfehler durch die neue Validierung aufgedeckt und behoben
+
+Die neue `audio_status`-Prüfung in `validateCourse.js` (Schritt 2) brach einen bestehenden
+Entwicklungsauftrag-11-Test (`applicationPromptGrading.test.js`): dieser kopiert für eine
+isolierte Validierung absichtlich nur die JSON-Sprachpaketdateien in ein temporäres Verzeichnis,
+ohne die Audiodateien — die neue Prüfung schlug deshalb dort für alle Wörter fehl ("Datei fehlt").
+Behoben durch einen Symlink (statt einer ~57-MB-Kopie von 900 WAV-Dateien) auf den echten
+Audio-Ordner im isolierten Testverzeichnis; verifiziert, dass `fs.rmSync(..., {recursive:true})`
+beim Aufräumen nur den Symlink selbst entfernt, nie die echten Zieldateien (eigens mit einem
+Wegwerf-Verzeichnis geprüft, bevor die echten 900 Audiodateien in Gefahr gewesen wären).
+
+### Schritt 9: Dokumentation
+
+`README.md` (neuer Hauptabschnitt, korrigierte "0/759"-Angaben aus dem vorherigen Auftrag-12-Text
+auf den tatsächlichen Erfolg), `AUDIO_GENERATION_GUIDE.md` (neuer Abschnitt 0.1 "Aktueller Stand"
+sowie neuer Abschnitt 11 zur Lernoberflächen-Integration), `LANGUAGE_REVIEW_GUIDE.md` (Abschnitt 5
+korrigiert: alle 900 Wörter haben jetzt tatsächlich Audio, nicht mehr nur potenziell), dieses
+`ROADMAP.md`.
+
+### Schritt 10: vollständige Verifikation
+
+```text
+npm run lint:              erfolgreich (153 JS-Dateien, 0 Kollisionen)
+npm test:                  506/506 Unit-Tests + 6/6 Integrationstests, 10× hintereinander
+                            ausgeführt, alle 10 Läufe sauber (keine neue Race Condition durch die
+                            zusätzlichen dateisystemlastigen Audio-Tests)
+npm run validate:course:   0 Fehler, 1 Hinweis (audio_status/audio_key-Konsistenz neu geprüft)
+npm run report:language-review: unverändert konsistent (900 vorbereitet, 0 geprüft)
+npm run audio:verify:      759/759 in Ordnung, 0 Probleme
+npm run package:source:    35,8 MB, 1.322 Einträge (vorher 11,3 MB/553 -- Zuwachs entspricht den
+                            759 neuen Audiodateien)
+```
+
+Zusätzlich: ZIP in ein frisches temporäres Verzeichnis entpackt (kein `node_modules` darin,
+genau 900 normale + 141 langsame Audiodateien bestätigt), `npm test` (506/506 + 6/6) UND
+`npm run validate:course` (0 Fehler) **aus dem entpackten Paket heraus** erneut ausgeführt statt
+sich auf den Rückgabewert von `package:source` allein zu verlassen. Zusätzlich ein ungepackter
+Electron-Build erzeugt (`npx electron-builder --linux --dir`, in dieser Umgebung erfolgreich, da
+Netzwerkzugriff auf die offiziellen Electron-Release-Binaries möglich war) und das resultierende
+`app.asar` mit `asar list` inspiziert: exakt 900 normale und 141 langsame Vokabel-Audiodateien
+enthalten, keine API-Schlüssel im gebündelten Manifest. Temporäre Build-/Entpack-Verzeichnisse
+danach aufgeräumt (lagen außerhalb des Repositorys, in `/tmp`).
+
+### Manuelle Prüfliste für `npm start` (noch nicht von der KI ausgeführt)
+
+Wie in allen vorigen Runden hat die KI die App nicht selbst visuell in einer laufenden
+Electron-Instanz geprüft (kein Bildschirm-Werkzeug in dieser Umgebung). Die konkrete, vom Auftrag
+geforderte Prüfliste (normale/langsame Wiedergabe für ein Bestands- und ein neues Wort aus den
+Units 1/5/10/15/20/25/30, Hörübung, kein vorzeitiges Verraten der Antwort, Wiedergabe nach
+Antwort, schwierige Wörter, Vokabelbrowser, freie Übung, Sprachprüfmodus-Audio, Stoppen bei
+Navigation, schnelles Mehrfachklicken, Neustart der App) steht im Abschlussbericht dieser Runde.
+
+### Akzeptanzkriterien dieser Runde (Auszug)
+
+Alle 900 Wörter haben eine funktionierende normale Wiedergabe über eine zentrale, getestete
+Schlüsselauflösung; langsame Wiedergabe funktioniert für 141 Wörter über eine eigene Datei und für
+759 über den bestehenden `playbackRate`-Fallback; Wiedergabe stoppt zuverlässig bei Navigation/
+Dialogen/Session-Ende; Audiofehler werden nicht mehr stillschweigend verschluckt, sondern sichtbar
+gemeldet; IPC-Audiozugriff in `main.js` UND `reviewMain.js` gegen Pfad-Traversal/absolute Pfade/
+ungültige `languageId` gehärtet und getestet; `audio_status` widerspricht nie der tatsächlichen
+Dateiverfügbarkeit (hart validiert); die 141 Bestandsaufnahmen bytegenau unverändert (Prüfsummen-
+Nachweis); kein Wort/keine Aufnahme als sprachlich/akustisch geprüft markiert; keine erneute
+kostenpflichtige Audioerzeugung ohne nachgewiesenen Defekt; das neue Quellpaket enthält
+nachweislich alle 900+141 Audiodateien und lässt sich eigenständig testen und bauen. Sprachprüfung
+durch Claude, endgültige Audiofreigabe, Kurs-2-5-Umbau, `.arabiccourse`-Format und großes
+Interface-Redesign bewusst nicht Teil dieser Runde.

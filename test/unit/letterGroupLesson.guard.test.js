@@ -27,7 +27,7 @@ function loadLetterGroupLessonView({ onAdjustDifficulty }) {
       onAdjustDifficulty(skill, result);
       return srs.adjustDifficulty(card, skill, result);
     },
-    AudioPlayer: { speak: () => Promise.resolve() },
+    AudioPlayer: { speak: () => Promise.resolve(), speakWord: () => Promise.resolve({ source: 'recorded_audio', mode: 'normal', audioKey: null }) },
     VirtualKeyboard: { mount: () => {} },
     ConnectionTrainer: { mount: () => {} },
     App: {

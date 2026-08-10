@@ -33,7 +33,7 @@ function baseContext() {
     buildLetterForms: keyboardData.buildLetterForms,
     evaluateArabicAnswer: srs.evaluateArabicAnswer,
     adjustDifficulty: () => {},
-    AudioPlayer: { speak: () => Promise.resolve({ source: 'audio' }) },
+    AudioPlayer: { speak: () => Promise.resolve({ source: 'audio' }), speakWord: () => Promise.resolve({ source: 'recorded_audio', mode: 'normal', audioKey: null }) },
     VirtualKeyboard: { mount: () => {} },
     ConnectionTrainer: { mount: () => {} },
     App: { registerCleanup: () => {}, navigateTo: () => {} }

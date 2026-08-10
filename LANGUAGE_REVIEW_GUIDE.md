@@ -188,8 +188,10 @@ ist jetzt ein anderer:
   oder unsicher. Klingt die Aussprache falsch, wird die Datei **nicht gelöscht**, sondern nur zur
   Neuerzeugung vorgemerkt (`"regeneration_required"`) — es passiert dabei nichts automatisch,
   jemand aus dem Entwicklungsteam stößt die Neuerzeugung gezielt an.
-- Manche Wörter haben (noch) keine Audiodatei, z. B. wenn die Erzeugung technisch fehlgeschlagen
-  ist oder noch nicht ausgeführt wurde — das siehst du im Prüfprogramm am Audiozustand des Wortes.
+- **Stand seit Entwicklungsauftrag 13:** alle 900 Wörter haben inzwischen eine normale
+  Audiodatei (141 Bestand + 759 technisch erzeugt) — solltest du dennoch auf ein Wort ohne Audio
+  stoßen (z. B. nach einer späteren Korrektur mit `"regeneration_required"`), siehst du das im
+  Prüfprogramm am Audiozustand des Wortes.
 
 Die 141 Wörter aus `batch_00.json` haben schon länger eine Audiodatei (aus einer früheren
 Projektphase, unverändert) — auch das war und ist keine Sprachprüfung. Bitte prüfe auch diese 141

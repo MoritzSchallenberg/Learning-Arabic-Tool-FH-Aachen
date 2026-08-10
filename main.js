@@ -101,18 +101,26 @@ function loadLanguagePack(languageId) {
   return pack;
 }
 
-const AUDIO_KEY_PATTERN = /^[a-zA-Z0-9_/-]+$/;
+// Entwicklungsauftrag 13, Abschnitt 9 — gehärteter, mit reviewMain.js geteilter Audiozugriff
+// (scripts/audioFileAccess.js: audioKey-Muster, path.resolve + Präfixprüfung, Ablehnung von
+// absoluten Pfaden/"..", verständliche Fehlermeldungen im Hauptprozess-Log).
+const { loadAudioBase64Safe } = require('./scripts/audioFileAccess.js');
+
+// languageId kommt ebenfalls vom Renderer -- eigene, unabhängige Prüfung gegen eine feste Syntax
+// UND gegen die tatsächlich installierten Sprachpakete, bevor daraus ein Verzeichnisname wird.
+const LANGUAGE_ID_PATTERN = /^[a-zA-Z0-9_-]+$/;
 
 function loadAudio(languageId, audioKey) {
-  if (!AUDIO_KEY_PATTERN.test(audioKey)) return null;
-  const audioDir = path.join(LANGUAGE_PACKS_DIR, languageId, 'audio');
-  const audioPath = path.join(audioDir, `${audioKey}.wav`);
-  if (!audioPath.startsWith(audioDir + path.sep)) return null;
-  try {
-    return fs.readFileSync(audioPath).toString('base64');
-  } catch (err) {
+  if (typeof languageId !== 'string' || !LANGUAGE_ID_PATTERN.test(languageId)) {
+    console.error(`[Audio] Anfrage abgelehnt: ungültige languageId "${languageId}"`);
     return null;
   }
+  if (!listInstalledLanguages().includes(languageId)) {
+    console.error(`[Audio] Anfrage abgelehnt: languageId "${languageId}" ist kein installiertes Sprachpaket`);
+    return null;
+  }
+  const audioDir = path.join(LANGUAGE_PACKS_DIR, languageId, 'audio');
+  return loadAudioBase64Safe(audioDir, audioKey, { logPrefix: '[Audio:main]' });
 }
 
 function listInstalledLanguages() {

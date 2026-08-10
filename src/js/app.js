@@ -51,6 +51,14 @@ const App = (() => {
   }
 
   function runCleanup() {
+    // Entwicklungsauftrag 13, Abschnitt 6.3 — "kein verwaistes Audio" bei Wechsel der Aufgabe/
+    // Beenden einer Session/Zurück-Navigation/Wechsel einer Unit: ALLE navigateTo*-Funktionen
+    // rufen runCleanup() als erstes auf, deshalb ist das die eine zentrale Stelle, an der jede
+    // Navigation zuverlässig eine noch laufende Wiedergabe stoppt -- unabhängig davon, ob die
+    // verlassene View selbst eine Aufräumfunktion registriert hat.
+    if (typeof AudioPlayer !== 'undefined' && AudioPlayer.stopCurrentAudio) {
+      try { AudioPlayer.stopCurrentAudio(); } catch (err) { /* darf die Navigation nie verhindern */ }
+    }
     if (currentCleanup) {
       try {
         currentCleanup();

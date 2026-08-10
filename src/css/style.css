@@ -1059,3 +1059,40 @@ html, body {
   .sidebar { position: absolute; z-index: 50; height: 100%; }
   .sidebar:not(.collapsed) { width: 220px; }
 }
+
+/* ============================================================================
+   Audio-Fehlerrückmeldung (Entwicklungsauftrag 13, Abschnitt 8) — kurze, sichtbare,
+   nicht blockierende Meldung statt eines stillen .catch(() => {}).
+   ============================================================================ */
+.audio-feedback-region {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 320px;
+  pointer-events: none;
+}
+.audio-feedback-toast {
+  pointer-events: auto;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  animation: audio-feedback-in 0.15s ease-out;
+}
+.audio-feedback-toast--error {
+  background: var(--error);
+  color: #fff;
+}
+.audio-feedback-toast--info {
+  background: var(--accent);
+  color: #fff;
+}
+@keyframes audio-feedback-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}

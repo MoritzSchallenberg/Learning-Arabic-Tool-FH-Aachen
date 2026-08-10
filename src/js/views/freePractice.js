@@ -417,7 +417,10 @@ const FreePracticeView = (() => {
       });
     }
     const speakBtn = body.querySelector('#fp-speak');
-    if (speakBtn) speakBtn.addEventListener('click', () => AudioPlayer.speak(word.arabic, 'ar-SA', { audioKey: `vocabulary/${word.id}` }).catch(() => {}));
+    if (speakBtn) {
+      speakBtn.setAttribute('aria-label', 'Aussprache anhören');
+      speakBtn.addEventListener('click', () => AudioPlayer.speakWord(word, { context: 'Freie Übung', button: speakBtn }));
+    }
 
     body.querySelector('#fp-check').addEventListener('click', () => {
       if (!guard.submit()) return;

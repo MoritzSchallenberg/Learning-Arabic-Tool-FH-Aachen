@@ -1,8 +1,8 @@
-# Anleitung: Audioerzeugung für Kurs 1 (Entwicklungsauftrag 12)
+# Anleitung: Audioerzeugung für Kurs 1 (Entwicklungsauftrag 12/13)
 
 Diese Anleitung richtet sich an das Entwicklungsteam (technisches Vorwissen vorausgesetzt) und
-beschreibt die manifest-gesteuerte Audio-Erzeugungspipeline für die 759 bislang fehlenden
-Vokabelaudios von Kurs 1.
+beschreibt die manifest-gesteuerte Audio-Erzeugungspipeline für Kurs 1 sowie (Abschnitt 11) die
+Einbindung der erzeugten Dateien in die Lernoberfläche (Entwicklungsauftrag 13).
 
 ## 0. Der wichtigste Satz vorab
 
@@ -14,6 +14,14 @@ freigegeben gelten. **Audioerzeugung ist nicht gleich Audiofreigabe.** Jede so e
 und bleibt "generiert, aber sprachlich ungeprüft", bis eine Person mit Arabischkenntnissen sie
 im Review-Modus (`npm run review:start`, siehe `REVIEWER_QUICKSTART.md`) angehört und bestätigt
 hat.
+
+### 0.1 Aktueller Stand
+
+Alle **759** fehlenden normalen Vokabelaudios wurden mit einem vom Nutzer bereitgestellten
+ElevenLabs-API-Schlüssel tatsächlich erzeugt (0 Fehlschläge, technisch vollständig verifiziert,
+`npm run audio:verify` meldet 759/759 in Ordnung). Zusammen mit den 141 unverändert erhaltenen
+Bestandsaufnahmen haben damit **alle 900 Wörter** eine normale Audiodatei. Weiterhin **0 Wörter
+sprachlich geprüft, 0 Aufnahmen akustisch geprüft/freigegeben** — siehe Abschnitt 0 oben.
 
 ## 1. Überblick über die Pipeline
 
@@ -143,3 +151,58 @@ besteht weiterhin die technische WAV-Prüfung. Rein lesend, verändert nichts.
 - Kein Kauf von zusätzlichem Kontingent, kein automatisches Umschalten auf einen anderen
   kostenpflichtigen Anbieter.
 - Keine Änderung an den 141 vorhandenen normalen und 141 vorhandenen langsamen Aufnahmen.
+
+## 11. Einbindung in die Lernoberfläche (Entwicklungsauftrag 13)
+
+Nach der Erzeugung ist eine Audiodatei allein noch keine funktionierende Wiedergabe in der App --
+dieser Abschnitt beschreibt, wie die 900 Dateien tatsächlich geladen und abgespielt werden.
+
+### 11.1 audio_status in vocabulary.json
+
+Jedes Wort hat ein `audio_status`-Feld, das AUSSCHLIESSLICH die technische Verfügbarkeit/Herkunft
+beschreibt (nie die sprachliche Prüfung -- dafür bleibt `content_status` zuständig):
+
+| Wert | Bedeutung |
+|---|---|
+| `available_legacy_unreviewed` | Datei existiert, Bestand aus der Zeit vor dem Manifest (141 Wörter) |
+| `generated_unreviewed` | Datei existiert, über diese Pipeline erzeugt (759 Wörter) |
+| `reviewed` | von einer Person im Review-Modus als akustisch korrekt bestätigt |
+| `missing` | keine Datei vorhanden |
+| `generation_failed` | Erzeugung wurde versucht, aber technisch fehlgeschlagen |
+
+Definiert in `scripts/audio/audioStatusModel.js`, gesetzt/aufgefrischt über
+`node scripts/upgrade-vocabulary-audio-status.js` (idempotent, leitet den Wert bei jedem Lauf neu
+aus Manifest + tatsächlicher Dateiverfügbarkeit ab -- nie ein manuell gepflegter Zweitstand).
+`npm run validate:course` prüft hart, dass `audio_status` nie der tatsächlichen Dateiverfügbarkeit
+widerspricht.
+
+### 11.2 Zentrale Audio-Schlüssel-Auflösung
+
+`src/js/audioKeyResolver.js#resolveVocabularyAudioKey(word)` ist die EINE Stelle, die aus einem
+Wort-Objekt den Schlüssel für `window.api.loadAudio(languageId, audioKey)` bestimmt -- bevorzugt
+`word.audio_key`, fällt nur kontrolliert (mit sichtbarer Konsolenwarnung) auf `vocabulary/<id>`
+zurück. Alle Vokabel-Views nutzen ausschließlich diese Funktion (nie mehr eine eigene, direkte
+`` `vocabulary/${word.id}` ``-Konstruktion).
+
+### 11.3 AudioPlayer.speakWord() statt AudioPlayer.speak(...).catch(() => {})
+
+`AudioPlayer.speakWord(word, {slow, context, button})` ist der empfohlene Einstiegspunkt für
+Vokabelwörter: löst den Schlüssel über 11.2 auf, schützt per `button`-Element gegen schnelles
+Mehrfachstarten, meldet Fehlschläge/TTS-Fallbacks sichtbar über `src/js/audioFeedback.js` statt
+sie stillschweigend zu verschlucken. `AudioPlayer.speak()` selbst wirft/rejected seit
+Entwicklungsauftrag 13 nie mehr -- jeder Fehlerfall ist ein gültiges Ergebnis mit `source:
+'failed'`.
+
+### 11.4 Gehärteter Dateizugriff
+
+`scripts/audioFileAccess.js#loadAudioBase64Safe()` -- von `main.js` UND `reviewMain.js` gemeinsam
+verwendet -- validiert `audioKey` gegen ein festes Muster, bildet den Zielpfad mit `path.resolve`,
+lehnt absolute Pfade/`..` ab und stellt sicher, dass der aufgelöste Pfad innerhalb des
+Audioverzeichnisses bleibt.
+
+### 11.5 Verifikation
+
+`test/unit/audioIntegrationAudit.test.js` prüft alle 900 Wörter gegen die echten Sprachpaket-
+dateien: gültige `audio_key`, ladbare Dateien mit gültigem WAV-Header, korrekte Zuordnung
+`_slow.wav`/Playback-Rate-Fallback, keine verwaisten/doppelten Schlüssel, Prüfsummen-Vergleich
+der 141 Bestandsaufnahmen, Ladbarkeit über den Sprachprüfmodus, Stichprobe über alle 30 Units.

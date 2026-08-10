@@ -198,9 +198,8 @@ const DashboardView = (() => {
 
     const audioBtn = el('button', { className: 'btn secondary', text: '🔊 Audio anhören' });
     audioBtn.type = 'button';
-    audioBtn.addEventListener('click', () => {
-      AudioPlayer.speak(word.arabic_vocalized || word.arabic, 'ar-SA', { audioKey: word.audio_key || `vocabulary/${word.id}` }).catch(() => {});
-    });
+    audioBtn.setAttribute('aria-label', 'Audio anhören');
+    audioBtn.addEventListener('click', () => AudioPlayer.speakWord(word, { context: 'Schwierige Wörter (Dashboard)', button: audioBtn }));
     actions.appendChild(audioBtn);
 
     const spellingPanel = renderWordSpellingPanel(word);

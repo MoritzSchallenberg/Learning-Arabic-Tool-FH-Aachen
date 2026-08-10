@@ -51,7 +51,11 @@ const SessionController = (() => {
     btn.type = 'button';
     btn.className = className;
     btn.textContent = label;
-    btn.addEventListener('click', onClick);
+    // Entwicklungsauftrag 13, Abschnitt 7: onClick bekommt das eigene Button-Element übergeben,
+    // damit Audio-Handler es für den Doppelklick-Schutz an AudioPlayer.speakWord() weiterreichen
+    // können, ohne den Button vorher separat anlegen zu müssen. Bestehende Handler, die das
+    // Argument ignorieren, sind davon unberührt.
+    btn.addEventListener('click', () => onClick(btn));
     return btn;
   }
 
@@ -116,7 +120,26 @@ const SessionController = (() => {
     });
   }
 
+  // Entwicklungsauftrag 13, Abschnitt 5/7/8: gemeinsamer Handler für Theorie-Beispielaudios
+  // (theoryRenderer.js#renderAudioWord übergibt den rohen block.audio_key, kein Wort-Objekt --
+  // AudioPlayer.speakWord() passt hier nicht direkt, deshalb ein eigener, ebenso abgesicherter
+  // Wrapper: Doppelklick-Schutz über das übergebene Button-Element, sichtbares Fehlerfeedback
+  // statt eines stillen Fehlschlags.
+  function playTheoryAudio(audioKey, text, btn) {
+    if (btn) { if (btn.disabled) return; btn.disabled = true; }
+    AudioPlayer.speak(text, 'ar-SA', { audioKey }).then((result) => {
+      if (result.source === 'failed' && typeof AudioFeedback !== 'undefined') {
+        AudioFeedback.reportAudioError('Theorie-Beispiel', new Error(`Wiedergabe fehlgeschlagen für audioKey="${audioKey}"`));
+      } else if (result.source === 'tts_fallback' && typeof AudioFeedback !== 'undefined') {
+        AudioFeedback.reportTtsFallback('Theorie-Beispiel');
+      }
+    }).finally(() => { if (btn) btn.disabled = false; });
+  }
+
   function showDialog({ title, body, confirmLabel, cancelLabel, onConfirm }) {
+    // Entwicklungsauftrag 13, Abschnitt 6.3 — ein sich öffnender Dialog (z. B. "Session verwerfen?")
+    // darf eine noch laufende Wiedergabe nicht ungestört weiterlaufen lassen.
+    AudioPlayer.stopCurrentAudio();
     const overlay = document.createElement('div');
     overlay.className = 'dialog-overlay';
     const box = document.createElement('div');
@@ -255,7 +278,7 @@ const SessionController = (() => {
       registerGuard: () => {}, // mini_check verwaltet seinen eigenen Guard intern
       requireMiniCheckBeforeStart: true,
       getWordById: (id) => allSessionWords().find((w) => w.id === id),
-      onPlayAudio: (audioKey, text) => AudioPlayer.speak(text, 'ar-SA', { audioKey }).catch(() => {}),
+      onPlayAudio: playTheoryAudio,
       onMiniCheckComplete: async (correct, total) => {
         await AppState.markTheoryMiniCheckResult(sessionDef.theory_id, correct, total);
       },
@@ -280,7 +303,7 @@ const SessionController = (() => {
     SessionRenderer.clearActionBar(actionBar);
     TheoryRenderer.mount(bodyEl, theoryDoc(), {
       getWordById: (id) => allSessionWords().find((w) => w.id === id),
-      onPlayAudio: (audioKey, text) => AudioPlayer.speak(text, 'ar-SA', { audioKey }).catch(() => {}),
+      onPlayAudio: playTheoryAudio,
       onMiniCheckComplete: () => {},
       startLabel: 'Zurück zur Übung',
       onStart: returnToPhase
@@ -294,7 +317,7 @@ const SessionController = (() => {
     btn.className = 'btn icon';
     btn.textContent = icon;
     btn.setAttribute('aria-label', label);
-    btn.addEventListener('click', onClick);
+    btn.addEventListener('click', () => onClick(btn));
     return btn;
   }
 
@@ -306,8 +329,8 @@ const SessionController = (() => {
     if (word.transliteration) card.appendChild(el('p', 'word-card-translit', word.transliteration));
     const actions = document.createElement('div');
     actions.className = 'word-card-actions';
-    actions.appendChild(mkIconBtn('🔊', `${word.german} anhören`, () => AudioPlayer.speak(word.arabic, 'ar-SA', { audioKey: `vocabulary/${word.id}` }).catch(() => {})));
-    actions.appendChild(mkIconBtn('🐢', `${word.german} langsam anhören`, () => AudioPlayer.speak(word.arabic, 'ar-SA', { slow: true, audioKey: `vocabulary/${word.id}` }).catch(() => {})));
+    actions.appendChild(mkIconBtn('🔊', `${word.german} anhören`, (btn) => AudioPlayer.speakWord(word, { context: 'Wortkarte', button: btn })));
+    actions.appendChild(mkIconBtn('🐢', `${word.german} langsam anhören`, (btn) => AudioPlayer.speakWord(word, { slow: true, context: 'Wortkarte', button: btn })));
     card.appendChild(actions);
     return card;
   }
@@ -419,8 +442,8 @@ const SessionController = (() => {
 
     const audioActions = document.createElement('div');
     audioActions.className = 'word-card-actions';
-    audioActions.appendChild(mkIconBtn('🔊', `${word.german} anhören`, () => AudioPlayer.speak(word.arabic, 'ar-SA', { audioKey: `vocabulary/${word.id}` }).catch(() => {})));
-    audioActions.appendChild(mkIconBtn('🐢', `${word.german} langsam anhören`, () => AudioPlayer.speak(word.arabic, 'ar-SA', { slow: true, audioKey: `vocabulary/${word.id}` }).catch(() => {})));
+    audioActions.appendChild(mkIconBtn('🔊', `${word.german} anhören`, (btn) => AudioPlayer.speakWord(word, { context: 'Wortkarte', button: btn })));
+    audioActions.appendChild(mkIconBtn('🐢', `${word.german} langsam anhören`, (btn) => AudioPlayer.speakWord(word, { slow: true, context: 'Wortkarte', button: btn })));
     card.appendChild(audioActions);
 
     const toggleRow = document.createElement('div');
@@ -434,7 +457,7 @@ const SessionController = (() => {
       renderSingleWordStep(group, indexInGroup);
     }));
     toggleRow.appendChild(mkBtn('Noch einmal zeigen', 'btn secondary', () => {
-      AudioPlayer.speak(word.arabic, 'ar-SA', { audioKey: `vocabulary/${word.id}` }).catch(() => {});
+      AudioPlayer.speakWord(word, { context: 'Wortkarte (erneut zeigen)' });
       ui.hideSpelling = false;
       ui.hideTranslation = false;
       renderSingleWordStep(group, indexInGroup);
@@ -450,7 +473,7 @@ const SessionController = (() => {
     bodyEl.appendChild(mkBtn('Alle Wörter anzeigen', 'btn secondary', () => { learnViewMode = 'grid'; renderLearnStep(); }));
 
     if (settings.autoPlayWord) {
-      AudioPlayer.speak(word.arabic, 'ar-SA', { audioKey: `vocabulary/${word.id}`, slow: !!settings.slowPlayback }).catch(() => {});
+      AudioPlayer.speakWord(word, { slow: !!settings.slowPlayback, context: 'Wortkarte (automatisch)' });
     }
 
     const isFirstOverall = learnGroupIndex === 0 && indexInGroup === 0;
@@ -559,7 +582,7 @@ const SessionController = (() => {
       await persistSnapshot();
 
       const leftButtons = [
-        { label: 'Audio erneut', onClick: () => AudioPlayer.speak(word.arabic, 'ar-SA', { audioKey: `vocabulary/${word.id}` }).catch(() => {}) }
+        { label: 'Audio erneut', onClick: (btn) => AudioPlayer.speakWord(word, { context: 'Aufgaben-Feedback', button: btn }) }
       ];
       if (!isCorrect && detail && detail.errorExplanation) {
         leftButtons.push({
@@ -571,7 +594,7 @@ const SessionController = (() => {
         bodyEl.appendChild(el('p', 'text-hint', `Kurz erklärt: ${word.arabic}${word.transliteration ? ` (${word.transliteration})` : ''} bedeutet „${ExerciseRegistry.primaryGerman(word)}". Dieses Wort taucht später in einer Wiederholung erneut auf.`));
       }
       if (settings.replayAfterAnswer) {
-        AudioPlayer.speak(word.arabic, 'ar-SA', { audioKey: `vocabulary/${word.id}` }).catch(() => {});
+        AudioPlayer.speakWord(word, { context: 'Aufgaben-Feedback (automatisch)' });
       }
 
       const doAdvance = () => renderCurrentPhase();
@@ -591,7 +614,7 @@ const SessionController = (() => {
           bodyEl.appendChild(el('p', 'text-hint', `Hinweis: ${word.transliteration || ''} — ${ExerciseRegistry.primaryGerman(word)}`.trim()));
         }
       },
-      { label: 'Audio', className: 'btn secondary', onClick: () => AudioPlayer.speak(word.arabic, 'ar-SA', { audioKey: `vocabulary/${word.id}` }).catch(() => {}) }
+      { label: 'Audio', className: 'btn secondary', onClick: (btn) => AudioPlayer.speakWord(word, { context: 'Geführte Eingabe', button: btn }) }
     ];
     SessionRenderer.renderActionBar(actionBar, {
       leftButtons: inputLeftButtons,
@@ -599,12 +622,16 @@ const SessionController = (() => {
     });
 
     if (settings.autoPlayWord) {
-      AudioPlayer.speak(word.arabic, 'ar-SA', { audioKey: `vocabulary/${word.id}` }).catch(() => {});
+      AudioPlayer.speakWord(word, { context: 'Geführte Eingabe (automatisch)' });
     }
   }
 
   // --- Abschluss (Entwicklungsauftrag 5, Abschnitt 25) ----------------------------------------
   function renderSummaryPhase() {
+    // Entwicklungsauftrag 13, Abschnitt 6.3 — die Zusammenfassung startet keine automatische
+    // Wiedergabe; eine bis hierhin noch laufende Aufnahme (z. B. aus der letzten Aufgabe) darf
+    // hier nicht unbemerkt weiterlaufen.
+    AudioPlayer.stopCurrentAudio();
     const { bodyEl } = SessionRenderer.renderSessionShell(container, {
       sessionDef,
       phaseIndex: engine.phases.length - 1,
@@ -642,7 +669,7 @@ const SessionController = (() => {
         row.appendChild(el('p', 'arabic-word-main', w.arabic));
         row.appendChild(el('p', 'word-card-translation', ExerciseRegistry.primaryGerman(w)));
         row.appendChild(el('p', 'text-hint', `${entry.errors} Fehler`));
-        row.appendChild(mkBtn('Noch einmal anhören', 'btn secondary', () => AudioPlayer.speak(w.arabic, 'ar-SA', { audioKey: `vocabulary/${w.id}` }).catch(() => {})));
+        row.appendChild(mkBtn('Noch einmal anhören', 'btn secondary', (btn) => AudioPlayer.speakWord(w, { context: 'Session-Zusammenfassung', button: btn })));
         practiceCard.appendChild(row);
       });
       bodyEl.appendChild(practiceCard);

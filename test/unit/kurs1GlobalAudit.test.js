@@ -321,15 +321,38 @@ test('Audit 24: Audio-Manifest und Review-Dateien sind konsistent (Manifest = ge
 });
 
 // 25. Bestehende Audiodateien sind weiterhin vorhanden und unverändert.
-test('Audit 25: alle 141 ursprünglichen Audiodateien sind weiterhin vorhanden, keine neuen Audiodateien für Batch 1-6 wurden erzeugt', () => {
+// Entwicklungsauftrag 12 hat die TECHNISCHE Vorschau-Audioerzeugung für die 759 zuvor fehlenden
+// Wörter ausdrücklich erlaubt (siehe README/ROADMAP/AUDIO_GENERATION_GUIDE.md) -- die ursprüngliche
+// Fassung dieses Tests aus Entwicklungsauftrag 11 ("keine neuen Audiodateien wurden erzeugt") ist
+// dadurch bewusst überholt, nicht falsch verifiziert. Die eigentliche Schutzabsicht des Tests
+// bleibt aber unverändert wichtig und wird hier weitergeführt: die 141 ursprünglichen Aufnahmen
+// dürfen NIE verändert werden, und eine vorhandene Audiodatei darf NIE mit einer sprachlichen
+// Freigabe verwechselt werden -- auch für die 759 neuen, jetzt tatsächlich erzeugten Dateien nicht.
+test('Audit 25: alle 141 ursprünglichen Audiodateien sind weiterhin vorhanden und unverändert; vorhandene Audios bedeuten keine sprachliche Freigabe', () => {
   const batch0Ids = batches.find((b) => b.file === 'batch_00.json').doc.entries.map((e) => e.id);
   const missingAudio = batch0Ids.filter((id) => !fs.existsSync(path.join(AUDIO_DIR, `${id}.wav`)));
   assert.deepEqual(missingAudio, [], `Fehlende Audiodatei für ursprüngliche Bestandswörter: ${missingAudio.join(', ')}`);
+
   const newBatchIds = batches.filter((b) => b.file !== 'batch_00.json').flatMap((b) => b.doc.entries.map((e) => e.id));
-  const unexpectedAudio = newBatchIds.filter((id) => fs.existsSync(path.join(AUDIO_DIR, `${id}.wav`)));
-  assert.deepEqual(unexpectedAudio, [], `Unerwartete Audiodateien für noch nicht sprachlich geprüfte Wörter erzeugt: ${unexpectedAudio.join(', ')}`);
+  // Für jedes Wort mit einer JETZT vorhandenen Audiodatei (ob aus Batch 0 oder neu erzeugt über
+  // die Entwicklungsauftrag-12-Pipeline) muss der Wortinhalt selbst weiterhin ausdrücklich als
+  // sprachlich ungeprüft gelten -- eine Audiodatei ist niemals eine Sprachprüfung.
+  const falselyApproved = [...batch0Ids, ...newBatchIds]
+    .filter((id) => fs.existsSync(path.join(AUDIO_DIR, `${id}.wav`)))
+    .map((id) => wordsById.get(id))
+    .filter((w) => w && w.content_status !== 'needs_language_review');
+  assert.deepEqual(falselyApproved.map((w) => w.id), [], 'Wörter mit vorhandener Audiodatei müssen trotzdem content_status "needs_language_review" behalten');
+
+  // Manifest-Gegenprobe: kein Eintrag darf durch die Audioerzeugung als sprachlich freigegeben
+  // (language_status/status "reviewed"/"approved"/"ready_for_generation") oder als endgültig
+  // Anhör-geprüft (audio_review_status "approved") gelten -- Audioerzeugung ist nicht gleich
+  // Audiofreigabe (Entwicklungsauftrag 12, Abschnitt 0).
+  const wronglyReviewed = manifest.entries.filter((e) => e.language_status !== 'needs_language_review' || e.status === 'ready_for_generation' || e.audio_review_status === 'approved');
+  assert.deepEqual(wronglyReviewed.map((e) => e.id), [], 'Kein Manifest-Eintrag darf durch die technische Audioerzeugung als sprachlich/akustisch freigegeben gelten');
+
   const allAudioFiles = fs.readdirSync(AUDIO_DIR).filter((f) => f.endsWith('.wav') && !f.endsWith('_slow.wav'));
-  assert.equal(allAudioFiles.length, 141, `Erwartet weiterhin genau 141 normale Audiodateien, gefunden: ${allAudioFiles.length}`);
+  assert.ok(allAudioFiles.length >= 141, `Erwartet mindestens die 141 ursprünglichen normalen Audiodateien, gefunden: ${allAudioFiles.length}`);
+  assert.ok(allAudioFiles.length <= 900, `Es kann nie mehr als 900 normale Audiodateien geben (ein Wort = eine Datei), gefunden: ${allAudioFiles.length}`);
 });
 
 // --- Render-/Ablauftest für ALLE 90 Vokabel-Theoriedokumente (Auftrag Abschnitt 12, letzter

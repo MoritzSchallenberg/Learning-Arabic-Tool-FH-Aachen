@@ -136,7 +136,8 @@ const VocabularyView = (() => {
 
     const speakBtn = container.querySelector('#vocab-speak');
     if (speakBtn) {
-      speakBtn.addEventListener('click', () => AudioPlayer.speak(word.arabic, 'ar-SA', { audioKey: `vocabulary/${word.id}` }).catch(() => {}));
+      speakBtn.setAttribute('aria-label', 'Aussprache anhören');
+      speakBtn.addEventListener('click', () => AudioPlayer.speakWord(word, { context: 'Vokabelansicht', button: speakBtn }));
     }
 
     container.querySelector('#vocab-check').addEventListener('click', () => {

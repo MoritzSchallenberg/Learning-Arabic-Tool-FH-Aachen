@@ -97,7 +97,7 @@ const ListeningView = (() => {
   }
 
   function playWord(word, slow) {
-    return AudioPlayer.speak(word.arabic, 'ar-SA', { slow, audioKey: `vocabulary/${word.id}` }).catch(() => {});
+    return AudioPlayer.speakWord(word, { slow, context: 'Hörverständnis' });
   }
 
   function multipleChoiceOptions(correctWord) {
@@ -155,14 +155,16 @@ const ListeningView = (() => {
       container.innerHTML = `
         <div class="view flashcard">
           <p class="lead">Aufgabe ${queueIndex + 1} / ${queue.length} — Welche Übersetzung passt zum gehörten Wort?</p>
-          <button class="btn icon" id="listening-play">🔊</button>
-          <button class="btn icon" id="listening-play-slow">🐢</button>
+          <button class="btn icon" id="listening-play" aria-label="Normal abspielen">🔊</button>
+          <button class="btn icon" id="listening-play-slow" aria-label="Langsam abspielen">🐢</button>
           <div class="rating-buttons" id="listening-options" style="margin-top:16px;"></div>
           <p id="listening-feedback" class="feedback"></p>
         </div>
       `;
-      container.querySelector('#listening-play').addEventListener('click', () => playWord(word, false));
-      container.querySelector('#listening-play-slow').addEventListener('click', () => playWord(word, true));
+      const playBtn = container.querySelector('#listening-play');
+      const playSlowBtn = container.querySelector('#listening-play-slow');
+      playBtn.addEventListener('click', () => AudioPlayer.speakWord(word, { context: 'Hörverständnis', button: playBtn }));
+      playSlowBtn.addEventListener('click', () => AudioPlayer.speakWord(word, { slow: true, context: 'Hörverständnis', button: playSlowBtn }));
       const optionsEl = container.querySelector('#listening-options');
       options.forEach((opt) => {
         const btn = document.createElement('button');
@@ -184,8 +186,8 @@ const ListeningView = (() => {
       container.innerHTML = `
         <div class="view flashcard">
           <p class="lead">Aufgabe ${queueIndex + 1} / ${queue.length} — Schreibe das gehörte Wort.</p>
-          <button class="btn icon" id="listening-play">🔊</button>
-          <button class="btn icon" id="listening-play-slow">🐢</button>
+          <button class="btn icon" id="listening-play" aria-label="Normal abspielen">🔊</button>
+          <button class="btn icon" id="listening-play-slow" aria-label="Langsam abspielen">🐢</button>
           ${showTranscriptionHint ? `<p class="mixed-text" style="margin-top:12px; color:var(--color-text-muted);">Umschrift: ${word.transliteration}</p>` : ''}
           <input type="text" id="listening-input" class="text-input arabic-text" dir="rtl" style="max-width:320px; margin:16px auto 0; display:block;" />
           <div id="listening-keyboard"></div>
@@ -193,8 +195,10 @@ const ListeningView = (() => {
           <p id="listening-feedback" class="feedback"></p>
         </div>
       `;
-      container.querySelector('#listening-play').addEventListener('click', () => playWord(word, false));
-      container.querySelector('#listening-play-slow').addEventListener('click', () => playWord(word, true));
+      const playBtn = container.querySelector('#listening-play');
+      const playSlowBtn = container.querySelector('#listening-play-slow');
+      playBtn.addEventListener('click', () => AudioPlayer.speakWord(word, { context: 'Hörverständnis', button: playBtn }));
+      playSlowBtn.addEventListener('click', () => AudioPlayer.speakWord(word, { slow: true, context: 'Hörverständnis', button: playSlowBtn }));
       const input = container.querySelector('#listening-input');
       VirtualKeyboard.mount(container.querySelector('#listening-keyboard'), input, { showDiacritics: true, showSpecial: true });
       container.querySelector('#listening-check').addEventListener('click', () => {

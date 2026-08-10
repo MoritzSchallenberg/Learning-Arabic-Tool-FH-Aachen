@@ -131,7 +131,7 @@ function buildContext(fakeAppState) {
     Event,
     KeyboardEvent: FakeKeyboardEvent,
     AppState: fakeAppState,
-    AudioPlayer: { speak: () => Promise.resolve({ source: 'audio' }) },
+    AudioPlayer: { speak: () => Promise.resolve({ source: 'audio' }), speakWord: () => Promise.resolve({ source: 'recorded_audio', mode: 'normal', audioKey: null }), stopCurrentAudio: () => {} },
     App: {
       registerCleanup: () => {},
       navigateToCourse: () => navigateCalls.push('course'),

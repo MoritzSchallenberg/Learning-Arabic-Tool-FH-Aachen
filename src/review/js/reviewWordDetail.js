@@ -123,14 +123,30 @@ const ReviewWordDetail = (() => {
       ])
     ]);
     if (word.audio.source !== 'missing') {
+      // Entwicklungsauftrag 13, Abschnitt 5/7: zentrale Schlüsselauflösung (bevorzugt word.audio_key,
+      // kontrollierter Fallback), aria-label, Deaktivierung während des Ladens, Schutz gegen
+      // schnelles Mehrfachstarten, sichtbares Fehlerfeedback statt eines stillen Fehlschlags.
       const playBtn = el('button', {
         class: 'btn btn-small',
         text: '▶ abspielen',
+        attrs: { 'aria-label': `Audio für ${word.id} abspielen`, type: 'button' },
         onClick: async () => {
-          const base64 = await window.reviewApi.loadAudio(word.id);
-          if (!base64) { alert('Audiodatei konnte nicht geladen werden.'); return; }
-          const audioEl = new Audio(`data:audio/wav;base64,${base64}`);
-          audioEl.play();
+          if (playBtn.disabled) return;
+          playBtn.disabled = true;
+          try {
+            const audioKey = AudioKeyResolver.resolveVocabularyAudioKey(word);
+            const base64 = audioKey ? await window.reviewApi.loadAudio(audioKey) : null;
+            if (!base64) {
+              // eslint-disable-next-line no-alert -- Review-Modus hat kein eigenes Toast-System,
+              // ein blockierender Hinweis ist hier für die seltenen Fehlerfälle akzeptabel.
+              alert('Audiodatei konnte nicht geladen werden.');
+              return;
+            }
+            const audioEl = new Audio(`data:audio/wav;base64,${base64}`);
+            await audioEl.play();
+          } finally {
+            playBtn.disabled = false;
+          }
         }
       });
       section.appendChild(playBtn);

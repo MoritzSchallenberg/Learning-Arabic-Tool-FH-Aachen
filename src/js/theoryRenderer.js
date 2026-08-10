@@ -100,8 +100,9 @@ const TheoryRenderer = (() => {
   function renderAudioWord(block, context) {
     const wrapper = el('div', { className: 'theory-audio-word' });
     const btn = el('button', { className: 'btn icon', text: '🔊' });
+    btn.setAttribute('aria-label', block.text ? `${block.text} anhören` : 'Beispiel anhören');
     btn.addEventListener('click', () => {
-      if (context.onPlayAudio) context.onPlayAudio(block.audio_key, block.text || '');
+      if (context.onPlayAudio) context.onPlayAudio(block.audio_key, block.text || '', btn);
     });
     wrapper.appendChild(btn);
     if (block.text) wrapper.appendChild(el('span', { className: 'arabic-text', text: block.text }));

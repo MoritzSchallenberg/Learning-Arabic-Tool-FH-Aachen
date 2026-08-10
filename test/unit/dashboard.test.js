@@ -41,7 +41,17 @@ function loadDashboard({ vocabSessions = null, sessionStates = {}, activeSession
     ProgressStats,
     PhaseRegistry,
     AudioPlayer: {
-      speak: (text, lang, opts) => { spokenWords.push({ text, lang, opts }); return Promise.resolve({ source: 'audio' }); }
+      speak: (text, lang, opts) => { spokenWords.push({ text, lang, opts }); return Promise.resolve({ source: 'audio' }); },
+      // Entwicklungsauftrag 13: dashboard.js ruft jetzt AudioPlayer.speakWord(word, {...}) statt
+      // AudioPlayer.speak(text, lang, {audioKey}) direkt auf -- der Mock repliziert dieselbe
+      // Ableitung (audio_key bevorzugt, sonst arabic_vocalized/arabic), damit die bestehenden
+      // Zusicherungen (text/opts.audioKey) unverändert gültig bleiben.
+      speakWord: (word, opts = {}) => {
+        const text = (word && (word.arabic_vocalized || word.arabic)) || '';
+        const audioKey = (word && word.audio_key) || (word && word.id ? `vocabulary/${word.id}` : null);
+        spokenWords.push({ text, lang: 'ar-SA', opts: { ...opts, audioKey } });
+        return Promise.resolve({ source: 'recorded_audio', mode: 'normal', audioKey });
+      }
     },
     App: {
       navigateToFreePractice: (options) => { navigatedWith = options; },

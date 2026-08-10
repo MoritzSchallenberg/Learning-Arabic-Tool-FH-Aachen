@@ -38,12 +38,22 @@ class FakeAudio {
 }
 FakeAudio.instances = [];
 
-function loadAudioPlayer({ loadAudioImpl, ttsCalls }) {
+function loadAudioPlayer({ loadAudioImpl, ttsCalls, ttsShouldFail = false, feedbackCalls = null }) {
   FakeAudio.instances = [];
   const context = {
     window: { api: { loadAudio: loadAudioImpl } },
     Audio: FakeAudio,
-    TTS: { speak: (text, lang, opts) => { ttsCalls.push({ text, lang, opts }); return Promise.resolve(); } },
+    TTS: {
+      speak: (text, lang, opts) => {
+        ttsCalls.push({ text, lang, opts });
+        return ttsShouldFail ? Promise.reject(new Error('TTS nicht verfügbar')) : Promise.resolve();
+      }
+    },
+    AudioKeyResolver: { resolveVocabularyAudioKey: (word) => (word ? word.audio_key || (word.id ? `vocabulary/${word.id}` : null) : null) },
+    AudioFeedback: {
+      reportAudioError: (ctx, err) => { if (feedbackCalls) feedbackCalls.push({ type: 'error', ctx, err }); },
+      reportTtsFallback: (ctx) => { if (feedbackCalls) feedbackCalls.push({ type: 'tts_fallback', ctx }); }
+    },
     console
   };
   vm.createContext(context);
@@ -94,7 +104,9 @@ test('langsame Wiedergabe nutzt eine vorhandene eigene "_slow"-Aufnahme ohne pla
   assert.equal(instance.playbackRate, 1, 'bei einer echten Slow-Aufnahme wird playbackRate nicht verändert');
   instance.finish();
   const result = await p;
-  assert.equal(result.source, 'audio');
+  assert.equal(result.source, 'recorded_audio');
+  assert.equal(result.mode, 'dedicated_slow');
+  assert.equal(result.audioKey, 'vocabulary/word_a');
 });
 
 test('ohne "_slow"-Datei wird die normale Aufnahme mit playbackRate=0.75 verwendet (kein TTS)', async () => {
@@ -110,7 +122,18 @@ test('ohne "_slow"-Datei wird die normale Aufnahme mit playbackRate=0.75 verwend
   assert.equal(instance.playbackRate, 0.75);
   instance.finish();
   const result = await p;
-  assert.equal(result.source, 'audio');
+  assert.equal(result.source, 'recorded_audio');
+  assert.equal(result.mode, 'slowed_normal');
+});
+
+test('normale (nicht-langsame) Wiedergabe einer vorhandenen Aufnahme liefert mode:"normal"', async () => {
+  const AudioPlayer = loadAudioPlayer({ loadAudioImpl: () => Promise.resolve(Buffer.from('take').toString('base64')), ttsCalls: [] });
+  const p = AudioPlayer.speak('Wort', 'ar-SA', { audioKey: 'vocabulary/word_a' });
+  await new Promise((r) => setImmediate(r));
+  FakeAudio.instances[0].finish();
+  const result = await p;
+  assert.equal(result.source, 'recorded_audio');
+  assert.equal(result.mode, 'normal');
 });
 
 test('ganz ohne Aufnahme (weder normal noch "_slow") wird auf TTS zurückgefallen', async () => {
@@ -118,7 +141,8 @@ test('ganz ohne Aufnahme (weder normal noch "_slow") wird auf TTS zurückgefalle
   const AudioPlayer = loadAudioPlayer({ loadAudioImpl: () => Promise.resolve(null), ttsCalls });
 
   const result = await AudioPlayer.speak('Hallo', 'ar-SA', { audioKey: 'vocabulary/unknown' });
-  assert.equal(result.source, 'tts');
+  assert.equal(result.source, 'tts_fallback');
+  assert.equal(result.mode, 'tts_fallback');
   assert.equal(ttsCalls.length, 1);
   assert.equal(ttsCalls[0].text, 'Hallo');
 });
@@ -128,6 +152,71 @@ test('ohne audioKey wird direkt TTS verwendet', async () => {
   const AudioPlayer = loadAudioPlayer({ loadAudioImpl: () => { throw new Error('sollte nicht aufgerufen werden'); }, ttsCalls });
 
   const result = await AudioPlayer.speak('Hallo', 'ar-SA', {});
-  assert.equal(result.source, 'tts');
+  assert.equal(result.source, 'tts_fallback');
   assert.equal(ttsCalls.length, 1);
+});
+
+test('speak(): schlägt sowohl die Aufnahme als auch TTS fehl, wird "failed" zurückgegeben statt zu werfen', async () => {
+  const ttsCalls = [];
+  const AudioPlayer = loadAudioPlayer({ loadAudioImpl: () => Promise.resolve(null), ttsCalls, ttsShouldFail: true });
+  const result = await AudioPlayer.speak('Hallo', 'ar-SA', { audioKey: 'vocabulary/unknown' });
+  assert.equal(result.source, 'failed');
+  assert.equal(result.mode, 'failed');
+});
+
+test('speakWord(): löst den audioKey über AudioKeyResolver auf und spielt die Aufnahme ab', async () => {
+  const AudioPlayer = loadAudioPlayer({ loadAudioImpl: (lang, key) => Promise.resolve(key === 'vocabulary/w1' ? Buffer.from('take').toString('base64') : null), ttsCalls: [] });
+  const p = AudioPlayer.speakWord({ id: 'w1', arabic: 'كلمة' }, { context: 'Test' });
+  await new Promise((r) => setImmediate(r));
+  FakeAudio.instances[0].finish();
+  const result = await p;
+  assert.equal(result.source, 'recorded_audio');
+  assert.equal(result.audioKey, 'vocabulary/w1');
+});
+
+test('speakWord(): bevorzugt word.audio_key gegenüber der ID-basierten Konstruktion', async () => {
+  const seenKeys = [];
+  const AudioPlayer = loadAudioPlayer({ loadAudioImpl: (lang, key) => { seenKeys.push(key); return Promise.resolve(null); }, ttsCalls: [] });
+  await AudioPlayer.speakWord({ id: 'w1', audio_key: 'vocabulary/custom_key', arabic: 'كلمة' });
+  assert.ok(seenKeys.includes('vocabulary/custom_key'));
+  assert.ok(!seenKeys.includes('vocabulary/w1'));
+});
+
+test('speakWord(): meldet einen Fehlschlag über AudioFeedback statt ihn zu verschlucken', async () => {
+  const feedbackCalls = [];
+  const AudioPlayer = loadAudioPlayer({ loadAudioImpl: () => Promise.resolve(null), ttsCalls: [], ttsShouldFail: true, feedbackCalls });
+  const result = await AudioPlayer.speakWord({ id: 'w1', arabic: 'كلمة' }, { context: 'Testkontext' });
+  assert.equal(result.source, 'failed');
+  assert.equal(feedbackCalls.length, 1);
+  assert.equal(feedbackCalls[0].type, 'error');
+  assert.equal(feedbackCalls[0].ctx, 'Testkontext');
+});
+
+test('speakWord(): meldet einen TTS-Fallback sichtbar über AudioFeedback', async () => {
+  const feedbackCalls = [];
+  const AudioPlayer = loadAudioPlayer({ loadAudioImpl: () => Promise.resolve(null), ttsCalls: [], feedbackCalls });
+  const result = await AudioPlayer.speakWord({ id: 'w1', arabic: 'كلمة' }, { context: 'Testkontext' });
+  assert.equal(result.source, 'tts_fallback');
+  assert.equal(feedbackCalls.length, 1);
+  assert.equal(feedbackCalls[0].type, 'tts_fallback');
+});
+
+test('speakWord(): schützt ein übergebenes Button-Element gegen schnelles Mehrfachstarten', async () => {
+  let concurrentCalls = 0;
+  let maxConcurrent = 0;
+  const AudioPlayer = loadAudioPlayer({
+    loadAudioImpl: () => new Promise((resolve) => {
+      concurrentCalls += 1;
+      maxConcurrent = Math.max(maxConcurrent, concurrentCalls);
+      setTimeout(() => { concurrentCalls -= 1; resolve(null); }, 5);
+    }),
+    ttsCalls: []
+  });
+  const button = { disabled: false };
+  const first = AudioPlayer.speakWord({ id: 'w1', arabic: 'كلمة' }, { button });
+  assert.equal(button.disabled, true, 'Button muss sofort synchron deaktiviert werden');
+  const second = AudioPlayer.speakWord({ id: 'w1', arabic: 'كلمة' }, { button });
+  await Promise.all([first, second]);
+  assert.equal(maxConcurrent, 1, 'ein zweiter Klick während des Ladens darf keine zweite Anfrage auslösen');
+  assert.equal(button.disabled, false, 'Button muss nach Abschluss wieder aktiviert sein');
 });

@@ -579,6 +579,37 @@ if (fs.existsSync(path.join(ROOT, 'audio_generation_manifest.json'))) {
   note('Noch kein audio_generation_manifest.json vorhanden.');
 }
 
+// --- audio_status/audio_key-Konsistenz (Entwicklungsauftrag 13, Abschnitt 3.2/10) -------------
+{
+  const { AUDIO_STATUS_VALUES } = require('./audio/audioStatusModel.js');
+  const { AUDIO_KEY_PATTERN } = require('./audioFileAccess.js');
+  const AUDIO_DIR = path.join(ROOT, 'language-packs', 'arabic', 'audio', 'vocabulary');
+  const audioKeyCounts = new Map();
+  for (const w of words) {
+    if (!w.audio_key) {
+      fail(`Wort "${w.id}" hat kein audio_key-Feld`);
+    } else if (!AUDIO_KEY_PATTERN.test(w.audio_key)) {
+      fail(`Wort "${w.id}" hat ein ungültig geformtes audio_key-Feld: "${w.audio_key}"`);
+    } else {
+      audioKeyCounts.set(w.audio_key, (audioKeyCounts.get(w.audio_key) || 0) + 1);
+    }
+    if (!w.audio_status || !AUDIO_STATUS_VALUES.includes(w.audio_status)) {
+      fail(`Wort "${w.id}" hat einen unbekannten/fehlenden audio_status: "${w.audio_status}"`);
+      continue;
+    }
+    const fileExists = fs.existsSync(path.join(AUDIO_DIR, `${w.id}.wav`));
+    if (w.audio_status === 'missing' && fileExists) {
+      fail(`Wort "${w.id}" hat audio_status "missing", obwohl eine Audiodatei existiert`);
+    }
+    if (['available_legacy_unreviewed', 'generated_unreviewed', 'reviewed'].includes(w.audio_status) && !fileExists) {
+      fail(`Wort "${w.id}" hat audio_status "${w.audio_status}", aber die Audiodatei fehlt`);
+    }
+  }
+  const duplicateKeys = [...audioKeyCounts.entries()].filter(([, count]) => count > 1);
+  for (const [key, count] of duplicateKeys) fail(`audio_key "${key}" wird von ${count} Wörtern gleichzeitig verwendet`);
+  if (duplicateKeys.length === 0) console.log('OK: alle audio_key-Werte sind eindeutig, alle audio_status-Werte stimmen mit der tatsächlichen Dateiverfügbarkeit überein.');
+}
+
 // --- Zusammenfassung -------------------------------------------------------------------------
 console.log('\n=== Zusammenfassung ===');
 console.log(`${hardErrors} Fehler, ${notes} Hinweise.`);

@@ -57,7 +57,7 @@ function loadFreePractice({ onAdjustDifficulty, vocabularyWords = null }) {
     lettersFromWord: wordShaping.lettersFromWord,
     VirtualKeyboard: { mount: () => {} },
     ConnectionTrainer: { mount: () => {} },
-    AudioPlayer: { speak: () => Promise.resolve() },
+    AudioPlayer: { speak: () => Promise.resolve(), speakWord: () => Promise.resolve({ source: 'recorded_audio', mode: 'normal', audioKey: null }) },
     App: { registerCleanup: (fn) => registeredCleanups.push(fn) }
   };
   const cards = {};
