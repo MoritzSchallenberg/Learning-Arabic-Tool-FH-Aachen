@@ -124,9 +124,86 @@ const SessionRenderer = (() => {
     while (actionBar.firstChild) actionBar.removeChild(actionBar.firstChild);
   }
 
+  // --- Entwicklungsauftrag 15, Abschnitt 15: eigene Anzeige für die ersten fünf Lernstufen ----
+  // BEWUSST GETRENNT von renderStepIndicator/renderProgressBar oben (die weiterhin unverändert
+  // die 8 bestehenden Phasentypen ab Wiedererkennen anzeigen) — "Definiere klar den Unterschied
+  // zwischen aktuellem Standort, bereits abgeschlossenen Lernstufen, späterem Übungsfortschritt."
+  // Verwendet dieselben CSS-Klassen (.step-indicator/.session-progress) wie die bestehende
+  // Anzeige — kein zweites, paralleles Anzeigesystem (Abschnitt 17).
+  function renderLearningStepIndicator(container, currentStageKey) {
+    const wrap = el('div', { className: 'step-indicator' });
+    const currentIdx = LearningStages.indexOf(currentStageKey);
+    LearningStages.STAGES.forEach((stage, i) => {
+      let cls = '';
+      if (i < currentIdx) cls = 'done';
+      else if (i === currentIdx) cls = 'current';
+      wrap.appendChild(el('span', { className: `step-indicator-item ${cls}`, text: stage.label }));
+      if (i < LearningStages.STAGES.length - 1) wrap.appendChild(el('span', { className: 'step-indicator-sep', text: '—' }));
+    });
+    container.appendChild(wrap);
+  }
+
+  /**
+   * Rahmen für die Lernstufen 1-5 (Lernziele/Theorie/Lernkarten/Audio/Wortübersicht) — analog zu
+   * renderSessionShell, aber mit "Stufe N von 10"-Beschriftung und eigenem, vom späteren
+   * Übungsfortschritt unabhängigem Stufenfortschrittsbalken (Abschnitt 15).
+   * @param {string} stageKey - einer von LearningStages.ORDER
+   * @param {number} [subProgress=0] - Fortschritt INNERHALB der Stufe (0..1), z. B. cardIndex/words.length
+   * @param {string} [subLabel] - z. B. "Wort 4 von 10"
+   */
+  function renderLearningStageShell(container, { sessionDef, stageKey, subProgress = 0, subLabel, onTheory, onLeave }) {
+    while (container.firstChild) container.removeChild(container.firstChild);
+    const view = el('div', { className: 'view page-content' });
+
+    const topBar = el('div');
+    topBar.style.display = 'flex';
+    topBar.style.justifyContent = 'space-between';
+    topBar.style.alignItems = 'center';
+    topBar.style.flexWrap = 'wrap';
+    topBar.style.gap = '10px';
+    topBar.appendChild(el('h1', { className: 'text-page-title', text: sessionDef.title }));
+
+    const btnGroup = el('div');
+    btnGroup.style.display = 'flex';
+    btnGroup.style.gap = '8px';
+    const theoryBtn = el('button', { className: 'btn secondary', text: 'Theorie ansehen' });
+    theoryBtn.type = 'button';
+    theoryBtn.addEventListener('click', onTheory);
+    const leaveBtn = el('button', { className: 'btn secondary', text: 'Session verlassen' });
+    leaveBtn.type = 'button';
+    leaveBtn.addEventListener('click', onLeave);
+    btnGroup.appendChild(theoryBtn);
+    btnGroup.appendChild(leaveBtn);
+    topBar.appendChild(btnGroup);
+    view.appendChild(topBar);
+
+    const stage = LearningStages.get(stageKey);
+    view.appendChild(el('p', {
+      className: 'text-hint',
+      text: `Stufe ${stage ? stage.number : '?'} von ${LearningStages.TOTAL_DISPLAY_STAGES}: ${stage ? stage.label : stageKey}`
+    }));
+
+    renderLearningStepIndicator(view, stageKey);
+    renderProgressBar(view, LearningStages.stageProgressPercent(stageKey, subProgress));
+
+    if (subLabel) {
+      view.appendChild(el('p', { className: 'text-hint', text: subLabel }));
+    }
+
+    const bodyEl = el('div', { className: 'session-body' });
+    view.appendChild(bodyEl);
+
+    const actionBar = el('div', { className: 'action-bar' });
+    view.appendChild(actionBar);
+
+    container.appendChild(view);
+    return { bodyEl, actionBar };
+  }
+
   return {
     renderSessionShell, renderActionBar, renderContinueButton, clearActionBar,
-    renderStepIndicator, renderProgressBar, el
+    renderStepIndicator, renderProgressBar, el,
+    renderLearningStepIndicator, renderLearningStageShell
   };
 })();
 

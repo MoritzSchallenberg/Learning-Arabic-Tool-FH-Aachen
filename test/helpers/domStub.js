@@ -183,6 +183,10 @@ class FakeElement {
     this._listeners[type].push(fn);
   }
 
+  removeEventListener(type, fn) {
+    if (this._listeners[type]) this._listeners[type] = this._listeners[type].filter((f) => f !== fn);
+  }
+
   dispatchEvent(event) {
     const list = this._listeners[event.type] || [];
     for (const fn of list) fn(event);
@@ -356,6 +360,13 @@ function createDocumentStub() {
     // innerhalb von document.body -- Tests müssen ihre Wurzel-Elemente dort anhängen.
     getElementById: (id) => body.querySelector(`#${id}`),
     addEventListener(type, fn) { (listeners[type] = listeners[type] || []).push(fn); },
+    // Entwicklungsauftrag 15, Abschnitt 10: die Lernkarten-/Audiophase hängt einen document-weiten
+    // keydown-Listener an (Pfeiltasten/Leertaste) und MUSS ihn beim Verlassen wieder entfernen,
+    // damit beim mehrfachen Navigieren nicht mehrere Listener gleichzeitig aktiv bleiben --
+    // removeEventListener fehlte hier bisher komplett (kein bisheriger Code brauchte es).
+    removeEventListener(type, fn) {
+      if (listeners[type]) listeners[type] = listeners[type].filter((f) => f !== fn);
+    },
     dispatchEvent(event) { for (const fn of (listeners[event.type] || [])) fn(event); return true; }
   };
 }

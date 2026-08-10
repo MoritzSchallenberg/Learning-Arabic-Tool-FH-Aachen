@@ -71,6 +71,12 @@ const TheoryRenderer = (() => {
     return wrapper;
   }
 
+  // Entwicklungsauftrag 15, Abschnitt 8: "normale Audioausgabe vorhandener Beispiele, langsame
+  // Audioausgabe, soweit ein zugeordnetes Wort vorhanden ist" — die freien example-Blöcke tragen
+  // keinen audio_key (mehrteilige Beispielsätze, keine einzelne Aufnahme zugeordnet), aber JEDES
+  // word_preview-Wort verweist auf ein echtes Vokabular-Wort mit vorhandener normaler UND (meist)
+  // separater langsamer Aufnahme -- deshalb hier die Audioausgabe ergänzt, statt sie für die
+  // audio-lose example-Darstellung zu erfinden.
   function renderWordPreview(block, context) {
     const wrapper = el('div', { className: 'theory-word-preview' });
     const ids = block.word_ids || [];
@@ -82,6 +88,20 @@ const TheoryRenderer = (() => {
       const germanText = Array.isArray(word.german_answers) ? word.german_answers.join(', ') : (word.german || '');
       card.appendChild(el('p', { text: germanText }));
       if (word.transliteration) card.appendChild(el('p', { className: 'mixed-text', text: word.transliteration }));
+      if (context.onPlayWordAudio) {
+        const actions = el('div', { className: 'word-card-actions' });
+        const normalBtn = el('button', { className: 'btn icon', text: '🔊' });
+        normalBtn.type = 'button';
+        normalBtn.setAttribute('aria-label', `${word.german || ''} anhören`);
+        normalBtn.addEventListener('click', () => context.onPlayWordAudio(word, { slow: false, button: normalBtn }));
+        const slowBtn = el('button', { className: 'btn icon', text: '🐢' });
+        slowBtn.type = 'button';
+        slowBtn.setAttribute('aria-label', `${word.german || ''} langsam anhören`);
+        slowBtn.addEventListener('click', () => context.onPlayWordAudio(word, { slow: true, button: slowBtn }));
+        actions.appendChild(normalBtn);
+        actions.appendChild(slowBtn);
+        card.appendChild(actions);
+      }
       wrapper.appendChild(card);
     }
     return wrapper;
@@ -227,12 +247,26 @@ const TheoryRenderer = (() => {
    *   können, nachdem jeder (nicht hinter "Mehr erfahren" verborgene) Mini-Check VOLLSTÄNDIG
    *   bearbeitet wurde (nicht: bestanden). Bei erneutem Ansehen der Theorie während einer
    *   laufenden Session bleibt dies false — dort ist der Mini-Check weiterhin optional.
+   *   WIRD IGNORIERT, wenn options.mode === 'learning_intro' (siehe unten).
+   * @param {(word:object, opts:{slow:boolean, button:HTMLElement})=>void} [options.onPlayWordAudio]
+   *   - Entwicklungsauftrag 15, Abschnitt 8: normale/langsame Audiowiedergabe für die Wörter
+   *   eines word_preview-Blocks.
+   * @param {'learning_intro'|undefined} [options.mode] - Entwicklungsauftrag 15, Abschnitt 8:
+   *   'learning_intro' ist der ERSTE Theoriedurchlauf einer Session (Lernstufe 2, VOR den
+   *   Lernkarten). In diesem Modus werden mini_check-Blöcke komplett NICHT gerendert (nicht nur
+   *   unverbindlich) — der Nutzer soll die Wörter zuerst ohne jede Abfrage kennenlernen
+   *   (Abschnitt 14: "keine verpflichtende Theoriefrage in Stufe 2"). requireMiniCheckBeforeStart
+   *   wird dabei zwangsläufig wirkungslos (kein Mini-Check vorhanden, der blockieren könnte).
+   *   Die Mini-Check-DATEN selbst bleiben in theory.json unverändert erhalten (Abschnitt 8: "dürfen
+   *   nicht gelöscht werden") — beim erneuten Öffnen der Theorie OHNE diesen Modus (renderTheoryReview,
+   *   unverändert) erscheinen sie weiterhin wie zuvor.
    */
   function mount(container, theoryDoc, options = {}) {
     let level = options.initialLevel || 'short';
+    const isLearningIntro = options.mode === 'learning_intro';
     AppState.markTheoryOpened(theoryDoc.theory_id);
     const blocksForGating = theoryDoc.blocks || [];
-    const requiredMiniCheckCount = options.requireMiniCheckBeforeStart
+    const requiredMiniCheckCount = (options.requireMiniCheckBeforeStart && !isLearningIntro)
       ? blocksForGating.filter((b) => b.type === 'mini_check' && b.level !== 'full' && (b.questions || []).length > 0).length
       : 0;
     const completedMiniCheckBlocks = new Set();
@@ -266,6 +300,7 @@ const TheoryRenderer = (() => {
 
       blocks.forEach((block, blockIndex) => {
         if (block.level === 'full' && level !== 'full') return;
+        if (block.type === 'mini_check' && isLearningIntro) return;
         const renderer = BLOCK_RENDERERS[block.type];
         if (!renderer) return;
         let blockOptions = options;
@@ -301,7 +336,8 @@ const TheoryRenderer = (() => {
         wrapper.appendChild(toggleBtn);
       }
 
-      startBtn = el('button', { className: 'btn', text: options.startLabel || 'Session starten' });
+      const defaultStartLabel = isLearningIntro ? 'Weiter zu den Lernkarten' : 'Session starten';
+      startBtn = el('button', { className: 'btn', text: options.startLabel || defaultStartLabel });
       startBtn.style.display = 'block';
       startBtn.style.marginTop = '20px';
       updateStartButtonState();

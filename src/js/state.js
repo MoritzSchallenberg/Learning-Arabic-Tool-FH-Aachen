@@ -65,6 +65,21 @@ const AppState = (() => {
     return currentLangProgress().cards;
   }
 
+  // --- Manuelle "Als schwierig markieren"-Markierung (Entwicklungsauftrag 15, Abschnitt 9.7) --
+  // Bewusst getrennt von card.difficulty (srs.js, aus Antwortverhalten BERECHNET) -- dies ist
+  // eine EXPLIZITE, vom Nutzer selbst gesetzte Markierung auf derselben, bereits vorhandenen
+  // Karte/demselben Speicherplatz (kein zweiter Speichermechanismus, Abschnitt 3/18).
+  function isWordMarkedDifficult(wordId) {
+    return !!getCard(wordId).markedDifficult;
+  }
+
+  async function toggleWordDifficult(wordId) {
+    const card = getCard(wordId);
+    card.markedDifficult = !card.markedDifficult;
+    await persistProgress();
+    return card.markedDifficult;
+  }
+
   // Für nicht karten-basierte Lektionen (Tutorials, Prüfung) — grobe Statusanzeige in der
   // Seitenleiste (Spec Kapitel 13/20.3 "gesperrte und freigeschaltete Lessons", vereinfacht).
   function getLessonFlag(key) {
@@ -173,6 +188,8 @@ const AppState = (() => {
     getCard,
     persistProgress,
     getAllCards,
+    isWordMarkedDifficult,
+    toggleWordDifficult,
     getLessonFlag,
     markLessonStarted,
     markLessonCompleted,

@@ -1,15 +1,22 @@
 // SessionController (Entwicklungsauftrag 4, Schritt 3; grundlegend erweitert in
-// Entwicklungsauftrag 5) — verbindet SessionEngine (Logik), SessionRenderer (Rahmen/
-// Schrittanzeige/Aktionsleiste/Fortschrittsbalken), ExerciseRegistry (Aufgaben), TheoryRenderer
-// (Theorie/Mini-Check) und SessionState (Wiederaufnahme) zu einer vollständigen Session.
-// Einstiegspunkt: App.navigateToSession(unitId, sessionId) -> SessionController.mount().
+// Entwicklungsauftrag 5; Lernstufen 1-5 neu aufgebaut in Entwicklungsauftrag 15) — verbindet
+// SessionEngine (Logik), SessionRenderer (Rahmen/Schrittanzeige/Aktionsleiste/Fortschrittsbalken),
+// ExerciseRegistry (Aufgaben), TheoryRenderer (Theorie/Mini-Check), WordRelations
+// (Zusatzinformationen zu Wörtern) und SessionState (Wiederaufnahme) zu einer vollständigen
+// Session. Einstiegspunkt: App.navigateToSession(unitId, sessionId) -> SessionController.mount().
 //
-// Ablauf (Entwicklungsauftrag 5, Abschnitt 14): Sessionübersicht -> Theorie (beim ersten
-// Durchlauf verpflichtend inkl. vollständig zu bearbeitendem Mini-Check) -> Wörter in kleinen
-// Gruppen kennenlernen (Einzelansicht, Gruppen-Mini-Checks) -> Wiedererkennen -> Rekonstruieren
-// -> Geführte Produktion -> Selbstständige Produktion -> Anwendung -> Abschluss. Feedback
-// verschwindet nie automatisch — jede Aufgabe endet mit einem manuellen "Weiter"-Klick, außer die
-// Einstellung "autoAdvanceAfterFeedback" ist aktiv UND die Antwort war richtig (Abschnitt 21).
+// Ablauf (Entwicklungsauftrag 15, Abschnitt 5-15 — ERSETZT den bisherigen Text zur Wortlernphase):
+// Sessionübersicht/Lernziele (Stufe 1) -> Kurze Theorie OHNE verpflichtenden Mini-Check (Stufe 2)
+// -> Neue Wörter als Einzelkarten kennenlernen, ohne Zwischenabfrage (Stufe 3) -> Audio kennenlernen
+// (Stufe 4) -> gemeinsame Wortübersicht (Stufe 5) -> ab hier UNVERÄNDERT: Wiedererkennen ->
+// Rekonstruieren -> Geführte Produktion -> Selbstständige Produktion -> Anwendung -> Abschluss.
+// Feedback verschwindet nie automatisch — jede Aufgabe endet mit einem manuellen "Weiter"-Klick,
+// außer die Einstellung "autoAdvanceAfterFeedback" ist aktiv UND die Antwort war richtig
+// (Abschnitt 21, unverändert).
+//
+// Die fünf neuen Lernstufen bilden bewusst NUR die bestehenden ersten zwei Phasentypen
+// ('theory', 'word_preview') feiner ab (siehe learningStages.js) — sessionDef.phases
+// (vocabSessions.json) bleibt unverändert, keine zweite Session-Engine.
 
 const SessionController = (() => {
   let container = null;
@@ -22,14 +29,14 @@ const SessionController = (() => {
   let activeGuard = null;
   let unitId = null;
   let sessionWasResumable = false;
+  let allPackWordsCache = null; // voller Wortpool aller Units — für WordRelations (Abschnitt 9.6)
 
-  // Zustand der Wortlernphase (Abschnitt 4/5) — lebt nur für die Dauer dieser Phase, wird beim
-  // Wiederaufnehmen aus der Coverage rekonstruiert (siehe resumeLearnPosition()).
-  let learnGroups = null;
-  let learnGroupIndex = 0;
-  let learnIndexInGroup = 0;
-  let learnViewMode = 'single';
-  let wordUiState = {};
+  // Zustand der Lernstufen 1-5 (Entwicklungsauftrag 15, Abschnitt 11) — lebt im Session-Snapshot
+  // (siehe persistSnapshot()/migrateLearningStageState()), NICHT nur im Speicher wie früher.
+  let learningStageState = null;
+  let lastAutoPlayedCardWordId = null; // Abschnitt 12.3: kein erneutes Auto-Abspielen bei bloßem Re-Render
+  let lastAutoPlayedAudioWordId = null;
+  let learningKeydownHandler = null; // aktueller document-weiter keydown-Listener (Stufe 3/4)
 
   const SKILL_BY_PHASE = {
     recognition: 'recognition',
@@ -37,6 +44,14 @@ const SessionController = (() => {
     guided_production: 'guided_production',
     independent_production: 'independent_production',
     application: 'application'
+  };
+
+  // Kleine, rein grammatische Zahlwort-Tabelle für die Lernziel-Ersatzformulierung (Abschnitt 7) —
+  // keine neuen sprachlichen INHALTE, nur die deutsche Schreibweise einer bereits bekannten Zahl
+  // (der tatsächlichen Wortanzahl dieser Session).
+  const GERMAN_COUNT_WORDS = {
+    1: 'ein', 2: 'zwei', 3: 'drei', 4: 'vier', 5: 'fünf', 6: 'sechs', 7: 'sieben', 8: 'acht',
+    9: 'neun', 10: 'zehn', 11: 'elf', 12: 'zwölf', 13: 'dreizehn', 14: 'vierzehn', 15: 'fünfzehn'
   };
 
   function el(tag, className, text) {
@@ -59,10 +74,14 @@ const SessionController = (() => {
     return btn;
   }
 
-  function chunk(arr, size) {
-    const out = [];
-    for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
-    return out;
+  function mkIconBtn(icon, label, onClick) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn icon';
+    btn.textContent = icon;
+    btn.setAttribute('aria-label', label);
+    btn.addEventListener('click', () => onClick(btn));
+    return btn;
   }
 
   function allSessionWords() {
@@ -75,10 +94,45 @@ const SessionController = (() => {
     return activeGuard;
   }
 
+  // --- Tastaturnavigation der Lernkarten/Audio-Phase (Entwicklungsauftrag 15, Abschnitt 10) ----
+  // Pfeil links/rechts = vorherige/nächste Karte, Leertaste = Audio (NUR wenn der Fokus nicht auf
+  // einem Button/Eingabefeld liegt, damit eine normale Buttonbedienung — z. B. per Leertaste einen
+  // fokussierten Button auslösen — nicht überschrieben wird). Immer NUR EIN aktiver Listener
+  // gleichzeitig (detachLearningKeydown() räumt vor jedem neuen attach zuerst auf).
+  function detachLearningKeydown() {
+    if (learningKeydownHandler) {
+      document.removeEventListener('keydown', learningKeydownHandler);
+      learningKeydownHandler = null;
+    }
+  }
+
+  function attachWordCardKeydown(onNext, onPrev, onAudio) {
+    detachLearningKeydown();
+    learningKeydownHandler = (event) => {
+      const tag = ((event.target && event.target.tagName) || '').toLowerCase();
+      const isFormField = tag === 'input' || tag === 'textarea' || tag === 'select' || tag === 'button';
+      if (event.key === 'ArrowRight') {
+        if (isFormField && (tag === 'input' || tag === 'textarea')) return;
+        onNext();
+        return;
+      }
+      if (event.key === 'ArrowLeft') {
+        if (isFormField && (tag === 'input' || tag === 'textarea')) return;
+        onPrev();
+        return;
+      }
+      if ((event.key === ' ' || event.key === 'Spacebar') && !isFormField) {
+        if (onAudio) onAudio();
+      }
+    };
+    document.addEventListener('keydown', learningKeydownHandler);
+  }
+
   async function persistSnapshot() {
     await SessionState.save(sessionDef.session_id, {
       ...engine.snapshot(),
-      activeNewWordIds: words.map((w) => w.id)
+      activeNewWordIds: words.map((w) => w.id),
+      learningStageState
     });
   }
 
@@ -87,6 +141,7 @@ const SessionController = (() => {
   }
 
   function goToUnit() {
+    detachLearningKeydown();
     App.navigateToUnitDetail(unitId);
   }
 
@@ -136,6 +191,14 @@ const SessionController = (() => {
     }).finally(() => { if (btn) btn.disabled = false; });
   }
 
+  // Entwicklungsauftrag 15, Abschnitt 8: normale/langsame Audiowiedergabe für die Wortkarten
+  // INNERHALB der Theorie (theoryRenderer.js#renderWordPreview) — nutzt den vollwertigen
+  // Wort-Einstiegspunkt AudioPlayer.speakWord() (zentraler Schlüssel, Doppelklick-Schutz,
+  // sichtbares Fehlerfeedback), nicht den schlankeren Text-Wrapper oben.
+  function playTheoryWordAudio(word, { slow, button }) {
+    return AudioPlayer.speakWord(word, { slow, context: 'Theorie-Wortvorschau', button });
+  }
+
   function showDialog({ title, body, confirmLabel, cancelLabel, onConfirm }) {
     // Entwicklungsauftrag 13, Abschnitt 6.3 — ein sich öffnender Dialog (z. B. "Session verwerfen?")
     // darf eine noch laufende Wiedergabe nicht ungestört weiterlaufen lassen.
@@ -159,31 +222,108 @@ const SessionController = (() => {
     document.body.appendChild(overlay);
   }
 
-  // --- Sessionübersicht (Entwicklungsauftrag 5, Abschnitt 14) ---------------------------------
+  // --- Lernstufen-Zustand: Standardwert, Migration alter Snapshots (Abschnitt 11/18) -----------
+  function defaultLearningStageState() {
+    return {
+      stage: LearningStages.first(),
+      cardIndex: 0,
+      confirmedWordIds: [],
+      audioIndex: 0,
+      audioHeardNormal: [],
+      audioHeardSlow: []
+    };
+  }
+
+  /**
+   * @param {object|null} raw - resumedState.learningStageState (kann fehlen: altes Snapshot-Format)
+   * @param {object} coverage - engine.coverage (bereits migriert/vorhanden)
+   * @param {object[]} sessionWords - words dieser Session
+   */
+  function migrateLearningStageState(raw, coverage, sessionWords) {
+    if (raw && LearningStages.isValid(raw.stage)) {
+      return {
+        stage: raw.stage,
+        cardIndex: typeof raw.cardIndex === 'number' && raw.cardIndex >= 0 ? raw.cardIndex : 0,
+        confirmedWordIds: Array.isArray(raw.confirmedWordIds) ? raw.confirmedWordIds : [],
+        audioIndex: typeof raw.audioIndex === 'number' && raw.audioIndex >= 0 ? raw.audioIndex : 0,
+        audioHeardNormal: Array.isArray(raw.audioHeardNormal) ? raw.audioHeardNormal : [],
+        audioHeardSlow: Array.isArray(raw.audioHeardSlow) ? raw.audioHeardSlow : []
+      };
+    }
+    // Kein/kaputtes Feld -- ein Snapshot aus der Zeit vor Entwicklungsauftrag 15 (Abschnitt 18:
+    // "alte Session-Snapshots ohne dieses Feld müssen weiterhin geladen werden können", "sichere
+    // Standardposition bestimmen"). Wird NUR erreicht, wenn phaseIndex noch bei 'word_preview'
+    // steht -- eine Session, die bereits eine Übungsphase (phaseIndex>=2) erreicht hat, durchläuft
+    // diesen Pfad nie (renderCurrentPhase() befragt learningStageState dort gar nicht erst).
+    const state = defaultLearningStageState();
+    if (coverage && Array.isArray(sessionWords)) {
+      const seenIds = sessionWords.filter((w) => coverage[w.id] && coverage[w.id].preview_seen).map((w) => w.id);
+      state.confirmedWordIds = seenIds;
+      state.cardIndex = Math.min(seenIds.length, Math.max(0, sessionWords.length - 1));
+    }
+    return state;
+  }
+
+  // --- Stufe 1: Lernziele/Sessionübersicht (Entwicklungsauftrag 15, Abschnitt 7) ---------------
+  function fallbackLearningGoals() {
+    const count = words.length;
+    const countWord = GERMAN_COUNT_WORDS[count] || String(count);
+    const topic = vocabUnit ? vocabUnit.title : sessionDef.title;
+    return [
+      `${countWord} Wörter zu ${topic}`,
+      'die Wörter zu erkennen und auszusprechen',
+      'sie anschließend in Übungen selbst anzuwenden'
+    ];
+  }
+
+  function learningGoalsForOverview() {
+    const doc = theoryDoc();
+    return (doc && Array.isArray(doc.learning_objectives) && doc.learning_objectives.length > 0)
+      ? doc.learning_objectives
+      : fallbackLearningGoals();
+  }
+
+  /** "aktuelle gespeicherte Stufe nennen" bei Wiederaufnahme (Abschnitt 7) — ehrlich (Abschnitt 6):
+   * ab den bestehenden Übungsphasen erscheint KEINE erfundene Stufe 6-10, sondern der neutrale
+   * Übergangstext. */
+  function resumedStageLabel() {
+    if (!engine) return '';
+    const type = engine.currentPhaseType();
+    if (type === 'theory') {
+      const stage = LearningStages.get('theory');
+      return `Stufe ${stage.number} von ${LearningStages.TOTAL_DISPLAY_STAGES} – ${stage.label}`;
+    }
+    if (type === 'word_preview') {
+      const key = (learningStageState && LearningStages.isValid(learningStageState.stage)) ? learningStageState.stage : 'word_cards';
+      const stage = LearningStages.get(key);
+      return `Stufe ${stage.number} von ${LearningStages.TOTAL_DISPLAY_STAGES} – ${stage.label}`;
+    }
+    return LearningStages.AFTER_STAGE_5_LABEL;
+  }
+
   function renderSessionOverview() {
+    detachLearningKeydown();
     const view = el('div', 'view page-content');
     view.appendChild(el('h1', 'text-page-title', sessionDef.title));
 
     const metaCard = el('div', 'card');
+    metaCard.appendChild(el('p', 'text-hint', `Unit: ${unitTitle()}`));
     metaCard.appendChild(el('p', 'lead', `${words.length} neue Wörter`));
-    if (reviewWords.length > 0) metaCard.appendChild(el('p', 'text-body', `${reviewWords.length} Wiederholungen aus früheren Sessions`));
+    if (reviewWords.length > 0) metaCard.appendChild(el('p', 'text-body', `${reviewWords.length} eingemischte Wiederholungen aus früheren Sessions`));
     metaCard.appendChild(el('p', 'text-hint', `ca. ${sessionDef.estimated_minutes} Minuten`));
     view.appendChild(metaCard);
 
     const goalsCard = el('div', 'card');
-    goalsCard.appendChild(el('p', 'lead', 'Heute lernst du'));
-    const doc = theoryDoc();
-    const goals = doc && Array.isArray(doc.learning_objectives) && doc.learning_objectives.length > 0
-      ? doc.learning_objectives
-      : words.slice(0, 3).map((w) => ExerciseRegistry.primaryGerman(w));
+    goalsCard.appendChild(el('p', 'lead', 'In dieser Session lernst du'));
     const ul = document.createElement('ul');
-    goals.forEach((g) => ul.appendChild(el('li', null, g)));
+    learningGoalsForOverview().forEach((g) => ul.appendChild(el('li', null, g)));
     goalsCard.appendChild(ul);
     view.appendChild(goalsCard);
 
     const flowCard = el('div', 'card');
     flowCard.appendChild(el('p', 'lead', 'Ablauf'));
-    flowCard.appendChild(el('p', 'text-hint', sessionDef.phases.map((p) => PhaseRegistry.get(p.type).label).join(' → ')));
+    const stageLabels = LearningStages.STAGES.map((s) => s.label).concat('Übungen');
+    flowCard.appendChild(el('p', 'text-hint', stageLabels.join(' → ')));
     view.appendChild(flowCard);
 
     const actions = document.createElement('div');
@@ -193,10 +333,11 @@ const SessionController = (() => {
     actions.style.flexWrap = 'wrap';
     actions.style.marginTop = '8px';
     if (sessionWasResumable) {
+      view.appendChild(el('p', 'text-hint', `Du bist bei: ${resumedStageLabel()}`));
       actions.appendChild(mkBtn('Session fortsetzen', 'btn', () => renderCurrentPhase()));
       actions.appendChild(mkBtn('Von vorne beginnen', 'btn secondary', () => confirmDiscard(() => mount(container, { unitId, sessionId: sessionDef.session_id }))));
     } else {
-      actions.appendChild(mkBtn('Session starten', 'btn', () => renderCurrentPhase()));
+      actions.appendChild(mkBtn('Lernen beginnen', 'btn', () => renderCurrentPhase()));
       actions.appendChild(mkBtn('Theorie ansehen', 'btn secondary', () => renderTheoryReview(renderSessionOverview)));
     }
     actions.appendChild(mkBtn('Zurück', 'btn secondary', goToUnit));
@@ -208,6 +349,7 @@ const SessionController = (() => {
 
   // --- Tageslimit (Entwicklungsauftrag 5, Abschnitt 11) — nur beim allerersten Start relevant --
   function renderDailyLimitChoice(fullWordList, remainingToday, allPackWords) {
+    detachLearningKeydown();
     const view = el('div', 'view page-content');
     view.appendChild(el('h1', 'text-page-title', sessionDef.title));
     const card = el('div', 'card');
@@ -251,48 +393,53 @@ const SessionController = (() => {
     words = selectedWords;
     reviewWords = pickReviewWords(sessionDef, words, allPackWords);
     engine = SessionEngine.create({ sessionDef, words, reviewWords, resumedState: null });
+    learningStageState = defaultLearningStageState();
     sessionWasResumable = false;
     await SessionState.initNew(sessionDef.session_id);
     await persistSnapshot();
     renderSessionOverview();
   }
 
-  // --- Theorie (verpflichtend beim ersten Durchlauf, danach jederzeit "Theorie ansehen") ------
+  // --- Stufe 2: Theorie (KEIN verpflichtender Mini-Check mehr, Abschnitt 8) --------------------
   function theoryDoc() {
     return pack.theory.theories.find((t) => t.theory_id === sessionDef.theory_id);
   }
 
   function renderTheoryPhase() {
+    detachLearningKeydown();
     freshGuard();
-    const { bodyEl, actionBar } = SessionRenderer.renderSessionShell(container, {
+    const { bodyEl, actionBar } = SessionRenderer.renderLearningStageShell(container, {
       sessionDef,
-      phaseIndex: engine.phaseIndex,
-      progressLabel: null,
-      progressPercent: engine.progressPercent(),
+      stageKey: 'theory',
       onTheory: () => {}, // wir sind bereits in der Theorie
       onLeave: confirmLeave
     });
     SessionRenderer.clearActionBar(actionBar);
 
     TheoryRenderer.mount(bodyEl, theoryDoc(), {
-      registerGuard: () => {}, // mini_check verwaltet seinen eigenen Guard intern
-      requireMiniCheckBeforeStart: true,
+      mode: 'learning_intro', // Abschnitt 8: keine Mini-Checks, kein Pflicht-Gate
+      registerGuard: () => {},
       getWordById: (id) => allSessionWords().find((w) => w.id === id),
       onPlayAudio: playTheoryAudio,
-      onMiniCheckComplete: async (correct, total) => {
-        await AppState.markTheoryMiniCheckResult(sessionDef.theory_id, correct, total);
-      },
+      onPlayWordAudio: playTheoryWordAudio,
       onStart: async () => {
         engine.theoryDone = true;
         engine.advancePhase();
+        learningStageState = defaultLearningStageState(); // frischer Eintritt in Stufe 3
         await persistSnapshot();
         renderCurrentPhase();
       }
     });
   }
 
-  // Theorie jederzeit erneut ansehen, OHNE den Sessionfortschritt zu verändern (Abschnitt 10.2).
+  // Theorie jederzeit erneut ansehen, OHNE den Sessionfortschritt zu verändern (Abschnitt 16:
+  // Audio stoppen, Zustand speichern, danach exakt zur vorherigen Ansicht zurückkehren, keine
+  // Karte automatisch als gesehen markieren, keine Stufe automatisch abschließen). UNVERÄNDERT
+  // gegenüber Entwicklungsauftrag 5/13: Mini-Checks bleiben hier weiterhin sichtbar (Abschnitt 8,
+  // letzter Absatz — kein mode:'learning_intro').
   function renderTheoryReview(returnToPhase) {
+    detachLearningKeydown();
+    AudioPlayer.stopCurrentAudio();
     const { bodyEl, actionBar } = SessionRenderer.renderSessionShell(container, {
       sessionDef,
       phaseIndex: engine ? engine.phaseIndex : 0,
@@ -304,242 +451,309 @@ const SessionController = (() => {
     TheoryRenderer.mount(bodyEl, theoryDoc(), {
       getWordById: (id) => allSessionWords().find((w) => w.id === id),
       onPlayAudio: playTheoryAudio,
+      onPlayWordAudio: playTheoryWordAudio,
       onMiniCheckComplete: () => {},
       startLabel: 'Zurück zur Übung',
       onStart: returnToPhase
     });
   }
 
-  // --- Wörter in kleinen Gruppen kennenlernen (Entwicklungsauftrag 5, Abschnitte 3-5) ---------
-  function mkIconBtn(icon, label, onClick) {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'btn icon';
-    btn.textContent = icon;
-    btn.setAttribute('aria-label', label);
-    btn.addEventListener('click', () => onClick(btn));
-    return btn;
+  // --- Stufe 3: neue Wörter als Lernkarten (Entwicklungsauftrag 15, Abschnitt 9/10/11) ---------
+  function currentWordCard() {
+    return words[learningStageState.cardIndex];
   }
 
-  function renderWordCard(word) {
-    const card = document.createElement('div');
-    card.className = 'word-card';
-    card.appendChild(el('p', 'arabic-word-main', word.arabic_vocalized || word.arabic));
-    card.appendChild(el('p', 'word-card-translation', ExerciseRegistry.primaryGerman(word)));
-    if (word.transliteration) card.appendChild(el('p', 'word-card-translit', word.transliteration));
-    const actions = document.createElement('div');
-    actions.className = 'word-card-actions';
-    actions.appendChild(mkIconBtn('🔊', `${word.german} anhören`, (btn) => AudioPlayer.speakWord(word, { context: 'Wortkarte', button: btn })));
-    actions.appendChild(mkIconBtn('🐢', `${word.german} langsam anhören`, (btn) => AudioPlayer.speakWord(word, { slow: true, context: 'Wortkarte', button: btn })));
-    card.appendChild(actions);
-    return card;
-  }
-
-  // Rekonstruiert nach einer Wiederaufnahme, an welcher Stelle der Gruppen-Lernphase der Nutzer
-  // stand — anhand der Coverage (welche Wörter wurden schon gesehen/gecheckt), NICHT anhand
-  // zusätzlich persistierter UI-Indizes (Abschnitt 3: "exposed" muss echt sein, kein Rate-Zustand).
-  function resumeLearnPosition() {
-    for (let g = 0; g < learnGroups.length; g += 1) {
-      const group = learnGroups[g];
-      const allSeen = group.every((w) => engine.coverage[w.id] && engine.coverage[w.id].preview_seen);
-      if (!allSeen) {
-        learnGroupIndex = g;
-        learnIndexInGroup = group.findIndex((w) => !(engine.coverage[w.id] && engine.coverage[w.id].preview_seen));
-        return;
-      }
-      const allChecked = group.every((w) => engine.coverage[w.id] && engine.coverage[w.id].recognition_attempts >= 1);
-      if (!allChecked) {
-        learnGroupIndex = g;
-        learnIndexInGroup = group.length;
-        return;
-      }
+  // preview_seen (Tageslimit-Grundlage) wird ERST beim ausdrücklichen Weitergehen gesetzt, nie
+  // durchs bloße Rendern (Abschnitt 10: "Bloßes Öffnen und sofortiges Schließen darf nicht alle
+  // Wörter als gesehen markieren").
+  function confirmWordCard(word) {
+    const firstTime = engine.markWordPreviewSeen(word.id);
+    if (firstTime) AppState.incrementDailyNewCount(1);
+    if (!learningStageState.confirmedWordIds.includes(word.id)) {
+      learningStageState.confirmedWordIds.push(word.id);
     }
-    learnGroupIndex = learnGroups.length;
-    learnIndexInGroup = 0;
   }
 
-  function renderWordLearningPhase() {
-    if (!learnGroups) {
-      learnGroups = chunk(words, 3);
-      learnViewMode = 'single';
-      wordUiState = {};
-      words.forEach((w) => { wordUiState[w.id] = { hideSpelling: false, hideTranslation: false }; });
-      resumeLearnPosition();
-    }
-    renderLearnStep();
-  }
-
-  function renderLearnStep() {
-    if (learnGroupIndex >= learnGroups.length) {
-      engine.advancePhase();
+  function advanceFromWordCard() {
+    const word = currentWordCard();
+    if (!word) return;
+    AudioPlayer.stopCurrentAudio(); // keine über die Kartennavigation hinweg weiterlaufende Wiedergabe
+    confirmWordCard(word);
+    if (learningStageState.cardIndex + 1 >= words.length) {
+      learningStageState.stage = 'audio_familiarization';
       persistSnapshot();
       renderCurrentPhase();
       return;
     }
-    if (learnViewMode === 'grid') { renderLearnGrid(); return; }
-    const group = learnGroups[learnGroupIndex];
-    if (learnIndexInGroup >= group.length) { runGroupMiniCheck(learnGroupIndex, 0); return; }
-    renderSingleWordStep(group, learnIndexInGroup);
+    learningStageState.cardIndex += 1;
+    persistSnapshot();
+    renderCurrentPhase();
   }
 
-  function renderLearnGrid() {
-    const { bodyEl, actionBar } = SessionRenderer.renderSessionShell(container, {
+  function goBackWordCard() {
+    if (learningStageState.cardIndex > 0) {
+      AudioPlayer.stopCurrentAudio();
+      learningStageState.cardIndex -= 1;
+      persistSnapshot();
+      renderCurrentPhase();
+    }
+  }
+
+  function buildExtraInfoDetails(word) {
+    const details = document.createElement('details');
+    details.className = 'word-card-extra';
+    const summary = document.createElement('summary');
+    summary.textContent = 'Weitere Informationen';
+    details.appendChild(summary);
+
+    const homonyms = WordRelations.homonymGroupWords(word, allPackWordsCache);
+    if (homonyms.length > 0) {
+      details.appendChild(el('p', 'text-hint', `Homonyme (gleich geschrieben, andere Bedeutung): ${homonyms.map((w) => `${w.arabic} (${ExerciseRegistry.primaryGerman(w)})`).join(', ')}`));
+    }
+    const confusions = WordRelations.confusionGroupWords(word, allPackWordsCache);
+    if (confusions.length > 0) {
+      details.appendChild(el('p', 'text-hint', `Leicht zu verwechseln mit: ${confusions.map((w) => `${w.arabic} (${ExerciseRegistry.primaryGerman(w)})`).join(', ')}`));
+    }
+    const opposite = WordRelations.oppositeWord(word, allPackWordsCache);
+    if (opposite) {
+      details.appendChild(el('p', 'text-hint', `Gegenteil: ${opposite.arabic} (${ExerciseRegistry.primaryGerman(opposite)})`));
+    }
+    const otherForms = WordRelations.otherAcceptedArabicForms(word);
+    if (otherForms.length > 0) {
+      details.appendChild(el('p', 'text-hint arabic-text', `Weitere akzeptierte Schreibweisen: ${otherForms.join(', ')}`));
+    }
+    return details;
+  }
+
+  function renderDifficultToggle(word) {
+    const isDifficult = AppState.isWordMarkedDifficult(word.id);
+    return mkBtn(
+      isDifficult ? 'Nicht mehr als schwierig markieren' : 'Als schwierig markieren',
+      'btn secondary btn-small',
+      async () => { await AppState.toggleWordDifficult(word.id); renderCurrentPhase(); }
+    );
+  }
+
+  function renderWordCardsStage() {
+    const word = currentWordCard();
+    if (!word) { // Sicherheitsnetz: Session ohne neue Wörter (praktisch nie, aber kein Absturz)
+      learningStageState.stage = 'word_overview';
+      persistSnapshot();
+      renderCurrentPhase();
+      return;
+    }
+    const { bodyEl, actionBar } = SessionRenderer.renderLearningStageShell(container, {
       sessionDef,
-      phaseIndex: engine.phaseIndex,
-      progressLabel: `${words.length} neue Wörter — Übersicht`,
-      progressPercent: engine.progressPercent(),
-      onTheory: () => renderTheoryReview(renderLearnGrid),
+      stageKey: 'word_cards',
+      subProgress: words.length > 0 ? learningStageState.cardIndex / words.length : 0,
+      subLabel: `Wort ${learningStageState.cardIndex + 1} von ${words.length}`,
+      onTheory: () => renderTheoryReview(renderCurrentPhase),
       onLeave: confirmLeave
     });
     SessionRenderer.clearActionBar(actionBar);
-    const grid = document.createElement('div');
-    grid.className = 'word-grid';
-    words.forEach((w) => {
-      grid.appendChild(renderWordCard(w));
-      engine.markWordPreviewSeen(w.id);
-    });
-    bodyEl.appendChild(grid);
-    persistSnapshot();
-    SessionRenderer.renderContinueButton(actionBar, 'Zurück zur Einzelansicht', () => { learnViewMode = 'single'; renderLearnStep(); });
-  }
-
-  function renderSingleWordStep(group, indexInGroup) {
-    const word = group[indexInGroup];
-    const globalIndex = words.indexOf(word);
-    const { bodyEl, actionBar } = SessionRenderer.renderSessionShell(container, {
-      sessionDef,
-      phaseIndex: engine.phaseIndex,
-      progressLabel: `Wort ${globalIndex + 1} von ${words.length}`,
-      progressPercent: engine.progressPercent(),
-      onTheory: () => renderTheoryReview(() => renderSingleWordStep(group, indexInGroup)),
-      onLeave: confirmLeave
-    });
-
-    const firstTimeSeen = engine.markWordPreviewSeen(word.id);
-    if (firstTimeSeen) {
-      AppState.incrementDailyNewCount(1);
-      persistSnapshot();
-    }
 
     const settings = AppState.getSettings();
-    const ui = wordUiState[word.id];
-
     const card = el('div', 'card word-card');
-    card.appendChild(el('p', 'arabic-word-main', ui.hideSpelling ? '؟ ؟ ؟' : (word.arabic_vocalized || word.arabic)));
-    if (!ui.hideSpelling && settings.showTransliteration !== false && word.transliteration) {
+    card.appendChild(el('p', 'arabic-word-main', word.arabic_vocalized || word.arabic));
+    card.appendChild(el('p', 'word-card-translation', ExerciseRegistry.primaryGerman(word)));
+    if (settings.showTransliteration !== false && word.transliteration) {
       card.appendChild(el('p', 'word-card-translit', word.transliteration));
     }
-    if (!ui.hideTranslation) {
-      card.appendChild(el('p', 'word-card-translation', ExerciseRegistry.primaryGerman(word)));
-      const altAnswers = ExerciseRegistry.germanAnswers(word).slice(1);
-      if (altAnswers.length > 0) card.appendChild(el('p', 'text-hint', `auch: ${altAnswers.join(', ')}`));
-    }
+
+    const audioActions = document.createElement('div');
+    audioActions.className = 'word-card-actions';
+    audioActions.appendChild(mkIconBtn('🔊', `${word.german} anhören`, (btn) => AudioPlayer.speakWord(word, { context: 'Lernkarte', button: btn })));
+    audioActions.appendChild(mkIconBtn('🐢', `${word.german} langsam anhören`, (btn) => AudioPlayer.speakWord(word, { slow: true, context: 'Lernkarte', button: btn })));
+    card.appendChild(audioActions);
+
     const metaBits = [];
     if (word.part_of_speech) metaBits.push(word.part_of_speech);
     if (word.gender) metaBits.push(word.gender);
     if (word.plural) metaBits.push(`Plural: ${word.plural}`);
-    if (metaBits.length > 0) card.appendChild(el('p', 'text-hint', metaBits.join(' · ')));
+    if (metaBits.length > 0) card.appendChild(el('p', 'word-card-meta', metaBits.join(' · ')));
 
-    const audioActions = document.createElement('div');
-    audioActions.className = 'word-card-actions';
-    audioActions.appendChild(mkIconBtn('🔊', `${word.german} anhören`, (btn) => AudioPlayer.speakWord(word, { context: 'Wortkarte', button: btn })));
-    audioActions.appendChild(mkIconBtn('🐢', `${word.german} langsam anhören`, (btn) => AudioPlayer.speakWord(word, { slow: true, context: 'Wortkarte', button: btn })));
-    card.appendChild(audioActions);
+    const altAnswers = ExerciseRegistry.germanAnswers(word).slice(1);
+    if (altAnswers.length > 0) card.appendChild(el('p', 'text-hint', `Weitere Bedeutungen: ${altAnswers.join(', ')}`));
 
-    const toggleRow = document.createElement('div');
-    toggleRow.className = 'word-card-actions';
-    toggleRow.appendChild(mkBtn(ui.hideSpelling ? 'Schreibweise anzeigen' : 'Schreibweise verbergen', 'btn secondary', () => {
-      ui.hideSpelling = !ui.hideSpelling;
-      renderSingleWordStep(group, indexInGroup);
-    }));
-    toggleRow.appendChild(mkBtn(ui.hideTranslation ? 'Übersetzung anzeigen' : 'Übersetzung verbergen', 'btn secondary', () => {
-      ui.hideTranslation = !ui.hideTranslation;
-      renderSingleWordStep(group, indexInGroup);
-    }));
-    toggleRow.appendChild(mkBtn('Noch einmal zeigen', 'btn secondary', () => {
-      AudioPlayer.speakWord(word, { context: 'Wortkarte (erneut zeigen)' });
-      ui.hideSpelling = false;
-      ui.hideTranslation = false;
-      renderSingleWordStep(group, indexInGroup);
-    }));
-    // "Kenne ich schon" markiert das Wort NICHT als beherrscht — es reduziert nur später die
-    // zusätzliche (adaptive) Übungsmenge; aktive Abrufaufgaben bleiben verpflichtend (Abschnitt 4.3).
-    toggleRow.appendChild(mkBtn('Kenne ich schon', 'btn secondary', () => {
-      engine.markWordKnownAlready(word.id);
-      goToNextLearnStep(group, indexInGroup);
-    }));
-    card.appendChild(toggleRow);
-    bodyEl.appendChild(card);
-    bodyEl.appendChild(mkBtn('Alle Wörter anzeigen', 'btn secondary', () => { learnViewMode = 'grid'; renderLearnStep(); }));
-
-    if (settings.autoPlayWord) {
-      AudioPlayer.speakWord(word, { slow: !!settings.slowPlayback, context: 'Wortkarte (automatisch)' });
+    const prompt = Array.isArray(word.application_prompts) && word.application_prompts.length > 0 ? word.application_prompts[0] : null;
+    if (prompt && prompt.prompt) {
+      const exWrap = el('div', 'theory-callout theory-callout-info');
+      exWrap.appendChild(el('p', 'theory-callout-title', 'Anwendungsbeispiel'));
+      exWrap.appendChild(el('p', null, prompt.prompt));
+      if (prompt.expected_meaning) exWrap.appendChild(el('p', 'text-hint', `→ ${prompt.expected_meaning}`));
+      card.appendChild(exWrap);
     }
 
-    const isFirstOverall = learnGroupIndex === 0 && indexInGroup === 0;
+    if (WordRelations.hasAnyExtraInfo(word, allPackWordsCache)) {
+      card.appendChild(buildExtraInfoDetails(word));
+    }
+
+    card.appendChild(renderDifficultToggle(word));
+    bodyEl.appendChild(card);
+
+    // settings.slowPlayback (bereits vor Entwicklungsauftrag 15 vorhanden) bleibt hier wirksam --
+    // die dedizierte langsame Wiedergabe wird erst in Stufe 4 unabhängig vom globalen Schalter
+    // eingeführt (Abschnitt 12.3: dort ausdrücklich IMMER "einmal normal").
+    if (settings.autoPlayWord && lastAutoPlayedCardWordId !== word.id) {
+      AudioPlayer.speakWord(word, { slow: !!settings.slowPlayback, context: 'Lernkarte (automatisch)' });
+    }
+    lastAutoPlayedCardWordId = word.id;
+
+    const isFirst = learningStageState.cardIndex === 0;
     SessionRenderer.renderActionBar(actionBar, {
-      leftButtons: isFirstOverall ? [] : [{ label: '← Zurück', className: 'btn secondary', onClick: () => goToPrevLearnStep(group, indexInGroup) }],
-      rightButtons: [{ label: 'Weiter →', onClick: () => goToNextLearnStep(group, indexInGroup) }]
+      leftButtons: isFirst ? [] : [{ label: '← Zurück', className: 'btn secondary', onClick: goBackWordCard }],
+      rightButtons: [{ label: 'Weiter →', onClick: advanceFromWordCard }]
+    });
+
+    attachWordCardKeydown(advanceFromWordCard, goBackWordCard, () => AudioPlayer.speakWord(word, { context: 'Lernkarte (Tastatur)' }));
+  }
+
+  // --- Stufe 4: Audio kennenlernen (Entwicklungsauftrag 15, Abschnitt 12) ----------------------
+  function playAudioFamiliarization(word, slow, btn, statusEl) {
+    AudioPlayer.stopCurrentAudio();
+    if (statusEl) statusEl.textContent = 'Wird abgespielt …';
+    const list = slow ? learningStageState.audioHeardSlow : learningStageState.audioHeardNormal;
+    if (!list.includes(word.id)) list.push(word.id);
+    persistSnapshot();
+    return AudioPlayer.speakWord(word, { slow, context: 'Audio kennenlernen', button: btn }).then((result) => {
+      if (statusEl) statusEl.textContent = result.source === 'failed' ? 'Wiedergabe nicht möglich' : 'Abgespielt';
+      return result;
     });
   }
 
-  function goToNextLearnStep(group, indexInGroup) {
-    learnIndexInGroup = indexInGroup + 1;
-    persistSnapshot();
-    renderLearnStep();
-  }
-
-  function goToPrevLearnStep(group, indexInGroup) {
-    if (indexInGroup > 0) { learnIndexInGroup = indexInGroup - 1; renderLearnStep(); return; }
-    if (learnGroupIndex > 0) {
-      learnGroupIndex -= 1;
-      learnIndexInGroup = learnGroups[learnGroupIndex].length - 1;
-      renderLearnStep();
-    }
-  }
-
-  // Leichter Mini-Check nach jeder Dreiergruppe (Abschnitt 5) — deckt ALLE Wörter der Gruppe ab,
-  // in zufällig gewählter Form (Arabisch->Deutsch, Deutsch->Arabisch, Audio->Wort, Wort->Audio;
-  // noch keine freie Tastatureingabe).
-  function runGroupMiniCheck(groupIndex, checkIndex) {
-    const group = learnGroups[groupIndex];
-    if (checkIndex >= group.length) {
-      if (groupIndex + 1 < learnGroups.length) {
-        learnGroupIndex = groupIndex + 1;
-        learnIndexInGroup = 0;
-        persistSnapshot();
-        renderLearnStep();
-      } else {
-        learnGroupIndex = learnGroups.length;
-        engine.advancePhase();
-        persistSnapshot();
-        renderCurrentPhase();
-      }
+  function goToAudioIndex(idx) {
+    if (idx < 0) return;
+    // Abschnitt 12.2: "Audio beim Wort- oder Stufenwechsel stoppen" -- unabhängig davon, ob am
+    // neuen Wort automatisch erneut abgespielt wird, darf eine noch laufende Wiedergabe vom
+    // VORHERIGEN Wort nicht einfach unbemerkt weiterlaufen.
+    AudioPlayer.stopCurrentAudio();
+    if (idx >= words.length) {
+      learningStageState.stage = 'word_overview';
+      persistSnapshot();
+      renderCurrentPhase();
       return;
     }
-    const word = group[checkIndex];
-    const exerciseType = ExerciseRegistry.MINI_CHECK_TYPES[Math.floor(Math.random() * ExerciseRegistry.MINI_CHECK_TYPES.length)];
-    const guard = freshGuard();
-    const { bodyEl, actionBar } = SessionRenderer.renderSessionShell(container, {
+    learningStageState.audioIndex = idx;
+    persistSnapshot();
+    renderCurrentPhase();
+  }
+
+  function renderAudioFamiliarizationStage() {
+    const word = words[learningStageState.audioIndex];
+    if (!word) {
+      learningStageState.stage = 'word_overview';
+      persistSnapshot();
+      renderCurrentPhase();
+      return;
+    }
+    const { bodyEl, actionBar } = SessionRenderer.renderLearningStageShell(container, {
       sessionDef,
-      phaseIndex: engine.phaseIndex,
-      progressLabel: `Kurzer Check — Wort ${checkIndex + 1} von ${group.length} (Gruppe ${groupIndex + 1}/${learnGroups.length})`,
-      progressPercent: engine.progressPercent(),
-      onTheory: () => renderTheoryReview(() => runGroupMiniCheck(groupIndex, checkIndex)),
+      stageKey: 'audio_familiarization',
+      subProgress: words.length > 0 ? learningStageState.audioIndex / words.length : 0,
+      subLabel: `Audio ${learningStageState.audioIndex + 1} von ${words.length}`,
+      onTheory: () => renderTheoryReview(renderCurrentPhase),
       onLeave: confirmLeave
     });
     SessionRenderer.clearActionBar(actionBar);
-    ExerciseRegistry.render(exerciseType, bodyEl, {
-      word, allWords: words, helpConfig: HelpLevel.HELP_LEVEL_CONFIG.B, settings: AppState.getSettings()
-    }, guard, (isCorrect) => {
-      engine.recordMiniCheckResult(word.id, isCorrect);
-      persistSnapshot();
-      SessionRenderer.renderContinueButton(actionBar, 'Weiter', () => runGroupMiniCheck(groupIndex, checkIndex + 1));
+
+    const settings = AppState.getSettings();
+    const card = el('div', 'card word-card');
+    card.appendChild(el('p', 'arabic-word-main', word.arabic_vocalized || word.arabic));
+    card.appendChild(el('p', 'word-card-translation', ExerciseRegistry.primaryGerman(word)));
+    if (settings.showTransliteration !== false && word.transliteration) {
+      card.appendChild(el('p', 'word-card-translit', word.transliteration));
+    }
+    const statusEl = el('p', 'text-hint', 'Bereit');
+    card.appendChild(statusEl);
+
+    const audioActions = document.createElement('div');
+    audioActions.className = 'word-card-actions';
+    audioActions.appendChild(mkIconBtn('🔊', `${word.german} normal anhören`, (btn) => playAudioFamiliarization(word, false, btn, statusEl)));
+    audioActions.appendChild(mkIconBtn('🐢', `${word.german} langsam anhören`, (btn) => playAudioFamiliarization(word, true, btn, statusEl)));
+    card.appendChild(audioActions);
+    bodyEl.appendChild(card);
+
+    if (settings.autoPlayWord && lastAutoPlayedAudioWordId !== word.id) {
+      playAudioFamiliarization(word, false, null, statusEl);
+    }
+    lastAutoPlayedAudioWordId = word.id;
+
+    const isFirst = learningStageState.audioIndex === 0;
+    SessionRenderer.renderActionBar(actionBar, {
+      leftButtons: isFirst ? [] : [{ label: '← Vorheriges Wort', className: 'btn secondary', onClick: () => goToAudioIndex(learningStageState.audioIndex - 1) }],
+      rightButtons: [{ label: 'Weiter →', onClick: () => goToAudioIndex(learningStageState.audioIndex + 1) }]
+    });
+
+    attachWordCardKeydown(
+      () => goToAudioIndex(learningStageState.audioIndex + 1),
+      () => goToAudioIndex(learningStageState.audioIndex - 1),
+      () => playAudioFamiliarization(word, false, null, statusEl)
+    );
+  }
+
+  // --- Stufe 5: gemeinsame Wortübersicht (Entwicklungsauftrag 15, Abschnitt 13) -----------------
+  function renderWordOverviewStage() {
+    detachLearningKeydown();
+    const { bodyEl, actionBar } = SessionRenderer.renderLearningStageShell(container, {
+      sessionDef,
+      stageKey: 'word_overview',
+      onTheory: () => renderTheoryReview(renderCurrentPhase),
+      onLeave: confirmLeave
+    });
+    SessionRenderer.clearActionBar(actionBar);
+
+    const settings = AppState.getSettings();
+    const grid = document.createElement('div');
+    grid.className = 'word-grid';
+    words.forEach((w) => {
+      const card = el('div', 'card word-card');
+      // Abschnitt 13.2: "keine abgeschnittenen arabischen Wörter" -- in der kompakten Übersicht
+      // die mittlere statt der großen Lernwort-Schriftgröße verwenden (.arabic-word-main ist für
+      // Stufe 3 gedacht, wo genau EIN Wort/Ausdruck die ganze Kartenbreite für sich hat).
+      card.appendChild(el('p', 'arabic-example', w.arabic_vocalized || w.arabic));
+      card.appendChild(el('p', 'word-card-translation', ExerciseRegistry.primaryGerman(w)));
+      if (settings.showTransliteration !== false && w.transliteration) card.appendChild(el('p', 'word-card-translit', w.transliteration));
+      if (w.part_of_speech) card.appendChild(el('p', 'word-card-meta', w.part_of_speech));
+      const actions = document.createElement('div');
+      actions.className = 'word-card-actions';
+      actions.appendChild(mkIconBtn('🔊', `${w.german} anhören`, (btn) => AudioPlayer.speakWord(w, { context: 'Wortübersicht', button: btn })));
+      actions.appendChild(mkIconBtn('🐢', `${w.german} langsam anhören`, (btn) => AudioPlayer.speakWord(w, { slow: true, context: 'Wortübersicht', button: btn })));
+      card.appendChild(actions);
+      card.appendChild(renderDifficultToggle(w));
+      grid.appendChild(card);
+    });
+    bodyEl.appendChild(grid);
+    // Abschnitt 6: ehrlicher Übergang, statt eine bereits umgesetzte Stufe 6-10 zu behaupten.
+    bodyEl.appendChild(el('p', 'text-hint', LearningStages.AFTER_STAGE_5_LABEL));
+
+    SessionRenderer.renderActionBar(actionBar, {
+      leftButtons: [
+        {
+          label: '← Zurück zu den Lernkarten',
+          className: 'btn secondary',
+          onClick: () => { learningStageState.stage = 'word_cards'; persistSnapshot(); renderCurrentPhase(); }
+        },
+        {
+          label: 'Audio noch einmal üben',
+          className: 'btn secondary',
+          onClick: () => { learningStageState.stage = 'audio_familiarization'; learningStageState.audioIndex = 0; persistSnapshot(); renderCurrentPhase(); }
+        }
+      ],
+      rightButtons: [{
+        label: 'Weiter zu den Übungen',
+        onClick: () => {
+          engine.advancePhase();
+          persistSnapshot();
+          renderCurrentPhase();
+        }
+      }]
     });
   }
 
-  // --- Wiedererkennen/Rekonstruieren/Produktion/Anwendung (aufgabenbasierte Phasen) -----------
+  // --- Wiedererkennen/Rekonstruieren/Produktion/Anwendung (aufgabenbasierte Phasen, UNVERÄNDERT
+  // gegenüber Entwicklungsauftrag 13) -----------------------------------------------------------
   function renderGradedPhase() {
+    detachLearningKeydown();
     if (!engine.hasStartedQueue()) engine.startGradedQueue();
     if (engine.isPhaseQueueDone()) {
       engine.advancePhase();
@@ -626,8 +840,9 @@ const SessionController = (() => {
     }
   }
 
-  // --- Abschluss (Entwicklungsauftrag 5, Abschnitt 25) ----------------------------------------
+  // --- Abschluss (Entwicklungsauftrag 5, Abschnitt 25, UNVERÄNDERT) ----------------------------
   function renderSummaryPhase() {
+    detachLearningKeydown();
     // Entwicklungsauftrag 13, Abschnitt 6.3 — die Zusammenfassung startet keine automatische
     // Wiedergabe; eine bis hierhin noch laufende Aufnahme (z. B. aus der letzten Aufgabe) darf
     // hier nicht unbemerkt weiterlaufen.
@@ -708,7 +923,22 @@ const SessionController = (() => {
       renderTheoryPhase();
       return;
     }
-    if (type === 'word_preview') { renderWordLearningPhase(); return; }
+    if (type === 'word_preview') {
+      if (words.length === 0) { // Sicherheitsnetz: Session ohne neue Wörter überspringt Stufe 3-5
+        engine.advancePhase();
+        persistSnapshot();
+        renderCurrentPhase();
+        return;
+      }
+      if (!learningStageState) learningStageState = defaultLearningStageState();
+      if (!['word_cards', 'audio_familiarization', 'word_overview'].includes(learningStageState.stage)) {
+        learningStageState.stage = 'word_cards';
+      }
+      if (learningStageState.stage === 'word_cards') { renderWordCardsStage(); return; }
+      if (learningStageState.stage === 'audio_familiarization') { renderAudioFamiliarizationStage(); return; }
+      renderWordOverviewStage();
+      return;
+    }
     if (type === 'summary') { renderSummaryPhase(); return; }
     renderGradedPhase();
   }
@@ -717,8 +947,8 @@ const SessionController = (() => {
     container = el2;
     unitId = uid;
     container.innerHTML = '<div class="loading-placeholder">Lädt…</div>';
-    App.registerCleanup(() => { if (activeGuard) activeGuard.destroy(); });
-    learnGroups = null;
+    detachLearningKeydown();
+    App.registerCleanup(() => { if (activeGuard) activeGuard.destroy(); detachLearningKeydown(); });
 
     pack = await AppState.getLanguagePack();
     sessionDef = pack.vocabSessions.sessions.find((s) => s.session_id === sessionId);
@@ -728,6 +958,7 @@ const SessionController = (() => {
       return;
     }
     const allPackWords = pack.vocabulary.categories.flatMap((c) => c.words);
+    allPackWordsCache = allPackWords;
     const fullWordList = SessionEngine.buildWordList(sessionDef, allPackWords);
 
     App.renderHeader({
@@ -749,6 +980,7 @@ const SessionController = (() => {
       words = activeIds.map((id) => fullWordList.find((w) => w.id === id)).filter(Boolean);
       reviewWords = (resumedState.reviewWordIds || []).map((id) => allPackWords.find((w) => w.id === id)).filter(Boolean);
       engine = SessionEngine.create({ sessionDef, words, reviewWords, resumedState });
+      learningStageState = migrateLearningStageState(resumedState.learningStageState, engine.coverage, words);
       renderSessionOverview();
       return;
     }
@@ -768,3 +1000,7 @@ const SessionController = (() => {
 
   return { mount };
 })();
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = SessionController;
+}

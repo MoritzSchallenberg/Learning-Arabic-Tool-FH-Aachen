@@ -1,9 +1,10 @@
 // Ende-zu-Ende-Test der Pilot-Sessions (Entwicklungsauftrag 4 + grundlegend erweitert in
-// Entwicklungsauftrag 5): Sessionübersicht -> Theorie (Mini-Check muss vollständig bearbeitet
-// werden) -> Wörter in Dreiergruppen kennenlernen (mit Gruppen-Mini-Checks) -> Wiedererkennen ->
-// Rekonstruieren -> Geführte Eingabe -> Selbstständige Eingabe -> Anwendung -> Abschluss, gegen
-// die ECHTEN Module (kein Mock der Session-Logik selbst) — nur document/App/AppState/AudioPlayer
-// sind Testdoubles.
+// Entwicklungsauftrag 5; Lernstufen 1-5 in Entwicklungsauftrag 15 neu aufgebaut): Sessionübersicht/
+// Lernziele (Stufe 1) -> Theorie OHNE Pflicht-Mini-Check (Stufe 2) -> Lernkarten ohne
+// Zwischenabfrage (Stufe 3) -> Audio kennenlernen (Stufe 4) -> Wortübersicht (Stufe 5) -> ab hier
+// UNVERÄNDERT: Wiedererkennen -> Rekonstruieren -> Geführte Eingabe -> Selbstständige Eingabe ->
+// Anwendung -> Abschluss, gegen die ECHTEN Module (kein Mock der Session-Logik selbst) — nur
+// document/App/AppState/AudioPlayer sind Testdoubles.
 
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -32,6 +33,8 @@ const SOURCE_FILES = [
   'src/js/session/sessionQueue.js',
   'src/js/session/exerciseRegistry.js',
   'src/js/session/sessionEngine.js',
+  'src/js/session/learningStages.js',
+  'src/js/session/wordRelations.js',
   'src/js/session/sessionRenderer.js',
   'src/js/session/sessionController.js'
 ];
@@ -65,6 +68,13 @@ function createFakeAppState(settingsOverrides = {}) {
     getCard: (id) => {
       if (!cards[id]) cards[id] = { difficulty: {}, consecutiveWrong: {} };
       return cards[id];
+    },
+    // Entwicklungsauftrag 15, Abschnitt 9.7 — manuelle Schwierig-Markierung auf der Lernkarte.
+    isWordMarkedDifficult: (id) => !!(cards[id] && cards[id].markedDifficult),
+    toggleWordDifficult: (id) => {
+      if (!cards[id]) cards[id] = { difficulty: {}, consecutiveWrong: {} };
+      cards[id].markedDifficult = !cards[id].markedDifficult;
+      return Promise.resolve(cards[id].markedDifficult);
     },
     persistProgress: () => Promise.resolve(),
     getSessionState: (id) => sessionStates[id] || null,
@@ -155,20 +165,47 @@ function optionButtons(container) {
 }
 async function tick() { await new Promise((r) => setImmediate(r)); }
 
-async function answerAllTheoryMiniChecks(container) {
-  let guard = 0;
-  while (!findButtonByText(container, 'Mit den Wörtern starten') && guard < 10) {
-    guard += 1;
-    const opts = optionButtons(container);
-    if (opts.length === 0) break;
-    opts[0].click();
+// --- Entwicklungsauftrag 15: Hilfsfunktionen für die neuen Lernstufen 1-5 -------------------
+// Stufe 2 (Theorie) hat KEINEN Pflicht-Mini-Check mehr -- ein einziger Klick auf "Weiter zu den
+// Lernkarten" genügt (kein Warteschleifen-Loop wie zuvor bei "Mit den Wörtern starten" nötig).
+function clickTheoryNext(container) {
+  const btn = findButtonByText(container, 'Weiter zu den Lernkarten');
+  assert.ok(btn, '"Weiter zu den Lernkarten" sollte in Stufe 2 (Theorie) vorhanden sein');
+  btn.click();
+}
+
+/** Klickt in Stufe 3 (Lernkarten) oder Stufe 4 (Audio kennenlernen) genau `count`-mal auf
+ * "Weiter →", bis die jeweils nächste Stufe erreicht ist. */
+async function advanceThroughCards(container, count) {
+  for (let i = 0; i < count; i += 1) {
+    const btn = findButtonByText(container, 'Weiter →');
+    assert.ok(btn, `"Weiter →" sollte bei Karte/Audio ${i + 1} von ${count} vorhanden sein`);
+    btn.click();
     await tick();
-    const weiter = findButtonByText(container, 'Weiter');
-    if (weiter) { weiter.click(); await tick(); }
   }
 }
 
-test('vollständiger Durchlauf der Pilot-Session "Begrüßung und Höflichkeit": Übersicht -> Theorie -> Mini-Check -> Wörter in Gruppen -> Üben -> Abschluss', async () => {
+function clickOverviewNext(container) {
+  const btn = findButtonByText(container, 'Weiter zu den Übungen');
+  assert.ok(btn, '"Weiter zu den Übungen" sollte in Stufe 5 (Wortübersicht) vorhanden sein');
+  btn.click();
+}
+
+/** Durchläuft die kompletten Lernstufen 1-5 ab der Sessionübersicht bis zur ersten Übungsaufgabe. */
+async function completeLearningStages(container, wordCount) {
+  const startBtn = findButtonByText(container, 'Lernen beginnen') || findButtonByText(container, 'Session fortsetzen');
+  assert.ok(startBtn, '"Lernen beginnen"/"Session fortsetzen" sollte auf der Übersicht vorhanden sein');
+  startBtn.click();
+  await tick();
+  clickTheoryNext(container);
+  await tick();
+  await advanceThroughCards(container, wordCount); // Stufe 3: Lernkarten
+  await advanceThroughCards(container, wordCount); // Stufe 4: Audio kennenlernen
+  clickOverviewNext(container); // Stufe 5: Wortübersicht
+  await tick();
+}
+
+test('vollständiger Durchlauf der Pilot-Session "Begrüßung und Höflichkeit": Übersicht -> Theorie -> Lernkarten -> Audio -> Wortübersicht -> Üben -> Abschluss', async () => {
   const fakeAppState = createFakeAppState();
   const context = buildContext(fakeAppState);
   const SessionController = loadSessionModules(context);
@@ -176,56 +213,47 @@ test('vollständiger Durchlauf der Pilot-Session "Begrüßung und Höflichkeit":
   const container = createDocumentStub().createElement('div');
   await SessionController.mount(container, { unitId: 'vocab_unit_01', sessionId: 'vocab_unit_01_a' });
 
-  // 1) Sessionübersicht ist die ERSTE Ansicht — kein direkter Zugriff auf Theorie/Übungen
-  // (Abschnitt 14).
+  // 1) Sessionübersicht/Lernziele (Stufe 1) ist die ERSTE Ansicht — kein direkter Zugriff auf
+  // Theorie/Übungen (Abschnitt 7/14).
   assert.ok(container.textContent.includes('10 neue Wörter'), 'Übersicht sollte die Wortanzahl zeigen');
-  assert.ok(container.textContent.includes('Heute lernst du'));
+  assert.ok(container.textContent.includes('In dieser Session lernst du'));
   assert.ok(container.textContent.includes('Ablauf'));
-  assert.ok(!container.textContent.includes('Lernziele'), 'Theorie darf auf der Übersicht noch nicht sichtbar sein');
-  const startBtn = findButtonByText(container, 'Session starten');
-  assert.ok(startBtn, '"Session starten" sollte auf der Übersicht vorhanden sein');
+  assert.ok(container.textContent.includes('Kurze Theorie'), 'der Ablauf-Kasten sollte die Stufennamen nennen');
+  assert.ok(!findButtonByText(container, 'Mehr erfahren'), 'die eigentliche Theorieanzeige (Stufe 2) darf auf der Übersicht noch nicht sichtbar sein');
+  const startBtn = findButtonByText(container, 'Lernen beginnen');
+  assert.ok(startBtn, '"Lernen beginnen" sollte auf der Übersicht vorhanden sein');
   startBtn.click();
   await tick();
 
-  // 2) Theorie erscheint, Mini-Check MUSS vollständig bearbeitet werden, bevor "Session
-  // starten" (jetzt innerhalb der Theorie) nutzbar wird.
+  // 2) Theorie (Stufe 2) erscheint OHNE Pflicht-Mini-Check -- "Weiter zu den Lernkarten" ist von
+  // Anfang an nutzbar (Abschnitt 8).
   assert.ok(container.textContent.includes('Lernziele'));
-  const theoryStartBtn = findButtonByText(container, 'Session starten');
-  assert.equal(theoryStartBtn.disabled, true, 'sollte vor dem Mini-Check deaktiviert sein');
-
-  await answerAllTheoryMiniChecks(container);
-  assert.ok(container.textContent.includes('von 3 richtig'));
-  const startWordsBtn = findButtonByText(container, 'Mit den Wörtern starten');
-  assert.ok(startWordsBtn);
-  startWordsBtn.click();
+  const theoryNextBtn = findButtonByText(container, 'Weiter zu den Lernkarten');
+  assert.ok(theoryNextBtn, '"Weiter zu den Lernkarten" sollte sofort vorhanden sein');
+  assert.equal(theoryNextBtn.disabled, false, 'darf NICHT durch einen Mini-Check blockiert sein');
+  assert.ok(!findButtonByText(container, 'Mini-Check'), 'kein Mini-Check-Text sollte in Stufe 2 erscheinen');
+  theoryNextBtn.click();
   await tick();
 
-  // 3) Wörter in Dreiergruppen: Einzelansicht ist Standard, "Wort 1 von 9" sichtbar, kein
-  // Kartenraster mit allen Wörtern gleichzeitig.
+  // 3) Neue Wörter als Lernkarten (Stufe 3): Einzelansicht, "Wort 1 von 10" sichtbar, KEINE
+  // Abfrage zwischen den Karten (Abschnitt 9/14).
   assert.ok(container.textContent.includes('Wort 1 von 10'));
-  assert.equal(container.querySelectorAll('.word-card').length, 1, 'Einzelansicht sollte Standard sein, kein volles Raster');
-  assert.ok(findButtonByText(container, 'Alle Wörter anzeigen'));
-  assert.ok(findButtonByText(container, 'Kenne ich schon'));
+  assert.equal(container.querySelectorAll('.word-card').length, 1, 'genau eine Karte gleichzeitig, kein volles Raster');
+  assert.ok(findButtonByText(container, 'Als schwierig markieren'), 'Schwierig-Markierung sollte auf jeder Lernkarte vorhanden sein');
+  assert.equal(optionButtons(container).length, 0, 'in Stufe 3 darf keine Multiple-Choice-Abfrage erscheinen');
+  await advanceThroughCards(container, 10);
 
-  // Durch alle Gruppen (10 Wörter in Dreiergruppen) inkl. der jeweiligen Gruppen-Mini-Checks laufen.
-  let learningGuard = 0;
-  while (!container.textContent.includes('Wiedererkennen') || !container.querySelectorAll('.step-indicator-item.current').some((el) => el.textContent === 'Wiedererkennen')) {
-    learningGuard += 1;
-    assert.ok(learningGuard < 60, 'Wortlernphase sollte innerhalb der Sicherheitsgrenze abgeschlossen werden');
-    const weiterWort = findButtonByText(container, 'Weiter →');
-    if (weiterWort) { weiterWort.click(); await tick(); continue; }
-    const opts = optionButtons(container);
-    if (opts.length > 0) {
-      opts[0].click();
-      await tick();
-      const weiter = findButtonByText(container, 'Weiter');
-      assert.ok(weiter, '"Weiter" nach einem Gruppen-Mini-Check erwartet (kein Auto-Advance)');
-      weiter.click();
-      await tick();
-      continue;
-    }
-    break;
-  }
+  // 4) Audio kennenlernen (Stufe 4): eigene Stufe mit Positionsanzeige, ebenfalls keine Abfrage.
+  assert.ok(container.textContent.includes('Audio 1 von 10'), 'Stufe 4 sollte mit "Audio 1 von 10" beginnen');
+  await advanceThroughCards(container, 10);
+
+  // 5) Gemeinsame Wortübersicht (Stufe 5): alle 10 neuen Wörter, "Weiter zu den Übungen" beendet
+  // die Lernstufen (Abschnitt 13/14).
+  assert.ok(container.textContent.includes('Als Nächstes: Übungen'), 'ehrlicher Übergang statt erfundener Stufen 6-10 (Abschnitt 6)');
+  assert.equal(container.querySelectorAll('.word-card').length, 10, 'Wortübersicht sollte alle 10 neuen Wörter zeigen');
+  clickOverviewNext(container);
+  await tick();
+
   assert.ok(container.textContent.includes('Aufgabe 1 /'), 'Wiedererkennen-Phase sollte begonnen haben');
 
   // 4) Graded-Phasen: vereinheitlichte Aktionsleiste — "Prüfen" nur bei Eingabeaufgaben, sonst
@@ -286,29 +314,8 @@ test('Session-Wiederaufnahme: exakte Aufgaben-Warteschlange (inkl. geplanter Wie
   const container = createDocumentStub().createElement('div');
 
   await SessionController.mount(container, { unitId: 'vocab_unit_01', sessionId: 'vocab_unit_01_a' });
-  findButtonByText(container, 'Session starten').click();
-  await tick();
-  await answerAllTheoryMiniChecks(container);
-  findButtonByText(container, 'Mit den Wörtern starten').click();
-  await tick();
-
-  // Durch die komplette Gruppen-Lernphase klicken (Weiter durch alle Wörter + Mini-Checks),
-  // bis die erste graded Phase (Wiedererkennen) beginnt.
-  let guard = 0;
-  while (!container.textContent.includes('Aufgabe 1 /') && guard < 60) {
-    guard += 1;
-    const weiterWort = findButtonByText(container, 'Weiter →');
-    if (weiterWort) { weiterWort.click(); await tick(); continue; }
-    const opts = optionButtons(container);
-    if (opts.length > 0) {
-      opts[0].click();
-      await tick();
-      const weiter = findButtonByText(container, 'Weiter');
-      if (weiter) { weiter.click(); await tick(); }
-      continue;
-    }
-    break;
-  }
+  await completeLearningStages(container, 10);
+  assert.ok(container.textContent.includes('Aufgabe 1 /'), 'Wiedererkennen-Phase sollte begonnen haben');
 
   // Zwei Aufgaben lösen (bewusst mit der ERSTEN Option — mal richtig, mal falsch), dann
   // "verlassen" (neuer mount() in DEMSELBEN AppState — simuliert einen Neustart der App).
@@ -330,7 +337,11 @@ test('Session-Wiederaufnahme: exakte Aufgaben-Warteschlange (inkl. geplanter Wie
   // EXAKT derselben Warteschlange (Abschnitt 12: kein erneutes zufälliges Mischen).
   const container2 = createDocumentStub().createElement('div');
   await SessionController.mount(container2, { unitId: 'vocab_unit_01', sessionId: 'vocab_unit_01_a' });
-  assert.ok(!container2.textContent.includes('Lernziele'), 'nach Wiederaufnahme darf NICHT wieder die Theorie gezeigt werden');
+  // Hinweis: "Lernziele" allein ist seit Entwicklungsauftrag 15 KEIN zuverlässiger Marker mehr --
+  // der Ablaufkasten der Übersicht nennt "Lernziele" jetzt auch als Namen von Lernstufe 1. Die
+  // eigentliche Theorieanzeige erkennt man zuverlässig an ihrem eigenen "Weiter zu den
+  // Lernkarten"-Button, der auf der Übersicht selbst nie erscheint.
+  assert.ok(!findButtonByText(container2, 'Weiter zu den Lernkarten'), 'nach Wiederaufnahme darf NICHT wieder die Theorie gezeigt werden');
   assert.ok(container2.textContent.includes('Session fortsetzen'), 'Übersicht sollte "Session fortsetzen" statt "Session starten" anbieten');
   findButtonByText(container2, 'Session fortsetzen').click();
   await tick();
@@ -351,10 +362,9 @@ test('Theorie ist während der Session jederzeit über "Theorie ansehen" erreich
   const container = createDocumentStub().createElement('div');
 
   await SessionController.mount(container, { unitId: 'vocab_unit_01', sessionId: 'vocab_unit_01_a' });
-  findButtonByText(container, 'Session starten').click();
+  findButtonByText(container, 'Lernen beginnen').click();
   await tick();
-  await answerAllTheoryMiniChecks(container);
-  findButtonByText(container, 'Mit den Wörtern starten').click();
+  clickTheoryNext(container);
   await tick();
 
   const theoryBtn = findButtonByText(container, 'Theorie ansehen');
@@ -394,10 +404,9 @@ for (const [unitId, sessionId, wordCount] of [['vocab_unit_02', 'vocab_unit_02_a
     const allWords = loadVocabularyWords();
 
     await SessionController.mount(container, { unitId, sessionId });
-    findButtonByText(container, 'Session starten').click();
+    findButtonByText(container, 'Lernen beginnen').click();
     await tick();
-    await answerAllTheoryMiniChecks(container);
-    findButtonByText(container, 'Mit den Wörtern starten').click();
+    clickTheoryNext(container);
     await tick();
 
     let guard = 0;
@@ -405,6 +414,8 @@ for (const [unitId, sessionId, wordCount] of [['vocab_unit_02', 'vocab_unit_02_a
       guard += 1;
       const weiterWort = findButtonByText(container, 'Weiter →');
       if (weiterWort) { weiterWort.click(); await tick(); continue; }
+      const weiterUebungen = findButtonByText(container, 'Weiter zu den Übungen');
+      if (weiterUebungen) { weiterUebungen.click(); await tick(); continue; }
 
       const opts = optionButtons(container);
       if (opts.length > 0) {
@@ -448,5 +459,25 @@ for (const [unitId, sessionId, wordCount] of [['vocab_unit_02', 'vocab_unit_02_a
       `Session ${sessionId} sollte den Abschlussbildschirm erreichen`
     );
     assert.ok(container.textContent.includes(`von ${wordCount} Wörtern sicher erkannt`));
+  });
+}
+
+// Entwicklungsauftrag 15, Abschnitt 19 "Repräsentative Sessions": vollständiger Durchlauf der
+// Lernstufen 1-5 mindestens für die Sessions aus Unit 1/5/10/15/20/25/30 -- deckt ab, dass das
+// Stufenmodell nicht nur für die (in den obigen Tests bereits ausführlich geprüften) ersten drei
+// Pilot-Units funktioniert, sondern gleichmäßig über den gesamten Kurs 1 hinweg.
+for (const n of [1, 5, 10, 15, 20, 25, 30]) {
+  const unitId = `vocab_unit_${String(n).padStart(2, '0')}`;
+  const sessionId = `${unitId}_a`;
+  test(`repräsentative Session ${sessionId}: Stufen 1-5 vollständig durchlaufen, landet in Wiedererkennen`, async () => {
+    const fakeAppState = createFakeAppState();
+    const context = buildContext(fakeAppState);
+    const SessionController = loadSessionModules(context);
+    const container = createDocumentStub().createElement('div');
+
+    await SessionController.mount(container, { unitId, sessionId });
+    await completeLearningStages(container, 10);
+    assert.ok(container.textContent.includes('Aufgabe 1 /'), `Session ${sessionId} sollte nach Stufe 5 in Wiedererkennen landen`);
+    assert.equal(fakeAppState._incrementCalls.reduce((a, b) => a + b, 0), 10, 'jedes der 10 neuen Wörter zählt genau einmal fürs Tageslimit');
   });
 }

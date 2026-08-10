@@ -2725,3 +2725,192 @@ Funktionsregression (553/553 Tests, 10× hintereinander grün); Quellpaket enth�
 Design-System-Dateien und alle Audiodateien und wurde entpackt eigenständig erneut getestet.
 Sprachprüfung, Audioerzeugung, neuer Sitzungsfluss, neues Feedbacksystem und grundlegend neue
 Kursübersicht bewusst nicht Teil dieser Runde.
+
+## 19. Entwicklungsauftrag 15: Lernziele, Theorie, Lernkarten und Audio-Lernphase (vom Nutzer, 2026-08-11)
+
+Erster inhaltlicher Umbau des Sessionablaufs seit Entwicklungsauftrag 5: die ersten fünf Stufen
+des neuen zehnstufigen pädagogischen Modells werden entwickelt (Lernziele, kurze Theorie, neue
+Wörter als Lernkarten, Audio kennenlernen, gemeinsame Wortübersicht) — der Nutzer soll alle Wörter
+kennenlernen, bevor eine verpflichtende Abfrage beginnt. Die bestehenden Übungsphasen (Wieder-
+erkennen bis Abschluss) laufen nach Stufe 5 unverändert weiter; ihre endgültige Neuzuordnung zu
+Stufe 6-10 folgt erst in Entwicklungsauftrag 16.
+
+### Schritt 1: Baseline-Prüfung
+
+Ausgangsstand exakt wie vom Auftrag angegeben verifiziert: 900/900 Wörter, 90 Session-Theorien
+(plus 8 unabhängige Schrift-Theorien, macht 98 gesamt in `theory.json` — bereits vor diesem
+Auftrag so), 900 normale + 141 separate langsame Vokabelaudios, 759 Wörter mit
+verlangsamter-normaler Aufnahme, zentrales Designsystem samt Hell-/Dunkelmodus aus Auftrag 14
+weiterhin vollständig, 547 Unit- + 6 Integrationstests. Keine Abweichung festgestellt. Die vom
+Auftrag benannte Ausgangs-ZIP (`Arabisch Lerntool Entwicklungsauftrag 14.zip`) wurde inhaltlich
+mit dem bestehenden Arbeitsverzeichnis abgeglichen (byte-identisch bis auf projektinterne
+Metaverzeichnisse `.git`/`.github`/`.gitignore`) — direkt im vorhandenen Repository weitergearbeitet.
+
+### Schritt 2: zentrales Stufenmodell, keine zweite Session-Engine (Abschnitt 5)
+
+Neues `src/js/session/learningStages.js`: fünf Stufen (`learning_goals`, `theory`, `word_cards`,
+`audio_familiarization`, `word_overview`) mit deutschen Labels, Nummer 1-5, `TOTAL_DISPLAY_STAGES
+= 10` und der ehrlichen Übergangskonstante `AFTER_STAGE_5_LABEL = "Als Nächstes: Übungen"`
+(Abschnitt 6). Bewusst bilden die fünf Stufen NUR die bestehenden ersten zwei Phasentypen
+('theory', 'word_preview') feiner ab — `vocabSessions.json` (`sessionDef.phases`) bleibt
+vollständig unverändert, `SessionEngine.phaseIndex` bleibt die alleinige Quelle der Wahrheit für
+den großen Ablauf. Stufe 1 (Lernziele) liegt dabei VOR dem Phasendurchlauf (Sessionübersicht,
+wie schon zuvor), Stufe 2 entspricht `phaseIndex 0`, Stufen 3-5 sind drei Unterstufen von
+`phaseIndex 1`, gesteuert über ein neues `learningStageState`-Feld im Session-Snapshot.
+
+### Schritt 3: Stufe 1 — Lernziele/Sessionübersicht (Abschnitt 7)
+
+`renderSessionOverview()` überarbeitet: zeigt jetzt zusätzlich die Unit, verwendet
+`theory.learning_objectives`, sonst eine sachliche Ersatzformulierung nach dem im Auftrag
+vorgegebenen Muster ("N Wörter zu THEMA" / "die Wörter zu erkennen und auszusprechen" / "sie
+anschließend in Übungen selbst anzuwenden") — keine erfundenen Inhalte. Der "Ablauf"-Kasten nennt
+jetzt die fünf neuen Stufenlabel plus "Übungen" statt der rohen internen Phasennamen. Bei
+Wiederaufnahme: "Session fortsetzen" als Hauptaktion, aktuelle Stufe wird benannt ("Du bist bei:
+Stufe 3 von 10 – Neue Wörter kennenlernen"), "Von vorne beginnen" bleibt sekundär und weiterhin
+bestätigungspflichtig (bestehender Mechanismus unverändert).
+
+### Schritt 4: Stufe 2 — Theorie ohne Pflicht-Mini-Check (Abschnitt 8)
+
+`TheoryRenderer.mount()` bekommt eine neue Option `mode: 'learning_intro'`: mini_check-Blöcke
+werden in diesem Modus GAR NICHT gerendert (nicht nur unverbindlich), der Start-Button heißt
+standardmäßig "Weiter zu den Lernkarten" und ist nie deaktiviert. Die Mini-Check-Daten selbst
+bleiben in `theory.json` vollständig erhalten — beim späteren erneuten Öffnen der Theorie während
+der Übungen (`renderTheoryReview()`, unverändert, kein `mode`) erscheinen sie weiterhin wie zuvor.
+Zusätzlich: `word_preview`-Blöcke (die in allen 90 Theorien vorhandene 10-Wort-Vorschau) bekommen
+normale UND langsame Audio-Buttons über einen neuen `onPlayWordAudio`-Callback, verdrahtet auf
+`AudioPlayer.speakWord()` — echte, bereits vorhandene Audiodateien, keine neue Erzeugung.
+
+### Schritt 5: Stufe 3 — neue Wörter als Lernkarten (Abschnitt 9-11)
+
+Der alte, gruppenbasierte Wortlern-Ablauf (Dreiergruppen + Gruppen-Mini-Checks,
+`renderWordLearningPhase`/`runGroupMiniCheck` u. a.) wurde vollständig ersetzt durch
+`renderWordCardsStage()`: eine Karte pro Wort, KEINE Zwischenabfrage. Jede Karte zeigt in fester
+Hierarchie: Position, großes arabisches Wort, deutsche Hauptbedeutung, Umschrift (nach
+Einstellung), normale/langsame Audiowiedergabe, kompakte Grammatik-Metazeile (nur vorhandene
+Felder — kein "Plural: null"), weitere Bedeutungen (dezent), ein aus `application_prompts[0]`
+abgeleitetes Anwendungsbeispiel als lesbarer Text (keine JSON-Struktur), sowie einen
+aufklappbaren Bereich (natives `<details>`/`<summary>`, von Haus aus tastaturbedienbar) für
+Homonyme/Verwechslungen/Gegenteil/weitere akzeptierte Schreibweisen — neues
+`src/js/session/wordRelations.js` löst `confusion_group`/`homonym_group`/`opposite_id` zu den
+TATSÄCHLICH zugeordneten Wortobjekten auf, nie als rohe interne ID. Jede Karte hat außerdem "Als
+schwierig markieren" (neu: `AppState.isWordMarkedDifficult`/`toggleWordDifficult` in `state.js`,
+auf demselben bestehenden Karten-Speicherplatz wie `card.difficulty`, kein zweiter Mechanismus).
+
+`preview_seen` (Grundlage des Tageslimits) wird jetzt NUR beim expliziten Weitergehen gesetzt
+(Klick auf "Weiter →", erlaubte Tastaturnavigation, oder Verlassen der letzten Karte) — nicht mehr
+beim bloßen Rendern, wie es die alte Implementierung tat (Abschnitt 10, echte Verhaltensänderung,
+mit eigenem Test abgesichert). Navigation: "Zurück"/"Weiter →", Positionsanzeige, Pfeiltasten
+links/rechts, Leertaste für Audio — AUSSER der Fokus liegt auf einem Button/Eingabefeld (damit
+keine normale Buttonbedienung überschrieben wird). Genau ein aktiver Tastatur-Listener gleichzeitig
+(neues `removeEventListener` im gemeinsamen Test-DOM-Stub ergänzt, um das zu testen).
+
+### Schritt 6: Stufe 4 — Audio kennenlernen (Abschnitt 12, komplett neu)
+
+Neue, eigenständige `renderAudioFamiliarizationStage()`: pro Wort großes arabisches Wort, deutsche
+Bedeutung, normale/langsame Wiedergabe, Position ("Audio 3 von 10"), sichtbarer Wiedergabestatus
+("Bereit"/"Wird abgespielt …"/"Abgespielt"/"Wiedergabe nicht möglich"). Nutzt durchgehend den
+zentralen `AudioPlayer.speakWord()`-Einstiegspunkt (Abschnitt 12.2 damit größtenteils bereits
+durch die bestehende Infrastruktur erfüllt: zentraler audio_key, Fallback auf `playbackRate:0.75`,
+Doppelklick-Schutz, kein TTS bei vorhandener Aufnahme). `settings.autoPlayWord` wird respektiert,
+spielt aber nur EINMAL pro Wortwechsel automatisch ab (eigene Prüfung gegen das zuletzt
+automatisch abgespielte Wort, verhindert unkontrolliertes erneutes Abspielen bei jedem Re-Render).
+Ein echter, im ersten Anlauf übersehener Fehler wurde durch einen eigenen Test aufgedeckt und
+behoben: `AudioPlayer.stopCurrentAudio()` wurde vorher nur beim tatsächlichen Start einer neuen
+Wiedergabe aufgerufen — beim bloßen Wortwechsel OHNE automatisches/manuelles Abspielen lief eine
+noch laufende vorherige Aufnahme unbemerkt weiter. Jetzt wird beim Wort-/Stufenwechsel immer
+zuerst gestoppt.
+
+### Schritt 7: Stufe 5 — gemeinsame Wortübersicht (Abschnitt 13)
+
+Neue `renderWordOverviewStage()`: Kartenraster (nur die neuen Wörter dieser Session, KEINE
+eingemischten Wiederholungswörter) mit arabischer Form, deutscher Bedeutung, Umschrift,
+normaler/langsamer Wiedergabe, Schwierig-Markierung. "Zurück zu den Lernkarten"/"Audio noch
+einmal üben" verlieren keinen Fortschritt; erst "Weiter zu den Übungen" beendet Stufe 5
+(`engine.advancePhase()`, exakt derselbe Übergang wie zuvor beim Verlassen der alten
+Wortlernphase). Ein bei der visuellen Prüfung tatsächlich gefundener Darstellungsfehler wurde
+behoben: mehrteilige arabische Ausdrücke (z. B. "مَعَ السَّلَامَة") brachen in der schmalen
+160px-Rastersäule mitten im Wort um — Säulenbreite auf 220px erhöht und die kompaktere
+`.arabic-example`-Schriftgröße statt der für Stufe 3 gedachten großen `.arabic-word-main`-Größe
+verwendet (`.word-grid` wird seit diesem Auftrag ausschließlich hier verwendet, keine
+Nebenwirkung auf andere Ansichten).
+
+### Schritt 8: Speicherung und Migration (Abschnitt 11/18)
+
+Neues `learningStageState`-Feld (`{stage, cardIndex, confirmedWordIds, audioIndex,
+audioHeardNormal, audioHeardSlow}`) im bestehenden Session-Snapshot (`persistSnapshot()`) — kein
+zweiter Speichermechanismus. `cardIndex`/`audioIndex` werden jetzt EXPLIZIT gespeichert statt wie
+zuvor aus der Coverage geraten (Abschnitt 11, ausdrückliche Anforderung). Migration alter
+Snapshots ohne dieses Feld: sichere Standardposition (`word_cards`, `cardIndex` grob aus
+vorhandener `preview_seen`-Coverage rekonstruiert) — WIRD NUR ERREICHT, wenn `phaseIndex` noch bei
+`word_preview` steht; eine Session, die bereits eine Übungsphase (`phaseIndex >= 2`) erreicht hat,
+durchläuft diesen Pfad gar nicht erst und wird nicht an den Kartenanfang zurückgesetzt (mit
+eigenem Test abgesichert).
+
+### Schritt 9: Tests
+
+65 neue/erweiterte Tests (547 → 612 Unit-Tests): `learningStages.test.js` (14),
+`wordRelations.test.js` (11), `sessionLearningStages.test.js` (23, u. a. preview_seen-Zeitpunkt,
+leere Grammatikfelder, aufgelöste Zusatzinfos, Schwierig-Markierung übersteht Neustart,
+Tastaturnavigation inkl. Leertaste-vs-Button-Fokus, Audio-Stopp bei Wortwechsel, autoPlayWord
+genau einmal pro Wort, Migration alter/bereits-in-Übung-befindlicher Snapshots, exakte
+Karten-/Audio-Position nach Neustart), `learningStagesStructure.test.js` (4, inkl. struktureller
+Prüfung aller 90 echten Sessions und der Lernziel-Ersatzformulierung gegen eine synthetische
+Session ohne `learning_objectives`), 6 neue Tests in `theoryRenderer.test.js`
+(`mode:'learning_intro'`, Wortaudio). `sessionController.e2e.test.js` an den neuen Ablauf
+angepasst (nicht geschwächt, sondern auf die bewusst geänderten Verträge umgeschrieben) und um
+sieben repräsentative Sessions erweitert (Unit 1/5/10/15/20/25/30, wie im Auftrag verlangt).
+`test/helpers/domStub.js` um `removeEventListener` ergänzt (fehlte bisher komplett).
+
+### Schritt 10: echte visuelle Verifikation, diesmal mit isoliertem Nutzerprofil
+
+Wie schon in Entwicklungsauftrag 14 wurde die App über Playwright real gestartet und bedient
+(dieselbe reale Desktop-Sitzung dieser Umgebung). Diesmal verbessert: statt gegen das echte
+Nutzerprofil zu laufen und Änderungen hinterher zurückzusetzen, wurde die App mit dem von
+Electron selbst (ohne Code-Änderung) ausgewerteten `--user-data-dir`-Schalter auf ein komplett
+isoliertes, temporäres Profil verwiesen — das echte Nutzerprofil wurde dadurch gar nicht erst
+berührt (Änderungszeitpunkte von `settings.json`/`progress.json` vor und nach der Prüfung
+identisch bestätigt). Bestätigt wurden dabei: Stufe 1 zeigt Lernziele und Ablauf; Stufe 2 zeigt
+"Weiter zu den Lernkarten" sofort aktiv, kein Mini-Check-Text; Stufe 3 zeigt "Wort 1 von 10" samt
+Schwierig-Button; ein Theme-Wechsel MITTEN in Stufe 3 unterbricht die Karte nicht; Stufe 4 wird
+korrekt erreicht ("Audio 1 von 10"); Stufe 5 zeigt "Als Nächstes: Übungen" und genau 10 Karten;
+nach "Weiter zu den Übungen" startet die BESTEHENDE, unveränderte Wiedererkennen-Phase mit ihrem
+alten Stepper (keine vorgetäuschte Stufe 6-10). Dabei den oben genannten Wortumbruch-Fehler in
+Stufe 5 gefunden und behoben.
+
+### Schritt 11: vollständige Verifikation
+
+```text
+npm run lint:            erfolgreich (164 JS-Dateien, 0 Kollisionen)
+npm test:                 612/612 Unit-Tests + 6/6 Integrationstests, 10× hintereinander
+                           ausgeführt, alle 10 Läufe sauber
+npm run validate:course:  0 Fehler, 1 Hinweis (unverändert — keine Wort-/Theorie-Änderung)
+npm run audio:verify:     759/759 in Ordnung, 0 Probleme
+npm run package:source:   35,9 MB, 1.333 Einträge
+```
+
+Alle 90 Sessions zusätzlich per eigenem Skript strukturell geprüft (Phasenreihenfolge, nicht-leere
+`new_word_ids`, vorhandenes Theoriedokument): 90/90 in Ordnung. Datenintegrität: SHA-256-Prüfsummen
+von `vocabulary.json`, `theory.json`, `vocabSessions.json`, `audio_generation_manifest.json`,
+allen 7 Sprachprüf-Batches sowie ein Sammelhash über alle 1.041 Audiodateien vor und nach der
+Entwicklung verglichen — byte-identisch. Quellpaket zweimal in ein frisches Verzeichnis entpackt,
+dort `npm install`/`npm test`/`npm run lint`/`npm run validate:course` erneut ausgeführt (jeweils
+612/612 + 6/6, erfolgreich) — das zweite Mal nach dem in Schritt 7 behobenen Wortumbruch-Fix, damit
+das ausgelieferte Quellpaket den finalen Stand widerspiegelt.
+
+### Manuelle Prüfliste für `npm start`
+
+Die im Auftrag (Abschnitt 24) vorgegebene Prüfliste wird unverändert übernommen und im
+Abschlussbericht dieser Runde wiedergegeben.
+
+### Akzeptanzkriterien dieser Runde (Auszug)
+
+Alle 90 Sessions besitzen die neuen Stufen 1-5 in fester Reihenfolge; Lernziele vor der Theorie;
+Theorie vor den Lernkarten, ohne verpflichtenden Mini-Check; übersichtliche Einzelkarten ohne
+Zwischenabfrage; eigene Audio-Lernphase mit Wiedergabestatus; gemeinsame Wortübersicht vor den
+Übungen; keine Abfrage vor Abschluss der fünften Stufe (automatisiert abgesichert); exakte
+Wiederaufnahme innerhalb der Lernphasen (Karten-/Audio-Position explizit gespeichert, nicht
+geraten); bestehende Übungsphasen laufen unverändert weiter; 900 Wörter, 90 Theorien, alle
+Audiodateien nachweislich unverändert (Prüfsummen); Review-Modus nicht angefasst; keine
+Testregression (612/612 + 6/6, 10× grün). Sprachprüfung, Wort-/Theorieänderungen,
+Audioerzeugung, endgültige Stufen 6-10, neues Feedbacksystem, neue Kursübersicht und Onboarding
+bewusst nicht Teil dieser Runde.

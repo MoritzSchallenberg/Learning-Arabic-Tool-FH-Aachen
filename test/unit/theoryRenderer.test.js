@@ -194,6 +194,80 @@ test('requireMiniCheckBeforeStart: "Session starten" bleibt deaktiviert, bis der
   assert.equal(started, true);
 });
 
+// --- Entwicklungsauftrag 15, Abschnitt 8: mode:'learning_intro' -------------------------------
+
+test('mode:"learning_intro": mini_check-Blöcke werden GAR NICHT gerendert (nicht nur unverbindlich)', () => {
+  const TheoryRenderer = loadTheoryRenderer({ markTheoryOpenedCalls: [], markTheoryCompletedCalls: [] });
+  const container = createDocumentStub().createElement('div');
+
+  TheoryRenderer.mount(container, SAMPLE_THEORY, { getWordById: fakeWordLookup, mode: 'learning_intro' });
+
+  assert.ok(!container.textContent.includes('Was bedeutet'), 'die Mini-Check-Frage darf im Lern-Einstieg nicht erscheinen');
+  assert.ok(!container.querySelectorAll('button').some((b) => b.textContent === 'Tür' || b.textContent === 'Fenster'));
+});
+
+test('mode:"learning_intro": requireMiniCheckBeforeStart wirkt sich nicht aus, der Start-Button ist nie deaktiviert', () => {
+  const TheoryRenderer = loadTheoryRenderer({ markTheoryOpenedCalls: [], markTheoryCompletedCalls: [] });
+  const container = createDocumentStub().createElement('div');
+  let started = false;
+
+  TheoryRenderer.mount(container, SAMPLE_THEORY, {
+    getWordById: fakeWordLookup,
+    mode: 'learning_intro',
+    requireMiniCheckBeforeStart: true, // sollte in diesem Modus wirkungslos bleiben
+    onStart: () => { started = true; }
+  });
+
+  const startBtn = container.querySelectorAll('button').find((b) => b.textContent === 'Weiter zu den Lernkarten');
+  assert.ok(startBtn, 'der Standard-Beschriftung "Weiter zu den Lernkarten" sollte erscheinen');
+  assert.equal(startBtn.disabled, false);
+  startBtn.click();
+  assert.equal(started, true);
+});
+
+test('mode:"learning_intro": ein explizit übergebenes startLabel überschreibt weiterhin den Standardtext', () => {
+  const TheoryRenderer = loadTheoryRenderer({ markTheoryOpenedCalls: [], markTheoryCompletedCalls: [] });
+  const container = createDocumentStub().createElement('div');
+  TheoryRenderer.mount(container, SAMPLE_THEORY, { getWordById: fakeWordLookup, mode: 'learning_intro', startLabel: 'Eigene Beschriftung' });
+  assert.ok(container.querySelectorAll('button').some((b) => b.textContent === 'Eigene Beschriftung'));
+});
+
+test('ohne mode:"learning_intro" (Standardfall, z. B. erneutes Ansehen während der Übungen) bleiben Mini-Checks weiterhin sichtbar', () => {
+  const TheoryRenderer = loadTheoryRenderer({ markTheoryOpenedCalls: [], markTheoryCompletedCalls: [] });
+  const container = createDocumentStub().createElement('div');
+  TheoryRenderer.mount(container, SAMPLE_THEORY, { getWordById: fakeWordLookup });
+  assert.ok(container.textContent.includes('Was bedeutet'), 'Mini-Check-Daten dürfen nicht gelöscht sein und bleiben im Normalmodus sichtbar');
+});
+
+// --- Entwicklungsauftrag 15, Abschnitt 8: Audio an word_preview-Wortkarten ---------------------
+
+test('word_preview-Wortkarten bieten normale UND langsame Audiowiedergabe an, wenn onPlayWordAudio übergeben wird', () => {
+  const TheoryRenderer = loadTheoryRenderer({ markTheoryOpenedCalls: [], markTheoryCompletedCalls: [] });
+  const container = createDocumentStub().createElement('div');
+  const calls = [];
+
+  TheoryRenderer.mount(container, SAMPLE_THEORY, {
+    getWordById: fakeWordLookup,
+    onPlayWordAudio: (word, opts) => calls.push({ word, opts })
+  });
+
+  const normalBtn = container.querySelectorAll('.btn.icon').find((b) => b.textContent === '🔊');
+  const slowBtn = container.querySelectorAll('.btn.icon').find((b) => b.textContent === '🐢');
+  assert.ok(normalBtn && slowBtn, 'beide Audio-Buttons sollten an einer word_preview-Karte vorhanden sein');
+
+  normalBtn.click();
+  assert.equal(calls[calls.length - 1].opts.slow, false);
+  slowBtn.click();
+  assert.equal(calls[calls.length - 1].opts.slow, true);
+});
+
+test('word_preview-Wortkarten bleiben ohne onPlayWordAudio funktionsfähig (kein Absturz, keine Buttons)', () => {
+  const TheoryRenderer = loadTheoryRenderer({ markTheoryOpenedCalls: [], markTheoryCompletedCalls: [] });
+  const container = createDocumentStub().createElement('div');
+  assert.doesNotThrow(() => TheoryRenderer.mount(container, SAMPLE_THEORY, { getWordById: fakeWordLookup }));
+  assert.equal(container.querySelectorAll('.btn.icon').length, 0);
+});
+
 test('Blöcke ohne bekannten Renderer werden übersprungen, ohne zu crashen', () => {
   const TheoryRenderer = loadTheoryRenderer({ markTheoryOpenedCalls: [], markTheoryCompletedCalls: [] });
   const container = createDocumentStub().createElement('div');

@@ -1387,6 +1387,64 @@ Theorieanzeige, Vokabelbrowser, Hörübungen, Grammatikbereiche, Alphabet, Verbi
 Vokalisierungstrainer, virtuelle Tastatur, Dialoge) steht weiterhin aus — siehe manuelle Prüfliste
 im Abschlussbericht bzw. `ROADMAP.md`.
 
+## Lernziele, Theorie, Lernkarten und Audio-Lernphase (Entwicklungsauftrag 15)
+
+Die ersten fünf Stufen des neuen zehnstufigen pädagogischen Sessionablaufs: Lernziele, kurze
+Theorie, neue Wörter als Lernkarten, Audio kennenlernen, gemeinsame Wortübersicht — der Nutzer
+lernt alle Wörter kennen, bevor eine verpflichtende Abfrage beginnt. Die bestehenden
+Übungsphasen (Wiedererkennen bis Abschluss) laufen danach unverändert weiter; ihre endgültige
+Stufen-6-10-Zuordnung folgt in Entwicklungsauftrag 16.
+
+**Zentrales Stufenmodell, keine zweite Session-Engine:** `src/js/session/learningStages.js`
+definiert die fünf Stufen mit deutschen Labels; sie bilden bewusst nur die bestehenden ersten
+zwei Phasentypen ('theory', 'word_preview') feiner ab — `vocabSessions.json` bleibt unverändert.
+
+**Stufe 1 (Lernziele):** überarbeitete Sessionübersicht — Unit, Thema, Wortanzahl,
+Wiederholungswörter, Dauer, Lernziele (aus `theory.learning_objectives`, sonst eine sachliche
+Ersatzformulierung ohne erfundene Inhalte), ehrlicher Ablauf-Überblick. Bei Wiederaufnahme wird
+die aktuelle Stufe benannt.
+
+**Stufe 2 (Theorie):** neue `TheoryRenderer`-Option `mode: 'learning_intro'` — Mini-Checks werden
+in diesem Modus gar nicht gerendert (Daten bleiben erhalten, erscheinen beim späteren erneuten
+Öffnen während der Übungen weiterhin). `word_preview`-Blöcke bekommen normale/langsame
+Audio-Buttons (echte vorhandene Aufnahmen).
+
+**Stufe 3 (Lernkarten):** der alte gruppenbasierte Ablauf mit Gruppen-Mini-Checks wurde durch
+Einzelkarten ohne Zwischenabfrage ersetzt — großes arabisches Wort, Bedeutung, Umschrift,
+Audio, kompakte Grammatik (nur vorhandene Felder), Anwendungsbeispiel als lesbarer Text,
+aufklappbare Zusatzinfos (`src/js/session/wordRelations.js` löst `confusion_group`/
+`homonym_group`/`opposite_id` zu echten Wörtern auf, nie als rohe ID), Schwierig-Markierung
+(`AppState.isWordMarkedDifficult`/`toggleWordDifficult`, derselbe bestehende Speicherplatz).
+`preview_seen` wird jetzt erst beim expliziten Weitergehen gesetzt, nicht mehr beim Rendern.
+Navigation per Pfeiltasten/Leertaste, ohne normale Buttonbedienung zu überschreiben.
+
+**Stufe 4 (Audio kennenlernen):** neue eigenständige Stufe mit Positionsanzeige und sichtbarem
+Wiedergabestatus. Ein echter Fehler behoben: Audio wurde bei reinem Wortwechsel ohne Wiedergabe
+nicht gestoppt — jetzt stoppt jeder Wort-/Stufenwechsel eine noch laufende Aufnahme zuverlässig.
+
+**Stufe 5 (Wortübersicht):** Kartenraster aller neuen Wörter (keine Wiederholungswörter), "Zurück
+zu den Lernkarten"/"Audio noch einmal üben" verlieren keinen Fortschritt, erst "Weiter zu den
+Übungen" beendet die Lernstufen. Ein bei der visuellen Prüfung gefundener Fehler behoben: lange
+arabische Ausdrücke brachen in der schmalen Rasterspalte mitten im Wort um.
+
+**Speicherung:** neues `learningStageState`-Feld im bestehenden Session-Snapshot (kein zweiter
+Mechanismus) — Karten-/Audio-Position werden jetzt explizit gespeichert statt geraten. Alte
+Snapshots ohne dieses Feld werden sicher migriert; eine Session, die bereits eine Übungsphase
+erreicht hat, wird nicht an den Kartenanfang zurückgesetzt.
+
+**Visuelle Verifikation:** wie in Auftrag 14 real über Playwright, diesmal mit einem über
+Electrons `--user-data-dir`-Schalter isolierten Profil — das echte Nutzerprofil wurde dieses Mal
+gar nicht erst berührt.
+
+**Tests:** 65 neue/erweiterte Tests (547 → 612 Unit-Tests), inkl. sieben repräsentativer Sessions
+(Unit 1/5/10/15/20/25/30). `npm test` 618/618, 10× hintereinander sauber. Datenintegrität
+(Prüfsummenvergleich vor/nach) bestätigt: 900 Wörter, 90 Theorien, alle 1.041 Audiodateien
+unverändert.
+
+**Bewusst nicht Teil dieser Runde:** Sprachprüfung, Wort-/Theorie-/Audio-Änderungen,
+Audioerzeugung, endgültige Stufen 6-10, neues Feedbacksystem, neue Kursübersicht, Onboarding,
+adaptive Hilfe-Reduzierung, Umbau des Review-Modus.
+
 ## Bekannte Einschränkungen
 
 - Für Vokabeln/Buchstaben ohne generierte Audiodatei (z. B. neu hinzugefügte Inhalte vor dem

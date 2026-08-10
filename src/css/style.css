@@ -1148,9 +1148,28 @@ input[type="checkbox"], input[type="radio"] {
 }
 .word-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  /* Entwicklungsauftrag 15, Abschnitt 13.2: seit diesem Auftrag die einzige Verwendung dieser
+     Klasse (gemeinsame Wortübersicht, Stufe 5) -- auf 220px statt vorher 160px verbreitert, damit
+     mehrteilige arabische Ausdrücke (z. B. "مَعَ السَّلَامَة") nicht mitten im Wort umbrechen. */
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 14px;
 }
+
+/* --- Aufklappbare Zusatzinformationen einer Lernkarte (Entwicklungsauftrag 15, Abschnitt 9.6) ---
+   Natives <details>/<summary> statt eigenem JS-Toggle: von Haus aus tastaturbedienbar
+   (Tab + Enter/Leertaste), kein neues Komponentensystem nötig (Abschnitt 17). */
+.word-card-extra {
+  text-align: left;
+  margin-top: 14px;
+  border-top: 1px solid var(--border-weak);
+  padding-top: 10px;
+}
+.word-card-extra summary {
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+.word-card-extra p { margin: 8px 0 0; }
 
 /* --- Schrittanzeige (Session-Phasen-Stepper) --- */
 .step-indicator {
