@@ -824,3 +824,59 @@ test('Zuordnungsaufgaben: Wiederaufnahme mitten in einer Gruppe erhält bereits 
   assert.ok(lockedAfter, 'dasselbe Element sollte weiterhin vorhanden sein');
   assert.equal(lockedAfter.disabled, true, 'das bereits gelöste Paar sollte nach Wiederaufnahme weiterhin gesperrt bleiben');
 });
+
+// --- Entwicklungsauftrag 18, Abschnitt 6: Dialog-Fokusverwaltung -------------------------------
+
+test('Dialog ("Session verlassen?"): sinnvoller Anfangsfokus, Fokusfalle, Escape schließt, Fokus kehrt zurück', async () => {
+  const fakeAppState = createFakeAppState();
+  const context = buildContext(fakeAppState);
+  const SessionController = loadSessionModules(context);
+  const container = createDocumentStub().createElement('div');
+  // In der echten App ist der übergebene Container immer document.getElementById('content'),
+  // also Teil von document.body (src/js/app.js) -- hier für den Fokus-Rückgabe-Test bewusst
+  // ebenso an context.document.body angehängt, sonst würde die (in Produktion korrekte)
+  // contains()-Prüfung in showDialog() fälschlich negativ ausfallen.
+  context.document.body.appendChild(container);
+
+  await SessionController.mount(container, { unitId: 'vocab_unit_01', sessionId: 'vocab_unit_01_a' });
+  await completeLearningStages(container, 10);
+
+  const leaveBtn = findButtonByText(container, 'Session verlassen');
+  assert.ok(leaveBtn, '"Session verlassen" sollte in der oberen Leiste vorhanden sein');
+  // Ein echter Klick fokussiert den Button zuerst (Browser-Standardverhalten) -- dieser Stub
+  // simuliert .click() bewusst ohne impliziten Fokuswechsel (siehe FakeElement#click()), daher
+  // hier wie bei echter Tastatur-/Maus-Bedienung explizit vorher fokussieren.
+  leaveBtn.focus();
+  leaveBtn.click();
+  await tick();
+
+  // showDialog() hängt den Dialog an context.document.body (das echte "document" innerhalb des
+  // geladenen Moduls) -- NICHT an container (ein separates, nur als Element-Fabrik genutztes
+  // Stub-Dokument), siehe Kommentar in createDocumentStub()-Aufrufen dieser Datei.
+  const overlay = context.document.body.querySelector('.dialog-overlay');
+  assert.ok(overlay, 'der Bestätigungsdialog sollte sichtbar sein');
+  const box = overlay.querySelector('.dialog-box');
+  assert.equal(box.getAttribute('role'), 'dialog');
+  assert.equal(box.getAttribute('aria-modal'), 'true');
+  assert.ok(box.getAttribute('aria-labelledby'));
+
+  const cancelBtn = findButtonByText(overlay, 'Weiterlernen');
+  const confirmBtn = findButtonByText(overlay, 'Verlassen');
+  assert.ok(cancelBtn && confirmBtn);
+  assert.equal(context.document.activeElement, cancelBtn, 'Anfangsfokus sollte auf der sicheren, nicht-destruktiven Aktion liegen');
+
+  // Fokusfalle: Tab auf dem letzten Element (Bestätigen) springt zurück zum ersten (Abbrechen).
+  confirmBtn.focus();
+  context.document.dispatchEvent(new FakeKeyboardEvent('keydown', { key: 'Tab', shiftKey: false }));
+  assert.equal(context.document.activeElement, cancelBtn);
+
+  // Fokusfalle rückwärts: Umschalt+Tab auf dem ersten Element (Abbrechen) springt zum letzten.
+  context.document.dispatchEvent(new FakeKeyboardEvent('keydown', { key: 'Tab', shiftKey: true }));
+  assert.equal(context.document.activeElement, confirmBtn);
+
+  // Escape schließt wie Abbrechen (keine Datenzerstörung) und gibt den Fokus zurück.
+  context.document.dispatchEvent(new FakeKeyboardEvent('keydown', { key: 'Escape' }));
+  await tick();
+  assert.equal(context.document.body.querySelector('.dialog-overlay'), null, 'Escape sollte den Dialog schließen');
+  assert.equal(context.document.activeElement, leaveBtn, 'Fokus sollte zum auslösenden Element zurückkehren');
+});

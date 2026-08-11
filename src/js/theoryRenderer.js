@@ -17,6 +17,8 @@ const TheoryRenderer = (() => {
     const node = document.createElement(tag);
     if (options.className) node.className = options.className;
     if (options.text !== undefined) node.textContent = options.text;
+    // Entwicklungsauftrag 18, Abschnitt 6: automatisch lang="ar" für arabische Textklassen.
+    if (options.className && /\barabic-(word-main|example|text)\b/.test(options.className)) node.lang = 'ar';
     return node;
   }
 

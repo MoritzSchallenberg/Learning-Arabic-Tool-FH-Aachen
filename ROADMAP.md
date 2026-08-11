@@ -3311,3 +3311,36 @@ Review-Modus/Grammatiktrainer/Alphabet unverändert; keine Testregression (782/7
 grün). Sprachprüfung, neue Vokabeln/Theorie, Audioerzeugung, neue Aufgabentypen, KI-generierte
 Fehlererklärungen, Anbindung der Theorie-Mini-Checks (bewusst zurückgestellt) bewusst nicht Teil
 dieser Runde.
+
+## 22. Entwicklungsauftrag 18: Responsive Oberfläche, Anzeigeoptionen und schlanker UI-Smoke-Test (vom Nutzer, 2026-08-11)
+
+Reines Oberflächenauftrag (kompakt dokumentiert, wie vom Auftrag selbst verlangt — keine
+Wort-/Theorie-/Audio-/Grading-/SRS-Änderung, keine neuen Aufgabentypen, kein Umbau der zehn
+Stufen). Details siehe README.md, Abschnitt "Responsive Oberfläche, Anzeigeoptionen und
+UI-Smoke-Test (Entwicklungsauftrag 18)".
+
+- **Neue Einstellung "Arabische Schriftgröße"** (Standard/Groß/Sehr groß) — dritte Stufe des seit
+  Auftrag 4/14 vorhandenen `--arabic-scale`-Tokens, sofort wirksam, migrationssicher. Dabei zwei
+  echte, vorher unskalierte Stellen gefunden (`.arabic-text`-Basisklasse, `.text-input.arabic-text`)
+  und einen toten Duplikatblock im Stylesheet entfernt, der die Skalierung sonst stillschweigend
+  überschrieben hätte.
+- **Responsive Korrekturen** für 900×600/1366×768/1920×1080: Dialoge scrollen intern, die
+  Feedback-Vergleichstabelle stapelt sich statt eine Spalte zu verstecken, Matching-Grid- und
+  Aktionsleisten-Abstand auf einen einzigen 900px-Grenzwert konsolidiert, Karten brechen bei langen
+  deutschen Bedeutungen/Umschriften nicht mehr.
+- **Barrierefreiheit:** vollständige Dialog-Fokusverwaltung (Anfangsfokus, Tab-Falle,
+  Escape schließt, Fokus kehrt zurück), `prefers-reduced-motion`, gemischter arabisch-deutscher
+  Text im Feedback bekommt durchgängig `lang="ar"`/`dir="rtl"` (zwei echte Fundstellen behoben,
+  jetzt automatisiert über die gemeinsamen `el()`-Hilfsfunktionen für neuen Code).
+- **`npm run ui:smoke`** (`scripts/uiSmoke.js`, playwright-core, isoliertes temporäres
+  Nutzerprofil): Dashboard, Einstellungen (hell+dunkel), Lernkarte, Zuordnungsaufgabe,
+  umfangreiches Fehlerfeedback (davon einmal bei 900×600), Zusammenfassung — automatische Prüfung
+  auf unbehandelte JS-Fehler, horizontales Überlaufen, Schaltflächen außerhalb des sichtbaren
+  Bereichs, Feedback-/Aktionsleisten-Überlappung, fehlende zugängliche Namen. Screenshots im
+  ignorierten, nicht paketierten Ordner `ui-smoke-output/`.
+- **Verifikation:** `npm run lint` (178 Dateien, 0 Kollisionen), `npm test` (793 Unit- + 6
+  Integrationstests, ein Lauf, keine Regression), `npm run ui:smoke` (0 unbehandelte JS-Fehler, 0
+  Layout-/A11y-Befunde), `npm run package:source` (enthält `scripts/uiSmoke.js`, schließt
+  `ui-smoke-output/`/Screenshots korrekt aus).
+- **Bewusst nicht Teil dieser Runde:** Sprachprüfung, neue Vokabeln/Theorie/Audio, neue
+  Aufgabentypen, Gamification, Navigationsumbau, neue Sprachpakete, plattformübergreifende Builds.

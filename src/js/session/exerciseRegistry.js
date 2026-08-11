@@ -29,6 +29,10 @@ const ExerciseRegistry = (() => {
     const node = document.createElement(tag);
     if (opts.className) node.className = opts.className;
     if (opts.text !== undefined) node.textContent = opts.text;
+    // Entwicklungsauftrag 18, Abschnitt 6: jedes Element mit einer arabischen Textklasse bekommt
+    // automatisch lang="ar" (zusätzlich zur bestehenden dir/CSS-Behandlung) -- zentral hier statt
+    // an jeder einzelnen Aufrufstelle, damit keine übersehen wird.
+    if (opts.className && /\barabic-(word-main|example|text)\b/.test(opts.className)) node.lang = 'ar';
     return node;
   }
 

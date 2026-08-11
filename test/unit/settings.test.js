@@ -20,7 +20,7 @@ function documentStubWithDocumentElement() {
   return stub;
 }
 
-function loadSettingsView(initialSettings, applyThemeCalls) {
+function loadSettingsView(initialSettings, applyThemeCalls, applyArabicFontScaleCalls = []) {
   let settings = { ...initialSettings };
   const updates = [];
   const context = {
@@ -38,7 +38,10 @@ function loadSettingsView(initialSettings, applyThemeCalls) {
       }
     },
     App: {
-      applyTheme: (theme) => applyThemeCalls.push(theme)
+      applyTheme: (theme) => applyThemeCalls.push(theme),
+      // Entwicklungsauftrag 18, Abschnitt 3: wendet die arabische Schriftgröße sofort an (kein
+      // Neustart nötig) -- settings.js ruft das bei jeder Änderung auf.
+      applyArabicFontScale: (scale) => applyArabicFontScaleCalls.push(scale)
     }
   };
   vm.createContext(context);
@@ -114,6 +117,34 @@ test('Erneutes Öffnen (mount) NACH einer Änderung zeigt den zuletzt gespeicher
   view.mount(container2);
   assert.equal(container2.querySelector('#settings-arabic-font-scale').value, 'large',
     'nach erneutem Öffnen sollte die zuletzt gespeicherte Schriftgröße vorausgewählt sein');
+});
+
+// --- Entwicklungsauftrag 18, Abschnitt 3: dritte Stufe "Sehr groß" -----------------------------
+
+test('Arabische Schriftgröße bietet genau drei Stufen an, "Standard" ist beim ersten Start aktiv', () => {
+  const { view } = loadSettingsView({}, []);
+  const container = createDocumentStub().createElement('div');
+  view.mount(container);
+
+  const select = container.querySelector('#settings-arabic-font-scale');
+  const optionValues = select.querySelectorAll('option').map((o) => o.getAttribute('value'));
+  assert.deepEqual(optionValues, ['normal', 'large', 'xlarge']);
+  assert.equal(select.value, 'normal', 'ohne gespeicherten Wert bleibt "Standard" aktiv');
+});
+
+test('Wechsel auf "Sehr groß" wirkt sofort (App.applyArabicFontScale) UND wird gespeichert, ohne Neustart', () => {
+  const applyThemeCalls = [];
+  const applyArabicFontScaleCalls = [];
+  const { view, updates } = loadSettingsView({ arabicFontScale: 'normal' }, applyThemeCalls, applyArabicFontScaleCalls);
+  const container = createDocumentStub().createElement('div');
+  view.mount(container);
+
+  const select = container.querySelector('#settings-arabic-font-scale');
+  select.value = 'xlarge';
+  select.dispatchEvent({ type: 'change', target: select });
+
+  assert.deepEqual(applyArabicFontScaleCalls, ['xlarge'], 'sollte sofort über App.applyArabicFontScale angewendet werden');
+  assert.equal(updates[updates.length - 1].arabicFontScale, 'xlarge', 'sollte dauerhaft gespeichert werden');
 });
 
 test('Checkbox-Einstellungen (z. B. "Umschrift anzeigen") speichern den neuen Wert über AppState.updateSettings', () => {

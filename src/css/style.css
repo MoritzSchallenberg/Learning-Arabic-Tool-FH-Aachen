@@ -177,6 +177,17 @@ textarea:focus-visible, [tabindex]:focus-visible {
   outline-offset: 2px;
 }
 
+/* Entwicklungsauftrag 18, Abschnitt 6: prefers-reduced-motion berücksichtigen -- alle
+   Übergänge/Animationen (Seitenleiste, Buttons, Audio-Fehlermeldung) auf praktisch null verkürzt,
+   statt sie komplett zu entfernen (behält die ENDZUSTÄNDE bei, nur ohne sichtbare Bewegung). */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
 /* --- Typografie-Skala (Entwicklungsauftrag 4, Abschnitt 7.2; auf Tokens umgestellt in
    Entwicklungsauftrag 14) --- */
 .text-page-title { font-size: var(--font-size-h1); font-weight: 700; margin: 0 0 4px; }
@@ -198,35 +209,43 @@ textarea:focus-visible, [tabindex]:focus-visible {
   word-break: normal;
 }
 
+/* Arabische Schriftgröße (Einstellungen, Entwicklungsauftrag 4 Abschnitt 21; drei Stufen seit
+   Entwicklungsauftrag 18 Abschnitt 3: Standard/Groß/Sehr groß) — EINE CSS-Variable skaliert alle
+   arabischen Textklassen gemeinsam, statt jede Regel dreifach zu duplizieren. "Standard" trägt
+   bewusst kein data-arabic-scale-Attribut (Basiswert 1 greift automatisch). Betrifft nur
+   arabische Textklassen -- deutsche Texte/Navigation nutzen diese Variable nirgends und bleiben
+   unverändert (Abschnitt 3: "nicht ungewollt vergrößern"). */
+:root { --arabic-scale: 1; }
+:root[data-arabic-scale="large"] { --arabic-scale: 1.25; }
+:root[data-arabic-scale="xlarge"] { --arabic-scale: 1.55; }
+
 /* Großes arabisches Lernwort -- die zentrale Vokabel im Blickpunkt einer Aufgabe. */
 .arabic-word-main {
-  font-size: var(--arabic-font-size-lg);
+  font-size: calc(var(--arabic-font-size-lg) * var(--arabic-scale));
   line-height: var(--arabic-line-height);
 }
-/* Arabisches Beispiel (Theorie, Sätze). */
+/* Arabisches Beispiel (Theorie, Sätze, Feedback-Wortinformationen). */
 .arabic-example {
-  font-size: var(--arabic-font-size-md);
+  font-size: calc(var(--arabic-font-size-md) * var(--arabic-scale));
   line-height: var(--arabic-line-height);
 }
-/* Normaler arabischer Text (Standardgröße von .arabic-text ohne Modifikator). */
+/* Normaler arabischer Text (Standardgröße von .arabic-text ohne Modifikator) -- deckt u. a.
+   Antwortmöglichkeiten, Zuordnungs-Buttons und Auswahlaufgaben ab (Abschnitt 3: "Aufgaben,
+   Antwortmöglichkeiten"). Bis Entwicklungsauftrag 18 fälschlich NICHT skaliert -- behoben. */
 .arabic-text {
-  font-size: 1.1rem;
+  font-size: calc(1.1rem * var(--arabic-scale));
   line-height: 1.7;
 }
 /* Kleine arabische Zusatzinformation (z. B. in Listen/Meta-Zeilen). */
 .arabic-text.small {
-  font-size: var(--arabic-font-size-sm);
+  font-size: calc(var(--arabic-font-size-sm) * var(--arabic-scale));
   line-height: 1.6;
 }
-
-/* Arabische Schriftgröße "Groß" (Einstellungen, Entwicklungsauftrag 4 Abschnitt 21) — skaliert
-   alle arabischen Textklassen gemeinsam über eine CSS-Variable statt jede Regel zu duplizieren. */
-:root { --arabic-scale: 1; }
-:root[data-arabic-scale="large"] { --arabic-scale: 1.25; }
-.arabic-word-main { font-size: calc(var(--arabic-font-size-lg) * var(--arabic-scale)); }
-.arabic-example { font-size: calc(var(--arabic-font-size-md) * var(--arabic-scale)); }
 .arabic-text.large { font-size: calc(2.4rem * var(--arabic-scale)); }
-.arabic-text.small { font-size: calc(var(--arabic-font-size-sm) * var(--arabic-scale)); }
+/* Eingabefelder mit arabischem Inhalt (Stufe 8/9 Texteingabe) -- .text-input allein würde die
+   Schrift sonst auf 1rem festlegen und die Einstellung ignorieren (höhere Selektor-Spezifität
+   nötig, Abschnitt 3: "betrifft ... Aufgaben"). */
+.text-input.arabic-text { font-size: calc(1.1rem * var(--arabic-scale)); }
 
 /* Arabische Eingabe (virtuelle Tastatur + Texteingabefelder mit arabischem Inhalt) -- eigene
    Klasse, damit Eingabefelder dieselbe Schriftfamilie/Größe wie der übrige arabische Text
@@ -453,7 +472,11 @@ textarea:focus-visible, [tabindex]:focus-visible {
 .content {
   flex: 1;
   overflow-y: auto;
-  padding: 28px 32px 90px;
+  /* Entwicklungsauftrag 18, Abschnitt 4: von 90px auf 110px angehoben -- deckt die feste,
+     sticky-positionierte Aktionsleiste unten allgemein ab (nicht nur beim Feedback-Bereich,
+     der zusätzlich noch eigenen Abstand mitbringt, siehe .feedback-area), damit Hauptaktionen
+     bei jeder Ansicht sicher oberhalb der Leiste bleiben. */
+  padding: 28px 32px 110px;
 }
 
 .page-content {
@@ -648,6 +671,17 @@ input[type="checkbox"], input[type="radio"] {
   flex-wrap: wrap;
 }
 .settings-row-label { color: var(--text-primary); }
+/* Entwicklungsauftrag 18, Abschnitt 5: ersetzt die zuvor pro Auswahlfeld wiederholten
+   Inline-Styles (width/display/margin) -- .settings-row liefert bereits Flex + gap. */
+.settings-select { width: auto; }
+.settings-checkbox-row { cursor: pointer; }
+
+/* Entwicklungsauftrag 18, Abschnitt 5: ersetzt drei fast identisch wiederholte (teils sogar
+   redundante) Inline-Style-Blöcke in sessionController.js (Sessionübersicht, Tageslimit-Auswahl,
+   Zusammenfassungs-Aktionen) durch eine gemeinsame Klasse. */
+.button-row { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
+.button-row.mt-sm { margin-top: var(--space-sm); }
+.button-row.mt-md { margin-top: var(--space-md); }
 
 /* --- Theme-Schalter (Entwicklungsauftrag 14, Abschnitt 7) --- */
 .theme-toggle {
@@ -686,16 +720,10 @@ input[type="checkbox"], input[type="radio"] {
   text-align: right;
 }
 
-.arabic-text {
-  direction: rtl;
-  unicode-bidi: isolate;
-  font-family: "Noto Sans Arabic", "Amiri", Tahoma, sans-serif;
-}
-
-.arabic-text.large {
-  font-size: 2.4rem;
-  line-height: 1.6;
-}
+/* Entwicklungsauftrag 18: die frühere doppelte .arabic-text/.arabic-text.large-Definition hier
+   (identische Basisregeln, aber ein NICHT skaliertes font-size:2.4rem, das die konsolidierte,
+   skalierbare Version weiter oben durch die spätere Position im Stylesheet überschrieben hätte)
+   entfällt ersatzlos -- eine einzige Definition (Abschnitt 187 ff.) ist jetzt verbindlich. */
 
 .mixed-text {
   unicode-bidi: plaintext;
@@ -1128,6 +1156,12 @@ input[type="checkbox"], input[type="radio"] {
   text-align: center;
 }
 .word-card .arabic-word-main { margin: 4px 0; }
+/* Entwicklungsauftrag 18, Abschnitt 4: lange deutsche Bedeutungen/Umschriften/Pluralformen
+   dürfen die Karte nicht sprengen (defensiv, analog zur bestehenden Regel für arabischen Text). */
+.word-card-translation, .word-card-translit, .word-card-meta {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
 .word-card-translation { font-size: 1.15rem; margin: 4px 0; }
 .word-card-translit { color: var(--text-secondary); font-size: 0.95rem; }
 .word-card-meta {
@@ -1211,7 +1245,10 @@ input[type="checkbox"], input[type="radio"] {
 .matching-check { font-weight: 700; }
 .matching-context { font-size: 0.9rem; }
 
-@media (max-width: 720px) {
+/* Entwicklungsauftrag 18, Abschnitt 4: Breakpoint bewusst auf 900px angehoben (vorher 720px) --
+   deckt damit auch die kleinste geforderte Referenzgröße 900×600 ab, bei der die Seitenleiste
+   bereits Platz beansprucht und zwei Spalten sonst zu eng würden. */
+@media (max-width: 900px) {
   .matching-grid { grid-template-columns: 1fr; }
 }
 
@@ -1284,6 +1321,10 @@ input[type="checkbox"], input[type="radio"] {
   padding: var(--space-lg);
   max-width: 420px;
   width: 90%;
+  /* Entwicklungsauftrag 18, Abschnitt 4: bleibt bei jeder Fenstergröße (auch 900×600) innerhalb
+     des sichtbaren Bereichs und scrollt bei Bedarf intern, statt über den Rand hinauszuwachsen. */
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
 }
 .dialog-actions {
   display: flex;
@@ -1366,7 +1407,7 @@ input[type="checkbox"], input[type="radio"] {
    ============================================================================ */
 @media (max-width: 1000px) {
   .sidebar:not(.collapsed) { width: 200px; }
-  .content { padding: 20px 16px 90px; }
+  .content { padding: 20px 16px 110px; }
   .app-header { padding: 12px 16px; }
   .action-bar { margin: 24px -16px -90px; padding: 12px 16px; }
   .meter-label { flex-basis: 160px; }
@@ -1466,12 +1507,14 @@ input[type="checkbox"], input[type="radio"] {
 .feedback-panel-title { margin: 0; font-size: 1.05rem; }
 
 .answer-comparison { display: flex; flex-direction: column; gap: var(--space-xs); }
-.answer-comparison-row { margin: 0; }
+.answer-comparison-row { margin: 0; overflow-wrap: break-word; }
 .answer-comparison-label { color: var(--text-secondary); }
 .answer-comparison-value { font-weight: 600; }
 
 .char-diff {
-  font-size: 1.4rem;
+  /* Entwicklungsauftrag 18, Abschnitt 3: arabischer Zeichenvergleich im Feedback skaliert
+     ebenfalls mit der Einstellung ("betrifft ... Feedback"). */
+  font-size: calc(1.4rem * var(--arabic-scale));
   line-height: 1.8;
   padding: var(--space-sm) var(--space-md);
   border: 1px solid var(--border);
@@ -1527,7 +1570,22 @@ input[type="checkbox"], input[type="radio"] {
    weiter Platz für das jetzt folgende Feedback zu beanspruchen. */
 .session-input-collapsed { display: none; }
 
-@media (max-width: 720px) {
-  .relation-compare-table th:nth-child(1),
-  .relation-compare-table td:nth-child(1) { display: none; }
+/* Entwicklungsauftrag 18, Abschnitt 4: bei wenig Platz (u. a. Referenzgröße 900×600) wechselt
+   die Vergleichstabelle in eine gestapelte Darstellung statt nur eine Spalte auszublenden --
+   jede Zelle wird ein eigener Block, data-label (feedbackRenderer.js) liefert die sichtbare
+   Beschriftung nach, die sonst nur in der (dann versteckten) Kopfzeile stünde. */
+@media (max-width: 900px) {
+  .relation-compare-table, .relation-compare-table tbody,
+  .relation-compare-table tr, .relation-compare-table td { display: block; width: 100%; }
+  .relation-compare-table thead, .relation-compare-table th { display: none; }
+  .relation-compare-table tr { margin-bottom: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+  .relation-compare-table td { border: none; border-bottom: 1px solid var(--border-weak); }
+  .relation-compare-table td:last-child { border-bottom: none; }
+  .relation-compare-table td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+  }
 }

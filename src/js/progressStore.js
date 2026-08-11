@@ -36,6 +36,11 @@ const CURRENT_SETTINGS_VERSION = 1;
 const VALID_THEMES = ['light', 'dark'];
 const DEFAULT_THEME = 'light';
 
+// Entwicklungsauftrag 18, Abschnitt 3: drei Stufen ("Standard" bleibt beim ersten Start aktiv) --
+// derselbe Validierungs-/Rückfallmechanismus wie beim Farbschema (normalizeThemeValue).
+const VALID_ARABIC_FONT_SCALES = ['normal', 'large', 'xlarge'];
+const DEFAULT_ARABIC_FONT_SCALE = 'normal';
+
 const SETTINGS_FIELD_DEFAULTS = {
   inputMode: 'virtual_keyboard',
   showDiacritics: true,
@@ -131,6 +136,13 @@ function normalizeThemeValue(theme) {
   return VALID_THEMES.includes(theme) ? theme : DEFAULT_THEME;
 }
 
+// Entwicklungsauftrag 18, Abschnitt 3: ein unbekannter/kaputter Wert (z. B. manuell editierte
+// Datei, oder eine ältere Datei mit nur "normal"/"large") fällt kontrolliert auf "normal" zurück,
+// statt eine ungültige Stufe unverändert weiterzureichen.
+function normalizeArabicFontScaleValue(scale) {
+  return VALID_ARABIC_FONT_SCALES.includes(scale) ? scale : DEFAULT_ARABIC_FONT_SCALE;
+}
+
 /**
  * Bringt geladene settings.json-Daten in die aktuelle versionierte Form. Migriert transparent aus
  * dem alten, unversionierten Format -- validiert dabei IMMER den theme-Wert (auch bei bereits
@@ -143,6 +155,7 @@ function migrateSettings(raw) {
   const base = (raw !== null && typeof raw === 'object' && !Array.isArray(raw)) ? raw : {};
   const merged = { ...SETTINGS_FIELD_DEFAULTS, ...base, _version: CURRENT_SETTINGS_VERSION };
   merged.theme = normalizeThemeValue(merged.theme);
+  merged.arabicFontScale = normalizeArabicFontScaleValue(merged.arabicFontScale);
   return merged;
 }
 
@@ -163,6 +176,8 @@ module.exports = {
   CURRENT_SETTINGS_VERSION,
   VALID_THEMES,
   DEFAULT_THEME,
+  VALID_ARABIC_FONT_SCALES,
+  DEFAULT_ARABIC_FONT_SCALE,
   SETTINGS_FIELD_DEFAULTS,
   ensureDir,
   readJsonFileSafe,
@@ -171,6 +186,7 @@ module.exports = {
   migrateProgress,
   isLegacySettingsFormat,
   normalizeThemeValue,
+  normalizeArabicFontScaleValue,
   migrateSettings,
   enqueueWrite
 };

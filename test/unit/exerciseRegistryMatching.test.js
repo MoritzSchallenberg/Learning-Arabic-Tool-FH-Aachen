@@ -339,3 +339,16 @@ test('matching: eine bereits VOLLSTÄNDIG gelöste Gruppe (Neustart direkt nach 
   assert.ok(done, 'sollte sofort abschließen, ohne dass der Nutzer noch etwas klicken muss');
   assert.equal(done.resumedComplete, true);
 });
+
+// --- Entwicklungsauftrag 18, Abschnitt 6: arabische Buttons bekommen automatisch lang="ar" -----
+test('matching (arabic_german): arabische Buttons bekommen automatisch lang="ar", deutsche nicht', () => {
+  const { ExerciseRegistry } = loadExerciseRegistry();
+  const container = createDocumentStub().createElement('div');
+  const guard = ExerciseGuard.create();
+  ExerciseRegistry.render('matching', container, { groupWords: GROUP, variant: 'arabic_german' }, guard, () => {});
+
+  const left = findButtonsInColumn(container, 0); // arabische Form
+  const right = findButtonsInColumn(container, 1); // deutsche Bedeutung
+  assert.ok(left.every((b) => b.lang === 'ar'), 'linke (arabische) Spalte sollte lang="ar" tragen');
+  assert.ok(right.every((b) => b.lang !== 'ar'), 'rechte (deutsche) Spalte darf lang="ar" nicht fälschlich übernehmen');
+});

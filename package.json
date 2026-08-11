@@ -21,6 +21,7 @@
     "audio:generate": "node scripts/audioCli.js generate --all",
     "audio:verify": "node scripts/audioCli.js verify",
     "package:source": "node scripts/packageSource.js",
+    "ui:smoke": "node scripts/uiSmoke.js",
     "build:win": "electron-builder --win",
     "build:mac": "electron-builder --mac",
     "build:linux": "electron-builder --linux",
@@ -28,7 +29,8 @@
   },
   "devDependencies": {
     "electron": "^31.0.0",
-    "electron-builder": "^24.13.3"
+    "electron-builder": "^24.13.3",
+    "playwright-core": "1.51.1"
   },
   "build": {
     "appId": "de.fhaachen.learningarabictool",

@@ -14,9 +14,12 @@ const {
   CURRENT_SETTINGS_VERSION,
   VALID_THEMES,
   DEFAULT_THEME,
+  VALID_ARABIC_FONT_SCALES,
+  DEFAULT_ARABIC_FONT_SCALE,
   SETTINGS_FIELD_DEFAULTS,
   isLegacySettingsFormat,
   normalizeThemeValue,
+  normalizeArabicFontScaleValue,
   migrateSettings,
   readJsonFileSafe,
   writeJsonFileAtomic
@@ -122,6 +125,45 @@ test('migrateSettings: Migration alter, unversionierter Einstellungsdaten verlie
   assert.equal(migrated.dailyNewLimit, 20);
   assert.equal(migrated.showTransliteration, false);
   assert.equal(migrated.inputMode, 'virtual_keyboard');
+});
+
+// --- Entwicklungsauftrag 18, Abschnitt 3: dritte Stufe "Sehr groß" (xlarge) --------------------
+
+test('DEFAULT_ARABIC_FONT_SCALE ist "normal" (Standard bleibt beim ersten Start aktiv)', () => {
+  assert.equal(DEFAULT_ARABIC_FONT_SCALE, 'normal');
+  assert.equal(SETTINGS_FIELD_DEFAULTS.arabicFontScale, 'normal');
+});
+
+test('VALID_ARABIC_FONT_SCALES enthält genau die drei wählbaren Stufen', () => {
+  assert.deepEqual([...VALID_ARABIC_FONT_SCALES].sort(), ['large', 'normal', 'xlarge']);
+});
+
+test('normalizeArabicFontScaleValue: alle drei gültigen Stufen bleiben unverändert', () => {
+  assert.equal(normalizeArabicFontScaleValue('normal'), 'normal');
+  assert.equal(normalizeArabicFontScaleValue('large'), 'large');
+  assert.equal(normalizeArabicFontScaleValue('xlarge'), 'xlarge');
+});
+
+test('normalizeArabicFontScaleValue: unbekannte/kaputte Werte fallen kontrolliert auf "normal" zurück', () => {
+  assert.equal(normalizeArabicFontScaleValue('riesig'), 'normal');
+  assert.equal(normalizeArabicFontScaleValue(''), 'normal');
+  assert.equal(normalizeArabicFontScaleValue(null), 'normal');
+  assert.equal(normalizeArabicFontScaleValue(undefined), 'normal');
+});
+
+test('migrateSettings: eine ältere Datei mit nur "normal"/"large" (vor der dritten Stufe) bleibt gültig', () => {
+  const migrated = migrateSettings({ _version: 1, arabicFontScale: 'large' });
+  assert.equal(migrated.arabicFontScale, 'large');
+});
+
+test('migrateSettings: "xlarge" bleibt nach der Migration erhalten', () => {
+  const migrated = migrateSettings({ _version: 1, arabicFontScale: 'xlarge' });
+  assert.equal(migrated.arabicFontScale, 'xlarge');
+});
+
+test('migrateSettings: unbekannter/kaputter arabicFontScale-Wert fällt kontrolliert auf "normal" zurück', () => {
+  assert.equal(migrateSettings({ _version: 1, arabicFontScale: 'riesig' }).arabicFontScale, 'normal');
+  assert.equal(migrateSettings({ _version: 1, arabicFontScale: 123 }).arabicFontScale, 'normal');
 });
 
 test('migrateSettings: bereits aktuelle, gültige Daten bleiben inhaltlich unverändert (idempotent)', () => {

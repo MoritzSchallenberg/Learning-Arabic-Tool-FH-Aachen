@@ -8,6 +8,10 @@
 
 const VOID_ELEMENTS = new Set(['br', 'img', 'input', 'hr', 'meta', 'link']);
 
+// Entwicklungsauftrag 18: gemeinsamer Fokus-Zustand aller FakeElement-Instanzen (siehe
+// FakeElement#focus()/#blur() und createDocumentStub()#activeElement).
+const ACTIVE_ELEMENT_REF = { current: null };
+
 class FakeClassList {
   constructor(el) { this.el = el; }
   _set() { return new Set((this.el.className || '').split(/\s+/).filter(Boolean)); }
@@ -194,7 +198,19 @@ class FakeElement {
   }
 
   click() { this.dispatchEvent({ type: 'click' }); }
-  focus() { this.focused = true; }
+  // Entwicklungsauftrag 18, Abschnitt 6/9: document.activeElement fehlte bisher komplett (kein
+  // bisheriger Code brauchte es) -- die neue Dialog-Fokusfalle/Rückfokus-Logik
+  // (sessionController.js#showDialog) braucht sie zum Testen. ACTIVE_ELEMENT_REF ist ein
+  // Modul-weiter Singleton (siehe unten) -- createDocumentStub() setzt ihn bei jedem neuen
+  // Dokument auf null zurück, damit sich mehrere Tests im selben Prozess nicht überschneiden.
+  focus() {
+    this.focused = true;
+    ACTIVE_ELEMENT_REF.current = this;
+  }
+  blur() {
+    this.focused = false;
+    if (ACTIVE_ELEMENT_REF.current === this) ACTIVE_ELEMENT_REF.current = null;
+  }
   setSelectionRange(start, end) { this.selectionStart = start; this.selectionEnd = end; }
 
   querySelectorAll(selector) { return queryAll(this, selector); }
@@ -347,8 +363,10 @@ function queryAll(root, selector) {
 function createDocumentStub() {
   const body = new FakeElement('body');
   const listeners = {};
+  ACTIVE_ELEMENT_REF.current = null; // frischer Fokus-Zustand je neuem Dokument (Abschnitt 9)
   return {
     body,
+    get activeElement() { return ACTIVE_ELEMENT_REF.current; },
     createElement: (tag) => new FakeElement(tag),
     createTextNode: (text) => {
       const node = new FakeElement('#text');
@@ -359,6 +377,16 @@ function createDocumentStub() {
     // Entwicklungsauftrag 12: von den neuen Review-Modus-Views verwendet. Sucht ausschließlich
     // innerhalb von document.body -- Tests müssen ihre Wurzel-Elemente dort anhängen.
     getElementById: (id) => body.querySelector(`#${id}`),
+    // Entwicklungsauftrag 18, Abschnitt 6: showDialog() prüft vor der Fokus-Rückgabe, ob das
+    // auslösende Element noch im Baum hängt -- läuft den parentNode-Pfad bis zu body hoch.
+    contains(el) {
+      let node = el;
+      while (node) {
+        if (node === body) return true;
+        node = node.parentNode;
+      }
+      return false;
+    },
     addEventListener(type, fn) { (listeners[type] = listeners[type] || []).push(fn); },
     // Entwicklungsauftrag 15, Abschnitt 10: die Lernkarten-/Audiophase hängt einen document-weiten
     // keydown-Listener an (Pfeiltasten/Leertaste) und MUSS ihn beim Verlassen wieder entfernen,
@@ -376,6 +404,11 @@ class FakeKeyboardEvent {
     this.type = type;
     Object.assign(this, opts);
   }
+
+  // Entwicklungsauftrag 18: Standard-No-Op, damit synthetische Events sicher sind, auch wenn ein
+  // Test keine eigene preventDefault-Spionagefunktion übergibt (Object.assign oben würde eine
+  // per opts.preventDefault übergebene Funktion trotzdem wie gewohnt überschreiben können).
+  preventDefault() {}
 }
 
 module.exports = { FakeElement, createDocumentStub, FakeKeyboardEvent };

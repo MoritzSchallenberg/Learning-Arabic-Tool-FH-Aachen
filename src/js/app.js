@@ -279,6 +279,17 @@ const App = (() => {
     return resolved;
   }
 
+  // Entwicklungsauftrag 18, Abschnitt 3: dritte Stufe "Sehr groß" (xlarge) ergänzt -- "normal"
+  // trägt bewusst KEIN Attribut (Basiswert --arabic-scale:1 in style.css), nur large/xlarge
+  // setzen data-arabic-scale um. Wirkt sofort (reine CSS-Variable, kein Neustart nötig).
+  function applyArabicFontScale(scale) {
+    if (scale === 'large' || scale === 'xlarge') {
+      document.documentElement.setAttribute('data-arabic-scale', scale);
+    } else {
+      document.documentElement.removeAttribute('data-arabic-scale');
+    }
+  }
+
   async function init() {
     await AppState.init();
     pack = await AppState.getLanguagePack();
@@ -287,7 +298,7 @@ const App = (() => {
 
     const settings = AppState.getSettings();
     applyTheme(settings.theme);
-    if (settings.arabicFontScale === 'large') document.documentElement.setAttribute('data-arabic-scale', 'large');
+    applyArabicFontScale(settings.arabicFontScale);
     if (settings.sidebarCollapsed) sidebarEl.classList.add('collapsed');
 
     document.getElementById('sidebar-toggle').addEventListener('click', toggleSidebar);
@@ -322,6 +333,7 @@ const App = (() => {
     navigateToSession,
     renderHeader,
     applyTheme,
+    applyArabicFontScale,
     registerCleanup,
     get pack() { return pack; },
     get lessons() { return lessons; },

@@ -68,6 +68,7 @@ npm run test:unit         # nur Unit-Tests (test/unit/*.test.js)
 npm run test:integration  # nur Integrationstests (test/integration/*.test.js)
 npm run lint              # JS-Syntax, JSON-Validität, globale Namenskollisionen
 npm run validate:course   # Kursdaten-Konsistenz: doppelte IDs, fehlende Audios, Querverweise
+npm run ui:smoke          # UI-Smoke-Test gegen die echte Oberfläche (Entwicklungsauftrag 18)
 ```
 
 Läuft komplett offline mit dem in Node eingebauten Test-Runner (`node:test`/`node:assert`) —
@@ -1554,6 +1555,41 @@ unverändert (dieser Auftrag durfte und hat keine Kursinhalte verändert).
 des Zehn-Stufen-Ablaufs, neue Aufgabentypen, KI-generierte Fehlererklärungen, Umbau von
 Grammatiktrainer/Alphabet/Review-Modus, Anbindung der Theorie-Mini-Checks an das neue System
 (bewusst zurückgestellt, um keine zweite konkurrierende Auswertungslogik zu riskieren).
+
+## Responsive Oberfläche, Anzeigeoptionen und UI-Smoke-Test (Entwicklungsauftrag 18)
+
+Reines Oberflächenauftrag: keine Wort-/Theorie-/Audio-/Grading-/SRS-Änderung, keine neuen
+Aufgabentypen, kein Umbau der zehn Stufen.
+
+**Neue Einstellung "Arabische Schriftgröße"** (Standard/Groß/Sehr groß, sofort wirksam über
+`App.applyArabicFontScale`, migrationssicher wie das bestehende Theme): baut auf dem seit
+Entwicklungsauftrag 4/14 vorhandenen `--arabic-scale`-Token auf, das um eine dritte Stufe ergänzt
+wurde. Dabei zwei echte, vorher unskalierte Stellen gefunden und behoben (`.arabic-text`-Basisklasse
+für Options-/Zuordnungsbuttons, `.text-input.arabic-text` für Eingabefelder) sowie einen toten,
+später im Stylesheet stehenden Duplikatblock entfernt, der die neue Skalierung sonst stillschweigend
+wieder überschrieben hätte.
+
+**Responsive Korrekturen** für 900×600 (Mindestfenstergröße), 1366×768 und 1920×1080: Dialoge
+scrollen jetzt intern statt über den Bildschirm hinauszuwachsen, die Vergleichstabelle im Feedback
+stapelt sich bei schmaler Breite statt eine Spalte zu verstecken, Zuordnungsraster und
+Aktionsleisten-Abstand konsolidiert auf einen einzigen 900px-Grenzwert, lange deutsche
+Bedeutungen/Umschriften sprengen keine Karten mehr.
+
+**Barrierefreiheit:** vollständige Fokusverwaltung für Dialoge (Anfangsfokus, Tab-Falle, Escape
+schließt, Fokus kehrt zurück), `prefers-reduced-motion` respektiert, gemischter arabisch-deutscher
+Text im Feedback bekommt durchgängig `lang="ar"`/`dir="rtl"` (zwei echte Fundstellen behoben) —
+automatisiert über die gemeinsamen `el()`-Hilfsfunktionen, damit das dauerhaft für neuen Code gilt.
+
+**`npm run ui:smoke`** (`scripts/uiSmoke.js`, playwright-core): startet die echte App mit einem
+isolierten, temporären Nutzerprofil (nie das echte), durchläuft Dashboard, Einstellungen (hell +
+dunkel), eine Lernkarte, eine Zuordnungsaufgabe, umfangreiches Fehlerfeedback (davon einmal bei
+900×600) und die Zusammenfassung, prüft dabei automatisch auf unbehandelte JS-Fehler, horizontales
+Überlaufen, Schaltflächen außerhalb des sichtbaren Bereichs, Feedback-/Aktionsleisten-Überlappung
+und fehlende zugängliche Namen. Screenshots landen im ignorierten, nicht paketierten Ordner
+`ui-smoke-output/`.
+
+**Bewusst nicht Teil dieser Runde:** Sprachprüfung, neue Vokabeln/Theorie/Audio, neue Aufgabentypen,
+Gamification, Navigationsumbau, neue Sprachpakete, plattformübergreifende Builds.
 
 ## Bekannte Einschränkungen
 

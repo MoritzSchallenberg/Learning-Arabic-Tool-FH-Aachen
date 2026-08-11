@@ -3,12 +3,15 @@
 // Schriftgröße), Audio, automatische Fortsetzung, Vokalzeichen/Umschrift, tägliches Ziel neuer
 // Wörter — jede hier gezeigte Einstellung wirkt sofort, wird gespeichert und bleibt nach einem
 // Neustart erhalten (siehe test/unit/settings.test.js).
+// Entwicklungsauftrag 18, Abschnitt 3/5: dritte Schriftgrößenstufe "Sehr groß" ergänzt; die
+// zuvor hier verstreuten Inline-Styles (Layout/Abstand) sind durch die bestehende
+// .settings-row-Klasse ersetzt (keine neuen Inline-Styles, Abschnitt 5).
 
 const SettingsView = (() => {
   function row(id, label, checked) {
     return `
-      <label style="display:block; margin-bottom:10px;">
-        <input type="checkbox" id="${id}" ${checked ? 'checked' : ''} /> ${label}
+      <label class="settings-row settings-checkbox-row">
+        <input type="checkbox" id="${id}" ${checked ? 'checked' : ''} /> <span>${label}</span>
       </label>
     `;
   }
@@ -24,18 +27,19 @@ const SettingsView = (() => {
             <span class="settings-row-label">Farbschema:</span>
             <div id="settings-theme-toggle"></div>
           </div>
-          <label style="display:block;">
-            Arabische Schriftgröße:
-            <select id="settings-arabic-font-scale" class="text-input" style="width:auto; display:inline-block; margin-left:8px;">
-              <option value="normal">Normal</option>
+          <div class="settings-row">
+            <span class="settings-row-label" id="settings-arabic-font-scale-label">Arabische Schriftgröße:</span>
+            <select id="settings-arabic-font-scale" class="text-input settings-select" aria-labelledby="settings-arabic-font-scale-label">
+              <option value="normal">Standard</option>
               <option value="large">Groß</option>
+              <option value="xlarge">Sehr groß</option>
             </select>
-          </label>
+          </div>
         </div>
 
         <div class="card">
           <h2 class="text-section-title">Eingabe</h2>
-          <p style="margin:0;">⌨️ Arabisch wird über die virtuelle arabische Tastatur eingegeben.</p>
+          <p class="text-hint">⌨️ Arabisch wird über die virtuelle arabische Tastatur eingegeben.</p>
         </div>
 
         <div class="card">
@@ -50,15 +54,15 @@ const SettingsView = (() => {
         <div class="card">
           <h2 class="text-section-title">Lernsession</h2>
           ${row('settings-auto-advance', 'Nach Feedback automatisch weiter (statt manuellem „Weiter“)', settings.autoAdvanceAfterFeedback)}
-          <label style="display:block; margin-top:10px;">
-            Tägliches Ziel neuer Wörter:
-            <select id="settings-daily-new-limit" class="text-input" style="width:auto; display:inline-block; margin-left:8px;">
+          <div class="settings-row">
+            <span class="settings-row-label" id="settings-daily-new-limit-label">Tägliches Ziel neuer Wörter:</span>
+            <select id="settings-daily-new-limit" class="text-input settings-select" aria-labelledby="settings-daily-new-limit-label">
               <option value="5">5</option>
               <option value="10">10</option>
               <option value="15">15</option>
               <option value="20">20</option>
             </select>
-          </label>
+          </div>
         </div>
       </div>
     `;
@@ -77,7 +81,7 @@ const SettingsView = (() => {
     renderThemeToggle(settings.theme);
     container.querySelector('#settings-arabic-font-scale').addEventListener('change', (e) => {
       AppState.updateSettings({ arabicFontScale: e.target.value });
-      document.documentElement.setAttribute('data-arabic-scale', e.target.value);
+      App.applyArabicFontScale(e.target.value); // sofort sichtbar, kein Neustart nötig (Abschnitt 3)
     });
     container.querySelector('#settings-show-diacritics').addEventListener('change', (e) => {
       AppState.updateSettings({ showDiacritics: e.target.checked });

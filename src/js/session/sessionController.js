@@ -62,6 +62,8 @@ const SessionController = (() => {
     const node = document.createElement(tag);
     if (className) node.className = className;
     if (text !== undefined) node.textContent = text;
+    // Entwicklungsauftrag 18, Abschnitt 6: automatisch lang="ar" für arabische Textklassen.
+    if (className && /\barabic-(word-main|example|text)\b/.test(className)) node.lang = 'ar';
     return node;
   }
 
@@ -203,20 +205,60 @@ const SessionController = (() => {
     return AudioPlayer.speakWord(word, { slow, context: 'Theorie-Wortvorschau', button });
   }
 
+  // Entwicklungsauftrag 18, Abschnitt 6 — Dialoge (hier: "Session verlassen?"/"Session
+  // verwerfen?") erhalten beim Öffnen einen sinnvollen Fokus, halten den Fokus innerhalb des
+  // Dialogs (Tab/Umschalt+Tab wandern nicht in den Hintergrund), Escape schließt den Dialog wie
+  // "Abbrechen" (beide bestehenden Verwendungen sind dabei unzerstörerisch -- Abbrechen verwirft
+  // nie Daten), und nach dem Schließen kehrt der Fokus zuverlässig zum auslösenden Element zurück.
   function showDialog({ title, body, confirmLabel, cancelLabel, onConfirm }) {
     // Entwicklungsauftrag 13, Abschnitt 6.3 — ein sich öffnender Dialog (z. B. "Session verwerfen?")
     // darf eine noch laufende Wiedergabe nicht ungestört weiterlaufen lassen.
     AudioPlayer.stopCurrentAudio();
+    const previouslyFocused = document.activeElement;
     const overlay = document.createElement('div');
     overlay.className = 'dialog-overlay';
     const box = document.createElement('div');
     box.className = 'dialog-box';
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-modal', 'true');
+    const titleId = `dialog-title-${Date.now()}`;
     const h = el('h2', 'text-section-title', title);
+    h.id = titleId;
+    box.setAttribute('aria-labelledby', titleId);
     const p = el('p', null, body);
     const actions = document.createElement('div');
     actions.className = 'dialog-actions';
-    const cancelBtn = mkBtn(cancelLabel, 'btn secondary', () => overlay.remove());
-    const confirmBtn = mkBtn(confirmLabel, 'btn', () => { overlay.remove(); onConfirm(); });
+
+    function close() {
+      document.removeEventListener('keydown', onKeydown);
+      overlay.remove();
+      // Abschnitt 6: Fokus kehrt zum auslösenden Element zurück, falls es noch existiert
+      // (z. B. nicht durch einen zwischenzeitlichen Seitenwechsel verschwunden).
+      if (previouslyFocused && typeof previouslyFocused.focus === 'function' && document.contains(previouslyFocused)) {
+        previouslyFocused.focus();
+      }
+    }
+    const cancelBtn = mkBtn(cancelLabel, 'btn secondary', close);
+    const confirmBtn = mkBtn(confirmLabel, 'btn', () => { close(); onConfirm(); });
+
+    function onKeydown(event) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        close();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      // Fokusfalle: nur zwei fokussierbare Elemente im Dialog -- Tab/Umschalt+Tab bleiben
+      // zwischen ihnen, statt in den verdeckten Hintergrund zu wandern.
+      if (event.shiftKey && document.activeElement === cancelBtn) {
+        event.preventDefault();
+        confirmBtn.focus();
+      } else if (!event.shiftKey && document.activeElement === confirmBtn) {
+        event.preventDefault();
+        cancelBtn.focus();
+      }
+    }
+
     actions.appendChild(cancelBtn);
     actions.appendChild(confirmBtn);
     box.appendChild(h);
@@ -224,6 +266,9 @@ const SessionController = (() => {
     box.appendChild(actions);
     overlay.appendChild(box);
     document.body.appendChild(overlay);
+    document.addEventListener('keydown', onKeydown);
+    // Fokus auf die sichere, nicht-destruktive Standardaktion (Abschnitt 6: "sinnvoller Fokus").
+    cancelBtn.focus();
   }
 
   // --- Lernstufen-Zustand: Standardwert, Migration alter Snapshots (Abschnitt 11/18) -----------
@@ -340,11 +385,7 @@ const SessionController = (() => {
     view.appendChild(flowCard);
 
     const actions = document.createElement('div');
-    actions.className = 'action-bar-left';
-    actions.style.display = 'flex';
-    actions.style.gap = '10px';
-    actions.style.flexWrap = 'wrap';
-    actions.style.marginTop = '8px';
+    actions.className = 'button-row mt-sm';
     if (sessionWasResumable) {
       view.appendChild(el('p', 'text-hint', `Du bist bei: ${resumedStageLabel()}`));
       actions.appendChild(mkBtn('Session fortsetzen', 'btn', () => renderCurrentPhase()));
@@ -371,9 +412,7 @@ const SessionController = (() => {
     view.appendChild(card);
 
     const actions = document.createElement('div');
-    actions.style.display = 'flex';
-    actions.style.gap = '10px';
-    actions.style.flexWrap = 'wrap';
+    actions.className = 'button-row';
     actions.appendChild(mkBtn(`${remainingToday} Wörter lernen`, 'btn', () => startFreshSession(fullWordList.slice(0, remainingToday), allPackWords)));
     actions.appendChild(mkBtn(`Trotzdem alle ${fullWordList.length} lernen`, 'btn secondary', () => startFreshSession(fullWordList, allPackWords)));
     view.appendChild(actions);
@@ -1098,10 +1137,7 @@ const SessionController = (() => {
     }
 
     const actions = document.createElement('div');
-    actions.style.display = 'flex';
-    actions.style.gap = '10px';
-    actions.style.flexWrap = 'wrap';
-    actions.style.marginTop = '16px';
+    actions.className = 'button-row mt-md';
     if (difficultWords.length > 0) {
       actions.appendChild(mkBtn('Schwierige Wörter üben', 'btn secondary', () => {
         App.navigateToFreePractice({ presetFilters: { categories: { letters: false, vocabulary: true, connections: false }, difficultOnly: true } });

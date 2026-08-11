@@ -47,3 +47,8 @@ Thumbs.db
 
 # Von Claude Code genutztes Arbeitsverzeichnis.
 .claude/
+
+# Entwicklungsauftrag 18, Abschnitt 7/9: Screenshots von "npm run ui:smoke" -- reine
+# Diagnose-Artefakte für den lokalen Lauf, nie Teil des Repositorys oder der Quell-ZIP (ohnehin
+# nicht in scripts/packageSource.js#INCLUDE gelistet, hier zusätzlich zur Klarheit für `git status`).
+ui-smoke-output/

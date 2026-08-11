@@ -9,6 +9,8 @@ const FeedbackRenderer = (() => {
     const node = document.createElement(tag);
     if (opts.className) node.className = opts.className;
     if (opts.text !== undefined) node.textContent = opts.text;
+    // Entwicklungsauftrag 18, Abschnitt 6: automatisch lang="ar" für arabische Textklassen.
+    if (opts.className && /\barabic-(word-main|example|text)\b/.test(opts.className)) node.lang = 'ar';
     return node;
   }
 
@@ -19,6 +21,23 @@ const FeedbackRenderer = (() => {
 
   function primaryGerman(word) {
     return Array.isArray(word.german_answers) && word.german_answers.length > 0 ? word.german_answers[0] : word.german;
+  }
+
+  // Entwicklungsauftrag 18, Abschnitt 6: arabischer Text braucht ein EIGENES Element mit
+  // lang="ar"/dir="rtl" (nicht nur die CSS-Klasse), sobald er mit deutschem Text im selben
+  // Absatz gemischt wird -- sonst fehlt Screenreadern/der Bidi-Darstellung die korrekte
+  // Sprachauszeichnung, und die arabische Schriftgrößen-Einstellung (Abschnitt 3) greift nicht.
+  function arabicSpan(text) {
+    const span = el('span', { className: 'arabic-text', text });
+    span.lang = 'ar';
+    span.dir = 'rtl';
+    return span;
+  }
+
+  /** Hängt "<arabische Form> — <deutsche Bedeutung>" mit korrekt isoliertem arabischem Teil an. */
+  function appendWordSummary(container, word) {
+    container.appendChild(arabicSpan(word.arabic_vocalized || word.arabic));
+    container.appendChild(document.createTextNode(` — ${primaryGerman(word)}`));
   }
 
   function audioButton(label, onClick, iconLabel) {
@@ -91,7 +110,7 @@ const FeedbackRenderer = (() => {
       const selRow = el('p', { className: 'answer-comparison-row' });
       selRow.appendChild(el('span', { className: 'answer-comparison-label', text: 'Du hast gewählt: ' }));
       const selVal = el('span', { className: 'answer-comparison-value' });
-      selVal.textContent = `${model.selectedWord.arabic_vocalized || model.selectedWord.arabic} — ${primaryGerman(model.selectedWord)}`;
+      appendWordSummary(selVal, model.selectedWord);
       selRow.appendChild(selVal);
       wrap.appendChild(selRow);
     }
@@ -99,7 +118,7 @@ const FeedbackRenderer = (() => {
       const rightRow = el('p', { className: 'answer-comparison-row' });
       rightRow.appendChild(el('span', { className: 'answer-comparison-label', text: 'Gesucht war: ' }));
       const rightVal = el('span', { className: 'answer-comparison-value' });
-      rightVal.textContent = `${model.word.arabic_vocalized || model.word.arabic} — ${primaryGerman(model.word)}`;
+      appendWordSummary(rightVal, model.word);
       rightRow.appendChild(rightVal);
       wrap.appendChild(rightRow);
     }
@@ -110,6 +129,7 @@ const FeedbackRenderer = (() => {
     const wrap = el('div', { className: 'feedback-word-info' });
     const arabicRow = el('p', { className: 'arabic-example' });
     arabicRow.dir = 'rtl';
+    arabicRow.lang = 'ar';
     arabicRow.textContent = word.arabic_vocalized || word.arabic;
     wrap.appendChild(arabicRow);
     if (settings.showTransliteration !== false && word.transliteration) {
@@ -169,20 +189,33 @@ const FeedbackRenderer = (() => {
     }
     const table = document.createElement('table');
     table.className = 'relation-compare-table';
+    const colLabelA = 'Gesuchtes Wort';
+    const colLabelB = relationType === 'opposite' ? 'Gegenteil' : 'Verwechseltes Wort';
     const head = document.createElement('tr');
     head.appendChild(el('th', { text: '' }));
-    head.appendChild(el('th', { text: 'Gesuchtes Wort' }));
-    head.appendChild(el('th', { text: relationType === 'opposite' ? 'Gegenteil' : 'Verwechseltes Wort' }));
+    head.appendChild(el('th', { text: colLabelA }));
+    head.appendChild(el('th', { text: colLabelB }));
     table.appendChild(head);
 
-    function row(label, a, b) {
+    // Entwicklungsauftrag 18, Abschnitt 4: bei wenig Platz wechselt die Tabelle über CSS in eine
+    // gestapelte Darstellung (jede Zelle wird zum eigenen Block) -- data-label liefert dafür die
+    // sichtbare Beschriftung nach, die sonst nur in der (dann versteckten) Kopfzeile stünde.
+    function row(label, a, b, isArabic) {
       const tr = document.createElement('tr');
       tr.appendChild(el('td', { className: 'text-hint', text: label }));
-      tr.appendChild(el('td', { text: a }));
-      tr.appendChild(el('td', { text: b }));
+      [[a, colLabelA], [b, colLabelB]].forEach(([value, colLabel]) => {
+        const td = document.createElement('td');
+        td.setAttribute('data-label', `${colLabel} — ${label}`);
+        if (isArabic) {
+          td.appendChild(arabicSpan(value));
+        } else {
+          td.textContent = value;
+        }
+        tr.appendChild(td);
+      });
       table.appendChild(tr);
     }
-    row('Arabisch', targetWord.arabic_vocalized || targetWord.arabic, relatedWord.arabic_vocalized || relatedWord.arabic);
+    row('Arabisch', targetWord.arabic_vocalized || targetWord.arabic, relatedWord.arabic_vocalized || relatedWord.arabic, true);
     row('Umschrift', targetWord.transliteration || '–', relatedWord.transliteration || '–');
     row('Bedeutung', primaryGerman(targetWord), primaryGerman(relatedWord));
     wrap.appendChild(table);
@@ -297,7 +330,7 @@ const FeedbackRenderer = (() => {
       status.setAttribute('aria-hidden', 'true');
       row.appendChild(status);
       const label = el('span', { className: 'matching-summary-label' });
-      label.textContent = `${pair.word.arabic_vocalized || pair.word.arabic} — ${primaryGerman(pair.word)}`;
+      appendWordSummary(label, pair.word);
       row.appendChild(label);
       if (pair.hadFirstError) {
         row.appendChild(el('span', { className: 'text-hint', text: '(erster Versuch nicht richtig)' }));
