@@ -1503,6 +1503,58 @@ belegt).
 **Bewusst nicht Teil dieser Runde:** Sprachprüfung, neue Vokabeln/Theorie, Audioerzeugung, neues
 Feedbacksystem, zweite Session-Engine, pauschaler Reset alter Sessions.
 
+## Gemeinsames erklärendes Feedbacksystem (Entwicklungsauftrag 17)
+
+Ersetzt die zuvor über `exerciseRegistry.js`/`sessionController.js` verstreuten, je nach
+Aufgabentyp unterschiedlichen Feedbacktexte ("Richtig!"/"Nicht ganz. Richtig wäre: …") durch EIN
+gemeinsames, erklärendes Feedbacksystem für alle Aufgaben der Stufen 6-9. Bewertet nichts neu —
+Darstellung ausschließlich auf Basis der bereits bestehenden, verbindlichen Grading-Logik
+(`evaluateArabicAnswer`/`evaluateAgainstAnyDetailed`, neu in `srs.js`).
+
+**Architektur:** drei neue, klar getrennte Module unter `src/js/feedback/`:
+- `answerAnalyzer.js` — reine Antwortanalyse (kein DOM): verfeinert das Grading-Ergebnis zu einer
+  von neun Kategorien (`correct_full`/`accepted_alternative`/`correct_no_diacritics`/
+  `diacritics_mismatch`/`typo`/`wrong_word`/`wrong_meaning`/`empty`/`matching_error`), berechnet
+  einen sicheren, RTL-tauglichen arabischen Zeichenvergleich auf Cluster-Ebene (Vokalzeichen werden
+  dabei korrekt dem vorherigen Grundbuchstaben zugeordnet, nie als eigenständige "Buchstaben"
+  gezählt) und erkennt datenbasierte Wortbeziehungen (Verwechslungsgruppe/Homonym/Gegensatzpaar).
+- `feedbackModel.js` — baut daraus den einheitlichen Ergebnisvertrag (Aufgabentyp, Kategorie,
+  Antwortvergleich, Fehlertyp, Wiederholungsstatus …) sowie das Gruppen-Abschlussfeedback für
+  Zuordnungsaufgaben.
+- `feedbackRenderer.js` — EINE UI-Komponente für alle Aufgabentypen: Kopf (Symbol + Titel, nie nur
+  Farbe), Antwortvergleich, Zeichenvergleich (ausschließlich `textContent`, nie `innerHTML`),
+  Wortinformationen, normale/langsame Audiowiedergabe, Wiederholungshinweis (nur wenn tatsächlich
+  geplant), Verwechslungsvergleich (automatisch bei tatsächlich verwechselter Option, sonst über
+  "Ähnliche Wörter anzeigen" aufklappbar). `role="status"`/`role="alert"`, programmatischer Fokus
+  nach der Abgabe.
+
+**Auto-Weiter (Abschnitt 18):** nur eine vollständig richtige Antwort OHNE Hilfe geht bei
+aktivierter Einstellung automatisch weiter — akzeptierte Alternativen, fehlende/abweichende
+Vokalzeichen, Tippfehler, Falschantworten und jede Hilfenutzung erfordern immer "Weiter" per Klick.
+
+**Gezieltere Wiederholungen:** `SessionCoverageTracker` bekommt ein additives `errorTypes`-Feld
+(spelling/diacritics/meaning/confusion/matching/empty) je Wort, migrationssicher für alte
+Sessions. Bedeutungsfehler priorisieren Wiedererkennen/Zuordnung, Schreib-/Vokalisierungsfehler
+priorisieren eine spätere Schreibaufgabe, Verwechslungsfehler eine spätere Zuordnung — bestehendes
+Wiederholungslimit bleibt unverändert verbindlich, keine Endlosschleifen möglich.
+
+**Visuelle Verifikation** (Playwright, isoliertes Profil) fand einen echten Darstellungsfehler:
+das neue, deutlich umfangreichere Feedback-Panel wurde teilweise von der festen (sticky)
+Aktionsleiste am unteren Rand verdeckt, weil deren negativer Rand auf die vorherige, immer nur
+einzeilige Feedback-Höhe abgestimmt war — behoben durch ausreichenden Abstand nach dem
+Feedbackbereich.
+
+**Tests:** 91 neue Tests (691 → 782 Unit-Tests), u. a. für Zeichenvergleich, Kategorien,
+Barrierefreiheit, sichere DOM-Erzeugung (auch mit bewusst feindlicher Zeicheneingabe geprüft),
+Zuordnungs-Abschlussfeedback und phasenbewusste Priorisierung. 10× hintereinander sauber.
+Datenintegrität bestätigt: `vocabulary.json`/`theory.json`/`vocabSessions.json`/alle Audiodateien
+unverändert (dieser Auftrag durfte und hat keine Kursinhalte verändert).
+
+**Bewusst nicht Teil dieser Runde:** Sprachprüfung, neue Vokabeln/Theorie, Audioerzeugung, Änderung
+des Zehn-Stufen-Ablaufs, neue Aufgabentypen, KI-generierte Fehlererklärungen, Umbau von
+Grammatiktrainer/Alphabet/Review-Modus, Anbindung der Theorie-Mini-Checks an das neue System
+(bewusst zurückgestellt, um keine zweite konkurrierende Auswertungslogik zu riskieren).
+
 ## Bekannte Einschränkungen
 
 - Für Vokabeln/Buchstaben ohne generierte Audiodatei (z. B. neu hinzugefügte Inhalte vor dem

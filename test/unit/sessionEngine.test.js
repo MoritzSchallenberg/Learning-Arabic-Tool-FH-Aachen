@@ -214,6 +214,43 @@ test('Stufe 8 + Stufe 9 garantieren gemeinsam die volle "geschrieben"-Wortabdeck
   words.forEach((w) => assert.ok(union.has(w.id), `Wort ${w.id} fehlt in beiden Schreibstufen`));
 });
 
+// --- Entwicklungsauftrag 17, Abschnitt 17.1: phasenbewusste Priorisierung nach Fehlertyp -------
+test('ein Wort mit verzeichnetem Schreibfehler wird beim Auffüllen einer späteren Schreibaufgabe bevorzugt aufgenommen', () => {
+  const words = makeWords(10);
+  const sessionDef = fullPhasesSessionDef(10);
+  const engine = SessionEngine.create({ sessionDef, words, resumedState: null });
+
+  // independent_writing-Baseline (Abschnitt 8.3: productionBaseline) sind die Wörter an
+  // UNGERADEN Indizes -- word_2 (Index 1, gerade Position 0-basiert: words[1]) gehört NICHT zur
+  // Baseline und würde nur über das Auffüllen (topUp) mit aufgenommen.
+  SessionCoverageTracker.recordErrorType(engine.coverage, 'word_2', 'spelling');
+
+  // Direkt auf independent_writing springen (Stufen 1-2 theory/word_preview, dann recognition,
+  // matching, guided_writing überspringen -- die Priorisierung wirkt unabhängig vom bisherigen
+  // Phasenverlauf, da sie ausschließlich auf dem bereits gesetzten Coverage-Eintrag beruht).
+  toRecognition(engine);
+  engine.advancePhase(); // -> matching
+  engine.advancePhase(); // -> guided_writing
+  engine.advancePhase(); // -> independent_writing
+  engine.startGradedQueue();
+
+  const selectedWordIds = new Set();
+  while (!engine.isPhaseQueueDone()) { selectedWordIds.add(engine.currentTask().wordId); engine.recordTaskResult(true); }
+
+  assert.ok(selectedWordIds.has('word_2'), 'word_2 sollte trotz fehlender Baseline-Zugehörigkeit über die Fehlertyp-Priorisierung aufgenommen werden');
+});
+
+test('ein Wort mit verzeichnetem Bedeutungsfehler wird in der Wiedererkennen-Priorisierung bevorzugt (auch wenn Stufe 6 ohnehin alle Wörter abdeckt, bleibt die Sortierung stabil nachvollziehbar)', () => {
+  const words = makeWords(4); // kleine Wortzahl, damit recommendedCount(recognition) < n theoretisch relevant wäre -- hier zur direkten Score-Prüfung
+  const sessionDef = fullPhasesSessionDef(4);
+  const engine = SessionEngine.create({ sessionDef, words, resumedState: null });
+  SessionCoverageTracker.recordErrorType(engine.coverage, 'word_3', 'meaning');
+
+  const scoreBoosted = SessionCoverageTracker.priorityScoreForPhase(engine.coverage, 'word_3', 'recognition');
+  const scoreOthers = SessionCoverageTracker.priorityScoreForPhase(engine.coverage, 'word_1', 'recognition');
+  assert.ok(scoreBoosted > scoreOthers);
+});
+
 test('Stufe 9: ein Teil der Aufgaben nutzt die Audiodiktat-Variante (Abschnitt 9.3)', () => {
   const words = makeWords(10);
   const sessionDef = fullPhasesSessionDef(10);

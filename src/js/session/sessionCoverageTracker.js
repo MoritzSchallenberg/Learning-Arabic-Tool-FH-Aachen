@@ -27,6 +27,16 @@ const SessionCoverageTracker = (() => {
   // Felder passiert in migrateLegacyEntry().
   const LEGACY_FIELDS = ['reconstruction_attempts', 'guided_typing_attempts', 'independent_attempts', 'application_attempts'];
 
+  // Entwicklungsauftrag 17, Abschnitt 17: Fehlertypen je Wort -- Grundlage für gezieltere
+  // Wiederholungen (Abschnitt 17.1). Additiv zum bestehenden Schema, keine sessionFlowVersion-
+  // Erhöhung nötig (Abschnitt 24: "ausschließlich versioniert und migrationssicher" -- ein rein
+  // additives, mit sicherem Default rückwärtskompatibles Feld erfüllt das bereits, siehe
+  // recordErrorType() unten für den Migrationsfall eines alten, gespeicherten Eintrags ohne
+  // dieses Feld).
+  function createEmptyErrorTypes() {
+    return { spelling: 0, diacritics: 0, meaning: 0, confusion: 0, matching: 0, empty: 0 };
+  }
+
   function createEmpty() {
     return {
       preview_seen: false,
@@ -38,7 +48,8 @@ const SessionCoverageTracker = (() => {
       independent_writing_attempts: 0,
       errors: 0,
       help_used: false,
-      known_already: false
+      known_already: false,
+      errorTypes: createEmptyErrorTypes()
     };
   }
 
@@ -111,6 +122,59 @@ const SessionCoverageTracker = (() => {
     return entry;
   }
 
+  /**
+   * Entwicklungsauftrag 17, Abschnitt 17 — verzeichnet den (aus dem Feedbackmodell bereits
+   * feststehenden) Fehlertyp eines Wortes. Migrationssicher: ein VOR diesem Auftrag gespeicherter
+   * Eintrag hat noch kein errorTypes-Feld -- wird hier bei Bedarf einmalig ergänzt, statt
+   * abzustürzen oder den Zähler stillschweigend zu verwerfen.
+   * @param {string|null} errorType - einer von spelling/diacritics/meaning/confusion/matching/empty, oder null (kein Fehler)
+   */
+  function recordErrorType(coverage, wordId, errorType) {
+    if (!errorType) return;
+    const entry = entryFor(coverage, wordId);
+    if (!entry.errorTypes) entry.errorTypes = createEmptyErrorTypes();
+    if (Object.prototype.hasOwnProperty.call(entry.errorTypes, errorType)) {
+      entry.errorTypes[errorType] += 1;
+    }
+  }
+
+  /** Höchster Fehlertyp eines Wortes (für die phasenbewusste Priorisierung), oder null. */
+  function dominantErrorType(coverage, wordId) {
+    const entry = entryFor(coverage, wordId);
+    if (!entry.errorTypes) return null;
+    let best = null;
+    let bestCount = 0;
+    for (const type of Object.keys(entry.errorTypes)) {
+      const count = entry.errorTypes[type] || 0;
+      if (count > bestCount) { best = type; bestCount = count; }
+    }
+    return best;
+  }
+
+  // Abschnitt 17.1: welche Fehlertypen bevorzugen welche spätere(n) Übungsphase(n).
+  const ERROR_TYPE_PHASE_BOOST = {
+    meaning: ['recognition', 'matching'],
+    confusion: ['matching'],
+    spelling: ['guided_writing', 'independent_writing'],
+    diacritics: ['guided_writing', 'independent_writing']
+  };
+  const ERROR_TYPE_BOOST_WEIGHT = 4;
+
+  /** priorityScore() zzgl. eines Aufschlags für phasenrelevante Fehlertypen (Abschnitt 17.1) --
+   * additiv, deterministisch, ändert das bestehende Wiederholungslimit NICHT (Abschnitt 17.2). */
+  function priorityScoreForPhase(coverage, wordId, phaseType) {
+    const entry = entryFor(coverage, wordId);
+    let score = priorityScore(coverage, wordId);
+    if (entry.errorTypes) {
+      for (const type of Object.keys(ERROR_TYPE_PHASE_BOOST)) {
+        if (ERROR_TYPE_PHASE_BOOST[type].includes(phaseType)) {
+          score += (entry.errorTypes[type] || 0) * ERROR_TYPE_BOOST_WEIGHT;
+        }
+      }
+    }
+    return score;
+  }
+
   function totalAttempts(entry) {
     return entry.recognition_attempts + entry.matching_attempts + entry.guided_writing_attempts
       + entry.independent_writing_attempts;
@@ -147,9 +211,10 @@ const SessionCoverageTracker = (() => {
   }
 
   return {
-    createEmpty, create, entryFor, markPreviewSeen, markKnownAlready, markHelpUsed, recordAttempt,
+    createEmpty, createEmptyErrorTypes, create, entryFor, markPreviewSeen, markKnownAlready, markHelpUsed, recordAttempt,
     totalAttempts, hasActiveRetrieval, priorityScore, isSecurelyKnown, ATTEMPT_FIELD_BY_PHASE,
-    migrateLegacyEntry, isRecognized, isMatched, isWritten
+    migrateLegacyEntry, isRecognized, isMatched, isWritten,
+    recordErrorType, dominantErrorType, priorityScoreForPhase, ERROR_TYPE_PHASE_BOOST
   };
 })();
 

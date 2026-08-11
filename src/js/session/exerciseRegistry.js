@@ -123,6 +123,20 @@ const ExerciseRegistry = (() => {
     return normalizeArabic(full, { stripDiacritics: true });
   }
 
+  // Entwicklungsauftrag 17, Abschnitt 3/26: die Auswahlaufgaben setzen seit diesem Auftrag KEINEN
+  // eigenen Feedbacktext mehr direkt -- sie melden nur noch, WAS ausgewählt wurde
+  // (detail.selectedOption) und in welche "Richtung" die Aufgabe zeigt (detail.domain:
+  // 'arabic_word' bei arabischer Zielantwort, 'german_meaning' bei deutscher). Das gemeinsame
+  // Feedbacksystem (sessionController.js + feedback/*) baut daraus die vollständige, erklärende
+  // Darstellung (Abschnitt 5-8). Die Korrektheit (`correct`) bleibt unverändert dieselbe simple
+  // ID-Prüfung wie zuvor -- keine zweite Bewertungsinstanz (Abschnitt 22).
+  function choiceHandler(guard, onDone, word, opt, domain, extra) {
+    if (!guard.submit()) return;
+    const correct = opt.id === word.id;
+    guard.showFeedback();
+    onDone(correct, { feedbackShown: true, selectedOption: opt, domain, ...extra });
+  }
+
   // --- Wiedererkennen: Arabisch -> passende deutsche Bedeutung auswählen ---------------------
   function renderMultipleChoice(container, ctx, guard, onDone) {
     const { word, allWords } = ctx;
@@ -138,22 +152,13 @@ const ExerciseRegistry = (() => {
       card.appendChild(el('p', { className: 'text-hint', text: word.transliteration }));
     }
     const optionsWrap = el('div', { className: 'rating-buttons' });
-    const feedback = feedbackNode();
     options.forEach((opt) => {
       const btn = el('button', { className: 'btn secondary', text: primaryGerman(opt) });
       btn.type = 'button';
-      btn.addEventListener('click', () => {
-        if (!guard.submit()) return;
-        const correct = opt.id === word.id;
-        feedback.textContent = correct ? 'Richtig!' : `Nicht ganz. Richtig wäre: ${primaryGerman(word)}`;
-        feedback.className = 'feedback ' + (correct ? 'correct' : 'wrong');
-        guard.showFeedback();
-        onDone(correct, { feedbackShown: true });
-      });
+      btn.addEventListener('click', () => choiceHandler(guard, onDone, word, opt, 'german_meaning'));
       optionsWrap.appendChild(btn);
     });
     card.appendChild(optionsWrap);
-    card.appendChild(feedback);
     container.appendChild(card);
   }
 
@@ -169,22 +174,13 @@ const ExerciseRegistry = (() => {
     card.appendChild(el('p', { className: 'lead', text: 'Welcher Ausdruck bedeutet das?' }));
     card.appendChild(el('p', { className: 'text-body', text: primaryGerman(word) }));
     const optionsWrap = el('div', { className: 'rating-buttons' });
-    const feedback = feedbackNode();
     options.forEach((opt) => {
       const btn = el('button', { className: 'btn secondary arabic-text', text: arabicDisplay(opt, cfg) });
       btn.type = 'button';
-      btn.addEventListener('click', () => {
-        if (!guard.submit()) return;
-        const correct = opt.id === word.id;
-        feedback.textContent = correct ? 'Richtig!' : `Nicht ganz. Richtig wäre: ${word.arabic} (${primaryGerman(word)})`;
-        feedback.className = 'feedback ' + (correct ? 'correct' : 'wrong');
-        guard.showFeedback();
-        onDone(correct, { feedbackShown: true });
-      });
+      btn.addEventListener('click', () => choiceHandler(guard, onDone, word, opt, 'arabic_word'));
       optionsWrap.appendChild(btn);
     });
     card.appendChild(optionsWrap);
-    card.appendChild(feedback);
     container.appendChild(card);
   }
 
@@ -207,22 +203,13 @@ const ExerciseRegistry = (() => {
       AudioPlayer.speakWord(word, { context: 'Hörübung (automatisch)' });
     }
     const optionsWrap = el('div', { className: 'rating-buttons' });
-    const feedback = feedbackNode();
     options.forEach((opt) => {
       const btn = el('button', { className: 'btn secondary arabic-text', text: arabicDisplay(opt, cfg) });
       btn.type = 'button';
-      btn.addEventListener('click', () => {
-        if (!guard.submit()) return;
-        const correct = opt.id === word.id;
-        feedback.textContent = correct ? 'Richtig!' : `Nicht ganz. Richtig wäre: ${word.arabic} (${primaryGerman(word)})`;
-        feedback.className = 'feedback ' + (correct ? 'correct' : 'wrong');
-        guard.showFeedback();
-        onDone(correct, { feedbackShown: true });
-      });
+      btn.addEventListener('click', () => choiceHandler(guard, onDone, word, opt, 'arabic_word'));
       optionsWrap.appendChild(btn);
     });
     card.appendChild(optionsWrap);
-    card.appendChild(feedback);
     container.appendChild(card);
   }
 
@@ -239,24 +226,17 @@ const ExerciseRegistry = (() => {
     card.appendChild(el('p', { className: 'arabic-word-main', text: arabicDisplay(word, cfg) }));
     card.appendChild(el('p', { className: 'text-hint', text: 'Klicke auf die passende Wiedergabe.' }));
     const optionsWrap = el('div', { className: 'rating-buttons' });
-    const feedback = feedbackNode();
     options.forEach((opt, i) => {
       const btn = el('button', { className: 'btn secondary', text: `🔊 Option ${i + 1}` });
       btn.type = 'button';
       btn.setAttribute('aria-label', `Option ${i + 1} abspielen`);
       btn.addEventListener('click', () => {
         AudioPlayer.speakWord(opt, { context: 'Hörübung (Option)' });
-        if (!guard.submit()) return;
-        const correct = opt.id === word.id;
-        feedback.textContent = correct ? 'Richtig!' : `Nicht ganz. Das war eine andere Aufnahme.`;
-        feedback.className = 'feedback ' + (correct ? 'correct' : 'wrong');
-        guard.showFeedback();
-        onDone(correct, { feedbackShown: true });
+        choiceHandler(guard, onDone, word, opt, 'arabic_word');
       });
       optionsWrap.appendChild(btn);
     });
     card.appendChild(optionsWrap);
-    card.appendChild(feedback);
     container.appendChild(card);
   }
 
@@ -282,22 +262,13 @@ const ExerciseRegistry = (() => {
       AudioPlayer.speakWord(word, { context: 'Hörübung (automatisch)' });
     }
     const optionsWrap = el('div', { className: 'rating-buttons' });
-    const feedback = feedbackNode();
     options.forEach((opt) => {
       const btn = el('button', { className: 'btn secondary', text: primaryGerman(opt) });
       btn.type = 'button';
-      btn.addEventListener('click', () => {
-        if (!guard.submit()) return;
-        const correct = opt.id === word.id;
-        feedback.textContent = correct ? 'Richtig!' : `Nicht ganz. Richtig wäre: ${primaryGerman(word)}`;
-        feedback.className = 'feedback ' + (correct ? 'correct' : 'wrong');
-        guard.showFeedback();
-        onDone(correct, { feedbackShown: true });
-      });
+      btn.addEventListener('click', () => choiceHandler(guard, onDone, word, opt, 'german_meaning'));
       optionsWrap.appendChild(btn);
     });
     card.appendChild(optionsWrap);
-    card.appendChild(feedback);
     container.appendChild(card);
   }
 
@@ -333,14 +304,14 @@ const ExerciseRegistry = (() => {
     built.style.borderRadius = 'var(--radius)';
     built.style.padding = '6px 12px';
     card.appendChild(built);
+    const inputArea = el('div', { className: 'session-input-area' });
     const tilesWrap = el('div', { className: 'rating-buttons' });
-    card.appendChild(tilesWrap);
+    inputArea.appendChild(tilesWrap);
     const resetBtn = el('button', { className: 'btn secondary', text: 'Zurücksetzen' });
     resetBtn.type = 'button';
     resetBtn.style.marginTop = '12px';
-    card.appendChild(resetBtn);
-    const feedback = feedbackNode();
-    card.appendChild(feedback);
+    inputArea.appendChild(resetBtn);
+    card.appendChild(inputArea);
     container.appendChild(card);
 
     function renderTiles() {
@@ -372,10 +343,11 @@ const ExerciseRegistry = (() => {
         if (!guard.submit()) return;
         const attempt = picked.map((idx) => shuffled[idx].text).join(joiner);
         const correct = attempt === target;
-        feedback.textContent = correct ? 'Richtig!' : `Nicht ganz. Richtig wäre: ${target}`;
-        feedback.className = 'feedback ' + (correct ? 'correct' : 'wrong');
         guard.showFeedback();
-        onDone(correct, { feedbackShown: true, errorExplanation: correct ? null : `Erwartete Reihenfolge: ${target}. Deine Reihenfolge: ${attempt || '(leer)'}.` });
+        // Entwicklungsauftrag 17, Abschnitt 20: Eingabehilfen (hier: Kacheln + Zurücksetzen) nach
+        // der Abgabe kompakt einklappen, statt weiter Platz zu beanspruchen.
+        inputArea.classList.add('session-input-collapsed');
+        onDone(correct, { feedbackShown: true, submittedAnswer: attempt, expectedForm: target });
       });
     }
   }
@@ -416,10 +388,8 @@ const ExerciseRegistry = (() => {
     input.style.margin = '0 auto 12px';
     input.style.display = 'block';
     card.appendChild(input);
-    const keyboardWrap = el('div');
+    const keyboardWrap = el('div', { className: 'session-input-area' });
     card.appendChild(keyboardWrap);
-    const feedback = feedbackNode();
-    card.appendChild(feedback);
     container.appendChild(card);
 
     VirtualKeyboard.mount(keyboardWrap, input, {
@@ -434,20 +404,11 @@ const ExerciseRegistry = (() => {
         if (!guard.submit()) return;
         const result = checkArabicInput(word, input.value.trim());
         const isCorrect = result === 'correct_full' || result === 'correct_no_diacritics' || result === 'correct';
-        // Bei der Diktat-Variante (Abschnitt 9.3) stand vorher nur das Audio, keine deutsche
-        // Bedeutung -- die darf jetzt, im Feedback NACH der Abgabe, ergänzend erscheinen.
-        const meaningSuffix = dictation ? ` (${primaryGerman(word)})` : '';
-        feedback.textContent = isCorrect
-          ? (result === 'correct_no_diacritics' ? `Richtig, aber ohne Vokalzeichen.${meaningSuffix}` : `Richtig!${meaningSuffix}`)
-          : `Nicht ganz. Richtig wäre: ${word.arabic}${meaningSuffix}`;
-        feedback.className = 'feedback ' + (isCorrect ? 'correct' : (result === 'typo' ? 'typo' : 'wrong'));
         guard.showFeedback();
-        onDone(isCorrect, {
-          feedbackShown: true,
-          result,
-          errorExplanation: isCorrect ? null : `Erwartet: ${word.arabic}${word.transliteration ? ` (${word.transliteration})` : ''}. Deine Eingabe: ${input.value.trim() || '(leer)'}.` +
-            (result === 'typo' ? ' Das sieht nach einem kleinen Tippfehler aus.' : '')
-        });
+        // Entwicklungsauftrag 17, Abschnitt 20: virtuelle Tastatur nach der Abgabe kompakt
+        // einklappen, statt weiter Platz für das jetzt folgende Feedback wegzunehmen.
+        keyboardWrap.classList.add('session-input-collapsed');
+        onDone(isCorrect, { feedbackShown: true, result, submittedAnswer: input.value.trim(), dictation: !!dictation });
       });
     }
   }
@@ -475,22 +436,13 @@ const ExerciseRegistry = (() => {
     card.appendChild(el('p', { className: 'lead', text: promptData.prompt }));
     card.appendChild(el('p', { className: 'text-hint', text: 'Welcher Ausdruck passt am besten?' }));
     const optionsWrap = el('div', { className: 'rating-buttons' });
-    const feedback = feedbackNode();
     options.forEach((opt) => {
       const btn = el('button', { className: 'btn secondary arabic-text', text: arabicDisplay(opt, cfg) });
       btn.type = 'button';
-      btn.addEventListener('click', () => {
-        if (!guard.submit()) return;
-        const correct = opt.id === word.id;
-        feedback.textContent = correct ? 'Richtig!' : `Nicht ganz. Richtig wäre: ${word.arabic} (${primaryGerman(word)})`;
-        feedback.className = 'feedback ' + (correct ? 'correct' : 'wrong');
-        guard.showFeedback();
-        onDone(correct, { feedbackShown: true });
-      });
+      btn.addEventListener('click', () => choiceHandler(guard, onDone, word, opt, 'arabic_word', { prompt: promptData.prompt }));
       optionsWrap.appendChild(btn);
     });
     card.appendChild(optionsWrap);
-    card.appendChild(feedback);
     container.appendChild(card);
   }
 
@@ -634,12 +586,20 @@ const ExerciseRegistry = (() => {
         if (locked.size === groupWords.length) {
           if (!guard.submit()) return;
           guard.showFeedback();
-          onDone(Object.values(perWordCorrect).every(Boolean), { feedbackShown: true, perWordCorrect, groupSize: groupWords.length });
+          // Entwicklungsauftrag 17, Abschnitt 13: das Abschlussfeedback der Gruppe (mit
+          // Paarübersicht + Markierung erster Fehlversuche) baut sessionController.js über das
+          // gemeinsame Feedbacksystem -- dafür braucht es hier zusätzlich erroredWordIds.
+          onDone(Object.values(perWordCorrect).every(Boolean), {
+            feedbackShown: true, perWordCorrect, groupSize: groupWords.length, erroredWordIds: [...firstErrorSeen]
+          });
         }
       } else {
         firstErrorSeen.add(a.wordId);
         firstErrorSeen.add(b.wordId);
-        setFeedback('Das passt nicht zusammen. Versuche es erneut.', 'wrong');
+        // Entwicklungsauftrag 17, Abschnitt 7.8: kurze Rückmeldung WÄHREND der Aufgabe, darf nicht
+        // sofort alle Lösungen verraten -- bleibt bewusst eine einfache Inline-Meldung, NICHT das
+        // vollständige Feedbacksystem (das kommt erst nach Abschluss der ganzen Gruppe, s. o.).
+        setFeedback('Diese beiden Elemente gehören nicht zusammen. Versuche es erneut.', 'wrong');
         clearSelection();
         reportProgress();
       }
@@ -684,7 +644,9 @@ const ExerciseRegistry = (() => {
     if (locked.size === groupWords.length && groupWords.length > 0) {
       if (guard.submit()) {
         guard.showFeedback();
-        onDone(Object.values(perWordCorrect).every(Boolean), { feedbackShown: true, perWordCorrect, groupSize: groupWords.length, resumedComplete: true });
+        onDone(Object.values(perWordCorrect).every(Boolean), {
+          feedbackShown: true, perWordCorrect, groupSize: groupWords.length, erroredWordIds: [...firstErrorSeen], resumedComplete: true
+        });
       }
     }
   }

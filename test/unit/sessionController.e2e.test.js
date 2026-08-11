@@ -31,10 +31,13 @@ const SOURCE_FILES = [
   'src/js/session/phaseRegistry.js',
   'src/js/session/sessionCoverageTracker.js',
   'src/js/session/sessionQueue.js',
+  'src/js/session/wordRelations.js',
+  'src/js/feedback/answerAnalyzer.js',
+  'src/js/feedback/feedbackModel.js',
+  'src/js/feedback/feedbackRenderer.js',
   'src/js/session/exerciseRegistry.js',
   'src/js/session/sessionEngine.js',
   'src/js/session/learningStages.js',
-  'src/js/session/wordRelations.js',
   'src/js/session/sessionRenderer.js',
   'src/js/session/sessionController.js'
 ];
@@ -593,6 +596,127 @@ for (const n of [1, 5, 10, 15, 20, 25, 30]) {
     assert.ok(!container.textContent.includes('Anwendung'), 'kein alter Phasenname darf mehr auftauchen');
   });
 }
+
+// --- Entwicklungsauftrag 17: gemeinsames erklärendes Feedbacksystem, End-zu-Ende-Tests ---------
+
+test('Stufe 6: nach einer Antwort erscheint EIN gemeinsames Feedback-Panel mit role status/alert, das fokussiert wird', async () => {
+  const fakeAppState = createFakeAppState();
+  const context = buildContext(fakeAppState);
+  const SessionController = loadSessionModules(context);
+  const container = createDocumentStub().createElement('div');
+
+  await SessionController.mount(container, { unitId: 'vocab_unit_01', sessionId: 'vocab_unit_01_a' });
+  await completeLearningStages(container, 10);
+  assert.ok(container.textContent.includes('Stufe 6 von 10'));
+
+  const opt = optionButtons(container)[0];
+  opt.click();
+  await tick();
+
+  const panel = container.querySelector('.feedback-panel');
+  assert.ok(panel, 'ein zentrales Feedback-Panel sollte nach der Antwort erscheinen');
+  const role = panel.getAttribute('role');
+  assert.ok(role === 'status' || role === 'alert');
+  assert.equal(panel.focused, true, 'das Feedback-Panel sollte programmatisch fokussiert werden');
+  // Alte, verstreute Texte dürfen nicht mehr als primäres Feedback auftauchen.
+  assert.ok(!container.textContent.includes('Fehler erklären'), 'der alte separate "Fehler erklären"-Button entfällt zugunsten des gemeinsamen Panels');
+});
+
+test('Stufe 6: das Feedback-Panel bietet klar beschriftete Audio-Buttons (normal/langsam)', async () => {
+  const fakeAppState = createFakeAppState();
+  const context = buildContext(fakeAppState);
+  const SessionController = loadSessionModules(context);
+  const container = createDocumentStub().createElement('div');
+
+  await SessionController.mount(container, { unitId: 'vocab_unit_01', sessionId: 'vocab_unit_01_a' });
+  await completeLearningStages(container, 10);
+  optionButtons(container)[0].click();
+  await tick();
+
+  const buttons = container.querySelectorAll('button');
+  assert.ok(buttons.some((b) => b.getAttribute('aria-label') === 'Richtige Aussprache normal abspielen'));
+  assert.ok(buttons.some((b) => b.getAttribute('aria-label') === 'Richtige Aussprache langsam abspielen'));
+});
+
+test('Stufe 7: Abschlussfeedback der Gruppe zeigt eine vollständige Paarübersicht über das gemeinsame Feedbacksystem', async () => {
+  const fakeAppState = createFakeAppState();
+  const context = buildContext(fakeAppState);
+  const SessionController = loadSessionModules(context);
+  const container = createDocumentStub().createElement('div');
+
+  await SessionController.mount(container, { unitId: 'vocab_unit_01', sessionId: 'vocab_unit_01_a' });
+  await completeLearningStages(container, 10);
+  let guard = 0;
+  while (!container.textContent.includes('Stufe 7 von 10') && guard < 60) {
+    guard += 1;
+    const opts = optionButtons(container);
+    if (opts.length > 0) { opts[0].click(); await tick(); }
+    const weiter = findButtonByText(container, 'Weiter');
+    if (weiter) { weiter.click(); await tick(); }
+  }
+  assert.ok(container.textContent.includes('Stufe 7 von 10'));
+
+  const solved = solveMatchingGroup(container);
+  assert.ok(solved, 'die erste Zuordnungsgruppe sollte vollständig lösbar sein');
+  await tick();
+
+  const summaryPanel = container.querySelector('.matching-summary-list');
+  assert.ok(summaryPanel, 'nach Abschluss der Gruppe sollte die gemeinsame Paarübersicht erscheinen');
+  const panel = container.querySelector('.feedback-panel');
+  assert.ok(panel.getAttribute('role'));
+  assert.ok(!container.textContent.match(/\bword_[a-z0-9_]+\b/), 'keine rohen Wort-IDs im Abschlussfeedback');
+});
+
+test('Stufe 9: Feedback-Panel erscheint auch nach freier Eingabe, mit demselben gemeinsamen System wie Stufe 6', async () => {
+  const fakeAppState = createFakeAppState();
+  const context = buildContext(fakeAppState);
+  const SessionController = loadSessionModules(context);
+  const container = createDocumentStub().createElement('div');
+
+  await SessionController.mount(container, { unitId: 'vocab_unit_01', sessionId: 'vocab_unit_01_a' });
+  await completeLearningStages(container, 10);
+  let guard = 0;
+  while (!container.textContent.includes('Stufe 9 von 10') && guard < 100) {
+    guard += 1;
+    if (container.querySelector('.matching-grid')) {
+      solveMatchingGroup(container);
+      await tick();
+      const weiterMatch = findButtonByText(container, 'Weiter');
+      if (weiterMatch) { weiterMatch.click(); await tick(); }
+      continue;
+    }
+    const opts = optionButtons(container);
+    const input = container.querySelector('input');
+    const pruefen = findButtonByText(container, 'Prüfen');
+    if (opts.length > 0) { opts[0].click(); await tick(); } else if (input && pruefen) {
+      input.value = 'test';
+      pruefen.click();
+      await tick();
+    } else if (pruefen) {
+      const chrome = new Set(['Theorie ansehen', 'Session verlassen', 'Zurücksetzen', 'Prüfen', 'Hilfe', 'Audio']);
+      let tileGuard = 0;
+      let tile = container.querySelectorAll('button').find((b) => !chrome.has(b.textContent) && b.textContent !== '');
+      while (tile && tileGuard < 20) {
+        tileGuard += 1;
+        tile.click();
+        await tick();
+        tile = container.querySelectorAll('button').find((b) => !chrome.has(b.textContent) && b.textContent !== '');
+      }
+      pruefen.click();
+      await tick();
+    }
+    const weiter = findButtonByText(container, 'Weiter');
+    if (weiter) { weiter.click(); await tick(); }
+  }
+  assert.ok(container.textContent.includes('Stufe 9 von 10'), `guard=${guard}`);
+
+  const input = container.querySelector('input');
+  input.value = 'test';
+  findButtonByText(container, 'Prüfen').click();
+  await tick();
+
+  assert.ok(container.querySelector('.feedback-panel'), 'Stufe 9 nutzt dasselbe zentrale Feedback-Panel wie die übrigen Stufen');
+});
 
 // Entwicklungsauftrag 16, Abschnitt 9.1: Stufe 9 ("Freies Schreiben OHNE Hilfe") darf -- im
 // Unterschied zu Stufe 8 ("Schreiben MIT Hilfe") -- keine Lösungspreisgabe vor der Abgabe

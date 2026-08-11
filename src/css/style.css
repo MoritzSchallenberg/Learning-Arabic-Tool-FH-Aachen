@@ -1413,3 +1413,121 @@ input[type="checkbox"], input[type="radio"] {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ============================================================================
+   Gemeinsames Feedbacksystem (Entwicklungsauftrag 17) — EINE Darstellung für alle
+   Aufgaben der Stufen 6-9 (feedback/feedbackRenderer.js). Ausschließlich vorhandene
+   Design-Tokens (Abschnitt 20), keine neuen Festfarben.
+   ============================================================================ */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Abschnitt 20: "darf nicht unter der festen Aktionsleiste verschwinden" -- .action-bar ist
+   position:sticky mit einem negativen unteren Rand (siehe oben, "Aktionsleiste"), der die
+   sichtbar LETZTEN ~90px des vorangehenden Inhalts überlappt. Vor diesem Auftrag war das
+   Feedback dort immer nur ein einzeiliger Text, jetzt kann das Panel deutlich mehr Inhalt haben
+   (Audio-Buttons, Wiederholungshinweis) -- ausreichend Abstand nach dem Panel sorgt dafür, dass
+   dessen eigener Inhalt nicht mehr in die überlappte Zone hineinragt (bei der visuellen
+   Verifikation gefunden: das Panel wurde optisch von der Aktionsleiste durchschnitten).
+   ============================================================================ */
+.feedback-area { margin-top: var(--space-md); padding-bottom: 110px; }
+
+.feedback-panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-md) var(--space-lg);
+  margin-top: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+.feedback-panel:focus { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+
+.feedback-panel.feedback-correct { border-color: var(--success); background: var(--success-bg); }
+.feedback-panel.feedback-partial { border-color: var(--warning); background: var(--warning-bg); }
+.feedback-panel.feedback-wrong { border-color: var(--error); background: var(--error-bg); }
+.feedback-panel.feedback-empty { border-color: var(--warning); background: var(--warning-bg); }
+.feedback-panel.feedback-technical { border-color: var(--border-strong); background: var(--bg-secondary); }
+
+.feedback-panel-header { display: flex; align-items: center; gap: var(--space-sm); }
+.feedback-panel-icon { font-size: 1.3rem; line-height: 1; }
+.feedback-panel.feedback-correct .feedback-panel-icon { color: var(--success); }
+.feedback-panel.feedback-partial .feedback-panel-icon { color: var(--warning); }
+.feedback-panel.feedback-wrong .feedback-panel-icon { color: var(--error); }
+.feedback-panel-title { margin: 0; font-size: 1.05rem; }
+
+.answer-comparison { display: flex; flex-direction: column; gap: var(--space-xs); }
+.answer-comparison-row { margin: 0; }
+.answer-comparison-label { color: var(--text-secondary); }
+.answer-comparison-value { font-weight: 600; }
+
+.char-diff {
+  font-size: 1.4rem;
+  line-height: 1.8;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+.char-diff-segment { padding: 0 1px; border-radius: 3px; }
+.char-diff-segment.char-diff-match { color: var(--text-primary); }
+.char-diff-segment.char-diff-diacritic_issue { background: var(--warning-bg); color: var(--warning); text-decoration: underline wavy var(--warning); }
+.char-diff-segment.char-diff-substituted,
+.char-diff-segment.char-diff-missing,
+.char-diff-segment.char-diff-extra { background: var(--error-bg); color: var(--error); }
+.char-diff-segment.char-diff-missing::after { content: '▢'; font-size: 0.8rem; opacity: 0.7; }
+.char-diff-explanation { margin-top: var(--space-xs); }
+
+.feedback-word-info { display: flex; flex-direction: column; gap: 2px; }
+
+.feedback-audio-actions { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
+
+.repeat-hint { color: var(--text-secondary); font-style: italic; }
+
+.relation-compare-table { border-collapse: collapse; width: 100%; margin-top: var(--space-xs); }
+.relation-compare-table th,
+.relation-compare-table td {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: left;
+  font-size: 0.9rem;
+}
+.relation-compare { overflow-x: auto; }
+.relation-disclosure summary { cursor: pointer; color: var(--accent); }
+
+.matching-summary-list { display: flex; flex-direction: column; gap: var(--space-xs); }
+.matching-summary-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 6px var(--space-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+.matching-summary-row.correct { border-color: var(--success); background: var(--success-bg); }
+.matching-summary-row.wrong { border-color: var(--warning); background: var(--warning-bg); }
+.matching-summary-status { font-weight: 700; }
+.matching-summary-row.correct .matching-summary-status { color: var(--success); }
+.matching-summary-row.wrong .matching-summary-status { color: var(--warning); }
+.matching-summary-label { flex: 1; }
+
+/* Abschnitt 20: virtuelle Tastatur/Eingabehilfen nach der Abgabe kompakt einklappen, statt
+   weiter Platz für das jetzt folgende Feedback zu beanspruchen. */
+.session-input-collapsed { display: none; }
+
+@media (max-width: 720px) {
+  .relation-compare-table th:nth-child(1),
+  .relation-compare-table td:nth-child(1) { display: none; }
+}

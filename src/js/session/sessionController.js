@@ -791,6 +791,96 @@ const SessionController = (() => {
     return Math.max(0, Math.min(1, queue.index / total));
   }
 
+  // --- Entwicklungsauftrag 17: zentrales Feedbacksystem (Abschnitt 5/6/22) ---------------------
+  // Baut aus dem strukturierten onDone-Detail eines Renderers (exerciseRegistry.js) die
+  // AnswerAnalyzer-Analyse, OHNE die bereits feststehende Korrektheit neu zu bestimmen -- nur
+  // WARUM sie so ausfiel, wird hier verfeinert (Abschnitt 22).
+  function analysisForTask(task, word, isCorrect, detail) {
+    if (detail.selectedOption) {
+      return AnswerAnalyzer.analyzeChoiceAnswer({ targetWord: word, selectedOption: detail.selectedOption, isCorrect, domain: detail.domain });
+    }
+    if (task.part === 'order_pieces') {
+      // Abschnitt 9: order_pieces vergleicht gegen die diakritikafreie Zielform (siehe
+      // tokensForReconstruction()) -- kein Diakritika-Tier möglich, deshalb eine eigene, einfache
+      // Zwei-Kategorien-Analyse statt der vollen analyzeTypedArabicAnswer()-Stufenkette.
+      const target = detail.expectedForm;
+      const given = detail.submittedAnswer;
+      return {
+        category: isCorrect ? 'correct_full' : (given.trim() === '' ? 'empty' : 'wrong_word'),
+        submittedAnswer: given,
+        expectedAnswers: [target],
+        primaryAnswer: target,
+        matchedAnswer: isCorrect ? target : null,
+        fullVocalizedForm: word.arabic_vocalized || word.arabic,
+        charDiff: (!isCorrect && given.trim() !== '') ? AnswerAnalyzer.diffArabicText(target, given) : null
+      };
+    }
+    if (detail.submittedAnswer !== undefined) {
+      return AnswerAnalyzer.analyzeTypedArabicAnswer(word, detail.submittedAnswer);
+    }
+    // Sicherheitsnetz für unbekannte/zukünftige Aufgabentypen ohne strukturiertes Detail.
+    return { category: isCorrect ? 'correct_full' : 'wrong_word', submittedAnswer: null, expectedAnswers: [word.arabic], matchedAnswer: null, fullVocalizedForm: word.arabic_vocalized || word.arabic, charDiff: null };
+  }
+
+  // Abschnitt 16: datenbasierte Verwechslungsinformationen, wenn der Nutzer sie ausdrücklich
+  // öffnet ("Ähnliche Wörter anzeigen") -- unabhängig davon, ob die konkret gewählte falsche
+  // Option selbst die Beziehung war (das übernimmt bereits analysis.relation automatisch).
+  function manualRelationsFor(word) {
+    if (!allPackWordsCache) return [];
+    const rels = [];
+    WordRelations.confusionGroupWords(word, allPackWordsCache).forEach((w) => rels.push({ word: w, type: 'confusion' }));
+    WordRelations.homonymGroupWords(word, allPackWordsCache).forEach((w) => rels.push({ word: w, type: 'homonym' }));
+    const opposite = WordRelations.oppositeWord(word, allPackWordsCache);
+    if (opposite) rels.push({ word: opposite, type: 'opposite' });
+    return rels;
+  }
+
+  function renderWordFeedback(bodyEl, actionBar, guard, { task, word, phaseType, isCorrect, detail, analysis, helpUsedFlag, repeatScheduled }) {
+    const settings = AppState.getSettings();
+    const model = FeedbackModel.buildForWord({
+      exerciseType: detail.exerciseType || phaseType,
+      word,
+      analysis,
+      repeatScheduled,
+      repeatLimitReached: !repeatScheduled && !isCorrect && engine.repeatLimitReached(word.id),
+      helpUsed: helpUsedFlag,
+      isReview: !!task.isReview,
+      prompt: detail.prompt || null,
+      isTyped: !detail.selectedOption
+    });
+
+    const feedbackArea = el('div', 'feedback-area');
+    bodyEl.appendChild(feedbackArea);
+
+    const autoRelation = analysis.relation ? { word: detail.selectedOption, type: analysis.relation.type } : null;
+    const manualRelations = (!model.isCorrect && !autoRelation) ? manualRelationsFor(word) : [];
+
+    FeedbackRenderer.render(feedbackArea, model, {
+      settings,
+      selectedWord: detail.selectedOption || null,
+      onAudioNormal: (btn) => AudioPlayer.speakWord(word, { context: 'Aufgaben-Feedback', button: btn }),
+      onAudioSlow: (btn) => AudioPlayer.speakWord(word, { slow: true, context: 'Aufgaben-Feedback (langsam)', button: btn }),
+      onSelectedAudio: detail.selectedOption ? (btn) => AudioPlayer.speakWord(detail.selectedOption, { context: 'Aufgaben-Feedback (gewählte Option)', button: btn }) : null,
+      autoRelation,
+      manualRelations,
+      onRelationAudio: autoRelation ? (btn) => AudioPlayer.speakWord(autoRelation.word, { context: 'Aufgaben-Feedback (Verwechslung)', button: btn }) : undefined
+    });
+
+    if (settings.replayAfterAnswer) {
+      AudioPlayer.speakWord(word, { context: 'Aufgaben-Feedback (automatisch)' });
+    }
+
+    // Abschnitt 18: nur eine vollständig richtige Antwort OHNE Hilfe darf automatisch
+    // weitergehen -- akzeptierte Alternativen, fehlende/abweichende Vokalzeichen, Tippfehler,
+    // Falschantworten und jede Hilfenutzung werden immer manuell mit "Weiter" bestätigt.
+    let advanced = false;
+    const doAdvance = () => { if (advanced) return; advanced = true; renderCurrentPhase(); };
+    SessionRenderer.renderActionBar(actionBar, { rightButtons: [{ label: 'Weiter', onClick: doAdvance }] });
+    if (model.resultCategory === 'correct_full' && !model.helpUsed && settings.autoAdvanceAfterFeedback) {
+      guard.setTimeout(doAdvance, 1500);
+    }
+  }
+
   // --- Stufe 7 (Zuordnungsaufgaben): eine Aufgabe bewertet mehrere Wörter gleichzeitig ---------
   function renderMatchingTask(task, queue) {
     const groupWords = task.groupWordIds.map((id) => allSessionWords().find((w) => w.id === id)).filter(Boolean);
@@ -831,8 +921,27 @@ const SessionController = (() => {
       engine.recordGroupTaskResult(perWordCorrect);
       await persistSnapshot();
 
-      const doAdvance = () => renderCurrentPhase();
+      // Entwicklungsauftrag 17, Abschnitt 13: Abschlussfeedback der Gruppe über das gemeinsame
+      // Feedbacksystem -- alle Paare, erste Fehlversuche markiert, Audio je Wort, keine rohen IDs.
+      const model = FeedbackModel.buildMatchingGroupSummary({ groupWords, perWordCorrect, erroredWordIds: (detail && detail.erroredWordIds) || [] });
+      const feedbackArea = el('div', 'feedback-area');
+      bodyEl.appendChild(feedbackArea);
+      FeedbackRenderer.renderMatchingGroupSummary(feedbackArea, model, {
+        settings,
+        onAudioFor: (w, btn) => AudioPlayer.speakWord(w, { context: 'Zuordnung-Feedback', button: btn })
+      });
+      // settings.replayAfterAnswer wird hier bewusst NICHT automatisch abgespielt: bei einer
+      // ganzen Wortgruppe gäbe eine automatische Wiedergabe ALLER Wörter eine Kaskade
+      // überlagernder Aufnahmen -- Audio bleibt bei Zuordnungsgruppen auf Wunsch je Wort.
+
+      let advanced = false;
+      const doAdvance = () => { if (advanced) return; advanced = true; renderCurrentPhase(); };
       SessionRenderer.renderActionBar(actionBar, { rightButtons: [{ label: 'Weiter', onClick: doAdvance }] });
+      // Abschnitt 18: "nicht nach einer Zuordnungsgruppe mit Fehlern" -- bei einer FEHLERFREIEN
+      // Gruppe darf (wie bei correct_full) automatisch weitergegangen werden.
+      if (model.isCorrect && settings.autoAdvanceAfterFeedback) {
+        guard.setTimeout(doAdvance, 1500);
+      }
     });
   }
 
@@ -877,33 +986,20 @@ const SessionController = (() => {
       settings,
       provideCheckAction: (fn) => { checkAction = fn; }
     }, guard, async (isCorrect, detail) => {
+      const fullDetail = { exerciseType, ...detail };
+      // Der Fehlertyp kommt aus FeedbackModel (über analysisForTask) -- errors-Zähler/Coverage
+      // bleiben unverändert an der bestehenden, verbindlichen isCorrect-Bewertung hängen
+      // (Abschnitt 22), der Fehlertyp ist eine zusätzliche, rein additive Information.
+      const analysis = analysisForTask(task, word, isCorrect, fullDetail);
+      const errorType = FeedbackModel.errorTypeForAnalysis(analysis, { isTyped: !fullDetail.selectedOption });
+
       const card = AppState.getCard(word.id);
-      adjustDifficulty(card, SKILL_BY_PHASE[phaseType], isCorrect ? 'correct' : ((detail && detail.result) || 'wrong'));
+      adjustDifficulty(card, SKILL_BY_PHASE[phaseType], isCorrect ? 'correct' : 'wrong');
       await AppState.persistProgress();
-      const { repeatScheduled } = engine.recordTaskResult(isCorrect, { helpUsed: helpUsedFlag });
+      const { repeatScheduled } = engine.recordTaskResult(isCorrect, { helpUsed: helpUsedFlag, errorType });
       await persistSnapshot();
 
-      const leftButtons = [
-        { label: 'Audio erneut', onClick: (btn) => AudioPlayer.speakWord(word, { context: 'Aufgaben-Feedback', button: btn }) }
-      ];
-      if (!isCorrect && detail && detail.errorExplanation) {
-        leftButtons.push({
-          label: 'Fehler erklären',
-          onClick: () => bodyEl.appendChild(el('p', 'theory-callout theory-callout-info', detail.errorExplanation))
-        });
-      }
-      if (!isCorrect && !repeatScheduled && !task.isReview) {
-        bodyEl.appendChild(el('p', 'text-hint', `Kurz erklärt: ${word.arabic}${word.transliteration ? ` (${word.transliteration})` : ''} bedeutet „${ExerciseRegistry.primaryGerman(word)}". Dieses Wort taucht später in einer Wiederholung erneut auf.`));
-      }
-      if (settings.replayAfterAnswer) {
-        AudioPlayer.speakWord(word, { context: 'Aufgaben-Feedback (automatisch)' });
-      }
-
-      const doAdvance = () => renderCurrentPhase();
-      SessionRenderer.renderActionBar(actionBar, { leftButtons, rightButtons: [{ label: 'Weiter', onClick: doAdvance }] });
-      if (isCorrect && settings.autoAdvanceAfterFeedback) {
-        guard.setTimeout(doAdvance, 1500);
-      }
+      renderWordFeedback(bodyEl, actionBar, guard, { task, word, phaseType, isCorrect, detail: fullDetail, analysis, helpUsedFlag, repeatScheduled });
     });
 
     // Entwicklungsauftrag 16, Abschnitt 9.1: Stufe 9 ("Freies Schreiben OHNE Hilfe") darf -- im

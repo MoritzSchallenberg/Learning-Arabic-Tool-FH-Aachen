@@ -3117,3 +3117,197 @@ abgeschlossener Sessions; 900 Wörter, 90 Theorien, alle Audiodateien nachweisli
 keine Testregression (691/691 + 6/6, 10× grün). Sprachprüfung, neue Vokabeln/Theorie,
 Audioerzeugung, neues Feedbacksystem, zweite Session-Engine, pauschaler Reset alter Sessions
 bewusst nicht Teil dieser Runde.
+
+## 21. Entwicklungsauftrag 17: Gemeinsames erklärendes Feedbacksystem (vom Nutzer, 2026-08-11)
+
+Ersetzt die zuvor je nach Aufgabentyp in `exerciseRegistry.js`/`sessionController.js` verstreuten,
+uneinheitlichen Feedbacktexte durch EIN gemeinsames, erklärendes Feedbacksystem für alle Aufgaben
+der Stufen 6-9: welche Antwort gegeben/erwartet wurde, warum sie richtig/teilweise
+richtig/falsch ist, ob nur Vokalisierung fehlt, ob eine akzeptierte Alternative getroffen wurde,
+welcher Buchstabe abweicht, ob ein anderes Wort verwechselt wurde, wie die richtige Aussprache
+klingt, ob und wann das Wort erneut erscheint. Die korrekte/falsche Bewertung bleibt unverändert
+Aufgabe der bestehenden Grading-Logik — das Feedback erklärt nur, deutet nie um.
+
+### Schritt 1: Baseline-Prüfung
+
+Ausgangsstand exakt wie vom Auftrag angegeben verifiziert: 900/900 Wörter, vollständiger
+Zehn-Stufen-Ablauf aus Entwicklungsauftrag 16, 691 Unit- + 6 Integrationstests, sauberer
+Git-Stand. Keine Abweichung festgestellt.
+
+### Schritt 2: Zentrale Feedbackarchitektur (Abschnitt 5)
+
+Drei neue Module unter `src/js/feedback/`, jedes mit klar getrennter Aufgabe:
+
+- **`answerAnalyzer.js`** (Abschnitt 5.1, reine Antwortanalyse, kein DOM): `analyzeTypedArabicAnswer()`
+  verfeinert das Ergebnis von `evaluateArabicAnswer()`/der neuen `evaluateAgainstAnyDetailed()`
+  (Abschnitt 5.4, srs.js) zu einer von neun Feedbackkategorien (Abschnitt 7). Zusätzlich
+  `diffArabicText()`: sicherer, RTL-tauglicher Zeichenvergleich auf CLUSTER-Ebene (Abschnitt 9) —
+  `tokenizeArabicClusters()` ordnet jedes Vokalisierungszeichen dem VORHERIGEN Grundbuchstaben zu
+  (nie als eigene "Buchstaben" gezählt), ein Editierabstand mit Backtrace auf dieser Cluster-Ebene
+  erkennt fehlende/zusätzliche/ersetzte Grundbuchstaben UND fehlende/zusätzliche/falsche
+  Vokalisierungszeichen getrennt voneinander. `analyzeChoiceAnswer()` erkennt bei einer falschen
+  Auswahl zusätzlich eine echte Datenbeziehung zum Zielwort (`confusion_group`/`homonym_group`/
+  `opposite_id`) — nie erfunden, nur wenn tatsächlich in den Kursdaten hinterlegt (Abschnitt 11).
+- **`feedbackModel.js`** (Abschnitt 5.2/6): `buildForWord()` baut daraus den geforderten
+  einheitlichen Ergebnisvertrag (`exerciseType`/`resultCategory`/`isCorrect`/`submittedAnswer`/
+  `expectedWordId`/`selectedWordId`/`matchedAcceptedAnswer`/`expectedAnswers`/`errorType`/
+  `prompt`/`firstAttempt`) plus die Darstellungsfelder (Titel/Symbol/ARIA-Rolle/Ton).
+  `buildMatchingGroupSummary()` (Abschnitt 13) baut das Abschlussfeedback einer Zuordnungsgruppe.
+- **`feedbackRenderer.js`** (Abschnitt 5.3/8/19): EINE UI-Komponente für alle Aufgabentypen —
+  Kopf (Symbol + Titel, Status nie nur über Farbe), Antwortvergleich (getippt: "Deine Antwort"/
+  "Richtige Form"; Auswahl: gewähltes vs. gesuchtes Wort), Zeichenvergleich (nur `textContent`,
+  `dir="rtl"` + `unicode-bidi:isolate`, nie `innerHTML` — mit einer bewusst feindlichen
+  HTML/Script-artigen Testeingabe geprüft, Abschnitt 23), Wortinformationen (Grammatik
+  aufklappbar), normale/langsame Audiowiedergabe, Wiederholungshinweis (nur bei tatsächlich
+  geplanter/limitierter Wiederholung), Verwechslungsvergleich. `role="status"` bei richtigem,
+  `role="alert"` bei abweichendem Feedback, programmatischer Fokus nach der Abgabe.
+
+`srs.js` bekommt die rückwärtskompatible `evaluateAgainstAnyDetailed()` (Abschnitt 5.4): liefert
+zusätzlich, WELCHE der akzeptierten Antworten getroffen wurde und ob es die primäre war — ändert
+das Ergebnis bestehender Aufrufer nicht, `evaluateAgainstAny()` bleibt unverändert nutzbar.
+
+### Schritt 3: Feedbackkategorien (Abschnitt 7) und Grading-Treue (Abschnitt 22)
+
+Alle neun Kategorien umgesetzt. Eine bewusste, sorgfältig hergeleitete Entscheidung:
+`diacritics_mismatch` (Grundbuchstaben stimmen, Vokalzeichen falsch statt fehlend) bleibt nach der
+BESTEHENDEN srs.js-Regel weiterhin als "richtig" gewertet (`correct_no_diacritics`-Tier) — die
+neue Kategorie verfeinert nur die ANZEIGE (Hinweis statt voller Erfolg), ändert aber NICHT, ob die
+Antwort zählt, sonst würde Abschnitt 22 ("Grading-Ergebnis darf nicht widersprüchlich umgedeutet
+werden") verletzt. `accepted_alternative` erscheint nie gleichzeitig als Fehler oder Tippfehler;
+bei ihr wird bewusst KEIN "Richtig wäre eigentlich …" gezeigt, da die Antwort bereits vollständig
+akzeptiert wurde (Abschnitt 10). `wrong_word` bekommt je nach Aufgabenart (getippt vs.
+Auswahlaufgabe) einen unterschiedlichen Fehlertyp (spelling vs. meaning, Abschnitt 17).
+
+### Schritt 4: exerciseRegistry.js — verstreute Feedbacktexte entfernt (Abschnitt 3/26)
+
+Alle Aufgabenrenderer (multiple_choice/german_to_arabic_choice/audio_to_word_choice/
+word_to_audio_choice/audio_to_meaning_choice/order_pieces/guided_typing/independent_typing/
+independent_typing_dictation/contextual_choice) setzen keinen eigenen primären Feedbacktext mehr
+— sie melden nur noch strukturierte Rohdaten im `onDone`-Detail (`selectedOption`+`domain` bei
+Auswahlaufgaben, `submittedAnswer` bei Eingabeaufgaben, `expectedForm` bei order_pieces). Die
+Zuordnungsaufgabe (`renderMatching`) behält ihre kurze, absichtlich NICHT alles verratende
+Inline-Rückmeldung WÄHREND der Aufgabe (Abschnitt 7.8, Wortlaut jetzt exakt "Diese beiden Elemente
+gehören nicht zusammen. Versuche es erneut."), meldet aber zusätzlich `erroredWordIds` im
+`onDone`-Detail für das GRUPPEN-Abschlussfeedback über das gemeinsame System (Abschnitt 13).
+Virtuelle Tastatur/Eingabehilfen werden nach der Abgabe kompakt eingeklappt (Abschnitt 20, neue
+CSS-Klasse `.session-input-collapsed`).
+
+### Schritt 5: sessionController.js — zentrale Verdrahtung
+
+`analysisForTask()` wählt je nach Aufgabenform (Auswahl/getippt/order_pieces) den passenden
+AnswerAnalyzer-Aufruf; `renderWordFeedback()` baut Modell + rendert über FeedbackRenderer,
+verdrahtet Audio-Callbacks (normale/langsame Wiedergabe, gewählte falsche Option bei
+Auswahlaufgaben, Verwechslungswort), automatisch erkannte vs. auf Wunsch aufklappbare
+Verwechslungsvergleiche (`manualRelationsFor()`, datenbasiert über `WordRelations`).
+`renderMatchingTask()`s `onDone` baut nach vollständiger Gruppe das Abschlussfeedback über
+`FeedbackModel.buildMatchingGroupSummary()`/`FeedbackRenderer.renderMatchingGroupSummary()`.
+
+**Auto-Weiter (Abschnitt 18):** `if (model.resultCategory === 'correct_full' && !model.helpUsed
+&& settings.autoAdvanceAfterFeedback)` — die einzige Bedingung, unter der automatisch
+weitergegangen wird; jede andere Kategorie (inkl. akzeptierter Alternative, fehlender/abweichender
+Vokalisierung, Tippfehler, Hilfenutzung) bleibt manuell. Bei Zuordnungsgruppen gilt dieselbe Regel
+sinngemäß auf Gruppenebene (nur bei vollständig fehlerfreier Gruppe). Ein `advanced`-Flag
+verhindert doppeltes Auslösen zwischen Auto-Timer und manuellem Klick.
+
+### Schritt 6: SessionCoverageTracker/SessionEngine — Fehlertypen und Priorisierung (Abschnitt 17)
+
+`SessionCoverageTracker` bekommt ein additives `errorTypes`-Feld (spelling/diacritics/meaning/
+confusion/matching/empty) je Wort — rein additiv, migrationssicher (`recordErrorType()` ergänzt
+das Feld bei einem alten, davor gespeicherten Eintrag bei Bedarf nachträglich, keine
+`sessionFlowVersion`-Erhöhung nötig). `priorityScoreForPhase()` erweitert die bestehende
+`priorityScore()` um einen Aufschlag für phasenrelevante Fehlertypen: Bedeutungsfehler
+priorisieren Wiedererkennen/Zuordnung, Schreib-/Vokalisierungsfehler eine spätere Schreibaufgabe,
+Verwechslungsfehler eine spätere Zuordnung. `SessionEngine`s `selectWordsForPhase()`/`topUp()`
+nutzen diese phasenbewusste Priorisierung beim Auffüllen der Aufgaben-Warteschlangen. Das
+bestehende Wiederholungslimit (`MAX_REPEATS_PER_WORD_PER_PHASE`) bleibt unverändert verbindlich —
+keine Endlosschleifen möglich (Abschnitt 17.2).
+
+### Schritt 7: CSS (Abschnitt 20)
+
+Neuer Block in `style.css`, ausschließlich bestehende Design-Tokens: `.feedback-panel` (Ton je
+Kategorie: correct/partial/wrong/empty/technical), `.answer-comparison`, `.char-diff` (Segmente je
+Status farblich UND mit zusätzlichem Symbol markiert, nie nur Farbe), `.feedback-word-info`,
+`.feedback-audio-actions`, `.repeat-hint`, `.relation-compare-table`, `.matching-summary-list`,
+`.session-input-collapsed`. `.visually-hidden` neu ergänzt für die Screenreader-Textalternative
+des Zeichenvergleichs.
+
+### Schritt 8: Tests (Abschnitt 23)
+
+91 neue Tests (691 → 782 Unit-Tests): `answerAnalyzer.test.js` (27, Zeichenvergleich inkl.
+Kombinationszeichen/mehrerer Diakritika auf einem Buchstaben/Unicode-Normalisierung/feindlicher
+Eingabe, alle Kategorien, Wortbeziehungen), `srsDetailedEvaluation.test.js` (6),
+`feedbackModel.test.js` (15, u. a. expliziter Test, dass angezeigtes Ergebnis und gespeicherte
+Bewertung IMMER übereinstimmen), `feedbackRenderer.test.js` (15, ARIA-Rollen, Fokus,
+aria-label-Buttons, sichere DOM-Erzeugung auch mit feindlicher Eingabe, Verwechslungsvergleich,
+Zuordnungs-Abschlussfeedback), `sessionCoverageErrorTypes.test.js` (13, inkl. Migration eines
+alten Eintrags ohne `errorTypes`-Feld), `exerciseRegistryFeedbackDetail.test.js` (9, Vertrag der
+`onDone`-Details je Renderer, kein primärer Feedbacktext mehr im Renderer selbst, Eingabebereich
+klappt nach Abgabe ein). `sessionEngine.test.js` um 2 Tests zur phasenbewussten Priorisierung
+erweitert. `sessionController.e2e.test.js` um 4 neue End-zu-Ende-Tests erweitert (Feedback-Panel
+mit korrekter ARIA-Rolle und Fokus in Stufe 6, Audio-Buttons, Zuordnungs-Gruppenabschluss über das
+gemeinsame System, Stufe 9 nutzt dasselbe System wie Stufe 6) — dabei zwei eigene, im Testskript
+selbst liegende Endlosschleifen-Fallen gefunden und behoben (Stufe-7-Fallthrough in eine
+allgemeine Kachel-Klick-Schleife; fehlende `continue` nach Gruppenlösung). 10× hintereinander
+sauber.
+
+### Schritt 9: echte visuelle Verifikation (Playwright, isoliertes Profil) — ein echter Fehler gefunden
+
+Wie in den vorangegangenen Aufträgen wurde die App über Playwright gegen die echte Desktop-Sitzung
+gestartet, mit `--user-data-dir` auf ein isoliertes, temporäres Profil verwiesen. Ein
+vollständiger Durchlauf durch alle vier gradierten Stufen (6-9) wurde fotografiert, in Hell- UND
+Dunkelmodus: Stufe 6 (Wiedererkennen, falsche UND richtige Antwort), Stufe 7
+(Zuordnungs-Gruppenabschluss mit Paarübersicht), Stufe 8 Teil 1 (Zeichenvergleich bei
+order_pieces) und Teil 2, Stufe 9 (Diktat-Variante, deutsche Bedeutung erscheint korrekt erst im
+Feedback), Stufe 10 (Zusammenfassung, unverändert funktionsfähig).
+
+Dabei wurde ein echter, bis dahin unbemerkter Darstellungsfehler gefunden und noch in dieser Runde
+behoben: das neue, gegenüber den vorherigen einzeiligen Texten deutlich umfangreichere
+Feedback-Panel wurde bei mittlerer Bildschirmposition teilweise von der festen (`position:sticky`)
+Aktionsleiste am unteren Rand überlagert — deren negativer unterer Rand (`margin-bottom:-90px`,
+bereits vor diesem Auftrag vorhanden) war auf die vorher immer nur einzeilige Feedback-Höhe
+abgestimmt. Nach vollständigem Herunterscrollen war das gesamte Feedback zwar immer erreichbar,
+aber die optische Überlappung bei mittlerer Scrollposition widersprach Abschnitt 20 ("darf nicht
+unter der festen Aktionsleiste verschwinden"). Behoben durch ausreichenden `padding-bottom` auf
+den neuen `.feedback-area`-Container — mit Playwright-Geometrieprüfung (`getBoundingClientRect()`
+vor/nach dem Fix) bestätigt, dass nach dem Fix keine Überlappung mehr auftritt.
+
+### Schritt 10: vollständige Verifikation (nach dem CSS-Fix, finaler Stand)
+
+```text
+npm run lint:            erfolgreich (178 JS-Dateien, 0 Kollisionen)
+npm test:                 782/782 Unit-Tests + 6/6 Integrationstests, 10× hintereinander
+                           ausgeführt, alle 10 Läufe sauber
+npm run validate:course:  0 Fehler, 1 Hinweis (unverändert — keine Wort-/Theorie-Änderung)
+npm run audio:verify:     759/759 in Ordnung, 0 Probleme
+npm run package:source:   35,9 MB, 1.348 Einträge
+```
+
+Quellpaket in ein frisches Verzeichnis entpackt, dort `npm install`/`npm test`/`npm run lint`/
+`npm run validate:course` erneut ausgeführt (782/782 + 6/6, erfolgreich). `git diff --stat` gegen
+`vocabulary.json`/`theory.json`/`vocabSessions.json`/`audio_generation_manifest.json`/alle
+Sprachprüf-Batches/alle Audiodateien: keine Änderung (dieser Auftrag durfte und hat keine
+Kursinhalte verändert, Abschnitt 24). 1.097 Audiodateien vor/nach identisch, keine
+Zugangsdaten/`node_modules`/veraltete Quell-ZIP im Paket.
+
+### Manuelle Prüfliste für `npm start`
+
+Die im Auftrag (Abschnitt 25/28) vorgegebene Prüfliste wird unverändert übernommen und im
+Abschlussbericht dieser Runde mit konkreten Wort-/Unit-Beispielen aus den echten Kursdaten
+wiedergegeben.
+
+### Akzeptanzkriterien dieser Runde (Auszug)
+
+Ein zentrales Feedbackmodell, ein gemeinsamer Feedbackrenderer, keine verstreuten primären
+Feedbacktexte mehr in den Aufgabenrenderern; vollständige Erklärung nach jeder Aufgabe der Stufen
+6-9; akzeptierte Alternativen korrekt gekennzeichnet, nie als Fehler dargestellt;
+Vokalisierungsunterschiede und Buchstabenabweichungen sichtbar, mit sicherem RTL-Zeichenvergleich
+(kein `innerHTML`); ausgewählte falsche Wörter nachvollziehbar, datenbasierte
+Verwechslungsinformationen ohne erfundene Beziehungen; normale und langsame Audioausgabe im
+Feedback; Fehlertypen in der Coverage, gezieltere spätere Wiederholungen; Auto-Weiter nur bei
+vollständig richtiger, hilfefreier Antwort; Barrierefreiheit (ARIA-Rollen, Fokus, Beschriftungen,
+Status nie nur über Farbe); Grading-Ergebnis wird nie widersprüchlich umgedeutet (mit eigenem Test
+abgesichert); keine Änderung des Zehn-Stufen-Ablaufs, keine Änderung der Kursinhalte/Audiodateien;
+Review-Modus/Grammatiktrainer/Alphabet unverändert; keine Testregression (782/782 + 6/6, 10×
+grün). Sprachprüfung, neue Vokabeln/Theorie, Audioerzeugung, neue Aufgabentypen, KI-generierte
+Fehlererklärungen, Anbindung der Theorie-Mini-Checks (bewusst zurückgestellt) bewusst nicht Teil
+dieser Runde.

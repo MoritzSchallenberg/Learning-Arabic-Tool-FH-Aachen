@@ -118,7 +118,7 @@ test('matching: korrekte Zuordnung sperrt das Paar (disabled), falsche löst ern
   left[0].click(); // wählt "a" links
   rightBtnFor('b').click(); // falsches Gegenstück
   assert.equal(left[0].disabled, false, 'nach einem Fehlversuch bleibt das Element weiterhin auswählbar');
-  assert.equal(container.textContent.includes('passt nicht zusammen'), true);
+  assert.equal(container.textContent.includes('gehören nicht zusammen'), true);
 
   // Erneuter, diesmal richtiger Versuch für a.
   left[0].click();

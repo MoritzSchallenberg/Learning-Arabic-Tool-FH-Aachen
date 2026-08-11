@@ -222,6 +222,47 @@ function evaluateAgainstAny(expectedList, given, evaluator) {
   return 'wrong';
 }
 
+/**
+ * Entwicklungsauftrag 17, Abschnitt 5.4: rückwärtskompatible, detailliertere Variante von
+ * evaluateAgainstAny() für das neue Feedbacksystem — bestimmt zusätzlich, WELCHE der akzeptierten
+ * Antworten das beste Ergebnis erzielt hat (für "zulässige Alternative getroffen", Abschnitt 10),
+ * ob es sich um die PRIMÄRE (erste) Antwort der Liste handelt, und behandelt eine leere Eingabe
+ * als eigene, von einer echten Falschantwort unterschiedene Kategorie (Abschnitt 7.7). Ändert die
+ * bestehende Bewertung NICHT — liefert exakt dasselbe `category` wie evaluateAgainstAny() bei
+ * nicht-leerer Eingabe, nur mit zusätzlichen Feldern. Bestehende Aufrufer von evaluateAgainstAny()
+ * bleiben unverändert nutzbar.
+ * @param {string[]} expectedList - expectedList[0] gilt als PRIMÄRE/angezeigte Form.
+ * @param {string} given
+ * @param {(expected: string, given: string) => string} evaluator
+ * @returns {{category: string, matchedAnswer: string|null, isPrimaryMatch: boolean,
+ *   primaryAnswer: string, expectedAnswers: string[], isEmpty: boolean}}
+ */
+function evaluateAgainstAnyDetailed(expectedList, given, evaluator) {
+  const primaryAnswer = expectedList[0];
+  const isEmpty = !given || given.trim() === '';
+  if (isEmpty) {
+    return { category: 'empty', matchedAnswer: null, isPrimaryMatch: false, primaryAnswer, expectedAnswers: expectedList, isEmpty: true };
+  }
+  const perExpected = expectedList.map((expected) => ({ expected, category: evaluator(expected, given) }));
+  let bestCategory = 'wrong';
+  for (const priority of RESULT_PRIORITY) {
+    if (perExpected.some((r) => r.category === priority)) { bestCategory = priority; break; }
+  }
+  // Unter allen Antworten, die die beste Kategorie erreichen, wird die PRIMÄRE bevorzugt (falls
+  // sie selbst diese Kategorie erreicht) -- sonst die erste passende Alternative aus der Liste.
+  const matching = perExpected.filter((r) => r.category === bestCategory);
+  const primaryMatch = matching.find((r) => r.expected === primaryAnswer);
+  const chosen = primaryMatch || matching[0] || null;
+  return {
+    category: bestCategory,
+    matchedAnswer: chosen ? chosen.expected : null,
+    isPrimaryMatch: !!chosen && chosen.expected === primaryAnswer,
+    primaryAnswer,
+    expectedAnswers: expectedList,
+    isEmpty: false
+  };
+}
+
 const DIFFICULTY_MIN = 1;
 const DIFFICULTY_MAX = 10;
 const DEFAULT_DIFFICULTY = 5;
@@ -314,6 +355,7 @@ if (typeof module !== 'undefined' && module.exports) {
     evaluateArabicAnswer,
     evaluateGermanAnswer,
     evaluateAgainstAny,
+    evaluateAgainstAnyDetailed,
     adjustDifficulty,
     scheduleNextReview,
     sortByDifficultyShuffled,

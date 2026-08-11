@@ -143,11 +143,21 @@ const SessionEngine = (() => {
     return words.filter((w, i) => (phaseType === 'guided_writing' ? i % 2 === 0 : i % 2 === 1));
   }
 
-  function topUp(base, target, allWords, coverage) {
+  // Entwicklungsauftrag 17, Abschnitt 17.1: bei bekanntem Zielphasentyp bevorzugt
+  // priorityScoreForPhase() (berücksichtigt zusätzlich passende Fehlertypen, z. B. Schreibfehler
+  // bevorzugen eine spätere Schreibaufgabe) -- ohne phaseType (z. B. Rückwärtskompatibilität)
+  // bleibt es exakt die bisherige, phasenunabhängige priorityScore().
+  function priorityScoreFor(coverage, wordId, phaseType) {
+    return phaseType
+      ? SessionCoverageTracker.priorityScoreForPhase(coverage, wordId, phaseType)
+      : SessionCoverageTracker.priorityScore(coverage, wordId);
+  }
+
+  function topUp(base, target, allWords, coverage, phaseType) {
     const list = [...base];
     if (list.length >= target || allWords.length === 0) return list;
     const sorted = [...allWords].sort(
-      (a, b) => SessionCoverageTracker.priorityScore(coverage, b.id) - SessionCoverageTracker.priorityScore(coverage, a.id)
+      (a, b) => priorityScoreFor(coverage, b.id, phaseType) - priorityScoreFor(coverage, a.id, phaseType)
     );
     let i = 0;
     while (list.length < target) {
@@ -157,11 +167,11 @@ const SessionEngine = (() => {
     return list;
   }
 
-  function selectWordsForPhase(allWords, coverage, count, random = Math.random) {
+  function selectWordsForPhase(allWords, coverage, count, random = Math.random, phaseType) {
     if (allWords.length === 0 || count <= 0) return [];
     const shuffled = SessionQueue.pickRandomOrder(allWords, random);
     const sorted = shuffled.sort(
-      (a, b) => SessionCoverageTracker.priorityScore(coverage, b.id) - SessionCoverageTracker.priorityScore(coverage, a.id)
+      (a, b) => priorityScoreFor(coverage, b.id, phaseType) - priorityScoreFor(coverage, a.id, phaseType)
     );
     const result = [];
     for (let i = 0; i < count; i += 1) result.push(sorted[i % sorted.length]);
@@ -263,7 +273,7 @@ const SessionEngine = (() => {
     function buildGuidedWritingItems() {
       const n = words.length;
       const typingBaseline = productionBaseline(words, 'guided_writing');
-      const typingWords = topUp(typingBaseline, recommendedCount('guided_writing', n), words, coverage);
+      const typingWords = topUp(typingBaseline, recommendedCount('guided_writing', n), words, coverage, 'guided_writing');
       const orderPiecesWords = typingWords.filter((w, i) => i % 2 === 0);
       const part1 = SessionQueue.pickRandomOrder(orderPiecesWords, random)
         .map((w) => ({ wordId: w.id, part: 'order_pieces', exerciseType: 'order_pieces' }));
@@ -278,7 +288,7 @@ const SessionEngine = (() => {
     function buildIndependentWritingItems() {
       const n = words.length;
       const baseline = productionBaseline(words, 'independent_writing');
-      const selected = topUp(baseline, recommendedCount('independent_writing', n), words, coverage);
+      const selected = topUp(baseline, recommendedCount('independent_writing', n), words, coverage, 'independent_writing');
       return SessionQueue.pickRandomOrder(selected, random).map((w, i) => ({
         wordId: w.id,
         exerciseType: (i % 3 === 2) ? 'independent_typing_dictation' : 'independent_typing'
@@ -303,7 +313,7 @@ const SessionEngine = (() => {
       if (phaseType === 'independent_writing') return buildIndependentWritingItems();
 
       // recognition (Stufe 6, Abschnitt 6.1/6.2): ALLE neuen Wörter, fünf gemischte Übungstypen.
-      const selected = selectWordsForPhase(words, coverage, recommendedCount(phaseType, n), random);
+      const selected = selectWordsForPhase(words, coverage, recommendedCount(phaseType, n), random, phaseType);
       let items = selected.map((w, i) => ({ wordId: w.id, exerciseType: ExerciseRegistry.RECOGNITION_TYPES[i % ExerciseRegistry.RECOGNITION_TYPES.length] }));
       // Fällige Wiederholungswörter werden nur in Wiedererkennen eingemischt (Abschnitt 10: "nur
       // in passende Übungsphasen eingemischt", keine komplette Wortvorschau) — zählen NICHT zur
@@ -369,6 +379,14 @@ const SessionEngine = (() => {
       if (task && !task.isReview) {
         SessionCoverageTracker.recordAttempt(coverage, task.wordId, phaseType, isCorrect);
         if (opts.helpUsed) SessionCoverageTracker.markHelpUsed(coverage, task.wordId);
+        // Entwicklungsauftrag 17, Abschnitt 17: der Fehlertyp kommt bereits fertig aus dem
+        // Feedbackmodell (FeedbackModel#errorType) -- hier nur noch verzeichnet, keine zweite
+        // Herleitung.
+        // Bewusst NICHT an isCorrect gekoppelt: FeedbackModel liefert errorType nur für
+        // tatsächlich verbesserungswürdige Kategorien (u. a. auch "diacritics_mismatch", die
+        // trotz weiterhin bestehender Grundbuchstaben-Korrektheit -- Abschnitt 22 -- als
+        // Vokalisierungshinweis für spätere Priorisierung zählen soll, Abschnitt 17.1).
+        if (opts.errorType) SessionCoverageTracker.recordErrorType(coverage, task.wordId, opts.errorType);
       }
 
       const scoreEntry = phaseScores[phaseType] || (phaseScores[phaseType] = { correct: 0, attempted: 0 });
@@ -400,6 +418,10 @@ const SessionEngine = (() => {
         const isCorrect = !!perWordCorrect[wordId];
         if (isCorrect) correctCount += 1; else { wrongCount += 1; anyWrong = true; }
         SessionCoverageTracker.recordAttempt(coverage, wordId, phaseType, isCorrect);
+        // Entwicklungsauftrag 17, Abschnitt 17: perWordCorrect[id]===false bedeutet bereits genau
+        // "hatte einen ersten Fehlversuch in dieser Gruppe" -- eindeutig ein Zuordnungsfehler,
+        // keine weitere Herleitung nötig.
+        if (!isCorrect) SessionCoverageTracker.recordErrorType(coverage, wordId, 'matching');
       }
       if (opts.helpUsed) {
         for (const wordId of wordIds) SessionCoverageTracker.markHelpUsed(coverage, wordId);
