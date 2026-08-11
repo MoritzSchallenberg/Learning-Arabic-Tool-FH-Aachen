@@ -1445,6 +1445,64 @@ unverändert.
 Audioerzeugung, endgültige Stufen 6-10, neues Feedbacksystem, neue Kursübersicht, Onboarding,
 adaptive Hilfe-Reduzierung, Umbau des Review-Modus.
 
+## Endgültige Übungsstufen 6-10: Wiedererkennen, Zuordnung, Schreiben, Abschluss (Entwicklungsauftrag 16)
+
+Die zweite und letzte Hälfte des zehnstufigen Sessionablaufs: die alten sechs Übungsphasen
+(Wiedererkennen/Rekonstruieren/Geführte Produktion/Selbstständige Produktion/Anwendung/
+Zusammenfassung) wurden durch vier gradierte Stufen plus Abschluss ersetzt — **Stufe 6 „Leichtes
+Wiedererkennen"**, **Stufe 7 „Zuordnungsaufgaben"** (neu), **Stufe 8 „Schreiben mit Hilfe"**
+(kombiniert Zusammensetzen + geführte Eingabe), **Stufe 9 „Freies Schreiben ohne Hilfe"**, **Stufe
+10 „Zusammenfassung"** — die auf `LearningStages.STAGES` (jetzt zehn statt fünf Einträge) direkt
+und 1:1 auf `sessionDef.phases` abbilden, EIN einziges sichtbares Fortschrittssystem über die
+komplette Session hinweg, keine zweite Stepper-Anzeige mehr.
+
+**Stufe 6 (Wiedererkennen):** deckt jetzt ALLE neuen Wörter ab (vorher ~60%), fünf gemischte
+Aufgabentypen (Arabisch→Deutsch, Deutsch→Arabisch, Audio→Wort, Audio→Bedeutung [neu], Wort unter
+mehreren Audioaufnahmen erkennen).
+
+**Stufe 7 (Zuordnungsaufgaben, komplett neu):** eigene, zugängliche Zuordnungs-Oberfläche
+(`ExerciseRegistry.renderMatching`) — Klick-Auswahl statt reinem Drag-and-Drop, voll
+tastaturbedienbar, vier Varianten (Arabisch↔Deutsch, Audio↔Arabisch, Audio↔Bedeutung,
+Kontext↔Wort über die bestehenden `application_prompts`), 4-5 Wortpaare je Gruppe, alle neuen
+Wörter über mehrere Gruppen abgedeckt, falsche Versuche sperren das Paar nicht, Status nie nur über
+Farbe erkennbar.
+
+**Stufe 8 (Schreiben mit Hilfe):** „Teil 1: Wort zusammensetzen" (Silben/Buchstaben ordnen) und
+„Teil 2: Wort mit Hilfe eingeben" (virtuelle Tastatur, Hinweis-Button) laufen nacheinander in
+einer gemeinsamen Warteschlange, feste Hilfe (nicht adaptiv).
+
+**Stufe 9 (Freies Schreiben ohne Hilfe):** reine Texteingabe, keine Lösungspreisgabe vor der
+Abgabe, inklusive einer Audiodiktat-Variante (Audio IST hier die Aufgabenstellung).
+
+**Stufe 10 (Zusammenfassung):** unterscheidet vom Nutzer markierte von automatisch erkannten
+(≥2 Fehler) schwierigen Wörtern, Markieren/Entmarkieren, Audio, „Schwierige Wörter üben" direkt
+in die freie Übung.
+
+**Speicherung/Wiederaufnahme:** Zuordnungsgruppen, bereits gelöste Paare und der erste
+Fehlversuch je Paar werden jetzt explizit pro Aufgabe gespeichert — eine mitten in einer Gruppe
+unterbrochene Session zeigt nach dem Neustart exakt dieselbe Gruppe mit denselben bereits
+gelösten Paaren, nicht neu gemischt.
+
+**Migration:** `sessionFlowVersion: 2` — alte Sessions vor diesem Auftrag werden beim nächsten
+`mount()` einmalig automatisch nachgezogen; alte "application"-Sessions springen dabei bewusst
+NICHT rückwärts zu Stufe 7, sondern gelten als bereit für Stufe 10.
+
+**Visuelle Verifikation** (Playwright, isoliertes Profil, kompletter Durchlauf Stufe 1-10 in
+Hell- UND Dunkelmodus) deckte zwei echte Fehler auf, die beide behoben wurden: die
+Sessionübersicht hängte an die zehn echten Stufennamen noch ein überflüssiges elftes „Übungen"
+an (Relikt aus der Zeit vor diesem Auftrag); und der textuelle Hinweis-Button verriet in Stufe 9
+("ohne Hilfe") weiterhin Umschrift und Bedeutung vor der Abgabe. Zusätzlich beim gezielten Prüfen
+der Zuordnungsaufgabe gefunden: nach einem Fehlversuch blieb der zweite angeklickte Button
+optisch dauerhaft "ausgewählt".
+
+**Tests:** 691 Unit- + 6 Integrationstests (von 612+6 zu Beginn dieser Runde), 10× hintereinander
+sauber. Datenintegrität bestätigt: `vocabulary.json`/`theory.json`/alle Audiodateien unverändert;
+`vocabSessions.json` planmäßig auf das neue Phasenmodell aktualisiert (Skript zweifach idempotent
+belegt).
+
+**Bewusst nicht Teil dieser Runde:** Sprachprüfung, neue Vokabeln/Theorie, Audioerzeugung, neues
+Feedbacksystem, zweite Session-Engine, pauschaler Reset alter Sessions.
+
 ## Bekannte Einschränkungen
 
 - Für Vokabeln/Buchstaben ohne generierte Audiodatei (z. B. neu hinzugefügte Inhalte vor dem

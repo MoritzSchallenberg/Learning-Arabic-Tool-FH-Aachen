@@ -2914,3 +2914,206 @@ Audiodateien nachweislich unverändert (Prüfsummen); Review-Modus nicht angefas
 Testregression (612/612 + 6/6, 10× grün). Sprachprüfung, Wort-/Theorieänderungen,
 Audioerzeugung, endgültige Stufen 6-10, neues Feedbacksystem, neue Kursübersicht und Onboarding
 bewusst nicht Teil dieser Runde.
+
+## 20. Entwicklungsauftrag 16: Endgültige Übungsstufen 6-10 (vom Nutzer, 2026-08-11)
+
+Abschluss des in Entwicklungsauftrag 15 begonnenen zehnstufigen pädagogischen Sessionablaufs: die
+alten sechs Übungsphasen (`recognition`/`reconstruction`/`guided_production`/
+`independent_production`/`application`/`summary`) werden durch vier gradierte Stufen plus Abschluss
+ersetzt, die auf `LearningStages.STAGES` (jetzt zehn statt fünf Einträge) direkt und 1:1 auf
+`sessionDef.phases` abbilden — Stufe 6 „Leichtes Wiedererkennen" (`recognition`), Stufe 7
+„Zuordnungsaufgaben" (`matching`, komplett neu), Stufe 8 „Schreiben mit Hilfe" (`guided_writing`,
+kombiniert die alten Phasen Rekonstruieren + Geführte Produktion), Stufe 9 „Freies Schreiben ohne
+Hilfe" (`independent_writing`), Stufe 10 „Zusammenfassung" (`summary`). Die Übergangskonstante
+`AFTER_STAGE_5_LABEL` ("Als Nächstes: Übungen") aus Auftrag 15 entfällt ersatzlos — nach Stufe 5
+erscheint direkt "Stufe 6 von 10: Leichtes Wiedererkennen".
+
+### Schritt 1: Baseline-Prüfung
+
+Ausgangsstand exakt wie erwartet verifiziert: 900/900 Wörter, 90 Session-Theorien, alle
+Audiodateien unverändert, 612 Unit- + 6 Integrationstests aus Entwicklungsauftrag 15 vollständig
+grün, fünf sichtbare Lernstufen samt Designsystem aus Auftrag 14 weiterhin intakt. Keine Abweichung
+festgestellt.
+
+### Schritt 2: Kernmodule erweitert
+
+`SessionCoverageTracker` um `matching_attempts`/`matching_correct`/`guided_writing_attempts`/
+`independent_writing_attempts` erweitert, mit rückwärtskompatibler `migrateLegacyEntry()`-Migration
+der alten Feldnamen (`reconstruction_attempts`+`guided_typing_attempts`→`guided_writing_attempts`,
+`independent_attempts`→`independent_writing_attempts`, `application_attempts`→`matching_attempts`,
+da Anwendungs-Prompts jetzt eine Zuordnungsvariante sind) sowie neuen Hilfsfunktionen
+`isRecognized`/`isMatched`/`isWritten` für die Abschlussprüfung. `PhaseRegistry` auf das neue
+Sieben-Phasen-Modell mit den geforderten Bewertungsgewichten (Wiedererkennen 20 %, Zuordnung 20 %,
+Schreiben mit Hilfe 25 %, Freies Schreiben 35 %, Stufen 1-5 und Abschluss 0 %) umgestellt.
+`SessionQueue.create()` bekommt einen neuen optionalen dritten Parameter `{shuffle:false}` für
+Stufe 8s zweiblockige (erst Teil 1, dann Teil 2) statt gemischte Reihenfolge.
+
+### Schritt 3: Stufe 6 — Leichtes Wiedererkennen (Abschnitt 6)
+
+Deckt jetzt ALLE neuen Wörter ab (vorher nur eine Teilmenge über die alte Wiedererkennen-Phase),
+fünf gemischte Aufgabentypen: Arabisch→Deutsch (`multiple_choice`), Deutsch→Arabisch
+(`german_to_arabic_choice`), Audio→arabisches Wort (`audio_to_word_choice`, bestehend), Audio→
+deutsche Bedeutung (`audio_to_meaning_choice`, NEU in `exerciseRegistry.js`), Wort unter mehreren
+Audioaufnahmen erkennen (`word_to_audio_choice`, bestehend). Sichere Distraktoren wie zuvor. Audio
+ist vor der Antwort nur abspielbar, wenn Audio selbst die Aufgabenstellung ist — nicht bei rein
+visuellen Übersetzungsaufgaben, wo das die Antwort verraten würde.
+
+### Schritt 4: Stufe 7 — Zuordnungsaufgaben (Abschnitt 7, komplett neu)
+
+Neue `ExerciseRegistry.renderMatching()`: zwei Spalten aus echten `<button>`-Elementen
+(`role="group"` je Spalte), Klick-Auswahl-dann-Gegenstück-Auswahl statt reinem Drag-and-Drop (voll
+tastaturbedienbar), Klick auf dieselbe Seite ersetzt die Auswahl statt einen Fehlversuch
+auszulösen. Vier Varianten (`MATCHING_VARIANTS`): Arabisch↔Deutsch, Audio↔Arabisch (linke Seite
+verrät das Wort NICHT im aria-label — anonyme "Ton N"-Beschriftung), Audio↔Bedeutung,
+Kontext↔Wort (nutzt die bestehenden `application_prompts` wieder, „Besitzerwort-Regel": die
+Kontextseite nennt nie das gesuchte Wort selbst). 4-5 Wortpaare je Gruppe
+(`buildMatchingGroups()`, ausgewogene Gruppengröße), alle neuen Wörter über mehrere Gruppen
+abgedeckt. Falsche Versuche sperren das Paar NICHT — beide Seiten bleiben wählbar, ein Fehler wird
+nur beim ERSTEN Fehlversuch je Paar gezählt (`firstErrorSeen`-Set). Richtige Paare sperren
+(`disabled` + `.matched`-Klasse) und bleiben sichtbar; Status ist nie nur über Farbe erkennbar
+(zusätzliches „✓"-Symbol + Text im aria-label).
+
+### Schritt 5: Stufe 8 — Schreiben mit Hilfe (Abschnitt 8)
+
+Kombiniert die alten Phasen Rekonstruieren ("Teil 1: Wort zusammensetzen", `order_pieces`) und
+Geführte Produktion ("Teil 2: Wort mit Hilfe eingeben", `guided_typing`) als AUFEINANDERFOLGENDE
+(nicht gemischte) Unterblöcke in EINER Warteschlange (`SessionQueue.create(items, random,
+{shuffle:false})`), jeder Block für sich gemischt. Feste (nicht adaptive) Hilfe, deterministische
+Wort-zu-Teil-Zuordnung (`productionBaseline`), nicht jedes Wort braucht beide Varianten.
+
+### Schritt 6: Stufe 9 — Freies Schreiben ohne Hilfe (Abschnitt 9)
+
+Reine Texteingabe über die virtuelle Tastatur, KEINE Lösungspreisgabe irgendwo (DOM/Titel/
+aria-label/data-Attribute/Platzhalter/Fehlermeldung/Autoplay) vor der Abgabe — bestehende
+akzeptierte-Alternativantworten-Regeln bleiben erhalten. Neue Audiodiktat-Variante
+(`independent_typing_dictation`): Audio IST hier die Aufgabenstellung und darf deshalb vor der
+Antwort abgespielt werden; die deutsche Bedeutung erscheint erst im Feedback nach der Abgabe.
+Stufe 8 + Stufe 9 decken gemeinsam über den bestehenden Baseline+TopUp-Mechanismus alle neuen
+Wörter mindestens einmal ab.
+
+### Schritt 7: Stufe 10 — Zusammenfassung (Abschnitt 10)
+
+Unterscheidet vom Nutzer markierte ("Als schwierig markieren", Stufe 3/5) von automatisch über
+Mehrfachfehler (≥2) erkannten schwierigen Wörtern (Reason-Tags: „von dir markiert" / „N Fehler"),
+Markieren/Entmarkieren direkt in der Zusammenfassung, Audio je Wort, „Schwierige Wörter üben"
+(führt direkt in die freie Übung), „Zur Unit", „Nächste Session" (falls vorhanden), „Session neu
+starten" (bestätigungspflichtig). Eine gescheiterte Session (Mindestscore nicht erreicht) wird
+klar als "Session beendet — noch nicht bestanden" ausgewiesen und NICHT als abgeschlossen markiert.
+
+### Schritt 8: Abschlussprüfung, Speicherung und Migration (Abschnitt 10.4/16/17)
+
+`checkCompletion()` verlangt jetzt zusätzlich zu Score/Exposition: jedes Wort mindestens einmal
+erkannt (`allWordsRecognized`), zugeordnet (`allWordsMatched`) und geschrieben
+(`allWordsWritten`). Speicherung erweitert: Zuordnungsgruppen, bereits gelöste Paare und der erste
+Fehlversuch je Paar werden jetzt explizit pro Aufgabe im Snapshot gehalten (`task.solvedWordIds`/
+`task.firstErrorWordIds`) — eine mitten in einer Gruppe unterbrochene Session zeigt nach dem
+Neustart exakt dieselbe Gruppe mit denselben bereits gelösten Paaren, nicht neu gemischt (mit
+eigenem Test abgesichert, siehe Schritt 10).
+
+Migration: `sessionFlowVersion: 2`, `SessionEngine.migrateResumedState()` ordnet beim nächsten
+`mount()` einmalig alte, noch offene Sessions dem neuen Phasenmodell zu — alte Rekonstruieren-/
+Geführte-Produktion-Warteschlangen werden zu Stufe 8 mit passendem `part`-Feld umgetaggt, alte
+Selbstständige-Produktion-Warteschlangen zu Stufe 9. Der ausdrücklich verlangte Sonderfall: alte
+"application"-Sessions springen NICHT rückwärts zu Stufe 7 (Zuordnung), sondern gelten direkt als
+bereit für Stufe 10 — keine Wiederholung bereits abgeschlossener Schreibstufen. Bereits
+abgeschlossene Sessions bleiben abgeschlossen; keine Session wird ohne ausdrücklichen Nutzerwunsch
+auf Stufe 1 zurückgesetzt.
+
+### Schritt 9: Datenaktualisierung
+
+Neues idempotentes `scripts/upgrade-session-phases-v16.js` (gleiches Muster wie das
+Audio-Status-Upgrade aus Auftrag 13): aktualisiert `phases`/`completion_rules` aller 90 Sessions in
+`vocabSessions.json` auf das neue Sieben-Phasen-Modell, überspringt das Schreiben bei bereits
+aktuellem Stand. Live gegen die echten Kursdaten ausgeführt: 90/90 Sessions aktualisiert; zweiter
+Lauf byte-identisch bestätigt (Idempotenz). `vocabulary.json`/`theory.json`/
+`audio_generation_manifest.json`/alle Sprachprüf-Batches/alle Audiodateien nachweislich
+unverändert (`git diff --stat` leer). `validateCourse.js` um eine dauerhafte Prüfung erweitert:
+alle 90 Sessions verwenden exakt das neue Phasenmodell, keine alte Rekonstruktions-/
+Anwendungsphase mehr, Bewertungsgewichte der vier gradierten Phasen ergeben zusammen 100 %.
+
+### Schritt 10: Tests
+
+Von 612+6 zu Beginn dieser Runde auf 691 Unit- + 6 Integrationstests gewachsen. Neue Dateien:
+`exerciseRegistryMatching.test.js` (15, u. a. alle vier Varianten, Tastaturbedienbarkeit,
+aria-pressed-Sichtbarkeit, Besitzerwort-Regel, sowie vier dedizierte Tests für die unten
+beschriebene Wiederaufnahme-Lücke), `sessionFlowMigration.test.js` (17, deckt jede
+Phasen-Übergangs-Kombination inkl. des "application"-Sonderfalls einzeln ab),
+`upgradeSessionPhasesV16.test.js` (7, inkl. Idempotenz und einer schreibgeschützten Prüfung gegen
+die echten Kursdaten), `validateCourseSessionPhases.test.js` (3). Bestehende Dateien erweitert,
+u. a. `sessionController.e2e.test.js` um eine zweite Schleife über alle sieben repräsentativen
+Units (1/5/10/15/20/25/30) für den VOLLSTÄNDIGEN Stufe-1-10-Durchlauf (nicht nur 1-5 wie in
+Auftrag 15) sowie gezielte Regressionstests für die beiden bei der visuellen Prüfung gefundenen
+Fehler (siehe Schritt 11).
+
+Eine echte, über einen dedizierten Wiederaufnahme-Test aufgedeckte Lücke wurde behoben: der
+Zuordnungs-Fortschritt (`locked`/`firstErrorSeen`) war rein lokaler Closure-Zustand in
+`renderMatching()`, wurde nie gespeichert — eine mitten in einer Gruppe unterbrochene Session
+verlor beim Neustart alle bereits gelösten Paare, was Abschnitt 16 ausdrücklich verbietet. Behoben
+durch einen neuen `onProgress`-Callback plus `alreadySolvedWordIds`/`alreadyErroredWordIds`,
+verdrahtet mit `persistSnapshot()` nach jedem Versuch.
+
+### Schritt 11: echte visuelle Verifikation (Playwright, isoliertes Profil)
+
+Wie in Auftrag 14/15 wurde die App über Playwright gegen die echte Desktop-Sitzung dieser Umgebung
+gestartet, mit dem von Electron selbst ausgewerteten `--user-data-dir`-Schalter auf ein
+isoliertes, temporäres Profil verwiesen. Ein vollständiger Durchlauf Stufe 1 bis 10 wurde
+fotografiert (Sessionübersicht, alle fünf gradierten Stufen inkl. beider Teile von Stufe 8 und der
+Diktat-Variante von Stufe 9, Zusammenfassung samt Markieren/Entmarkieren), zusätzlich Stufe 7
+(Zuordnung) und die Zusammenfassung jeweils im Dunkelmodus sowie eine Wiederaufnahme nach
+Theme-Wechsel.
+
+Dabei wurden zwei echte, bis dahin unbemerkte Fehler gefunden und noch in dieser Runde behoben:
+
+1. Die Sessionübersicht (Stufe 1, "Ablauf"-Kasten) hängte an die zehn echten Stufennamen noch ein
+   zusätzliches, nicht mehr existierendes elftes "Übungen" an — ein Relikt aus der Zeit vor diesem
+   Auftrag, als `LearningStages.STAGES` nur die Stufen 1-5 kannte. Behoben in
+   `sessionController.js#renderSessionOverview()`, mit eigenem Regressionstest.
+2. Der textuelle Hinweis-Button ("Hilfe" → zeigt Transliteration + deutsche Bedeutung direkt an)
+   erschien unverändert auch bei Stufe 9 ("Freies Schreiben OHNE Hilfe") — ein Widerspruch zur
+   ausdrücklichen Unterscheidung in Abschnitt 9.1. Auf die anderen Stufen begrenzt, mit eigenem
+   Regressionstest; die reine Audio-Wiedergabe (kein Lösungshinweis) bleibt weiterhin verfügbar.
+
+Zusätzlich beim gezielten Prüfen der Zuordnungsaufgabe gefunden und behoben: nach einem
+Fehlversuch setzte `clearSelection()` nur den ZUERST angeklickten Button zurück — der zweite,
+gerade angeklickte Button (der den Versuch erst ausgelöst hatte) behielt sein `aria-pressed="true"`
+dauerhaft und wirkte optisch weiter "ausgewählt", obwohl er es logisch nicht mehr war. Behoben in
+`ExerciseRegistry.renderMatching()#attemptMatch()`, mit eigenem Regressionstest.
+
+### Schritt 12: vollständige Verifikation (nach allen Fixes, finaler Stand)
+
+```text
+npm run lint:            erfolgreich (169 JS-Dateien, 0 Kollisionen)
+npm test:                 691/691 Unit-Tests + 6/6 Integrationstests, 10× hintereinander
+                           ausgeführt, alle 10 Läufe sauber
+npm run validate:course:  0 Fehler, 1 Hinweis (unverändert — keine Wort-/Theorie-Änderung)
+npm run audio:verify:     759/759 in Ordnung, 0 Probleme
+npm run package:source:   35,9 MB, 1.338 Einträge
+```
+
+Quellpaket in ein frisches Verzeichnis entpackt, dort `npm install`/`npm test`/`npm run lint`/
+`npm run validate:course` erneut ausgeführt (691/691 + 6/6, erfolgreich). `git diff --stat` gegen
+`vocabulary.json`/`theory.json`/`audio_generation_manifest.json`/alle Sprachprüf-Batches: keine
+Änderung. Update-Skript ein weiteres Mal auf Idempotenz geprüft (byte-identisch).
+
+### Manuelle Prüfliste für `npm start`
+
+Die im Auftrag (Abschnitt 25) vorgegebene Prüfliste wird unverändert übernommen: vollständiger
+Durchlauf einer Pilot-Session über alle zehn Stufen; jede Stufe 6-10 einzeln (inkl. aller fünf
+Wiedererkennen-Aufgabentypen, aller vier Zuordnungsvarianten, beider Teile von Stufe 8, der
+Diktat-Variante von Stufe 9, Markieren/Entmarkieren in Stufe 10); Wiederaufnahme mitten in Stufe 6,
+mitten in einer Zuordnungsgruppe, mitten in Stufe 8, mitten in Stufe 9; verkürzte Zusatzdurchläufe
+für Unit 15 und Unit 30; jeweils in Hell- UND Dunkelmodus.
+
+### Akzeptanzkriterien dieser Runde (Auszug)
+
+Genau zehn sichtbare Stufen in fester Reihenfolge, keine alte Rekonstruktions-/Anwendungsphase
+mehr erreichbar, kein zweiter Fortschritts-Stepper; Stufe 6 deckt alle neuen Wörter über fünf
+gemischte Aufgabentypen ab; Stufe 7 ist voll tastaturbedienbar, Fehler sperren nicht, Status nie
+nur über Farbe; Stufe 8/9 decken gemeinsam alle neuen Wörter ab, Stufe 9 verrät nichts vor der
+Abgabe; Stufe 10 unterscheidet markierte von automatisch erkannten schwierigen Wörtern;
+Wiederaufnahme reproduziert exakt denselben Zustand (inkl. Zuordnungsgruppe und bereits gelöster
+Paare); alte Sessions migrieren sicher, ohne Rückwärtssprung bei "application" und ohne Reset
+abgeschlossener Sessions; 900 Wörter, 90 Theorien, alle Audiodateien nachweislich unverändert;
+keine Testregression (691/691 + 6/6, 10× grün). Sprachprüfung, neue Vokabeln/Theorie,
+Audioerzeugung, neues Feedbacksystem, zweite Session-Engine, pauschaler Reset alter Sessions
+bewusst nicht Teil dieser Runde.

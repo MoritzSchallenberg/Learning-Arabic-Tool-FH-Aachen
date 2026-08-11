@@ -184,20 +184,26 @@ for (let n = 1; n <= 30; n += 1) {
 saveJson('vocabulary.json', vocabulary);
 
 // --- 3) vocabSessions.json komplett neu aufbauen --------------------------------------------
+// Entwicklungsauftrag 16, Abschnitt 5/18: endgültiges Sieben-Phasen-Modell -- ersetzt die
+// früheren sichtbaren Phasen 'reconstruction'/'guided_production'/'independent_production'/
+// 'application' (deren Aufgabentypen leben als Unteraufgaben von 'guided_writing' bzw. als
+// Zuordnungsvariante von 'matching' weiter, siehe exerciseRegistry.js). Ein erneuter Lauf dieses
+// Skripts (falls je nötig) erzeugt dadurch NICHT wieder das alte Phasenmodell. Für die bereits
+// bestehenden 90 Sessions übernimmt stattdessen scripts/upgrade-session-phases-v16.js dieselbe
+// Zielstruktur, ohne vocabulary.json/theory.json anzurühren.
 const PHASES = [
   { type: 'theory', required_first_time: true },
   { type: 'word_preview' },
   { type: 'recognition' },
-  { type: 'reconstruction' },
-  { type: 'guided_production' },
-  { type: 'independent_production' },
-  { type: 'application' },
+  { type: 'matching' },
+  { type: 'guided_writing' },
+  { type: 'independent_writing' },
   { type: 'summary' }
 ];
 const COMPLETION_RULES = {
   minimum_score: 0.75,
   all_words_exposed: true,
-  required_phases: ['theory', 'word_preview', 'recognition', 'independent_production']
+  required_phases: ['theory', 'word_preview', 'recognition', 'matching', 'guided_writing', 'independent_writing']
 };
 
 const vocab_units = [];

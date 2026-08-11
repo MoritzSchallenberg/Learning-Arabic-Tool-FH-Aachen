@@ -185,6 +185,34 @@ async function advanceThroughCards(container, count) {
   }
 }
 
+// Entwicklungsauftrag 16, Stufe 7: löst eine Zuordnungsgruppe wie ein echter Nutzer per
+// Ausprobieren (kein Zugriff auf interne "richtige Lösung") -- klickt ein noch nicht gesperrtes
+// linkes Element, probiert nacheinander die noch nicht gesperrten rechten Elemente, bis das Paar
+// gesperrt wird (button.disabled === true zeigt eine korrekte Zuordnung an, siehe
+// exerciseRegistry.js#renderMatching).
+function solveMatchingGroup(container) {
+  const grid = container.querySelector('.matching-grid');
+  if (!grid) return false;
+  const leftCol = grid.children[0];
+  const rightCol = grid.children[1];
+  let safety = 0;
+  while (safety < 200) {
+    safety += 1;
+    const target = leftCol.querySelectorAll('button').find((b) => !b.disabled);
+    if (!target) return true; // alle Paare gelöst
+    target.click();
+    const candidates = rightCol.querySelectorAll('button').filter((b) => !b.disabled);
+    let matched = false;
+    for (const cand of candidates) {
+      cand.click();
+      if (target.disabled) { matched = true; break; }
+      target.click(); // falscher Versuch hat die Auswahl zurückgesetzt -- erneut auswählen
+    }
+    if (!matched) return false;
+  }
+  return false;
+}
+
 function clickOverviewNext(container) {
   const btn = findButtonByText(container, 'Weiter zu den Übungen');
   assert.ok(btn, '"Weiter zu den Übungen" sollte in Stufe 5 (Wortübersicht) vorhanden sein');
@@ -219,6 +247,11 @@ test('vollständiger Durchlauf der Pilot-Session "Begrüßung und Höflichkeit":
   assert.ok(container.textContent.includes('In dieser Session lernst du'));
   assert.ok(container.textContent.includes('Ablauf'));
   assert.ok(container.textContent.includes('Kurze Theorie'), 'der Ablauf-Kasten sollte die Stufennamen nennen');
+  assert.ok(container.textContent.includes('Zusammenfassung'), 'der Ablauf-Kasten sollte auch die letzte Stufe (10) nennen');
+  // Entwicklungsauftrag 16, Abschnitt 4: kein zusätzliches, nicht mehr existierendes "Übungen"
+  // nach der letzten echten Stufe (Relikt aus der Zeit vor Auftrag 16, als LearningStages.STAGES
+  // nur die Stufen 1-5 kannte und "Übungen" die zusammengefassten alten Phasen 6+ vertrat).
+  assert.ok(!/Zusammenfassung\s*→\s*Übungen/.test(container.textContent), 'der Ablauf-Kasten darf kein Stufe-11-Relikt "Übungen" nach der Zusammenfassung mehr zeigen');
   assert.ok(!findButtonByText(container, 'Mehr erfahren'), 'die eigentliche Theorieanzeige (Stufe 2) darf auf der Übersicht noch nicht sichtbar sein');
   const startBtn = findButtonByText(container, 'Lernen beginnen');
   assert.ok(startBtn, '"Lernen beginnen" sollte auf der Übersicht vorhanden sein');
@@ -249,7 +282,6 @@ test('vollständiger Durchlauf der Pilot-Session "Begrüßung und Höflichkeit":
 
   // 5) Gemeinsame Wortübersicht (Stufe 5): alle 10 neuen Wörter, "Weiter zu den Übungen" beendet
   // die Lernstufen (Abschnitt 13/14).
-  assert.ok(container.textContent.includes('Als Nächstes: Übungen'), 'ehrlicher Übergang statt erfundener Stufen 6-10 (Abschnitt 6)');
   assert.equal(container.querySelectorAll('.word-card').length, 10, 'Wortübersicht sollte alle 10 neuen Wörter zeigen');
   clickOverviewNext(container);
   await tick();
@@ -261,6 +293,13 @@ test('vollständiger Durchlauf der Pilot-Session "Begrüßung und Höflichkeit":
   let guard = 0;
   while (!container.textContent.includes('Session abgeschlossen') && !container.textContent.includes('Session beendet') && guard < 250) {
     guard += 1;
+    if (container.querySelector('.matching-grid')) {
+      solveMatchingGroup(container);
+      await tick();
+      const weiterMatch = findButtonByText(container, 'Weiter');
+      if (weiterMatch) { weiterMatch.click(); await tick(); }
+      continue;
+    }
     const opts = optionButtons(container);
     if (opts.length > 0) {
       opts[0].click();
@@ -297,7 +336,10 @@ test('vollständiger Durchlauf der Pilot-Session "Begrüßung und Höflichkeit":
     'Die Session sollte im Abschlussbildschirm enden'
   );
   assert.ok(/Wörtern sicher erkannt/.test(container.textContent));
-  assert.ok(/selbstständig geschrieben/.test(container.textContent));
+  // Entwicklungsauftrag 16, Abschnitt 8.3/10.1: "aktiv geschrieben" ersetzt das frühere
+  // "selbstständig geschrieben" -- deckt jetzt bewusst BEIDE Schreibstufen ab (Stufe 8 UND 9),
+  // nicht mehr nur die frühere alleinstehende "selbstständige Produktion"-Phase.
+  assert.ok(/aktiv geschrieben/.test(container.textContent));
   assert.ok(/Gesamt: \d+ %/.test(container.textContent));
   assert.ok(findButtonByText(container, 'Zur Unit'));
 
@@ -416,6 +458,13 @@ for (const [unitId, sessionId, wordCount] of [['vocab_unit_02', 'vocab_unit_02_a
       if (weiterWort) { weiterWort.click(); await tick(); continue; }
       const weiterUebungen = findButtonByText(container, 'Weiter zu den Übungen');
       if (weiterUebungen) { weiterUebungen.click(); await tick(); continue; }
+      if (container.querySelector('.matching-grid')) {
+        solveMatchingGroup(container);
+        await tick();
+        const weiterMatch = findButtonByText(container, 'Weiter');
+        if (weiterMatch) { weiterMatch.click(); await tick(); }
+        continue;
+      }
 
       const opts = optionButtons(container);
       if (opts.length > 0) {
@@ -462,10 +511,10 @@ for (const [unitId, sessionId, wordCount] of [['vocab_unit_02', 'vocab_unit_02_a
   });
 }
 
-// Entwicklungsauftrag 15, Abschnitt 19 "Repräsentative Sessions": vollständiger Durchlauf der
-// Lernstufen 1-5 mindestens für die Sessions aus Unit 1/5/10/15/20/25/30 -- deckt ab, dass das
-// Stufenmodell nicht nur für die (in den obigen Tests bereits ausführlich geprüften) ersten drei
-// Pilot-Units funktioniert, sondern gleichmäßig über den gesamten Kurs 1 hinweg.
+// Entwicklungsauftrag 15/16, Abschnitt 19/20 "Repräsentative Sessions": vollständiger Durchlauf
+// der Lernstufen 1-5 mindestens für die Sessions aus Unit 1/5/10/15/20/25/30 -- deckt ab, dass
+// das Stufenmodell nicht nur für die (in den obigen Tests bereits ausführlich geprüften) ersten
+// drei Pilot-Units funktioniert, sondern gleichmäßig über den gesamten Kurs 1 hinweg.
 for (const n of [1, 5, 10, 15, 20, 25, 30]) {
   const unitId = `vocab_unit_${String(n).padStart(2, '0')}`;
   const sessionId = `${unitId}_a`;
@@ -481,3 +530,173 @@ for (const n of [1, 5, 10, 15, 20, 25, 30]) {
     assert.equal(fakeAppState._incrementCalls.reduce((a, b) => a + b, 0), 10, 'jedes der 10 neuen Wörter zählt genau einmal fürs Tageslimit');
   });
 }
+
+// Entwicklungsauftrag 16, Abschnitt 20 "Repräsentative Gesamtdurchläufe": mindestens die
+// vollständigen Stufen 1-10 für dieselben sieben Units testen, nicht nur bis Stufe 5.
+for (const n of [1, 5, 10, 15, 20, 25, 30]) {
+  const unitId = `vocab_unit_${String(n).padStart(2, '0')}`;
+  const sessionId = `${unitId}_a`;
+  test(`repräsentative Session ${sessionId}: VOLLSTÄNDIGER Durchlauf Stufe 1-10 erreicht den Abschlussbildschirm`, async () => {
+    const fakeAppState = createFakeAppState();
+    const context = buildContext(fakeAppState);
+    const SessionController = loadSessionModules(context);
+    const container = createDocumentStub().createElement('div');
+
+    await SessionController.mount(container, { unitId, sessionId });
+    await completeLearningStages(container, 10);
+    assert.ok(container.textContent.includes('Aufgabe 1 /'));
+
+    let guard = 0;
+    while (!container.textContent.includes('Session abgeschlossen') && !container.textContent.includes('Session beendet') && guard < 250) {
+      guard += 1;
+      if (container.querySelector('.matching-grid')) {
+        solveMatchingGroup(container);
+        await tick();
+        const weiterMatch = findButtonByText(container, 'Weiter');
+        if (weiterMatch) { weiterMatch.click(); await tick(); }
+        continue;
+      }
+      const opts = optionButtons(container);
+      if (opts.length > 0) {
+        opts[0].click();
+        await tick();
+      } else {
+        const input = container.querySelector('input');
+        const pruefen = findButtonByText(container, 'Prüfen');
+        if (input) {
+          input.value = 'irgendetwas';
+          pruefen.click();
+          await tick();
+        } else if (pruefen) {
+          const chrome = new Set(['Theorie ansehen', 'Session verlassen', 'Zurücksetzen', 'Prüfen', 'Hilfe', 'Audio']);
+          let tile = container.querySelectorAll('button').find((b) => !chrome.has(b.textContent) && b.textContent !== '');
+          while (tile) {
+            tile.click();
+            await tick();
+            tile = container.querySelectorAll('button').find((b) => !chrome.has(b.textContent) && b.textContent !== '');
+          }
+          pruefen.click();
+          await tick();
+        } else {
+          break;
+        }
+      }
+      const weiter = findButtonByText(container, 'Weiter');
+      if (weiter) { weiter.click(); await tick(); }
+    }
+
+    assert.ok(
+      container.textContent.includes('Session abgeschlossen') || container.textContent.includes('Session beendet'),
+      `Session ${sessionId} sollte über alle zehn Stufen hinweg den Abschlussbildschirm erreichen (guard=${guard})`
+    );
+    assert.ok(!container.textContent.includes('Rekonstruieren'), 'kein alter Phasenname darf mehr auftauchen');
+    assert.ok(!container.textContent.includes('Anwendung'), 'kein alter Phasenname darf mehr auftauchen');
+  });
+}
+
+// Entwicklungsauftrag 16, Abschnitt 9.1: Stufe 9 ("Freies Schreiben OHNE Hilfe") darf -- im
+// Unterschied zu Stufe 8 ("Schreiben MIT Hilfe") -- keine Lösungspreisgabe vor der Abgabe
+// anbieten. Gefunden bei der visuellen Verifikation (Playwright, echter Desktop): der textuelle
+// Hinweis-Button ("Hilfe" -> zeigt Transliteration + deutsche Bedeutung direkt an) erschien zuvor
+// unverändert auch bei Stufe 9.
+test('Freies Schreiben (Stufe 9): kein "Hilfe"-Button mehr vorhanden, der die Lösung vor der Abgabe verrät', async () => {
+  const fakeAppState = createFakeAppState();
+  const context = buildContext(fakeAppState);
+  const SessionController = loadSessionModules(context);
+  const container = createDocumentStub().createElement('div');
+
+  await SessionController.mount(container, { unitId: 'vocab_unit_01', sessionId: 'vocab_unit_01_a' });
+  await completeLearningStages(container, 10);
+
+  let guard = 0;
+  while (!container.textContent.includes('Stufe 9 von 10') && guard < 100) {
+    guard += 1;
+    if (container.querySelector('.matching-grid')) {
+      solveMatchingGroup(container);
+      await tick();
+      const weiterMatch = findButtonByText(container, 'Weiter');
+      if (weiterMatch) { weiterMatch.click(); await tick(); }
+      continue;
+    }
+    const opts = optionButtons(container);
+    if (opts.length > 0) {
+      opts[0].click();
+      await tick();
+    } else {
+      const input = container.querySelector('input');
+      const pruefen = findButtonByText(container, 'Prüfen');
+      if (input) {
+        input.value = 'irgendetwas';
+        pruefen.click();
+        await tick();
+      } else if (pruefen) {
+        const chrome = new Set(['Theorie ansehen', 'Session verlassen', 'Zurücksetzen', 'Prüfen', 'Hilfe', 'Audio']);
+        let tile = container.querySelectorAll('button').find((b) => !chrome.has(b.textContent) && b.textContent !== '');
+        while (tile) {
+          tile.click();
+          await tick();
+          tile = container.querySelectorAll('button').find((b) => !chrome.has(b.textContent) && b.textContent !== '');
+        }
+        pruefen.click();
+        await tick();
+      } else {
+        break;
+      }
+    }
+    const weiter = findButtonByText(container, 'Weiter');
+    if (weiter) { weiter.click(); await tick(); }
+  }
+
+  assert.ok(container.textContent.includes('Stufe 9 von 10'), `sollte Stufe 9 erreichen (guard=${guard})`);
+  assert.ok(!findButtonByText(container, 'Hilfe'), '"Hilfe" darf in Stufe 9 ("ohne Hilfe") nicht angeboten werden');
+  assert.ok(findButtonByText(container, 'Audio'), 'die reine Audio-Wiedergabe (kein Lösungshinweis) darf weiterhin vorhanden sein');
+});
+
+// Entwicklungsauftrag 16, Abschnitt 20 "Stufe 7": Wiederaufnahme DERSELBEN Zuordnungsgruppe --
+// ein bereits richtig gelöstes Paar bleibt nach einem simulierten Neustart gesperrt, die
+// Gruppe wird nicht neu gemischt oder von vorne begonnen.
+test('Zuordnungsaufgaben: Wiederaufnahme mitten in einer Gruppe erhält bereits gelöste Paare und dieselbe Gruppe', async () => {
+  const fakeAppState = createFakeAppState();
+  const context = buildContext(fakeAppState);
+  const SessionController = loadSessionModules(context);
+  const container = createDocumentStub().createElement('div');
+
+  await SessionController.mount(container, { unitId: 'vocab_unit_01', sessionId: 'vocab_unit_01_a' });
+  await completeLearningStages(container, 10);
+  assert.ok(container.textContent.includes('Aufgabe 1 /'));
+  // Bis zur ersten Zuordnungsgruppe klicken (Stufe 6 abschließen).
+  let guard = 0;
+  while (!container.querySelector('.matching-grid') && guard < 60) {
+    guard += 1;
+    const opts = optionButtons(container);
+    if (opts.length > 0) { opts[0].click(); await tick(); }
+    const weiter = findButtonByText(container, 'Weiter');
+    if (weiter) { weiter.click(); await tick(); }
+  }
+  assert.ok(container.querySelector('.matching-grid'), 'sollte die erste Zuordnungsgruppe erreicht haben');
+
+  // Genau EIN Paar lösen, dann "neu starten" simulieren (zweiter mount() im selben AppState).
+  const grid = container.querySelector('.matching-grid');
+  const leftCol = grid.children[0];
+  const rightCol = grid.children[1];
+  const target = leftCol.querySelectorAll('button').find((b) => !b.disabled);
+  target.click();
+  const candidates = rightCol.querySelectorAll('button').filter((b) => !b.disabled);
+  for (const cand of candidates) {
+    cand.click();
+    if (target.disabled) break;
+    target.click();
+  }
+  assert.equal(target.disabled, true, 'ein Paar sollte jetzt gesperrt sein');
+  const lockedLabel = target.getAttribute('aria-label');
+
+  const container2 = createDocumentStub().createElement('div');
+  await SessionController.mount(container2, { unitId: 'vocab_unit_01', sessionId: 'vocab_unit_01_a' });
+  findButtonByText(container2, 'Session fortsetzen').click();
+  await tick();
+
+  assert.ok(container2.querySelector('.matching-grid'), 'sollte nach Wiederaufnahme wieder in einer Zuordnungsgruppe sein');
+  const lockedAfter = container2.querySelectorAll('button').find((b) => b.getAttribute('aria-label') === lockedLabel);
+  assert.ok(lockedAfter, 'dasselbe Element sollte weiterhin vorhanden sein');
+  assert.equal(lockedAfter.disabled, true, 'das bereits gelöste Paar sollte nach Wiederaufnahme weiterhin gesperrt bleiben');
+});

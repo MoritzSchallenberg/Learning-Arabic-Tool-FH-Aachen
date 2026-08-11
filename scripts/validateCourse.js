@@ -476,6 +476,54 @@ if (vocabSessions.vocab_units.length === 30) {
   }
 }
 
+// --- Session-Ablaufmodell (Entwicklungsauftrag 16, Abschnitt 18) ----------------------------
+// Dauerhaft geprüft, nicht nur einmalig beim Umbau: zehn sichtbare Lernstufen (Stufen 1-5 aus
+// Entwicklungsauftrag 15 unverändert + die vier gradierten Phasen aus diesem Auftrag),
+// korrekte Reihenfolge, keine alte sichtbare Reconstruction-/Application-Phase mehr,
+// Completion Rules verwenden das neue Modell, Bewertungsgewichte ergeben 100%.
+console.log('\n--- Session-Ablaufmodell (Entwicklungsauftrag 16) ---');
+const EXPECTED_SESSION_PHASES = ['theory', 'word_preview', 'recognition', 'matching', 'guided_writing', 'independent_writing', 'summary'];
+const LEGACY_PHASE_TYPES = ['reconstruction', 'guided_production', 'independent_production', 'application'];
+const PhaseRegistryForValidation = require('../src/js/session/phaseRegistry.js');
+
+let phaseModelOk = true;
+for (const session of vocabSessions.sessions) {
+  const types = (session.phases || []).map((p) => p.type);
+  if (JSON.stringify(types) !== JSON.stringify(EXPECTED_SESSION_PHASES)) {
+    fail(`Session "${session.session_id}" hat nicht das erwartete Sieben-Phasen-Modell: [${types.join(', ')}]`);
+    phaseModelOk = false;
+  }
+  for (const legacyType of LEGACY_PHASE_TYPES) {
+    if (types.includes(legacyType)) {
+      fail(`Session "${session.session_id}" enthält noch die alte sichtbare Phase "${legacyType}"`);
+      phaseModelOk = false;
+    }
+  }
+  const rules = session.completion_rules || {};
+  const requiredPhases = rules.required_phases || [];
+  const expectedRequired = ['theory', 'word_preview', 'recognition', 'matching', 'guided_writing', 'independent_writing'];
+  if (JSON.stringify([...requiredPhases].sort()) !== JSON.stringify([...expectedRequired].sort())) {
+    fail(`Session "${session.session_id}" hat veraltete completion_rules.required_phases: [${requiredPhases.join(', ')}]`);
+    phaseModelOk = false;
+  }
+}
+if (phaseModelOk) {
+  console.log(`OK: alle ${vocabSessions.sessions.length} Sessions verwenden das neue Sieben-Phasen-Modell (theory, word_preview, recognition, matching, guided_writing, independent_writing, summary), keine alte Reconstruction-/Application-Phase, aktuelle completion_rules.`);
+}
+
+const gradedWeightSum = ['recognition', 'matching', 'guided_writing', 'independent_writing']
+  .reduce((sum, type) => sum + PhaseRegistryForValidation.get(type).weight, 0);
+if (Math.abs(gradedWeightSum - 1) > 1e-9) {
+  fail(`Die Bewertungsgewichte der vier gradierten Phasen ergeben ${(gradedWeightSum * 100).toFixed(1)}% statt 100%`);
+} else {
+  console.log('OK: die Bewertungsgewichte der vier gradierten Phasen (recognition/matching/guided_writing/independent_writing) ergeben zusammen 100%.');
+}
+for (const type of ['theory', 'word_preview', 'summary']) {
+  if (PhaseRegistryForValidation.get(type).weight !== 0) {
+    fail(`Phase "${type}" sollte kein Bewertungsgewicht haben (Lernstufen 1-5 und Zusammenfassung sind nicht gradiert)`);
+  }
+}
+
 // --- Theorie für Schrift-Units (Entwicklungsauftrag 5, Abschnitt 17) ------------------------
 console.log('\n--- Theorie für Schrift-Units ---');
 const letterGroupUnitsForTheory = course1 ? course1.units.filter((u) => u.type === 'letter_group' || u.type === 'diacritics') : [];

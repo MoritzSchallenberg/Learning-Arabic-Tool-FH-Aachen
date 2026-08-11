@@ -26,9 +26,16 @@ const SessionQueue = (() => {
   /**
    * @param {object[]} items - z. B. [{ wordId, ... }]
    * @param {() => number} [random] - siehe pickRandomOrder().
+   * @param {{shuffle?: boolean}} [options] - Entwicklungsauftrag 16, Abschnitt 8.4: Stufe 8
+   *   ("Schreiben mit Hilfe") baut ihre Warteschlange bereits als zwei intern vorgemischte
+   *   Blöcke (Teil 1 "Wort zusammensetzen", dann Teil 2 "Wort mit Hilfe eingeben") -- diese
+   *   Blockreihenfolge darf hier NICHT nochmals durcheinandergemischt werden. `shuffle:false`
+   *   übernimmt `items` unverändert in der übergebenen Reihenfolge. Ohne Angabe unverändertes
+   *   Verhalten (immer gemischt) für alle anderen Phasen.
    */
-  function create(items, random = Math.random) {
-    return { pending: pickRandomOrder(items, random), index: 0, total: items.length, repeatCounts: {} };
+  function create(items, random = Math.random, options = {}) {
+    const pending = options.shuffle === false ? [...items] : pickRandomOrder(items, random);
+    return { pending, index: 0, total: items.length, repeatCounts: {} };
   }
 
   function current(queueState) {

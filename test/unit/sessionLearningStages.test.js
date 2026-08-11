@@ -400,7 +400,7 @@ test('Wortübersicht: enthält alle neuen Wörter, KEINE eingemischten Wiederhol
     btn.click();
     await tick();
   }
-  assert.ok(container.textContent.includes('Als Nächstes: Übungen'));
+  assert.ok(container.textContent.includes('Stufe 5 von 10'), 'Entwicklungsauftrag 16: keine Übergangsanzeige mehr, sondern die reguläre Stufenanzeige');
   assert.equal(container.querySelectorAll('.word-card').length, 10, 'genau die 10 neuen Wörter, keine Wiederholungswörter');
 });
 

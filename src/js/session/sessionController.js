@@ -1,22 +1,27 @@
 // SessionController (Entwicklungsauftrag 4, Schritt 3; grundlegend erweitert in
-// Entwicklungsauftrag 5; Lernstufen 1-5 neu aufgebaut in Entwicklungsauftrag 15) — verbindet
-// SessionEngine (Logik), SessionRenderer (Rahmen/Schrittanzeige/Aktionsleiste/Fortschrittsbalken),
-// ExerciseRegistry (Aufgaben), TheoryRenderer (Theorie/Mini-Check), WordRelations
+// Entwicklungsauftrag 5; Lernstufen 1-5 neu aufgebaut in Entwicklungsauftrag 15; Stufen 6-10
+// endgültig umgesetzt in Entwicklungsauftrag 16) — verbindet SessionEngine (Logik),
+// SessionRenderer (einheitlicher Stufenrahmen "Stufe N von 10"), ExerciseRegistry (Aufgaben,
+// inkl. Zuordnungsgruppen), TheoryRenderer (Theorie/Mini-Check), WordRelations
 // (Zusatzinformationen zu Wörtern) und SessionState (Wiederaufnahme) zu einer vollständigen
 // Session. Einstiegspunkt: App.navigateToSession(unitId, sessionId) -> SessionController.mount().
 //
-// Ablauf (Entwicklungsauftrag 15, Abschnitt 5-15 — ERSETZT den bisherigen Text zur Wortlernphase):
-// Sessionübersicht/Lernziele (Stufe 1) -> Kurze Theorie OHNE verpflichtenden Mini-Check (Stufe 2)
-// -> Neue Wörter als Einzelkarten kennenlernen, ohne Zwischenabfrage (Stufe 3) -> Audio kennenlernen
-// (Stufe 4) -> gemeinsame Wortübersicht (Stufe 5) -> ab hier UNVERÄNDERT: Wiedererkennen ->
-// Rekonstruieren -> Geführte Produktion -> Selbstständige Produktion -> Anwendung -> Abschluss.
-// Feedback verschwindet nie automatisch — jede Aufgabe endet mit einem manuellen "Weiter"-Klick,
-// außer die Einstellung "autoAdvanceAfterFeedback" ist aktiv UND die Antwort war richtig
-// (Abschnitt 21, unverändert).
+// Vollständiger Ablauf (Entwicklungsauftrag 16, Abschnitt 1): Lernziele (1) -> kurze Theorie ohne
+// Pflicht-Mini-Check (2) -> neue Wörter als Lernkarten (3) -> Audio kennenlernen (4) ->
+// Wortübersicht (5) -> leichtes Wiedererkennen (6) -> Zuordnungsaufgaben (7) -> Schreiben mit
+// Hilfe (8, zwei Unteraufgaben "Wort zusammensetzen"/"Wort mit Hilfe eingeben") -> freies
+// Schreiben ohne Hilfe (9) -> Zusammenfassung (10). Feedback verschwindet nie automatisch — jede
+// Aufgabe endet mit einem manuellen "Weiter"-Klick, außer die Einstellung
+// "autoAdvanceAfterFeedback" ist aktiv UND die Antwort war richtig (Abschnitt 21 aus
+// Entwicklungsauftrag 5, unverändert).
 //
-// Die fünf neuen Lernstufen bilden bewusst NUR die bestehenden ersten zwei Phasentypen
-// ('theory', 'word_preview') feiner ab (siehe learningStages.js) — sessionDef.phases
-// (vocabSessions.json) bleibt unverändert, keine zweite Session-Engine.
+// Die fünf Lernstufen 1-5 bilden weiterhin (unverändert seit Auftrag 15) nur die ersten beiden
+// technischen Phasentypen ('theory', 'word_preview') feiner ab. Stufen 6-10 entsprechen jetzt
+// DIREKT den vier gradierten technischen Phasentypen (recognition/matching/guided_writing/
+// independent_writing) plus 'summary' — siehe learningStages.js/phaseRegistry.js. Nur EIN
+// sichtbares Fortschrittssystem (SessionRenderer.renderLearningStageShell) für die gesamte
+// Session, kein separater alter Phasen-Stepper mehr (Abschnitt 14). Kein zweiter
+// Speichermechanismus, keine zweite Session-Engine.
 
 const SessionController = (() => {
   let container = null;
@@ -40,10 +45,9 @@ const SessionController = (() => {
 
   const SKILL_BY_PHASE = {
     recognition: 'recognition',
-    reconstruction: 'reconstruction',
-    guided_production: 'guided_production',
-    independent_production: 'independent_production',
-    application: 'application'
+    matching: 'matching',
+    guided_writing: 'guided_writing',
+    independent_writing: 'independent_writing'
   };
 
   // Kleine, rein grammatische Zahlwort-Tabelle für die Lernziel-Ersatzformulierung (Abschnitt 7) —
@@ -286,19 +290,24 @@ const SessionController = (() => {
   /** "aktuelle gespeicherte Stufe nennen" bei Wiederaufnahme (Abschnitt 7) — ehrlich (Abschnitt 6):
    * ab den bestehenden Übungsphasen erscheint KEINE erfundene Stufe 6-10, sondern der neutrale
    * Übergangstext. */
-  function resumedStageLabel() {
-    if (!engine) return '';
+  // Entwicklungsauftrag 16, Abschnitt 4/14: Stufen 6-10 entsprechen jetzt DIREKT den technischen
+  // Phasentypen (recognition/matching/guided_writing/independent_writing/summary) — nur
+  // theory/word_preview brauchen weiterhin die feinere Auflösung über learningStageState
+  // (Stufen 1-5, unverändert seit Auftrag 15).
+  function currentLearningStageKey() {
+    if (!engine) return LearningStages.first();
     const type = engine.currentPhaseType();
-    if (type === 'theory') {
-      const stage = LearningStages.get('theory');
-      return `Stufe ${stage.number} von ${LearningStages.TOTAL_DISPLAY_STAGES} – ${stage.label}`;
-    }
+    if (type === 'theory') return 'theory';
     if (type === 'word_preview') {
-      const key = (learningStageState && LearningStages.isValid(learningStageState.stage)) ? learningStageState.stage : 'word_cards';
-      const stage = LearningStages.get(key);
-      return `Stufe ${stage.number} von ${LearningStages.TOTAL_DISPLAY_STAGES} – ${stage.label}`;
+      return (learningStageState && LearningStages.isValid(learningStageState.stage)) ? learningStageState.stage : 'word_cards';
     }
-    return LearningStages.AFTER_STAGE_5_LABEL;
+    if (type && LearningStages.isValid(type)) return type;
+    return 'summary';
+  }
+
+  function resumedStageLabel() {
+    const stage = LearningStages.get(currentLearningStageKey());
+    return `Stufe ${stage.number} von ${LearningStages.TOTAL_DISPLAY_STAGES} – ${stage.label}`;
   }
 
   function renderSessionOverview() {
@@ -322,7 +331,11 @@ const SessionController = (() => {
 
     const flowCard = el('div', 'card');
     flowCard.appendChild(el('p', 'lead', 'Ablauf'));
-    const stageLabels = LearningStages.STAGES.map((s) => s.label).concat('Übungen');
+    // Entwicklungsauftrag 16: LearningStages.STAGES deckt bereits alle 10 sichtbaren Stufen ab
+    // (inkl. Stufe 10 "Zusammenfassung") -- ein früher hier angehängtes zusätzliches "Übungen"
+    // war ein Relikt aus der Zeit vor Auftrag 16 (als STAGES nur 1-5 kannte) und darf laut
+    // Abschnitt 4 nicht mehr erscheinen.
+    const stageLabels = LearningStages.STAGES.map((s) => s.label);
     flowCard.appendChild(el('p', 'text-hint', stageLabels.join(' → ')));
     view.appendChild(flowCard);
 
@@ -440,10 +453,10 @@ const SessionController = (() => {
   function renderTheoryReview(returnToPhase) {
     detachLearningKeydown();
     AudioPlayer.stopCurrentAudio();
-    const { bodyEl, actionBar } = SessionRenderer.renderSessionShell(container, {
+    const { bodyEl, actionBar } = SessionRenderer.renderLearningStageShell(container, {
       sessionDef,
-      phaseIndex: engine ? engine.phaseIndex : 0,
-      progressLabel: 'Theorie (erneut angesehen — dein Fortschritt bleibt erhalten)',
+      stageKey: currentLearningStageKey(),
+      subLabel: 'Theorie (erneut angesehen — dein Fortschritt bleibt erhalten)',
       onTheory: () => {},
       onLeave: confirmLeave
     });
@@ -752,6 +765,77 @@ const SessionController = (() => {
 
   // --- Wiedererkennen/Rekonstruieren/Produktion/Anwendung (aufgabenbasierte Phasen, UNVERÄNDERT
   // gegenüber Entwicklungsauftrag 13) -----------------------------------------------------------
+  // Entwicklungsauftrag 16, Abschnitt 8.4/14: "Teil 1: Wort zusammensetzen"/"Teil 2: Wort mit
+  // Hilfe eingeben" innerhalb von Stufe 8, plus die lokale Position INNERHALB des jeweiligen
+  // Teils (nicht die globale Warteschlangen-Position, die beide Teile zusammenzählen würde).
+  const GUIDED_WRITING_PART_LABEL = {
+    order_pieces: 'Teil 1: Wort zusammensetzen',
+    guided_typing: 'Teil 2: Wort mit Hilfe eingeben'
+  };
+
+  function gradedSubLabel(phaseType, task, queue) {
+    const suffix = (task.isRepeat ? ' · Wiederholung' : '') + (task.isReview ? ' · Wiederholungswort' : '');
+    if (phaseType === 'matching') {
+      return `Gruppe ${queue.index + 1} von ${queue.pending.length}${suffix}`;
+    }
+    if (phaseType === 'guided_writing' && task.part) {
+      const partItems = queue.pending.filter((t) => t.part === task.part);
+      const localIndex = partItems.indexOf(task) + 1;
+      return `${GUIDED_WRITING_PART_LABEL[task.part] || ''} — Aufgabe ${Math.max(1, localIndex)} von ${partItems.length}${suffix}`;
+    }
+    return engine.taskProgressLabel() + suffix;
+  }
+
+  function gradedSubProgress(queue) {
+    const total = queue.plannedTotal || queue.pending.length || 1;
+    return Math.max(0, Math.min(1, queue.index / total));
+  }
+
+  // --- Stufe 7 (Zuordnungsaufgaben): eine Aufgabe bewertet mehrere Wörter gleichzeitig ---------
+  function renderMatchingTask(task, queue) {
+    const groupWords = task.groupWordIds.map((id) => allSessionWords().find((w) => w.id === id)).filter(Boolean);
+    const settings = AppState.getSettings();
+    const guard = freshGuard();
+    const { bodyEl, actionBar } = SessionRenderer.renderLearningStageShell(container, {
+      sessionDef,
+      stageKey: 'matching',
+      subProgress: gradedSubProgress(queue),
+      subLabel: gradedSubLabel('matching', task, queue),
+      onTheory: () => renderTheoryReview(renderGradedPhase),
+      onLeave: confirmLeave
+    });
+    SessionRenderer.clearActionBar(actionBar);
+
+    // Entwicklungsauftrag 16, Abschnitt 16: bereits gelöste Paare/Fehlversuche dieser Gruppe
+    // leben direkt auf dem Warteschlangen-Eintrag (task ist dieselbe Objektreferenz wie in
+    // engine.currentQueue().pending) -- kein zweiter Speicherort, persistSnapshot() serialisiert
+    // die gesamte Warteschlange ohnehin schon mit.
+    ExerciseRegistry.render('matching', bodyEl, {
+      groupWords,
+      variant: task.variant,
+      settings,
+      alreadySolvedWordIds: task.solvedWordIds || [],
+      alreadyErroredWordIds: task.firstErrorWordIds || [],
+      onProgress: ({ lockedWordIds, erroredWordIds }) => {
+        task.solvedWordIds = lockedWordIds;
+        task.firstErrorWordIds = erroredWordIds;
+        persistSnapshot();
+      }
+    }, guard, async (isCorrect, detail) => {
+      const perWordCorrect = (detail && detail.perWordCorrect) || {};
+      for (const wordId of Object.keys(perWordCorrect)) {
+        const card = AppState.getCard(wordId);
+        adjustDifficulty(card, SKILL_BY_PHASE.matching, perWordCorrect[wordId] ? 'correct' : 'wrong');
+      }
+      await AppState.persistProgress();
+      engine.recordGroupTaskResult(perWordCorrect);
+      await persistSnapshot();
+
+      const doAdvance = () => renderCurrentPhase();
+      SessionRenderer.renderActionBar(actionBar, { rightButtons: [{ label: 'Weiter', onClick: doAdvance }] });
+    });
+  }
+
   function renderGradedPhase() {
     detachLearningKeydown();
     if (!engine.hasStartedQueue()) engine.startGradedQueue();
@@ -763,22 +847,26 @@ const SessionController = (() => {
     }
 
     const phaseType = engine.currentPhaseType();
-    const exerciseType = ExerciseRegistry.PHASE_EXERCISE_TYPE[phaseType];
     const task = engine.currentTask();
+    const queue = engine.currentQueue();
+
+    if (task.groupWordIds) { renderMatchingTask(task, queue); return; }
+
+    const exerciseType = task.exerciseType || ExerciseRegistry.PHASE_EXERCISE_TYPE[phaseType];
     const word = allSessionWords().find((w) => w.id === task.wordId);
     const settings = AppState.getSettings();
 
     const guard = freshGuard();
-    const { bodyEl, actionBar } = SessionRenderer.renderSessionShell(container, {
+    const { bodyEl, actionBar } = SessionRenderer.renderLearningStageShell(container, {
       sessionDef,
-      phaseIndex: engine.phaseIndex,
-      progressLabel: engine.taskProgressLabel() + (task.isRepeat ? ' · Wiederholung' : '') + (task.isReview ? ' · Wiederholungswort' : ''),
-      progressPercent: engine.progressPercent(),
+      stageKey: phaseType,
+      subProgress: gradedSubProgress(queue),
+      subLabel: gradedSubLabel(phaseType, task, queue),
       onTheory: () => renderTheoryReview(renderGradedPhase),
       onLeave: confirmLeave
     });
 
-    let helpUsedFlag = ['A', 'B'].includes(engine.helpLevelState.currentLevel()) || phaseType === 'guided_production';
+    let helpUsedFlag = ['A', 'B'].includes(engine.helpLevelState.currentLevel()) || task.part === 'guided_typing';
     let checkAction = null;
 
     ExerciseRegistry.render(exerciseType, bodyEl, {
@@ -818,8 +906,15 @@ const SessionController = (() => {
       }
     });
 
-    const inputLeftButtons = [
-      {
+    // Entwicklungsauftrag 16, Abschnitt 9.1: Stufe 9 ("Freies Schreiben OHNE Hilfe") darf -- im
+    // Unterschied zu allen anderen Stufen (6-8, die weiterhin wie zuvor einen optionalen
+    // Hinweis-Button anbieten dürfen) -- keine Lösungspreisgabe vor der Abgabe anbieten. Der
+    // textuelle Hinweis-Button (zeigt Transliteration + deutsche Bedeutung direkt an) widerspräche
+    // genau dieser Unterscheidung und wird deshalb nur noch dort ausgeblendet (gefunden bei der
+    // visuellen Verifikation: er erschien zuvor unverändert auch bei Stufe 9).
+    const inputLeftButtons = [];
+    if (phaseType !== 'independent_writing') {
+      inputLeftButtons.push({
         label: 'Hilfe',
         className: 'btn secondary',
         onClick: () => {
@@ -827,9 +922,9 @@ const SessionController = (() => {
           engine.markHelpUsedForWord(word.id);
           bodyEl.appendChild(el('p', 'text-hint', `Hinweis: ${word.transliteration || ''} — ${ExerciseRegistry.primaryGerman(word)}`.trim()));
         }
-      },
-      { label: 'Audio', className: 'btn secondary', onClick: (btn) => AudioPlayer.speakWord(word, { context: 'Geführte Eingabe', button: btn }) }
-    ];
+      });
+    }
+    inputLeftButtons.push({ label: 'Audio', className: 'btn secondary', onClick: (btn) => AudioPlayer.speakWord(word, { context: 'Geführte Eingabe', button: btn }) });
     SessionRenderer.renderActionBar(actionBar, {
       leftButtons: inputLeftButtons,
       rightButtons: checkAction ? [{ label: 'Prüfen', onClick: () => checkAction() }] : []
@@ -841,31 +936,41 @@ const SessionController = (() => {
   }
 
   // --- Abschluss (Entwicklungsauftrag 5, Abschnitt 25, UNVERÄNDERT) ----------------------------
+  // --- Stufe 10: Zusammenfassung und schwierige Wörter (Entwicklungsauftrag 16, Abschnitt 10) --
   function renderSummaryPhase() {
     detachLearningKeydown();
     // Entwicklungsauftrag 13, Abschnitt 6.3 — die Zusammenfassung startet keine automatische
     // Wiedergabe; eine bis hierhin noch laufende Aufnahme (z. B. aus der letzten Aufgabe) darf
     // hier nicht unbemerkt weiterlaufen.
     AudioPlayer.stopCurrentAudio();
-    const { bodyEl } = SessionRenderer.renderSessionShell(container, {
+    const { bodyEl } = SessionRenderer.renderLearningStageShell(container, {
       sessionDef,
-      phaseIndex: engine.phases.length - 1,
-      progressLabel: null,
-      progressPercent: 100,
+      stageKey: 'summary',
+      subProgress: 1,
       onTheory: () => renderTheoryReview(renderSummaryPhase),
       onLeave: confirmLeave
     });
 
     const passed = engine.checkCompletion();
     const securelyKnown = words.filter((w) => SessionCoverageTracker.isSecurelyKnown(engine.coverage, w.id));
-    const needsPractice = words.filter((w) => !SessionCoverageTracker.isSecurelyKnown(engine.coverage, w.id));
-    const independentCount = words.filter((w) => SessionCoverageTracker.entryFor(engine.coverage, w.id).independent_attempts > 0).length;
+    const writtenCount = words.filter((w) => SessionCoverageTracker.isWritten(engine.coverage, w.id)).length;
+
+    // Abschnitt 10.2: zwei UNTERSCHIEDLICHE Gründe, klar getrennt gehalten -- ein einzelner
+    // Tippfehler markiert ein Wort noch nicht automatisch dauerhaft als schwierig (errors>=2,
+    // nicht >=1). Die explizite Nutzer-Markierung ("Als schwierig markieren", Stufe 3/5) ist
+    // davon komplett unabhängig.
+    const userMarkedWords = words.filter((w) => AppState.isWordMarkedDifficult(w.id));
+    const multiErrorWords = words.filter((w) => SessionCoverageTracker.entryFor(engine.coverage, w.id).errors >= 2);
+    const difficultIds = new Set([...userMarkedWords.map((w) => w.id), ...multiErrorWords.map((w) => w.id)]);
+    const difficultWords = words.filter((w) => difficultIds.has(w.id));
 
     const card = el('div', 'card');
-    card.appendChild(el('p', 'lead', passed ? 'Session abgeschlossen 🎉' : 'Session beendet — ein erneuter Versuch könnte helfen.'));
+    card.appendChild(el('p', 'lead', passed ? 'Session abgeschlossen 🎉' : 'Session beendet — noch nicht bestanden, ein erneuter Versuch könnte helfen.'));
+    card.appendChild(el('p', null, `${words.length} Wörter bearbeitet`));
+    card.appendChild(el('p', null, `${engine.correctCount} richtige, ${engine.wrongCount} falsche Antworten`));
     card.appendChild(el('p', null, `${securelyKnown.length} von ${words.length} Wörtern sicher erkannt`));
-    card.appendChild(el('p', null, `${independentCount} von ${words.length} selbstständig geschrieben`));
-    if (needsPractice.length > 0) card.appendChild(el('p', null, `${needsPractice.length} Wörter sollten wiederholt werden`));
+    card.appendChild(el('p', null, `${writtenCount} von ${words.length} aktiv geschrieben`));
+    if (difficultWords.length > 0) card.appendChild(el('p', null, `${difficultWords.length} schwierige Wörter`));
     card.appendChild(el('p', null, `Gesamt: ${Math.round(engine.weightedScorePercent() * 100)} %`));
     bodyEl.appendChild(card);
 
@@ -875,16 +980,22 @@ const SessionController = (() => {
       securelyKnown.forEach((w) => goodCard.appendChild(el('p', null, `${w.arabic} — ${ExerciseRegistry.primaryGerman(w)}`)));
       bodyEl.appendChild(goodCard);
     }
-    if (needsPractice.length > 0) {
+    if (difficultWords.length > 0) {
       const practiceCard = el('div', 'card');
-      practiceCard.appendChild(el('p', 'lead', 'Noch üben'));
-      needsPractice.forEach((w) => {
+      practiceCard.appendChild(el('p', 'lead', 'Schwierige Wörter'));
+      difficultWords.forEach((w) => {
         const entry = SessionCoverageTracker.entryFor(engine.coverage, w.id);
+        const isUserMarked = userMarkedWords.some((mw) => mw.id === w.id);
+        const isMultiError = multiErrorWords.some((mw) => mw.id === w.id);
+        const reasons = [];
+        if (isUserMarked) reasons.push('von dir markiert');
+        if (isMultiError) reasons.push(`${entry.errors} Fehler`);
         const row = el('div', 'word-card');
         row.appendChild(el('p', 'arabic-word-main', w.arabic));
         row.appendChild(el('p', 'word-card-translation', ExerciseRegistry.primaryGerman(w)));
-        row.appendChild(el('p', 'text-hint', `${entry.errors} Fehler`));
+        row.appendChild(el('p', 'text-hint', reasons.join(' · ')));
         row.appendChild(mkBtn('Noch einmal anhören', 'btn secondary', (btn) => AudioPlayer.speakWord(w, { context: 'Session-Zusammenfassung', button: btn })));
+        row.appendChild(renderDifficultToggle(w));
         practiceCard.appendChild(row);
       });
       bodyEl.appendChild(practiceCard);
@@ -895,8 +1006,8 @@ const SessionController = (() => {
     actions.style.gap = '10px';
     actions.style.flexWrap = 'wrap';
     actions.style.marginTop = '16px';
-    if (needsPractice.length > 0) {
-      actions.appendChild(mkBtn('Schwierige Wörter wiederholen', 'btn secondary', () => {
+    if (difficultWords.length > 0) {
+      actions.appendChild(mkBtn('Schwierige Wörter üben', 'btn secondary', () => {
         App.navigateToFreePractice({ presetFilters: { categories: { letters: false, vocabulary: true, connections: false }, difficultOnly: true } });
       }));
     }
@@ -912,7 +1023,7 @@ const SessionController = (() => {
       }));
     }
     bodyEl.appendChild(actions);
-    bodyEl.appendChild(mkBtn('Session verwerfen und neu starten', 'btn secondary', () => confirmDiscard(() => mount(container, { unitId, sessionId: sessionDef.session_id }))));
+    bodyEl.appendChild(mkBtn('Session neu starten', 'btn secondary', () => confirmDiscard(() => mount(container, { unitId, sessionId: sessionDef.session_id }))));
   }
 
   function renderCurrentPhase() {
@@ -971,7 +1082,12 @@ const SessionController = (() => {
       onBack: goToUnit
     });
 
-    const resumedState = SessionState.getState(sessionDef.session_id);
+    // Entwicklungsauftrag 16, Abschnitt 17: ein vor diesem Auftrag gespeichertes Snapshot bezieht
+    // sich noch auf das alte Acht-Phasen-Modell -- VOR jeder weiteren Verwendung auf das neue
+    // Sieben-Phasen-Modell ummappen (sessionFlowVersion), sonst würde dasselbe phaseIndex eine
+    // andere, falsche Phase treffen.
+    const rawResumedState = SessionState.getState(sessionDef.session_id);
+    const resumedState = SessionEngine.migrateResumedState(rawResumedState);
     const canResume = !!resumedState && resumedState.status !== 'completed';
     sessionWasResumable = canResume;
 
@@ -981,6 +1097,7 @@ const SessionController = (() => {
       reviewWords = (resumedState.reviewWordIds || []).map((id) => allPackWords.find((w) => w.id === id)).filter(Boolean);
       engine = SessionEngine.create({ sessionDef, words, reviewWords, resumedState });
       learningStageState = migrateLearningStageState(resumedState.learningStageState, engine.coverage, words);
+      if (rawResumedState !== resumedState) await persistSnapshot(); // migriertes Format sofort dauerhaft sichern
       renderSessionOverview();
       return;
     }

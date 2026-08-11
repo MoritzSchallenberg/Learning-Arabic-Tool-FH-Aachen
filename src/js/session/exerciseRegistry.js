@@ -260,6 +260,47 @@ const ExerciseRegistry = (() => {
     container.appendChild(card);
   }
 
+  // --- Mini-Check-Variante: Audio hören -> passende deutsche Bedeutung auswählen
+  // (Entwicklungsauftrag 16, Abschnitt 6.1 -- ergänzt die bereits vorhandenen vier
+  // Wiedererkennen-Typen um die fünfte, bisher fehlende Kombination "Audio -> Bedeutung"). --------
+  function renderAudioToMeaningChoice(container, ctx, guard, onDone) {
+    const { word, allWords } = ctx;
+    const distractors = pickDistractors(word, allWords, 3);
+    const options = pickRandomOrder([word, ...distractors]);
+
+    while (container.firstChild) container.removeChild(container.firstChild);
+    const card = el('div', { className: 'card flashcard' });
+    card.appendChild(el('p', { className: 'lead', text: 'Höre zu und wähle die richtige Bedeutung.' }));
+    const playBtn = el('button', { className: 'btn icon', text: '🔊' });
+    playBtn.type = 'button';
+    playBtn.setAttribute('aria-label', 'Audio abspielen');
+    playBtn.addEventListener('click', () => AudioPlayer.speakWord(word, { context: 'Hörübung', button: playBtn }));
+    card.appendChild(playBtn);
+    // Abschnitt 6.4: bei visuellen Übersetzungsaufgaben darf Audio die Lösung nicht verraten --
+    // hier IST das Audio die Aufgabenstellung selbst, automatisches Abspielen ist also erlaubt.
+    if (ctx.settings && ctx.settings.autoPlayWord) {
+      AudioPlayer.speakWord(word, { context: 'Hörübung (automatisch)' });
+    }
+    const optionsWrap = el('div', { className: 'rating-buttons' });
+    const feedback = feedbackNode();
+    options.forEach((opt) => {
+      const btn = el('button', { className: 'btn secondary', text: primaryGerman(opt) });
+      btn.type = 'button';
+      btn.addEventListener('click', () => {
+        if (!guard.submit()) return;
+        const correct = opt.id === word.id;
+        feedback.textContent = correct ? 'Richtig!' : `Nicht ganz. Richtig wäre: ${primaryGerman(word)}`;
+        feedback.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+        guard.showFeedback();
+        onDone(correct, { feedbackShown: true });
+      });
+      optionsWrap.appendChild(btn);
+    });
+    card.appendChild(optionsWrap);
+    card.appendChild(feedback);
+    container.appendChild(card);
+  }
+
   // --- Rekonstruieren: Einzelteile (Buchstaben oder Wörter) in die richtige Reihenfolge -------
   function tokensForReconstruction(word, keyboardLetters) {
     const plain = normalizeArabic(word.arabic);
@@ -340,16 +381,33 @@ const ExerciseRegistry = (() => {
   }
 
   // --- Produktion: Wort über die virtuelle Tastatur schreiben (geführt/selbstständig) ---------
+  // Entwicklungsauftrag 16, Abschnitt 9.3: ctx.dictation=true rendert eine Audiodiktat-Variante
+  // für Stufe 9 ("Freies Schreiben") -- Audio IST hier die Aufgabenstellung und darf deshalb vor
+  // der Antwort abgespielt werden; die deutsche Bedeutung erscheint dabei ERST im Feedback, nicht
+  // vorher (Abschnitt 9.1: keine automatische Audioausgabe bei Deutsch-zu-Arabisch, aber ein
+  // Diktat ist per Definition kein Deutsch-zu-Arabisch-Prompt).
   function renderTyping(container, ctx, guard, onDone) {
-    const { word, helpConfig, showHint } = ctx;
+    const { word, helpConfig, showHint, dictation } = ctx;
     const cfg = displayConfig(ctx);
 
     while (container.firstChild) container.removeChild(container.firstChild);
     const card = el('div', { className: 'card' });
-    card.appendChild(el('p', {
-      className: 'lead',
-      text: showHint ? `Schreibe: ${primaryGerman(word)} (${arabicDisplay(word, cfg)})` : `Schreibe: ${primaryGerman(word)}`
-    }));
+    if (dictation) {
+      card.appendChild(el('p', { className: 'lead', text: 'Höre zu und schreibe das Wort auf Arabisch.' }));
+      const playBtn = el('button', { className: 'btn icon', text: '🔊' });
+      playBtn.type = 'button';
+      playBtn.setAttribute('aria-label', 'Diktat abspielen');
+      playBtn.addEventListener('click', () => AudioPlayer.speakWord(word, { context: 'Audiodiktat', button: playBtn }));
+      card.appendChild(playBtn);
+      if (ctx.settings && ctx.settings.autoPlayWord) {
+        AudioPlayer.speakWord(word, { context: 'Audiodiktat (automatisch)' });
+      }
+    } else {
+      card.appendChild(el('p', {
+        className: 'lead',
+        text: showHint ? `Schreibe: ${primaryGerman(word)} (${arabicDisplay(word, cfg)})` : `Schreibe: ${primaryGerman(word)}`
+      }));
+    }
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'text-input arabic-text';
@@ -376,9 +434,12 @@ const ExerciseRegistry = (() => {
         if (!guard.submit()) return;
         const result = checkArabicInput(word, input.value.trim());
         const isCorrect = result === 'correct_full' || result === 'correct_no_diacritics' || result === 'correct';
+        // Bei der Diktat-Variante (Abschnitt 9.3) stand vorher nur das Audio, keine deutsche
+        // Bedeutung -- die darf jetzt, im Feedback NACH der Abgabe, ergänzend erscheinen.
+        const meaningSuffix = dictation ? ` (${primaryGerman(word)})` : '';
         feedback.textContent = isCorrect
-          ? (result === 'correct_no_diacritics' ? 'Richtig, aber ohne Vokalzeichen.' : 'Richtig!')
-          : `Nicht ganz. Richtig wäre: ${word.arabic}`;
+          ? (result === 'correct_no_diacritics' ? `Richtig, aber ohne Vokalzeichen.${meaningSuffix}` : `Richtig!${meaningSuffix}`)
+          : `Nicht ganz. Richtig wäre: ${word.arabic}${meaningSuffix}`;
         feedback.className = 'feedback ' + (isCorrect ? 'correct' : (result === 'typo' ? 'typo' : 'wrong'));
         guard.showFeedback();
         onDone(isCorrect, {
@@ -433,28 +494,233 @@ const ExerciseRegistry = (() => {
     container.appendChild(card);
   }
 
+  // --- Zuordnungsaufgaben (Entwicklungsauftrag 16, Stufe 7, Abschnitt 7) -----------------------
+  // Anders als die übrigen Übungstypen bearbeitet EINE Zuordnungsaufgabe eine ganze GRUPPE von
+  // 4-5 Wörtern gleichzeitig (ctx.groupWords), nicht nur ein einzelnes ctx.word. Bedienung:
+  // erst ein Element (links ODER rechts, beide Reihenfolgen erlaubt) auswählen, dann das
+  // vermeintlich passende Gegenstück auf der jeweils anderen Seite -- reine Klick-/Tastatur-
+  // Bedienung über echte <button>-Elemente, kein Drag-and-drop nötig (Abschnitt 7.2/25 "keine
+  // reine Drag-and-drop-Zuordnung"). Richtige Paare werden gesperrt und bleiben sichtbar; ein
+  // falscher Versuch löst erneut lösbare Selektion aus, zählt aber je Wort nur EINMAL als Fehler
+  // (Abschnitt 7.4 "Fehler nur einmal pro erstem Fehlversuch bewerten").
+  //
+  // Vier Varianten (Abschnitt 7.1), pro GRUPPE einheitlich gewählt vom Aufrufer (ctx.variant):
+  // - arabic_german: links arabische Form, rechts deutsche Bedeutung
+  // - audio_arabic:  links Audio (anonym, "Ton N"), rechts arabische Form
+  // - audio_meaning: links Audio (anonym, "Ton N"), rechts deutsche Bedeutung
+  // - context_word:  links Anwendungssituation (word.application_prompts, Besitzerwort-Regel
+  //                  unverändert -- Abschnitt 7.5, keine neuen Kontexttexte), rechts arabische Form
+  function matchingSideLabel(word, side, variant, index, cfg) {
+    if (variant === 'arabic_german') {
+      return side === 'left'
+        ? { text: word.arabic_vocalized || word.arabic, className: 'btn secondary arabic-text', ariaLabel: `Arabisches Wort: ${arabicDisplay(word, cfg)}` }
+        : { text: primaryGerman(word), className: 'btn secondary', ariaLabel: `Bedeutung: ${primaryGerman(word)}` };
+    }
+    if (variant === 'audio_arabic' || variant === 'audio_meaning') {
+      if (side === 'left') {
+        // Bewusst ANONYM (Abschnitt 7.3: "keine Lösung in Screenreader-Beschriftungen
+        // verraten") -- welches Wort hinter "Ton N" steckt, ist ja gerade die Aufgabe.
+        return { text: `🔊 Ton ${index + 1}`, className: 'btn secondary', ariaLabel: `Ton ${index + 1} abspielen`, isAudio: true };
+      }
+      return variant === 'audio_arabic'
+        ? { text: word.arabic_vocalized || word.arabic, className: 'btn secondary arabic-text', ariaLabel: `Arabisches Wort: ${arabicDisplay(word, cfg)}` }
+        : { text: primaryGerman(word), className: 'btn secondary', ariaLabel: `Bedeutung: ${primaryGerman(word)}` };
+    }
+    // context_word
+    if (side === 'left') {
+      const prompt = applicationPromptFor(word);
+      return { text: prompt.prompt, className: 'btn secondary matching-context', ariaLabel: `Situation: ${prompt.prompt}` };
+    }
+    return { text: word.arabic_vocalized || word.arabic, className: 'btn secondary arabic-text', ariaLabel: `Arabisches Wort: ${arabicDisplay(word, cfg)}` };
+  }
+
+  /**
+   * @param {object} ctx
+   * @param {object[]} ctx.groupWords
+   * @param {string} ctx.variant
+   * @param {string[]} [ctx.alreadySolvedWordIds] - Entwicklungsauftrag 16, Abschnitt 16: nach
+   *   einer Wiederaufnahme bereits gelöste Paare dieser Gruppe -- werden sofort gesperrt
+   *   dargestellt, statt erneut gelöst werden zu müssen.
+   * @param {string[]} [ctx.alreadyErroredWordIds] - Wörter, die vor der Wiederaufnahme bereits
+   *   einen ersten Fehlversuch hatten (Abschnitt 7.4: zählt nur einmal, auch über einen Neustart
+   *   hinweg).
+   * @param {(state:{lockedWordIds:string[], erroredWordIds:string[]})=>void} [ctx.onProgress] -
+   *   feuert nach JEDEM Versuch (richtig oder falsch) mit dem aktuellen Zwischenstand, damit der
+   *   Aufrufer ihn dauerhaft speichern kann (Abschnitt 16: "Zuordnungsgruppen, bereits gelöste
+   *   Paare, erster Fehlversuch je Paar" gehören zum Mindestumfang der Speicherung).
+   */
+  function renderMatching(container, ctx, guard, onDone) {
+    const { groupWords, variant, alreadySolvedWordIds, alreadyErroredWordIds, onProgress } = ctx;
+    const cfg = displayConfig(ctx);
+    const leftOrder = groupWords;
+    const rightOrder = pickRandomOrder(groupWords);
+
+    while (container.firstChild) container.removeChild(container.firstChild);
+    const card = el('div', { className: 'card matching-card' });
+    card.appendChild(el('p', { className: 'lead', text: 'Ordne die passenden Paare einander zu.' }));
+    const grid = el('div', { className: 'matching-grid' });
+    const leftCol = el('div', { className: 'matching-column', text: undefined });
+    leftCol.setAttribute('role', 'group');
+    leftCol.setAttribute('aria-label', 'Linke Spalte');
+    const rightCol = el('div', { className: 'matching-column' });
+    rightCol.setAttribute('role', 'group');
+    rightCol.setAttribute('aria-label', 'Rechte Spalte');
+    grid.appendChild(leftCol);
+    grid.appendChild(rightCol);
+    card.appendChild(grid);
+    const feedback = feedbackNode();
+    card.appendChild(feedback);
+    container.appendChild(card);
+
+    let selected = null; // { side: 'left'|'right', wordId, btn }
+    const locked = new Set(alreadySolvedWordIds || []);
+    const firstErrorSeen = new Set(alreadyErroredWordIds || []);
+    const perWordCorrect = {};
+    for (const id of locked) perWordCorrect[id] = !firstErrorSeen.has(id);
+    const buttonsByKey = {}; // `${side}:${wordId}` -> button element
+
+    function setFeedback(text, cls) {
+      feedback.textContent = text;
+      feedback.className = `feedback ${cls || ''}`.trim();
+    }
+
+    function clearSelection() {
+      if (selected) selected.btn.setAttribute('aria-pressed', 'false');
+      selected = null;
+    }
+
+    function reportProgress() {
+      if (onProgress) onProgress({ lockedWordIds: [...locked], erroredWordIds: [...firstErrorSeen] });
+    }
+
+    function applyLockedVisual(wordId) {
+      for (const side of ['left', 'right']) {
+        const btn = buttonsByKey[`${side}:${wordId}`];
+        if (!btn) continue;
+        btn.disabled = true;
+        btn.classList.add('matched');
+        // Status nicht nur über Farbe (Abschnitt 7.3/19): zusätzliches Symbol + Text im aria-label.
+        if (!btn.getAttribute('aria-label').includes('richtig zugeordnet')) {
+          btn.setAttribute('aria-label', `${btn.getAttribute('aria-label')} — richtig zugeordnet`);
+        }
+        if (!btn.querySelector || !btn.textContent.includes('✓')) {
+          const check = el('span', { className: 'matching-check', text: ' ✓' });
+          check.setAttribute('aria-hidden', 'true');
+          btn.appendChild(check);
+        }
+      }
+    }
+
+    function lockPair(wordId) {
+      locked.add(wordId);
+      applyLockedVisual(wordId);
+    }
+
+    function attemptMatch(a, b) {
+      const correct = a.wordId === b.wordId;
+      // clearSelection() setzt nur den ZUERST ausgewählten Button (a, = "selected") zurück --
+      // b (der zweite, gerade angeklickte Button, der den Versuch erst ausgelöst hat) bekam sein
+      // aria-pressed="true" direkt im Klick-Handler gesetzt und wurde hier nie zurückgesetzt,
+      // sodass er nach einem Fehlversuch dauerhaft optisch "ausgewählt" blieb (gefunden bei der
+      // visuellen Verifikation zu Entwicklungsauftrag 16). Beide Seiten müssen zurückgesetzt
+      // werden, unabhängig vom Ergebnis.
+      b.btn.setAttribute('aria-pressed', 'false');
+      if (correct) {
+        if (!(a.wordId in perWordCorrect)) perWordCorrect[a.wordId] = !firstErrorSeen.has(a.wordId);
+        lockPair(a.wordId);
+        setFeedback('Richtig zugeordnet!', 'correct');
+        clearSelection();
+        reportProgress();
+        if (locked.size === groupWords.length) {
+          if (!guard.submit()) return;
+          guard.showFeedback();
+          onDone(Object.values(perWordCorrect).every(Boolean), { feedbackShown: true, perWordCorrect, groupSize: groupWords.length });
+        }
+      } else {
+        firstErrorSeen.add(a.wordId);
+        firstErrorSeen.add(b.wordId);
+        setFeedback('Das passt nicht zusammen. Versuche es erneut.', 'wrong');
+        clearSelection();
+        reportProgress();
+      }
+    }
+
+    function mkColumnButton(side, item, index) {
+      const info = matchingSideLabel(item, side, variant, index, cfg);
+      const btn = el('button', { className: info.className, text: info.text });
+      btn.type = 'button';
+      btn.setAttribute('aria-label', info.ariaLabel);
+      btn.setAttribute('aria-pressed', 'false');
+      buttonsByKey[`${side}:${item.id}`] = btn;
+      btn.addEventListener('click', () => {
+        if (!guard.canSubmit() || locked.has(item.id)) return;
+        if (info.isAudio) AudioPlayer.speakWord(item, { context: 'Zuordnungsaufgabe', button: null });
+        const current = { side, wordId: item.id, btn };
+        if (!selected) {
+          selected = current;
+          btn.setAttribute('aria-pressed', 'true');
+          return;
+        }
+        if (selected.side === side) {
+          // Auswahl auf derselben Seite ersetzt die vorherige, statt einen Fehlversuch auszulösen.
+          selected.btn.setAttribute('aria-pressed', 'false');
+          selected = current;
+          btn.setAttribute('aria-pressed', 'true');
+          return;
+        }
+        btn.setAttribute('aria-pressed', 'true');
+        attemptMatch(selected, current);
+      });
+      return btn;
+    }
+
+    leftOrder.forEach((w, i) => leftCol.appendChild(mkColumnButton('left', w, i)));
+    rightOrder.forEach((w, i) => rightCol.appendChild(mkColumnButton('right', w, i)));
+
+    // Nach Wiederaufnahme (Abschnitt 16/20): bereits gelöste Paare sofort gesperrt darstellen,
+    // statt sie erneut lösen zu müssen. War die Gruppe bereits VOLLSTÄNDIG gelöst (z. B. ein
+    // Neustart direkt nach dem letzten Paar, bevor "Weiter" geklickt wurde), sofort abschließen.
+    for (const wordId of locked) applyLockedVisual(wordId);
+    if (locked.size === groupWords.length && groupWords.length > 0) {
+      if (guard.submit()) {
+        guard.showFeedback();
+        onDone(Object.values(perWordCorrect).every(Boolean), { feedbackShown: true, perWordCorrect, groupSize: groupWords.length, resumedComplete: true });
+      }
+    }
+  }
+
   const RENDERERS = {
     multiple_choice: renderMultipleChoice,
     german_to_arabic_choice: renderGermanToArabicChoice,
     audio_to_word_choice: renderAudioToWordChoice,
     word_to_audio_choice: renderWordToAudioChoice,
+    audio_to_meaning_choice: renderAudioToMeaningChoice,
     order_pieces: renderOrderPieces,
     guided_typing: (container, ctx, guard, onDone) => renderTyping(container, { ...ctx, showHint: true }, guard, onDone),
     independent_typing: (container, ctx, guard, onDone) => renderTyping(container, { ...ctx, showHint: false }, guard, onDone),
-    contextual_choice: renderContextualChoice
+    independent_typing_dictation: (container, ctx, guard, onDone) => renderTyping(container, { ...ctx, showHint: false, dictation: true }, guard, onDone),
+    contextual_choice: renderContextualChoice,
+    matching: renderMatching
   };
 
-  // Phase -> welcher registrierte Übungstyp diese Phase für die Pilot-Session bedient.
+  // Phase -> Standard-Übungstyp als Rückfallwert, falls eine Aufgabe (untypisch) kein eigenes
+  // task.exerciseType mitbringt. Entwicklungsauftrag 16: SessionEngine weist den TATSÄCHLICHEN
+  // Typ normalerweise pro AUFGABE zu (recognition mischt fünf Typen, guided_writing hat zwei
+  // Unteraufgaben-Typen, ein Teil von independent_writing nutzt die Diktat-Variante) -- diese
+  // Tabelle ist nur noch das Sicherheitsnetz, keine 1:1-Zuordnung mehr wie vor diesem Auftrag.
   const PHASE_EXERCISE_TYPE = {
     recognition: 'multiple_choice',
-    reconstruction: 'order_pieces',
-    guided_production: 'guided_typing',
-    independent_production: 'independent_typing',
-    application: 'contextual_choice'
+    matching: 'matching',
+    guided_writing: 'guided_typing',
+    independent_writing: 'independent_typing'
   };
 
-  // Die vier leichten Mini-Check-Typen aus Abschnitt 5 (noch keine freie Tastatureingabe).
+  // Die fünf leichten Wiedererkennen-Typen für Stufe 6 (Entwicklungsauftrag 16, Abschnitt 6.1) --
+  // noch keine freie Tastatureingabe. MINI_CHECK_TYPES (ohne audio_to_meaning_choice) bleibt aus
+  // Entwicklungsauftrag 5 als eigenständige, weiterhin gültige Teilmenge erhalten.
   const MINI_CHECK_TYPES = ['multiple_choice', 'german_to_arabic_choice', 'audio_to_word_choice', 'word_to_audio_choice'];
+  const RECOGNITION_TYPES = ['multiple_choice', 'german_to_arabic_choice', 'audio_to_word_choice', 'audio_to_meaning_choice', 'word_to_audio_choice'];
+  const MATCHING_VARIANTS = ['arabic_german', 'audio_arabic', 'audio_meaning', 'context_word'];
 
   function render(exerciseType, container, ctx, guard, onDone) {
     const renderer = RENDERERS[exerciseType];
@@ -467,9 +733,9 @@ const ExerciseRegistry = (() => {
   }
 
   return {
-    render, PHASE_EXERCISE_TYPE, MINI_CHECK_TYPES, RENDERERS,
+    render, PHASE_EXERCISE_TYPE, MINI_CHECK_TYPES, RECOGNITION_TYPES, MATCHING_VARIANTS, RENDERERS,
     primaryGerman, germanAnswers, arabicAnswers, checkArabicInput, checkGermanInput, displayConfig, arabicDisplay,
-    isAcceptableDistractor, pickDistractors
+    isAcceptableDistractor, pickDistractors, applicationPromptFor
   };
 })();
 

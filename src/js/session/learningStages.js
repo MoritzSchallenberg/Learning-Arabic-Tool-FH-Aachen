@@ -1,21 +1,19 @@
-// LearningStages (Entwicklungsauftrag 15, Abschnitt 5) — EIN zentrales Modell für die ersten
-// fünf Lernstufen des neuen pädagogischen Sessionablaufs, gemeinsam verwendet von
-// SessionController (Ablaufsteuerung), SessionRenderer (Anzeige "Stufe N von 10"),
-// SessionState-Snapshot (dauerhafte Speicherung, siehe sessionController.js#learningStageState)
-// und den Tests. Keine zweite, abweichende Definition an anderer Stelle im Code.
+// LearningStages (Entwicklungsauftrag 15, Abschnitt 5; auf das vollständige Zehn-Stufen-Modell
+// erweitert in Entwicklungsauftrag 16, Abschnitt 4) — EIN zentrales Modell für den gesamten
+// sichtbaren Sessionablauf, gemeinsam verwendet von SessionController (Ablaufsteuerung),
+// SessionRenderer (Anzeige "Stufe N von 10"), SessionEngine (Bewertungsgewichte über
+// PhaseRegistry, dieselben Schlüssel wie Stufe 6-10 hier), dem Session-Snapshot und den Tests.
+// Keine zweite, abweichende Definition an anderer Stelle im Code.
 //
-// Bewusst KEINE neuen Einträge in sessionDef.phases (vocabSessions.json bleibt unverändert,
-// Abschnitt 3 "keine zweite Session-Engine"): die 5 Stufen bilden stattdessen die bestehenden
-// ersten zwei Phasentypen ('theory', 'word_preview') feiner auf:
-//   Stufe 1 "learning_goals"         -> vor dem eigentlichen Phasendurchlauf (Sessionübersicht,
-//                                        SessionEngine.phaseIndex existiert noch nicht)
-//   Stufe 2 "theory"                 -> phaseIndex 0 (Phasentyp 'theory')
-//   Stufe 3 "word_cards"             -> phaseIndex 1 (Phasentyp 'word_preview'), Unterstufe A
-//   Stufe 4 "audio_familiarization"  -> phaseIndex 1 (Phasentyp 'word_preview'), Unterstufe B
-//   Stufe 5 "word_overview"          -> phaseIndex 1 (Phasentyp 'word_preview'), Unterstufe C
-// Ab phaseIndex 2 (recognition …) laufen die vorhandenen, in dieser Runde NICHT umgebauten
-// Übungsphasen unverändert weiter (Entwicklungsauftrag 16 übernimmt die endgültige Stufen-6-10-
-// Zuordnung) — deshalb TOTAL_DISPLAY_STAGES = 10, aber nur 5 STAGES real definiert.
+// Stufen 1-5 bilden weiterhin (unverändert seit Entwicklungsauftrag 15) nur die ersten beiden
+// technischen Phasentypen ('theory', 'word_preview') feiner ab. NEU in Entwicklungsauftrag 16:
+// Stufen 6-10 entsprechen jetzt DIREKT (1:1) den vier gradierten technischen Phasentypen plus
+// 'summary' -- vocabSessions.json#phases enthält ab dieser Runde exakt diese sieben Einträge
+// (theory, word_preview, recognition, matching, guided_writing, independent_writing, summary),
+// keine der früheren sichtbaren Phasen 'reconstruction'/'guided_production'/
+// 'independent_production'/'application' mehr (Abschnitt 3/4). Die frühere Übergangskonstante
+// AFTER_STAGE_5_LABEL ("Als Nächstes: Übungen") entfällt ersatzlos (Abschnitt 4) -- nach Stufe 5
+// erscheint jetzt direkt "Stufe 6 von 10: Leichtes Wiedererkennen".
 
 const LearningStages = (() => {
   const STAGES = [
@@ -23,12 +21,16 @@ const LearningStages = (() => {
     { key: 'theory', number: 2, label: 'Kurze Theorie' },
     { key: 'word_cards', number: 3, label: 'Neue Wörter kennenlernen' },
     { key: 'audio_familiarization', number: 4, label: 'Audio kennenlernen' },
-    { key: 'word_overview', number: 5, label: 'Wortübersicht' }
+    { key: 'word_overview', number: 5, label: 'Wortübersicht' },
+    { key: 'recognition', number: 6, label: 'Leichtes Wiedererkennen' },
+    { key: 'matching', number: 7, label: 'Zuordnungsaufgaben' },
+    { key: 'guided_writing', number: 8, label: 'Schreiben mit Hilfe' },
+    { key: 'independent_writing', number: 9, label: 'Freies Schreiben' },
+    { key: 'summary', number: 10, label: 'Zusammenfassung' }
   ];
 
   const ORDER = STAGES.map((s) => s.key);
-  const TOTAL_DISPLAY_STAGES = 10; // Abschnitt 6: "Stufe 1 von 10" … "Stufe 5 von 10"
-  const AFTER_STAGE_5_LABEL = 'Als Nächstes: Übungen'; // Abschnitt 6: ehrlicher Übergang, keine erfundenen Stufen 6-10
+  const TOTAL_DISPLAY_STAGES = 10; // jetzt exakt STAGES.length -- keine "spätere" Restanzahl mehr.
 
   function get(key) {
     return STAGES.find((s) => s.key === key) || null;
@@ -42,7 +44,7 @@ const LearningStages = (() => {
     return ORDER[0];
   }
 
-  /** @returns {string|null} nächste Stufe, oder null nach der letzten (Stufe 5 -> Übungen). */
+  /** @returns {string|null} nächste Stufe, oder null nach der letzten (Stufe 10). */
   function next(key) {
     const i = indexOf(key);
     if (i === -1 || i + 1 >= ORDER.length) return null;
@@ -64,13 +66,11 @@ const LearningStages = (() => {
   }
 
   /**
-   * Stufen-Fortschritt als 0-100-Wert, EIGENSTÄNDIG vom späteren Übungsfortschritt
-   * (SessionEngine.progressPercent(), der weiterhin ausschließlich die "graded"-Phasen misst,
-   * Abschnitt 15: "Definiere klar den Unterschied … zum späteren Übungsfortschritt").
+   * Stufen-Fortschritt als 0-100-Wert, EIGENSTÄNDIG vom Übungsfortschritt innerhalb einer
+   * einzelnen Stufe (SessionEngine.progressPercent() misst nur den Fortschritt INNERHALB der
+   * jeweils aktuellen gradierten Phase). Hier: Fortschritt über ALLE zehn Stufen hinweg.
    * @param {string} key - aktuelle Stufe
    * @param {number} [subProgress=0] - Fortschritt INNERHALB der aktuellen Stufe, 0..1
-   *   (z. B. cardIndex/words.length in Stufe 3/4) — steigt NIE durch bloßes erneutes Abspielen
-   *   von Audio, nur durch tatsächliches Weiterschreiten (Abschnitt 15).
    */
   function stageProgressPercent(key, subProgress = 0) {
     const idx = indexOf(key);
@@ -83,7 +83,6 @@ const LearningStages = (() => {
     STAGES,
     ORDER,
     TOTAL_DISPLAY_STAGES,
-    AFTER_STAGE_5_LABEL,
     get,
     indexOf,
     first,

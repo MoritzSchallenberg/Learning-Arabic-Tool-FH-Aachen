@@ -334,16 +334,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -356,7 +353,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -392,16 +391,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -414,7 +410,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -450,16 +448,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -472,7 +467,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -508,16 +505,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -530,7 +524,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -566,16 +562,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -588,7 +581,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -624,16 +619,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -646,7 +638,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -682,16 +676,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -704,7 +695,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -740,16 +733,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -762,7 +752,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -798,16 +790,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -820,7 +809,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -856,16 +847,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -878,7 +866,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -914,16 +904,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -936,7 +923,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -972,16 +961,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -994,7 +980,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -1030,16 +1018,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -1052,7 +1037,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -1088,16 +1075,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -1110,7 +1094,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -1146,16 +1132,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -1168,7 +1151,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -1204,16 +1189,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -1226,7 +1208,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -1262,16 +1246,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -1284,7 +1265,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -1320,16 +1303,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -1342,7 +1322,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -1378,16 +1360,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -1400,7 +1379,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -1436,16 +1417,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -1458,7 +1436,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -1494,16 +1474,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -1516,7 +1493,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -1552,16 +1531,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -1574,7 +1550,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -1610,16 +1588,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -1632,7 +1607,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -1668,16 +1645,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -1690,7 +1664,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -1726,16 +1702,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -1748,7 +1721,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -1784,16 +1759,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -1806,7 +1778,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -1842,16 +1816,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -1864,7 +1835,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -1900,16 +1873,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -1922,7 +1892,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -1958,16 +1930,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -1980,7 +1949,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -2016,16 +1987,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -2038,7 +2006,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -2074,16 +2044,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -2096,7 +2063,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -2132,16 +2101,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -2154,7 +2120,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -2190,16 +2158,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -2212,7 +2177,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -2248,16 +2215,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -2270,7 +2234,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -2306,16 +2272,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -2328,7 +2291,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -2364,16 +2329,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -2386,7 +2348,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -2422,16 +2386,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -2444,7 +2405,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -2480,16 +2443,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -2502,7 +2462,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -2538,16 +2500,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -2560,7 +2519,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -2596,16 +2557,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -2618,7 +2576,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -2654,16 +2614,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -2676,7 +2633,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -2712,16 +2671,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -2734,7 +2690,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -2770,16 +2728,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -2792,7 +2747,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -2828,16 +2785,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -2850,7 +2804,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -2886,16 +2842,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -2908,7 +2861,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -2944,16 +2899,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -2966,7 +2918,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3002,16 +2956,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -3024,7 +2975,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3060,16 +3013,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -3082,7 +3032,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3118,16 +3070,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -3140,7 +3089,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3176,16 +3127,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -3198,7 +3146,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3234,16 +3184,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -3256,7 +3203,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3292,16 +3241,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -3314,7 +3260,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3350,16 +3298,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -3372,7 +3317,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3408,16 +3355,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -3430,7 +3374,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3466,16 +3412,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -3488,7 +3431,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3524,16 +3469,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -3546,7 +3488,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3582,16 +3526,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -3604,7 +3545,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3640,16 +3583,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -3662,7 +3602,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3698,16 +3640,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -3720,7 +3659,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3756,16 +3697,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -3778,7 +3716,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3814,16 +3754,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -3836,7 +3773,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3872,16 +3811,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -3894,7 +3830,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3930,16 +3868,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -3952,7 +3887,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -3988,16 +3925,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4010,7 +3944,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -4046,16 +3982,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4068,7 +4001,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -4104,16 +4039,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4126,7 +4058,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -4162,16 +4096,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4184,7 +4115,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -4220,16 +4153,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4242,7 +4172,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -4278,16 +4210,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4300,7 +4229,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -4336,16 +4267,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4358,7 +4286,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -4394,16 +4324,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4416,7 +4343,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -4452,16 +4381,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4474,7 +4400,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -4510,16 +4438,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4532,7 +4457,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -4568,16 +4495,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4590,7 +4514,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -4626,16 +4552,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4648,7 +4571,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -4684,16 +4609,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4706,7 +4628,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -4742,16 +4666,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4764,7 +4685,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -4800,16 +4723,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4822,7 +4742,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -4858,16 +4780,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4880,7 +4799,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -4916,16 +4837,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4938,7 +4856,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -4974,16 +4894,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -4996,7 +4913,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -5032,16 +4951,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -5054,7 +4970,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -5090,16 +5008,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -5112,7 +5027,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -5148,16 +5065,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -5170,7 +5084,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -5206,16 +5122,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -5228,7 +5141,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -5264,16 +5179,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -5286,7 +5198,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -5322,16 +5236,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -5344,7 +5255,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -5380,16 +5293,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -5402,7 +5312,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -5438,16 +5350,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -5460,7 +5369,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     },
@@ -5496,16 +5407,13 @@
           "type": "recognition"
         },
         {
-          "type": "reconstruction"
+          "type": "matching"
         },
         {
-          "type": "guided_production"
+          "type": "guided_writing"
         },
         {
-          "type": "independent_production"
-        },
-        {
-          "type": "application"
+          "type": "independent_writing"
         },
         {
           "type": "summary"
@@ -5518,7 +5426,9 @@
           "theory",
           "word_preview",
           "recognition",
-          "independent_production"
+          "matching",
+          "guided_writing",
+          "independent_writing"
         ]
       }
     }

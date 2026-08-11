@@ -44,3 +44,18 @@ test('isDone()/advance()/current() funktionieren wie erwartet', () => {
   assert.equal(SessionQueue.isDone(queue), true);
   assert.equal(SessionQueue.current(queue), null);
 });
+
+// --- Entwicklungsauftrag 16, Abschnitt 8.4: { shuffle: false } für Stufe 8 (zwei feste Blöcke) --
+test('create() mit { shuffle: false } übernimmt die Reihenfolge unverändert (für Teil-1/Teil-2-Blöcke)', () => {
+  const items = Array.from({ length: 8 }, (_, i) => ({ wordId: `w${i}` }));
+  const queue = SessionQueue.create(items, Math.random, { shuffle: false });
+  assert.deepEqual(queue.pending.map((i) => i.wordId), items.map((i) => i.wordId));
+});
+
+test('create() ohne shuffle-Option (oder shuffle:true) mischt weiterhin wie zuvor', () => {
+  const items = Array.from({ length: 30 }, (_, i) => ({ wordId: `w${i}` }));
+  const random = (() => { let seed = 42; return () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; }; })();
+  const queue = SessionQueue.create(items, random);
+  assert.notDeepEqual(queue.pending.map((i) => i.wordId), items.map((i) => i.wordId), 'bei 30 Elementen ist eine unveränderte Reihenfolge nach dem Mischen praktisch ausgeschlossen');
+  assert.equal(queue.pending.length, items.length);
+});
