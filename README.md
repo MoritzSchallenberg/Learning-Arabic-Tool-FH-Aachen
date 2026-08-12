@@ -1,21 +1,137 @@
-# Learning Arabic Tool (FH Aachen)
+# Learning Arabic Tool – Kurs 1 Beta
+
+**Audio generated with ElevenLabs (elevenlabs.io).** **Nichtkommerzielle Beta.**
 
 Ein modularer, lokal laufender Vokabel- und Sprachtrainer. Erstes Sprachmodul: **Arabisch**
 (modernes Hocharabisch / MSA). Läuft als eigenständige Desktop-App (Electron) unter Windows,
 macOS und Linux — ohne dass Nutzer:innen Python, Java oder eine Datenbank installieren müssen.
-Alle Lerninhalte und der persönliche Fortschritt werden vollständig lokal gespeichert.
+Alle Lerninhalte und der persönliche Fortschritt werden vollständig lokal gespeichert, die App
+funktioniert nach der Installation vollständig offline.
+
+> ⬇️ **[Neueste Version herunterladen](https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachenpublished/releases/latest)**
+> — auf der Releases-Seite die Datei für **dein** Betriebssystem wählen (siehe Tabelle unten).
+> **Nicht** die automatisch von GitHub angebotene „Source code (zip)“ herunterladen — das ist der
+> Quellcode für Entwickler:innen, keine startfertige App (siehe „Entwicklerbereich“ ganz unten).
+
+> ⚠️ **Beta-Hinweis:** Kurs 1 ist technisch vollständig (900 Vokabeln, 30 Units, 90 Sessions), aber
+> die arabischen Inhalte wurden bisher nur automatisiert strukturell geprüft — **noch nicht
+> vollständig von einer Person mit Arabischkenntnissen freigegeben**. Auch die Audiodateien wurden
+> technisch integriert, aber nicht vollständig akustisch geprüft. Bis zur Sprachprüfung sollte
+> diese App **nicht als verbindliches Unterrichtsmaterial** betrachtet werden. Fehler bitte über
+> [GitHub Issues](https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachenpublished/issues)
+> melden.
+
+> ℹ️ Ein Teil der ausgelieferten Audiodateien wurde mit dem **kostenlosen ElevenLabs-Tarif** erzeugt
+> und darf deshalb **nur nichtkommerziell** verwendet werden (Namensnennung s. o.). Details:
+> [NOTICE-AUDIO.md](NOTICE-AUDIO.md), [LICENSES.md](LICENSES.md).
+
+**Dieses Projekt ist ein eigenständiges studentisches Lernprojekt und keine offizielle Anwendung
+der FH Aachen.**
 
 **Für die Weiterarbeit an diesem Projekt:** siehe [`ROADMAP.md`](ROADMAP.md) — Zielvision,
-aktueller Stand und priorisierte nächste Schritte an einem Ort.
+aktueller Stand und priorisierte nächste Schritte an einem Ort — sowie
+[`DEVELOPMENT_FOUNDATION.md`](DEVELOPMENT_FOUNDATION.md), wie dieses Grundsystem für einen neuen
+Kurs, eine neue Sprache oder eine neue App wiederverwendet werden kann.
 
-## Für Nutzer:innen (fertige App)
+## Installation für Nutzer:innen (ohne Programmierkenntnisse)
 
-Sobald Installer über GitHub Actions gebaut wurden (siehe unten), reicht:
+Lade auf der [Releases-Seite](https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachenpublished/releases/latest)
+genau EINE der folgenden Dateien herunter (nicht „Source code“):
 
-1. Passende Datei für dein Betriebssystem herunterladen (`.exe` für Windows, `.dmg` für macOS,
-   `.AppImage` für Linux).
-2. Installieren bzw. entpacken und starten.
-3. Fertig — kein Internetzugang, kein Python/Node, keine weitere Installation nötig.
+| Datei (Muster) | Für |
+|---|---|
+| `Learning-Arabic-Tool-Kurs1-<Version>-Windows-x64-Setup.exe` | Windows 10/11 — Installer (empfohlen) |
+| `Learning-Arabic-Tool-Kurs1-<Version>-Windows-x64-Portable.exe` | Windows 10/11 — ohne Installation, direkt startbar |
+| `Learning-Arabic-Tool-Kurs1-<Version>-Ubuntu-amd64.deb` | Ubuntu/Debian x64 |
+| `Learning-Arabic-Tool-Kurs1-<Version>-Linux-x86_64.AppImage` | Sonstiges Linux x64 |
+| `Learning-Arabic-Tool-Kurs1-<Version>-macOS-x64.dmg` | macOS mit Intel-Prozessor |
+| `Learning-Arabic-Tool-Kurs1-<Version>-macOS-arm64.dmg` | macOS mit Apple-Silicon-Prozessor (M1/M2/M3/…) |
+| `SHA256SUMS.txt` | Prüfsummen aller obigen Dateien (optional, siehe unten) |
+
+### Windows
+
+1. **Installer** (`...-Setup.exe`, empfohlen): herunterladen, doppelklicken, dem Assistenten
+   folgen. Erstellt einen Eintrag im Startmenü, sauber deinstallierbar über
+   „Einstellungen → Apps“.
+2. **Portable** (`...-Portable.exe`): herunterladen, doppelklicken — startet direkt, ohne etwas zu
+   installieren. Praktisch für einen USB-Stick oder wenn keine Installationsrechte vorhanden sind.
+   Zum „Deinstallieren“ reicht es, die Datei zu löschen.
+3. **Windows SmartScreen:** Da diese Beta-Version (noch) nicht kostenpflichtig codesigniert ist,
+   zeigt Windows beim ersten Start möglicherweise „Der Computer wurde durch Windows geschützt“.
+   Nur wenn die Datei von der **offiziellen** Releases-Seite dieses Repositorys stammt: auf
+   „Weitere Informationen“ und danach „Trotzdem ausführen“ klicken. Windows-Sicherheitsfunktionen
+   (SmartScreen, Defender) sollten dafür **nicht dauerhaft deaktiviert** werden.
+
+### Ubuntu / Debian
+
+Bevorzugt im Downloadordner:
+
+```bash
+sudo apt install ./Learning-Arabic-Tool-Kurs1-<Version>-Ubuntu-amd64.deb
+```
+
+Anschließend über das Anwendungsmenü starten (Eintrag „Learning Arabic Tool“). Deinstallieren mit
+`sudo apt remove learning-arabic-tool`. Der Lernfortschritt liegt getrennt vom Programm (siehe
+unten) und bleibt bei einer Deinstallation erhalten, sofern nicht zusätzlich manuell gelöscht.
+
+### Sonstiges Linux (AppImage)
+
+```bash
+chmod +x Learning-Arabic-Tool-Kurs1-<Version>-Linux-x86_64.AppImage
+./Learning-Arabic-Tool-Kurs1-<Version>-Linux-x86_64.AppImage
+```
+
+Falls die AppImage-Datei nicht startet und eine FUSE-Fehlermeldung erscheint (auf manchen
+aktuellen Distributionen ist FUSE2 nicht mehr vorinstalliert): `sudo apt install libfuse2` (Ubuntu/
+Debian) bzw. das FUSE2-Paket der eigenen Distribution nachinstallieren — keine pauschalen
+Systemänderungen (z. B. AppArmor/Sandbox-Funktionen komplett abschalten) nötig oder empfohlen.
+
+### macOS
+
+1. Prozessortyp prüfen:  → „Über diesen Mac“ — steht dort „Chip: Apple M…“, ist das **Apple
+   Silicon** (arm64-Datei); steht dort „Prozessor: Intel …“, ist das **Intel** (x64-Datei).
+2. Passende `.dmg`-Datei öffnen, die App in den Ordner „Programme“ ziehen.
+3. **Gatekeeper:** Da die App (noch) nicht mit einem kostenpflichtigen Apple-Entwicklerzertifikat
+   signiert ist, meldet macOS beim ersten Start eventuell, die App könne nicht geöffnet werden. Nur
+   wenn die Datei von der **offiziellen** Releases-Seite dieses Repositorys stammt: im Finder
+   Rechtsklick auf die App → „Öffnen“ → im Dialog erneut „Öffnen“ bestätigen. Eine **vollständige**
+   Deaktivierung von Gatekeeper wird nicht empfohlen.
+
+### Weitere Nutzerinformationen
+
+- **Vollständig offline:** kein Benutzerkonto, keine Cloud, kein Tracking — die App braucht nach
+  der Installation keine Internetverbindung mehr.
+- **Lernfortschritt bleibt lokal**, getrennt vom Programmordner, im vom Betriebssystem
+  vorgesehenen Nutzerdatenverzeichnis (z. B. unter Windows
+  `%APPDATA%/Learning Arabic Tool/user_data/`, unter macOS
+  `~/Library/Application Support/Learning Arabic Tool/user_data/`, unter Linux
+  `~/.config/Learning Arabic Tool/user_data/`) — als JSON-Dateien (`progress.json`,
+  `settings.json`, …), mit automatischer `.bak`-Sicherung der zuletzt gültigen Version.
+- **Fortschritt sichern/übertragen:** den kompletten `user_data/`-Ordner kopieren; auf einem
+  anderen Rechner an derselben Stelle wieder einspielen (App vorher schließen).
+- **Update auf eine neue Version:** neue Version installieren/entpacken wie oben — der
+  Lernfortschritt bleibt erhalten, da er getrennt vom Programm gespeichert wird.
+- **Deinstallation:** über die normalen Betriebssystem-Wege (siehe oben je Plattform); der
+  Lernfortschritt bleibt dabei standardmäßig erhalten (siehe oben), bis er manuell gelöscht wird.
+- **Prüfsumme kontrollieren** (optional, für besonders vorsichtige Nutzer:innen):
+  `sha256sum <heruntergeladene Datei>` (Linux/macOS) bzw. `CertUtil -hashfile <Datei> SHA256`
+  (Windows) und mit dem passenden Eintrag in `SHA256SUMS.txt` vergleichen.
+- **Fehler melden:** über [GitHub Issues](https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachenpublished/issues).
+- **Nichtkommerzielle Einschränkung** (ElevenLabs-Audios) und **sprachlich ungeprüfter Beta-Status**:
+  siehe die Hinweise ganz oben sowie [NOTICE-AUDIO.md](NOTICE-AUDIO.md).
+
+## Entwicklerbereich
+
+Für alle, die am Code weiterarbeiten möchten — siehe auch
+[`DEVELOPMENT_FOUNDATION.md`](DEVELOPMENT_FOUNDATION.md) für die Wiederverwendung dieses
+Grundsystems (neuer Kurs, neue Sprache, neue App):
+
+```bash
+git clone https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachenpublished.git
+cd Learning-Arabic-Tool-FH-Aachenpublished
+npm ci
+npm start
+```
 
 ## Für die Entwicklung
 
@@ -69,6 +185,8 @@ npm run test:integration  # nur Integrationstests (test/integration/*.test.js)
 npm run lint              # JS-Syntax, JSON-Validität, globale Namenskollisionen
 npm run validate:course   # Kursdaten-Konsistenz: doppelte IDs, fehlende Audios, Querverweise
 npm run ui:smoke          # UI-Smoke-Test gegen die echte Oberfläche (Entwicklungsauftrag 18)
+npm run release:verify    # prüft ein gebautes Paket (app.asar) bzw. ersatzweise den Source-Baum
+npm run audio:provenance  # erzeugt language-packs/arabic/audio-provenance.json neu (Auftrag 19)
 ```
 
 Läuft komplett offline mit dem in Node eingebauten Test-Runner (`node:test`/`node:assert`) —
@@ -90,15 +208,21 @@ für den behobenen Anzeigefehler (`test/unit/progressStats.test.js`, `test/unit/
 (wenn auch minimalem) HTML-Parser und CSS-Selektor-Matching bereit — bewusst kein jsdom, damit
 `npm test` ohne zusätzliche Downloads läuft.
 
-### Automatischer Multi-Plattform-Build (GitHub Actions)
+### Automatischer Multi-Plattform-Build (GitHub Actions) — überarbeitet in Entwicklungsauftrag 19
 
-`.github/workflows/build.yml` (im Repository vorhanden, nicht nur geplant) läuft bei jedem Push
-in zwei Stufen: zuerst `npm ci` + `npm run lint` + `npm run validate:course` + `npm test` auf
-einem Linux-Runner (der Build startet nur, wenn das grün ist), danach der eigentliche Build auf
-gehosteten Windows-, macOS- und Linux-Runnern, deren Installer als Workflow-Artifacts hochgeladen
-werden — ohne dass dafür lokal ein Windows- oder Mac-Rechner nötig ist. Bei einem Git-Tag (z. B.
-`v0.1.0`) wird zusätzlich automatisch ein GitHub-Release-Entwurf mit allen drei Installern
-angelegt.
+`.github/workflows/build.yml` unterscheidet jetzt bewusst zwei Anlässe (Abschnitt 13):
+
+- **Push/Pull-Request auf `main`:** nur die schnelle Prüfung — `npm ci` + `npm run lint` +
+  `npm run validate:course` + `npm test`. **Keine** drei großen Plattform-Builds bei jedem Commit.
+- **Versionstag (`v*`) oder manueller Start:** zusätzlich eine Build-Matrix (Windows, Ubuntu/Linux,
+  macOS — Letzteres baut sowohl Intel- als auch Apple-Silicon-DMGs), jeweils gefolgt von
+  `npm run release:verify` GEGEN DAS TATSÄCHLICH GEBAUTE PAKET. Erst danach sammelt ein einziger,
+  separater Release-Job alle Plattform-Artefakte ein, erzeugt `SHA256SUMS.txt` und veröffentlicht
+  **genau ein** öffentliches Prerelease (kein Draft) — bewusst NICHT mehr, wie zuvor, aus jedem der
+  drei Matrix-Jobs unabhängig heraus (das hätte zu mehreren parallelen Releases führen können).
+  Vor jedem Release wird zusätzlich geprüft, dass `package.json`-Version und Git-Tag exakt
+  übereinstimmen — bei Abweichung schlägt der Workflow fehl. Rechte: standardmäßig nur Lesezugriff,
+  `contents: write` ausschließlich im Release-Job, ausschließlich `GITHUB_TOKEN`.
 
 ## Architektur
 
@@ -1590,6 +1714,59 @@ und fehlende zugängliche Namen. Screenshots landen im ignorierten, nicht paketi
 
 **Bewusst nicht Teil dieser Runde:** Sprachprüfung, neue Vokabeln/Theorie/Audio, neue Aufgabentypen,
 Gamification, Navigationsumbau, neue Sprachpakete, plattformübergreifende Builds.
+
+## Finale Veröffentlichung von Kurs 1 und Sicherung des Grundsystems (Entwicklungsauftrag 19)
+
+Veröffentlicht den Stand aus Entwicklungsauftrag 18 als vollständige, offline lauffähige
+Desktop-App über GitHub Releases (`v1.0.0-beta.1`). Kein erneuter Inhalts-/Sprachaudit — reine
+Veröffentlichungs-/Lizenz-/Build-Arbeit.
+
+- **Lizenzklärung:** die 759 Vokabel-Audiodateien aus dem **kostenlosen ElevenLabs-Tarif** sind
+  jetzt eindeutig lizenziert (nicht MIT, nicht CC BY-SA, nur nichtkommerziell, Namensnennung
+  erforderlich) — siehe neues [`NOTICE-AUDIO.md`](NOTICE-AUDIO.md), überarbeitetes
+  [`LICENSES.md`](LICENSES.md) und maschinenlesbar in
+  `language-packs/arabic/audio-provenance.json` (`scripts/generateAudioProvenance.js`, keine
+  geratene Herkunft — 759 ElevenLabs + 338 espeak-ng, exakt gegen `audio_generation_manifest.json`
+  bzw. den bekannten Funktionsumfang von `scripts/generate_audio.py` abgeleitet).
+- **`npm run release:verify`** (`scripts/releaseVerify.js`): prüft ein TATSÄCHLICH gebautes Paket
+  (`app.asar`, über `@electron/asar` gelesen) — echte Referenzen aus den Kursdaten (900
+  Vokabeleinträge, 90 Sessions, jede referenzierte Audiodatei) gegen die gepackten Dateien, plus
+  Ausschlüsse (keine Tests/`.env`/Nutzerprofile/Screenshots/Sprachprüf-Arbeitsbereich), eine grobe
+  Geheimnissuche im Paketinhalt und Version-gegen-Tag-Abgleich. Lokal gegen einen echten
+  `electron-builder --linux dir`-Testbuild verifiziert (0 Fehler).
+- **`.github/workflows/build.yml` neu strukturiert:** Push/PR auf `main` löst nur noch
+  Lint/Validator/Tests aus; ein Versionstag oder manueller Start baut zusätzlich eine
+  Windows/Ubuntu/Linux/macOS(Intel+Apple-Silicon)-Matrix, verifiziert jedes Paket mit
+  `release:verify` und veröffentlicht über einen einzigen zentralen Job GENAU EIN öffentliches
+  Prerelease mit `SHA256SUMS.txt` — behebt ein reales Risiko der vorherigen Fassung (jeder von drei
+  parallelen Matrix-Jobs hätte unabhängig `--publish=always` aufgerufen).
+- **`package.json`/electron-builder:** Version `1.0.0-beta.1`, neue App-ID
+  (`de.moritzschallenberg.learningarabictool`, ohne FH-Aachen-Domain — kein offizielles
+  Hochschulprodukt), stabile Artefaktnamen je Plattform (Abschnitt 9 des Auftrags), `asar: true`
+  explizit, Entwicklungsordner (`src/review/`, Test-/Sprachprüf-Werkzeuge) explizit von den
+  gepackten `files` ausgeschlossen, `LICENSE`/`LICENSES.md`/`NOTICE-AUDIO.md` neu mit ins Paket
+  aufgenommen (für den Info-Bereich der Anwendung).
+- **Eigenes App-Icon** (`build/icon.{ico,icns,png}`): eigenständiges, neutrales Design (arabischer
+  Buchstabe „ع“ auf der bestehenden Akzentfarbe des Designsystems, Schriftart Noto Kufi Arabic —
+  quelloffen, kein fremdes Logo/Markenzeichen), programmatisch erzeugt.
+- **In-App-Kennzeichnung:** Einstellungen zeigen jetzt eine Karte „Über diese App“ mit
+  Versions-/Beta-Hinweis, ElevenLabs-Namensnennung und dem FH-Aachen-Disclaimer; die
+  Seitenleisten-Fußzeile nennt Version + „Kurs 1 Beta“ auf jeder Seite unaufdringlich mit.
+  `test/unit/settings.test.js` weiterhin grün (8/8).
+- **[`DEVELOPMENT_FOUNDATION.md`](DEVELOPMENT_FOUNDATION.md)** (neu): Architekturüberblick plus
+  konkrete Anleitung für einen neuen Kurs, eine neue Sprache oder eine neue App auf Basis dieses
+  Grundsystems — inkl. des ehrlichen Hinweises, dass `courseView.js` aktuell fest auf `course_1`
+  zeigt und für einen zweiten gleichrangigen Kurs verallgemeinert werden müsste.
+- **README für Endnutzer:** neuer Kopfbereich mit Download-Link und je einer Anleitung für
+  Windows (Installer/portable, SmartScreen), Ubuntu (`apt install ./*.deb`), sonstiges Linux
+  (AppImage, FUSE-Hinweis) und macOS (Intel/Apple Silicon, Gatekeeper) — vor dem bisherigen,
+  unverändert erhaltenen Entwicklerbereich.
+- **Lokale Sicherung vor Veröffentlichung:** vollständiges Quellcode-ZIP und (falls Git-Historie
+  vorhanden) ein verifiziertes `git bundle` außerhalb des Repository-Ordners, plus ein rein
+  lokaler, nicht gepushter Sicherungstag — Details im Abschlussbericht dieser Runde, nicht in der
+  Versionsgeschichte dieser Datei.
+- **Bewusst nicht Teil dieser Runde:** erneute Sprachprüfung, neue Vokabeln/Theorie/Audio-
+  Neuerzeugung, neue Aufgabentypen, Änderung von Grading/SRS/Feedback-Logik.
 
 ## Bekannte Einschränkungen
 

@@ -3344,3 +3344,30 @@ UI-Smoke-Test (Entwicklungsauftrag 18)".
   `ui-smoke-output/`/Screenshots korrekt aus).
 - **Bewusst nicht Teil dieser Runde:** Sprachprüfung, neue Vokabeln/Theorie/Audio, neue
   Aufgabentypen, Gamification, Navigationsumbau, neue Sprachpakete, plattformübergreifende Builds.
+
+## 23. Entwicklungsauftrag 19: finale Veröffentlichung von Kurs 1 und Sicherung des Grundsystems (vom Nutzer, 2026-08-12)
+
+Erste öffentliche Version (`v1.0.0-beta.1`) über GitHub Releases im Zielrepository
+`MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachenpublished`. Details siehe README.md, Abschnitt
+"Finale Veröffentlichung von Kurs 1 und Sicherung des Grundsystems (Entwicklungsauftrag 19)", und
+das neue [`DEVELOPMENT_FOUNDATION.md`](DEVELOPMENT_FOUNDATION.md).
+
+- ElevenLabs-Audiolizenz geklärt (kostenloser Tarif → nichtkommerziell, Namensnennung), neues
+  `NOTICE-AUDIO.md`, überarbeitetes `LICENSES.md`, maschinenlesbare
+  `language-packs/arabic/audio-provenance.json` (759 ElevenLabs + 338 espeak-ng).
+- `npm run release:verify` (`scripts/releaseVerify.js`) prüft ein echtes gebautes `app.asar` gegen
+  die tatsächlichen Kursdatenreferenzen; lokal gegen einen `electron-builder --linux dir`-Testbuild
+  verifiziert (0 Fehler).
+- `.github/workflows/build.yml` neu strukturiert: Push/PR = nur Lint/Validator/Tests; Tag/manueller
+  Start = Windows/Ubuntu/Linux/macOS(Intel+ARM)-Matrix + `release:verify` je Plattform + EIN
+  zentraler Release-Job (SHA256SUMS.txt, genau ein Prerelease) statt vormals potenziell mehrerer
+  paralleler Releases.
+- `package.json`/electron-builder überarbeitet (Version, App-ID ohne FH-Aachen-Domain,
+  Artefaktnamen, `asar: true`, Entwicklungsdateien ausgeschlossen, Lizenzdokumente mit ins Paket).
+- Eigenes, neutrales App-Icon (arabisches „ع“, Noto Kufi Arabic, bestehende Akzentfarbe).
+- In-App-Kennzeichnung (Einstellungen: "Über diese App") + README-Kopfbereich mit
+  Windows/Ubuntu/Linux/macOS-Anleitungen für Nutzer:innen ohne Programmierkenntnisse.
+- Lokale Sicherung (Quellcode-ZIP + Git-Bundle außerhalb des Repository-Ordners, nicht gepushter
+  lokaler Tag) vor jeder Remote-Änderung — Details im Abschlussbericht dieser Runde.
+- **Bewusst nicht Teil dieser Runde:** erneute Sprachprüfung, neue Vokabeln/Theorie, Audio-
+  Neuerzeugung, neue Aufgabentypen, Änderung von Grading/SRS/Feedback-Logik.

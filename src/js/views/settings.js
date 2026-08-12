@@ -64,6 +64,30 @@ const SettingsView = (() => {
             </select>
           </div>
         </div>
+
+        <div class="card">
+          <h2 class="text-section-title">Über diese App</h2>
+          <p class="text-hint">Learning Arabic Tool · Kurs 1 Beta · v1.0.0-beta.1</p>
+          <p>
+            <strong>Kurs 1 ist technisch vollständig</strong> (900 Vokabeln, 30 Units, 90 Sessions),
+            aber die arabischen Inhalte wurden bisher nur automatisiert strukturell geprüft — noch
+            <strong>nicht vollständig von einer Person mit Arabischkenntnissen freigegeben</strong>.
+            Auch die Audiodateien wurden technisch integriert, aber nicht vollständig akustisch
+            geprüft. Diese App sollte bis zur Sprachprüfung nicht als verbindliches
+            Unterrichtsmaterial betrachtet werden. Fehler bitte über GitHub Issues melden.
+          </p>
+          <p class="text-hint">Audio generated with ElevenLabs (elevenlabs.io).</p>
+          <p class="text-hint">
+            Ein Teil der Audiodateien (kostenloser ElevenLabs-Tarif) darf nur nichtkommerziell
+            verwendet werden und erfordert die obige Namensnennung; der übrige Teil steht unter
+            CC BY-SA 4.0, der Anwendungscode unter MIT. Details: LICENSES.md/NOTICE-AUDIO.md im
+            Installationsordner.
+          </p>
+          <p class="text-hint">
+            Dieses Projekt ist ein eigenständiges studentisches Lernprojekt und keine offizielle
+            Anwendung der FH Aachen.
+          </p>
+        </div>
       </div>
     `;
 

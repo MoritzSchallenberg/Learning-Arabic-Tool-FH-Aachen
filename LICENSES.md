@@ -45,22 +45,26 @@ Compilers). Wir stufen diese generierten WAV-Dateien daher wie den Kursinhalt se
 Klarheit braucht: die espeak-ng-Lizenz selbst (GPL-3.0) gilt für das Werkzeug, nicht
 automatisch für jede damit erzeugte Datei.
 
-### 3.2 ElevenLabs-Aufnahmen (`scripts/generate_audio_elevenlabs.py`)
+### 3.2 ElevenLabs-Aufnahmen (`scripts/generate_audio_elevenlabs.py`) — geklärt seit Entwicklungsauftrag 19
 
-Ein Teil der Audiodateien wurde über die kommerzielle ElevenLabs-Text-to-Speech-API
-erzeugt. **Die Nutzungsrechte an diesen konkreten Audiodateien richten sich nach den
-Nutzungsbedingungen von ElevenLabs zum Zeitpunkt der Erzeugung** (abhängig vom
-verwendeten Tarif des Account-Inhabers) — dieses Projekt legt hierfür **keine eigene
-Lizenz fest**, weil das rechtlich nicht in unserer Verfügungsgewalt läge. Vor einer
-Veröffentlichung, die über die private/lokale Nutzung hinausgeht, muss der
-Repository-Inhaber (Moritz Schallenberg) die genauen ElevenLabs-Nutzungsbedingungen
-seines Accounts prüfen und diesen Abschnitt entsprechend präzisieren. Bis dahin gilt:
-**Status ungeklärt, nicht automatisch weiterverwendbar.**
+759 Vokabel-Audiodateien wurden über die ElevenLabs-Text-to-Speech-API erzeugt, **während für
+diesen Account der kostenlose ElevenLabs-Tarif aktiv war**. Damit ist die zuvor offene Frage
+geklärt: **Lizenz: NICHT MIT, NICHT CC BY-SA — eigenständige, striktere Bedingungen.**
 
-Welche Datei über welchen Weg erzeugt wurde, ist im Nachhinein am Dateinamen nicht
-erkennbar (beide Skripte schreiben an dieselbe Stelle); siehe Commit-Historie bzw. bei
-Bedarf per erneutem Lauf von `scripts/generate_audio.py --force` gezielt durch
-espeak-ng-Aufnahmen ersetzbar, falls Klarheit wichtiger als Klangqualität ist.
+- Nutzung **ausschließlich nichtkommerziell** (Bedingung des kostenlosen ElevenLabs-Tarifs).
+- Sichtbare Namensnennung erforderlich: *"Audio generated with ElevenLabs (elevenlabs.io)."*
+- Unterliegt zusätzlich den jeweils aktuellen ElevenLabs-Nutzungsbedingungen (elevenlabs.io).
+- Vollständige Details, Begründung und eine Kurzfassungstabelle: siehe
+  [`NOTICE-AUDIO.md`](NOTICE-AUDIO.md) — dort auch der genaue Wortlaut für eine etwaige
+  kommerzielle Weiterverwendung des (MIT-lizenzierten) Anwendungscodes ohne diese Audios.
+
+Welche konkrete Datei über welchen Weg erzeugt wurde, ist seit Entwicklungsauftrag 19
+maschinenlesbar dokumentiert in
+[`language-packs/arabic/audio-provenance.json`](language-packs/arabic/audio-provenance.json)
+(erzeugt von `scripts/generateAudioProvenance.js`, keine geratene Herkunft) — nicht mehr nur am
+Dateinamen ablesbar. Bei Bedarf weiterhin per erneutem Lauf von `scripts/generate_audio.py --force`
+gezielt durch espeak-ng-Aufnahmen ersetzbar, falls Klarheit/Kommerzialisierbarkeit wichtiger als
+Klangqualität ist.
 
 ## 4. Bilder
 
@@ -75,9 +79,18 @@ ergänzt werden.
 |---|---|---|
 | Anwendungscode | MIT | `main.js`, `preload.js`, `src/`, `scripts/*.js`, `test/` |
 | Kursinhalte (JSON) | CC BY-SA 4.0 | `language-packs/arabic/*.json` |
-| Audio (espeak-ng) | CC BY-SA 4.0 (siehe Vorbehalt oben) | `language-packs/arabic/audio/` |
-| Audio (ElevenLabs) | Ungeklärt, abhängig von ElevenLabs-Nutzungsbedingungen | `language-packs/arabic/audio/` |
+| Audio (espeak-ng, 338 Dateien) | CC BY-SA 4.0 (siehe Vorbehalt oben) | `language-packs/arabic/audio/` |
+| Audio (ElevenLabs, kostenloser Tarif, 759 Dateien) | **Nicht MIT, nicht CC BY-SA** — nur nichtkommerziell, ElevenLabs-Nennung erforderlich, siehe [`NOTICE-AUDIO.md`](NOTICE-AUDIO.md) | `language-packs/arabic/audio/vocabulary/` |
 | Bilder | Noch nicht vorhanden | — |
+
+Welche konkrete Audiodatei zu welcher Zeile gehört: maschinenlesbar in
+[`language-packs/arabic/audio-provenance.json`](language-packs/arabic/audio-provenance.json).
+
+**Wichtig für Weiterverwender:** Der Anwendungscode (MIT) und die ausgelieferten Audiodateien
+unterliegen unterschiedlichen Nutzungsbedingungen. Eine kommerzielle Nutzung des Codes kann nach
+MIT-Lizenz möglich sein — die veröffentlichte App-Version mit den enthaltenen ElevenLabs-Audios
+(kostenloser Tarif) darf jedoch nicht kommerziell verwendet werden, solange diese Audios nicht
+entfernt oder ersetzt wurden. Details: [`NOTICE-AUDIO.md`](NOTICE-AUDIO.md).
 
 Diese Übersicht wird bei jeder größeren Content-Änderung aktualisiert (siehe
 [`ROADMAP.md`](ROADMAP.md), Abschnitt 5 "Hinweise für die Weiterarbeit").

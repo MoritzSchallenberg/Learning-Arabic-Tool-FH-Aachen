@@ -1,4 +1,12 @@
-name: Build
+name: Build & Release
+
+# Entwicklungsauftrag 19, Abschnitt 13: bei normalem Push/Pull-Request auf main läuft NUR die
+# schnelle Prüfung (Lint/Validator/Tests) -- keine drei großen Plattform-Builds bei jedem Commit.
+# Die eigentlichen Plattform-Builds (inkl. release:verify) laufen nur bei einem Versionstag oder
+# einem manuellen Start. Genau EIN zentraler Release-Job sammelt danach alle Plattform-Artefakte
+# und veröffentlicht GENAU EIN GitHub-Release -- nicht mehrere parallele (das war vor diesem
+# Auftrag ein echtes Risiko: die alte Fassung ließ jeden der drei Matrix-Jobs unabhängig
+# `--publish=always` aufrufen).
 
 on:
   push:
@@ -6,11 +14,21 @@ on:
     tags: ['v*']
   pull_request:
     branches: [main]
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      create_release:
+        description: 'Nach dem Bauen zusätzlich ein GitHub-Release veröffentlichen (nur sinnvoll, wenn dieser Lauf gezielt gegen einen Versionstag gestartet wird)'
+        type: boolean
+        default: false
+
+# Standardmäßig nur Leserechte (Abschnitt 13) -- contents:write wird ausschließlich im
+# release-Job unten gezielt wieder angehoben.
+permissions:
+  contents: read
 
 jobs:
   test:
-    name: Lint + Tests
+    name: Lint + Kurs-Validierung + Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,13 +51,43 @@ jobs:
       - name: Tests (Unit + Integration)
         run: npm test
 
+  check-version:
+    name: package.json-Version gegen Tag prüfen
+    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Version == Tag, sonst Abbruch
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          EXPECTED="${TAG#v}"
+          ACTUAL="$(node -p "require('./package.json').version")"
+          echo "Tag: $TAG -> erwartete Version: $EXPECTED / package.json: $ACTUAL"
+          if [ "$EXPECTED" != "$ACTUAL" ]; then
+            echo "::error::package.json-Version ($ACTUAL) stimmt nicht mit dem Tag ($TAG) überein -- Abbruch."
+            exit 1
+          fi
+
   build:
-    name: Build (${{ matrix.os }})
-    needs: test
+    name: Paket bauen + verifizieren (${{ matrix.os }})
+    needs: [test]
+    if: ${{ startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch' }}
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        include:
+          - os: windows-latest
+            platform_flag: --win
+            artifact_glob: dist/*.exe
+          - os: ubuntu-latest
+            platform_flag: --linux
+            artifact_glob: |
+              dist/*.deb
+              dist/*.AppImage
+          - os: macos-latest
+            platform_flag: --mac
+            artifact_glob: dist/*.dmg
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -53,25 +101,91 @@ jobs:
       - name: Abhängigkeiten installieren
         run: npm ci
 
-      - name: App bauen (kein Release)
-        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
-        run: npx electron-builder --publish=never
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Paket bauen (electron-builder veröffentlicht selbst NICHTS -- das übernimmt allein der release-Job)
+        run: npx electron-builder ${{ matrix.platform_flag }} --publish never
 
-      - name: App bauen und Release-Entwurf veröffentlichen
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        run: npx electron-builder --publish=always
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Gebautes Paket verifizieren (release:verify)
+        shell: bash
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            node scripts/releaseVerify.js --tag "${GITHUB_REF_NAME}"
+          else
+            node scripts/releaseVerify.js
+          fi
 
-      - name: Installer als Artifact hochladen
+      - name: Installer als Workflow-Artefakt hochladen
         uses: actions/upload-artifact@v4
         with:
-          name: learning-arabic-tool-${{ matrix.os }}
-          path: |
-            dist/*.exe
-            dist/*.dmg
-            dist/*.AppImage
-            dist/*.zip
-          if-no-files-found: ignore
+          name: dist-${{ matrix.os }}
+          path: ${{ matrix.artifact_glob }}
+          if-no-files-found: error
+
+  release:
+    name: Einziges GitHub-Release veröffentlichen
+    needs: [build, check-version]
+    if: ${{ startsWith(github.ref, 'refs/tags/v') && (github.event_name != 'workflow_dispatch' || inputs.create_release) }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Alle Plattform-Artefakte herunterladen
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+          pattern: dist-*
+          merge-multiple: true
+
+      - name: SHA256SUMS.txt erzeugen
+        working-directory: release-artifacts
+        run: |
+          sha256sum * > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      - name: Genau EIN öffentliches Prerelease erstellen (kein Draft)
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ github.ref_name }}
+          name: "Learning Arabic Tool – Kurs 1 Beta – Audio generated with ElevenLabs (elevenlabs.io)"
+          draft: false
+          prerelease: true
+          files: release-artifacts/*
+          body: |
+            ## Learning Arabic Tool – Kurs 1 Beta (${{ github.ref_name }})
+
+            **Audio generated with ElevenLabs (elevenlabs.io).**
+
+            ### Enthalten
+            - Vollständiger Kurs 1: 900 Vokabeln, 30 Units, 90 Sessions
+            - Zehn-Stufen-Lernablauf (Lernziele → Theorie → Lernkarten → Audio → Wortübersicht →
+              Wiedererkennen → Zuordnung → Schreiben mit/ohne Hilfe → Zusammenfassung)
+            - Normale + (teilweise) langsame Audiodateien, Hell-/Dunkelmodus, anpassbare arabische
+              Schriftgröße, lokaler Fortschritt, vollständiger Offlinebetrieb nach der Installation
+
+            ### Einschränkungen (bitte vor der Nutzung lesen)
+            - **Beta:** Kurs 1 ist technisch vollständig, aber **noch nicht** von einer Person mit
+              Arabischkenntnissen sprachlich freigegeben; Audiodateien technisch integriert, aber
+              nicht vollständig akustisch geprüft. Nicht als verbindliches Unterrichtsmaterial
+              verwenden, bevor diese Prüfung erfolgt ist.
+            - **ElevenLabs-Audios (kostenloser Tarif):** nur **nichtkommerzielle** Nutzung erlaubt,
+              siehe NOTICE-AUDIO.md im Repository. Der Anwendungscode selbst bleibt MIT-lizenziert.
+            - Windows/macOS-Installer sind **nicht codesigniert** — siehe README für den Umgang mit
+              SmartScreen-/Gatekeeper-Warnungen bei einer aus dem offiziellen Repository geladenen
+              Datei.
+
+            ### Installation
+            Ausführliche, betriebssystemspezifische Anleitung: siehe
+            [README.md](https://github.com/${{ github.repository }}#readme).
+
+            | Datei | Betriebssystem |
+            |---|---|
+            | `*-Windows-x64-Setup.exe` | Windows 10/11 (Installer) |
+            | `*-Windows-x64-Portable.exe` | Windows 10/11 (portable, keine Installation) |
+            | `*-Ubuntu-amd64.deb` | Ubuntu/Debian x64 |
+            | `*-Linux-x86_64.AppImage` | Allgemeines Linux x64 |
+            | `*-macOS-x64.dmg` | macOS Intel |
+            | `*-macOS-arm64.dmg` | macOS Apple Silicon (M1/M2/M3/…) |
+            | `SHA256SUMS.txt` | Prüfsummen aller obigen Dateien |

@@ -1,12 +1,20 @@
 {
   "name": "learning-arabic-tool",
   "productName": "Learning Arabic Tool",
-  "version": "0.1.0",
-  "description": "Modularer, lokal laufender Vokabel- und Sprachtrainer. Erstes Sprachmodul: Arabisch (Hocharabisch/MSA).",
+  "version": "1.0.0-beta.1",
+  "description": "Modularer, lokal laufender Vokabel- und Sprachtrainer. Erstes Sprachmodul: Arabisch (Hocharabisch/MSA). Kurs 1 Beta -- Audio generated with ElevenLabs (elevenlabs.io), nichtkommerziell.",
   "main": "main.js",
   "author": "Moritz Schallenberg",
   "license": "MIT",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachenpublished.git"
+  },
+  "homepage": "https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachenpublished#readme",
+  "bugs": {
+    "url": "https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachenpublished/issues"
+  },
   "scripts": {
     "start": "electron .",
     "review:start": "electron reviewMain.js",
@@ -20,8 +28,10 @@
     "audio:generate:sample": "node scripts/audioCli.js generate --sample 20",
     "audio:generate": "node scripts/audioCli.js generate --all",
     "audio:verify": "node scripts/audioCli.js verify",
+    "audio:provenance": "node scripts/generateAudioProvenance.js",
     "package:source": "node scripts/packageSource.js",
     "ui:smoke": "node scripts/uiSmoke.js",
+    "release:verify": "node scripts/releaseVerify.js",
     "build:win": "electron-builder --win",
     "build:mac": "electron-builder --mac",
     "build:linux": "electron-builder --linux",
@@ -33,31 +43,69 @@
     "playwright-core": "1.51.1"
   },
   "build": {
-    "appId": "de.fhaachen.learningarabictool",
+    "appId": "de.moritzschallenberg.learningarabictool",
     "productName": "Learning Arabic Tool",
+    "copyright": "Copyright © 2026 Moritz Schallenberg",
     "directories": {
       "output": "dist"
     },
+    "asar": true,
     "publish": {
-      "provider": "github"
+      "provider": "github",
+      "owner": "MoritzSchallenberg",
+      "repo": "Learning-Arabic-Tool-FH-Aachenpublished"
     },
     "files": [
       "main.js",
       "preload.js",
       "src/**/*",
+      "!src/review/**",
       "language-packs/**/*",
-      "package.json"
+      "!language-packs/**/.staging/**",
+      "package.json",
+      "LICENSE",
+      "LICENSES.md",
+      "NOTICE-AUDIO.md"
     ],
     "win": {
-      "target": "nsis"
+      "target": [
+        { "target": "nsis", "arch": ["x64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "artifactName": "Learning-Arabic-Tool-Kurs1-${version}-Windows-x64-Setup.${ext}",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false
+    },
+    "portable": {
+      "artifactName": "Learning-Arabic-Tool-Kurs1-${version}-Windows-x64-Portable.${ext}"
     },
     "mac": {
-      "target": "dmg",
-      "category": "public.app-category.education"
+      "target": [
+        { "target": "dmg", "arch": ["x64", "arm64"] }
+      ],
+      "category": "public.app-category.education",
+      "icon": "build/icon.icns"
+    },
+    "dmg": {
+      "artifactName": "Learning-Arabic-Tool-Kurs1-${version}-macOS-${arch}.${ext}"
     },
     "linux": {
-      "target": "AppImage",
-      "category": "Education"
+      "target": [
+        "deb",
+        "AppImage"
+      ],
+      "category": "Education",
+      "icon": "build/icon.png"
+    },
+    "deb": {
+      "artifactName": "Learning-Arabic-Tool-Kurs1-${version}-Ubuntu-amd64.${ext}"
+    },
+    "appImage": {
+      "artifactName": "Learning-Arabic-Tool-Kurs1-${version}-Linux-x86_64.${ext}"
     }
   }
 }
