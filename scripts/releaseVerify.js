@@ -143,6 +143,39 @@ function run() {
     src.exists(f) ? ok(f) : fail(`Rendererdatei fehlt: ${f}`);
   });
 
+  // 1b) Node-Require-Kette ab main.js/preload.js: jede lokale require('./...')-Abhängigkeit muss
+  // TATSÄCHLICH im Paket enthalten sein -- eine reine Dateianzahl-/Existenzprüfung einzelner
+  // Pfade (wie oben) hätte eine fehlende, aber zur Laufzeit benötigte Datei nicht erkannt (genau
+  // das ist bei "scripts/audioFileAccess.js" in v1.0.0-beta.1 passiert: main.js require()t sie,
+  // sie war aber nicht in "files" gelistet -- die App wäre beim Start abgestürzt).
+  console.log('\n-- Node-Require-Kette (main.js/preload.js) --');
+  const REQUIRE_RE = /require\(\s*['"](\.\.?\/[^'"]+)['"]\s*\)/g;
+  function resolveRequireChain(entryFiles) {
+    const visited = new Set();
+    const missing = [];
+    const queue = [...entryFiles];
+    while (queue.length) {
+      const current = queue.shift();
+      if (visited.has(current)) continue;
+      visited.add(current);
+      if (!src.exists(current)) { missing.push(current); continue; }
+      const text = src.readText(current) || '';
+      const dir = path.posix.dirname(current);
+      let m;
+      REQUIRE_RE.lastIndex = 0;
+      while ((m = REQUIRE_RE.exec(text))) {
+        let resolved = path.posix.normalize(path.posix.join(dir, m[1]));
+        if (!src.exists(resolved) && src.exists(`${resolved}.js`)) resolved = `${resolved}.js`;
+        if (!visited.has(resolved)) queue.push(resolved);
+      }
+    }
+    return missing;
+  }
+  const requireChainMissing = resolveRequireChain(['main.js', 'preload.js']);
+  requireChainMissing.length === 0
+    ? ok('alle lokalen require()-Abhängigkeiten von main.js/preload.js sind im Paket enthalten')
+    : requireChainMissing.forEach((f) => fail(`zur Laufzeit benötigte Datei fehlt im Paket: ${f} (per require() aus main.js/preload.js erreichbar)`));
+
   // 2) Kurs-1-Daten
   console.log('\n-- Kurs-1-Daten --');
   const courseFiles = [

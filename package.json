@@ -63,6 +63,7 @@
       "preload.js",
       "src/**/*",
       "!src/review/**",
+      "scripts/audioFileAccess.js",
       "language-packs/**/*",
       "!language-packs/**/.staging/**",
       "package.json",
