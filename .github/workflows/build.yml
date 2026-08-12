@@ -1,19 +1,14 @@
-name: Build & Release
+name: Build & Release (Desktop, optional)
 
-# Entwicklungsauftrag 19, Abschnitt 13: bei normalem Push/Pull-Request auf main läuft NUR die
-# schnelle Prüfung (Lint/Validator/Tests) -- keine drei großen Plattform-Builds bei jedem Commit.
-# Die eigentlichen Plattform-Builds (inkl. release:verify) laufen nur bei einem Versionstag oder
-# einem manuellen Start. Genau EIN zentraler Release-Job sammelt danach alle Plattform-Artefakte
-# und veröffentlicht GENAU EIN GitHub-Release -- nicht mehrere parallele (das war vor diesem
-# Auftrag ein echtes Risiko: die alte Fassung ließ jeden der drei Matrix-Jobs unabhängig
-# `--publish=always` aufrufen).
+# "Website statt Installer": die primäre, automatische Veröffentlichung läuft seitdem über
+# .github/workflows/pages.yml (GitHub Pages bei jedem Push auf main). Dieser Workflow bleibt
+# als OPTIONALES, rein manuelles Werkzeug erhalten, falls doch einmal ein Desktop-Installer
+# gebraucht wird (main.js/preload.js/die electron-builder-Konfiguration existieren weiterhin,
+# siehe DEVELOPMENT_FOUNDATION.md) -- läuft NICHT mehr automatisch bei jedem Push/Tag/PR, nur
+# noch über "Run workflow" im Actions-Tab. Genau EIN zentraler Release-Job sammelt danach alle
+# Plattform-Artefakte und veröffentlicht GENAU EIN GitHub-Release -- nicht mehrere parallele.
 
 on:
-  push:
-    branches: [main]
-    tags: ['v*']
-  pull_request:
-    branches: [main]
   workflow_dispatch:
     inputs:
       create_release:

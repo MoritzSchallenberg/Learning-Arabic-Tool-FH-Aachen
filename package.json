@@ -35,6 +35,7 @@
     "package:source": "node scripts/packageSource.js",
     "ui:smoke": "node scripts/uiSmoke.js",
     "release:verify": "node scripts/releaseVerify.js",
+    "build:web": "node scripts/buildWebSite.js",
     "build:win": "electron-builder --win",
     "build:mac": "electron-builder --mac",
     "build:linux": "electron-builder --linux",

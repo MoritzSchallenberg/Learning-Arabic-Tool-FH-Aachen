@@ -1,0 +1,77 @@
+name: Deploy GitHub Pages
+
+# "Website statt Installer": baut die statische Website (scripts/buildWebSite.js -> docs/) bei
+# jedem Push auf main neu und veröffentlicht sie über GitHub Pages. docs/ wird bewusst NICHT
+# committet (siehe .gitignore) -- die CI baut sie jedes Mal frisch aus src/ + language-packs/.
+#
+# Einmaliger, manueller Schritt (kann nicht per Workflow gesetzt werden): Repository-Settings ->
+# Pages -> Source: "GitHub Actions" auswählen. Danach läuft alles Weitere automatisch.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Nur einen Deploy gleichzeitig -- ein neuer Push bricht einen noch laufenden alten Deploy ab,
+# statt dass zwei Deploys um die Veröffentlichung konkurrieren.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Lint + Kurs-Validierung + Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run validate:course
+      - run: npm test
+
+  build:
+    name: Website bauen
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js einrichten
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Abhängigkeiten installieren
+        run: npm ci
+
+      - name: Statische Website bauen
+        run: npm run build:web
+
+      - name: GitHub Pages konfigurieren
+        uses: actions/configure-pages@v5
+
+      - name: Website als Pages-Artefakt hochladen
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    name: Veröffentlichen
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: GitHub Pages veröffentlichen
+        id: deployment
+        uses: actions/deploy-pages@v4

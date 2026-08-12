@@ -2,6 +2,12 @@
 node_modules/
 dist/
 
+# Statische Website für GitHub Pages ("Website statt Installer") — wird per
+# npm run build:web (scripts/buildWebSite.js) neu erzeugt und von .github/workflows/pages.yml
+# in der CI gebaut/veröffentlicht, nie manuell committet (enthält u. a. eine Kopie der
+# Audiodateien, würde das Repository sonst unnötig aufblähen).
+docs/
+
 # Erzeugt von "npm run package:source" (Entwicklungsauftrag 7, Abschnitt 26/27) — Release-
 # Artefakt, nicht Teil des Quellcode-Repositorys.
 dist-source/

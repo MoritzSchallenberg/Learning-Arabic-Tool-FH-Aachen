@@ -12,9 +12,22 @@ die Perspektive "was muss ich anfassen, wenn ich hierauf etwas Neues aufbauen wi
 
 ## 1. Architektur im Überblick
 
+**Zwei austauschbare Laufzeitumgebungen, EIN Renderer-Code:** der komplette Renderer
+(`src/index.html`, `src/js/*` außer `webApi.js`, `src/css/*`) ist identisch, egal ob er in
+Electron (Desktop, primär für lokale Entwicklung: `npm start`) oder als statische Website
+(GitHub Pages, primärer öffentlicher Verteilweg seit "Website statt Installer": `npm run
+build:web`) läuft. Beide Seiten erfüllen nur dieselbe `window.api.*`-Schnittstelle
+unterschiedlich:
+
 ```
 main.js / preload.js        Electron-Hauptprozess: IPC, Dateizugriff, Audioauflösung,
                              contextIsolation + sandbox (kein nodeIntegration im Renderer).
+src/js/webApi.js            Browser-Ersatz für preload.js (kein Electron nötig) -- dieselbe
+                             window.api.*-Schnittstelle über localStorage + fetch() statt
+                             IPC + Dateisystem. Einzige Datei, die den Unterschied kennt.
+scripts/buildWebSite.js     npm run build:web -- baut die statische Website nach docs/
+                             (gitignored, von .github/workflows/pages.yml bei jedem Push
+                             auf main neu gebaut und über GitHub Pages veröffentlicht).
 src/index.html               Einstiegspunkt des Renderers.
 src/js/app.js                 App-Shell: Navigation, Theme, Einstellungen anwenden.
 src/js/session/               Sessionsteuerung (der Zehn-Stufen-Ablauf) und Übungsregistrierung.
@@ -62,11 +75,22 @@ der Registry — nicht das Anfassen von `sessionController.js`s Kernlogik.
 IMMER additiv mit einem sicheren Default in `migrate*()` — nie ein zweites Speicherformat
 einführen.
 
-**Audioauflösung:** Renderer kennt nur einen `audioKey` (z. B. `"vocabulary/greet_hallo"`);
-`preload.js` reicht ihn über IPC an `main.js#loadAudio()` weiter, das ihn GEHÄRTET (Muster-Prüfung
-+ Pfad-Präfix-Prüfung, siehe `scripts/audioFileAccess.js`) gegen `language-packs/<sprache>/audio/`
+**Fortschrittsmodell im Browser:** dieselben `migrateProgress()`/`migrateSettings()`-Funktionen
+laufen unverändert im Browser (isomorphes Export-Muster wie `srs.js`, siehe `webApi.js`) — nur
+`ensureDir`/`readJsonFileSafe`/`writeJsonFileAtomic` bleiben Node-only und werden dort nie
+aufgerufen; `webApi.js` speichert stattdessen über `localStorage`.
+
+**Audioauflösung (Electron):** Renderer kennt nur einen `audioKey` (z. B. `"vocabulary/
+greet_hallo"`); `preload.js` reicht ihn über IPC an `main.js#loadAudio()` weiter, das ihn
+GEHÄRTET (Muster-Prüfung + Pfad-Präfix-Prüfung, siehe `scripts/audioFileAccess.js`) gegen
+`language-packs/<sprache>/audio/`
 aus dem installierten Sprachpaket auflöst. `_slow`-Suffix für die langsame Variante, optional (nicht
 jedes Wort braucht eine).
+
+**Audioauflösung (Website):** `webApi.js#loadAudio()` lädt dieselbe `.wav`-Datei direkt per
+`fetch()` (statischer Dateizugriff statt gehärteter IPC-Prüfung -- im Browser gibt es kein
+privilegiertes Dateisystem, gegen das abzugrenzen wäre) und kodiert sie im Browser nach Base64,
+identisches Rückgabeformat wie die Electron-Variante — `audioPlayer.js` merkt den Unterschied nicht.
 
 ## 2. Kurs-, Unit- und Sessionstruktur (Referenz)
 
@@ -175,6 +199,12 @@ Grundsystems:
    ggf. andere Zielplattformen.
 8. **Keine alten Nutzerprofile übernehmen:** ein neues `appId` erzeugt automatisch einen neuen,
    leeren `userData`-Pfad — nichts vom alten Produkt manuell kopieren.
+9. **Für eine reine Website-Veröffentlichung** (statt/zusätzlich zum Desktop-Installer): Schritte
+   1-2 entfallen (keine App-ID nötig), Schritt 3 wird zum Browser-Favicon, Schritt 4/6/8 gelten
+   sinngemäß für `.github/workflows/pages.yml`/`scripts/buildWebSite.js` statt `build.yml` — der
+   neue `localStorage`-Schlüsselpräfix in `webApi.js` (`STORAGE_PREFIX`) übernimmt dabei dieselbe
+   Rolle wie die App-ID: unterschiedliche Produkte auf demselben Gerät dürfen sich nicht
+   denselben `localStorage`-Bereich teilen.
 
 **Bewusst keine zweite Kopie:** Dieses Dokument beschreibt Anpassungen AM VORHANDENEN,
 modularen Repository — nicht das Duplizieren der gesamten Anwendung in einen zweiten Ordner

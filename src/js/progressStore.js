@@ -24,8 +24,15 @@
 //    folgende Speicheraufrufe (viele Views rufen persistProgress() ohne await auf) werden pro
 //    Datei strikt in Aufrufreihenfolge nacheinander geschrieben statt parallel/unkontrolliert.
 
-const fs = require('fs');
-const path = require('path');
+// Entwicklungsauftrag "Website statt Installer": dieses Modul wird jetzt NICHT mehr nur von
+// main.js (Node) require()t, sondern auch per <script src="js/progressStore.js"> im Browser
+// geladen (dort ist `require` nicht definiert) -- die reinen Migrations-/Normalisierungs-
+// Funktionen unten (migrateProgress/migrateSettings/normalize*) brauchen kein fs/path und
+// funktionieren identisch in beiden Umgebungen; nur die datei-basierten Funktionen
+// (ensureDir/readJsonFileSafe/writeJsonFileAtomic) bleiben Node-only und werden im Browser
+// nie aufgerufen.
+const fs = typeof require === 'function' ? require('fs') : null;
+const path = typeof require === 'function' ? require('path') : null;
 
 const CURRENT_PROGRESS_VERSION = 1;
 const CURRENT_SETTINGS_VERSION = 1;
@@ -171,22 +178,27 @@ function enqueueWrite(key, task) {
   return next;
 }
 
-module.exports = {
-  CURRENT_PROGRESS_VERSION,
-  CURRENT_SETTINGS_VERSION,
-  VALID_THEMES,
-  DEFAULT_THEME,
-  VALID_ARABIC_FONT_SCALES,
-  DEFAULT_ARABIC_FONT_SCALE,
-  SETTINGS_FIELD_DEFAULTS,
-  ensureDir,
-  readJsonFileSafe,
-  writeJsonFileAtomic,
-  isLegacyProgressFormat,
-  migrateProgress,
-  isLegacySettingsFormat,
-  normalizeThemeValue,
-  normalizeArabicFontScaleValue,
-  migrateSettings,
-  enqueueWrite
-};
+// Isomorphes Export-Muster wie src/js/srs.js: in Node (main.js, Tests) weiterhin ein CommonJS-
+// Modul; im Browser sind alle oben stehenden `const`/`function`-Deklarationen bereits als
+// globale Bezeichner (window.migrateSettings usw.) erreichbar, ganz ohne dieses `module.exports`.
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    CURRENT_PROGRESS_VERSION,
+    CURRENT_SETTINGS_VERSION,
+    VALID_THEMES,
+    DEFAULT_THEME,
+    VALID_ARABIC_FONT_SCALES,
+    DEFAULT_ARABIC_FONT_SCALE,
+    SETTINGS_FIELD_DEFAULTS,
+    ensureDir,
+    readJsonFileSafe,
+    writeJsonFileAtomic,
+    isLegacyProgressFormat,
+    migrateProgress,
+    isLegacySettingsFormat,
+    normalizeThemeValue,
+    normalizeArabicFontScaleValue,
+    migrateSettings,
+    enqueueWrite
+  };
+}

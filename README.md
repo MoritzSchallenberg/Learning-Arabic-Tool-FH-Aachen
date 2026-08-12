@@ -2,16 +2,13 @@
 
 **Audio generated with ElevenLabs (elevenlabs.io).** **Nichtkommerzielle Beta.**
 
-Ein modularer, lokal laufender Vokabel- und Sprachtrainer. Erstes Sprachmodul: **Arabisch**
-(modernes Hocharabisch / MSA). Läuft als eigenständige Desktop-App (Electron) unter Windows,
-macOS und Linux — ohne dass Nutzer:innen Python, Java oder eine Datenbank installieren müssen.
-Alle Lerninhalte und der persönliche Fortschritt werden vollständig lokal gespeichert, die App
-funktioniert nach der Installation vollständig offline.
+Ein modularer Vokabel- und Sprachtrainer. Erstes Sprachmodul: **Arabisch** (modernes Hocharabisch /
+MSA). Läuft als **Website direkt im Browser** — kein Download, keine Installation, kein
+Benutzerkonto. Alle Lerninhalte werden von der Website geladen, der persönliche Fortschritt bleibt
+vollständig lokal im Browser gespeichert.
 
-> ⬇️ **[Neueste Version herunterladen](https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachen/releases/latest)**
-> — auf der Releases-Seite die Datei für **dein** Betriebssystem wählen (siehe Tabelle unten).
-> **Nicht** die automatisch von GitHub angebotene „Source code (zip)“ herunterladen — das ist der
-> Quellcode für Entwickler:innen, keine startfertige App (siehe „Entwicklerbereich“ ganz unten).
+> ⬇️ **[Jetzt lernen](https://moritzschallenberg.github.io/Learning-Arabic-Tool-FH-Aachen/)**
+> — Link öffnen, fertig. Funktioniert in jedem aktuellen Browser (Desktop, Tablet, Handy).
 
 > ⚠️ **Beta-Hinweis:** Kurs 1 ist technisch vollständig (900 Vokabeln, 30 Units, 90 Sessions), aber
 > die arabischen Inhalte wurden bisher nur automatisiert strukturell geprüft — **noch nicht
@@ -33,89 +30,25 @@ aktueller Stand und priorisierte nächste Schritte an einem Ort — sowie
 [`DEVELOPMENT_FOUNDATION.md`](DEVELOPMENT_FOUNDATION.md), wie dieses Grundsystem für einen neuen
 Kurs, eine neue Sprache oder eine neue App wiederverwendet werden kann.
 
-## Installation für Nutzer:innen (ohne Programmierkenntnisse)
+## Nutzung (ohne Programmierkenntnisse)
 
-Lade auf der [Releases-Seite](https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachen/releases/latest)
-genau EINE der folgenden Dateien herunter (nicht „Source code“):
-
-| Datei (Muster) | Für |
-|---|---|
-| `Learning-Arabic-Tool-Kurs1-<Version>-Windows-x64-Setup.exe` | Windows 10/11 — Installer (empfohlen) |
-| `Learning-Arabic-Tool-Kurs1-<Version>-Windows-x64-Portable.exe` | Windows 10/11 — ohne Installation, direkt startbar |
-| `Learning-Arabic-Tool-Kurs1-<Version>-Ubuntu-amd64.deb` | Ubuntu/Debian x64 |
-| `Learning-Arabic-Tool-Kurs1-<Version>-Linux-x86_64.AppImage` | Sonstiges Linux x64 |
-| `Learning-Arabic-Tool-Kurs1-<Version>-macOS-x64.dmg` | macOS mit Intel-Prozessor |
-| `Learning-Arabic-Tool-Kurs1-<Version>-macOS-arm64.dmg` | macOS mit Apple-Silicon-Prozessor (M1/M2/M3/…) |
-| `SHA256SUMS.txt` | Prüfsummen aller obigen Dateien (optional, siehe unten) |
-
-### Windows
-
-1. **Installer** (`...-Setup.exe`, empfohlen): herunterladen, doppelklicken, dem Assistenten
-   folgen. Erstellt einen Eintrag im Startmenü, sauber deinstallierbar über
-   „Einstellungen → Apps“.
-2. **Portable** (`...-Portable.exe`): herunterladen, doppelklicken — startet direkt, ohne etwas zu
-   installieren. Praktisch für einen USB-Stick oder wenn keine Installationsrechte vorhanden sind.
-   Zum „Deinstallieren“ reicht es, die Datei zu löschen.
-3. **Windows SmartScreen:** Da diese Beta-Version (noch) nicht kostenpflichtig codesigniert ist,
-   zeigt Windows beim ersten Start möglicherweise „Der Computer wurde durch Windows geschützt“.
-   Nur wenn die Datei von der **offiziellen** Releases-Seite dieses Repositorys stammt: auf
-   „Weitere Informationen“ und danach „Trotzdem ausführen“ klicken. Windows-Sicherheitsfunktionen
-   (SmartScreen, Defender) sollten dafür **nicht dauerhaft deaktiviert** werden.
-
-### Ubuntu / Debian
-
-Bevorzugt im Downloadordner:
-
-```bash
-sudo apt install ./Learning-Arabic-Tool-Kurs1-<Version>-Ubuntu-amd64.deb
-```
-
-Anschließend über das Anwendungsmenü starten (Eintrag „Learning Arabic Tool“). Deinstallieren mit
-`sudo apt remove learning-arabic-tool`. Der Lernfortschritt liegt getrennt vom Programm (siehe
-unten) und bleibt bei einer Deinstallation erhalten, sofern nicht zusätzlich manuell gelöscht.
-
-### Sonstiges Linux (AppImage)
-
-```bash
-chmod +x Learning-Arabic-Tool-Kurs1-<Version>-Linux-x86_64.AppImage
-./Learning-Arabic-Tool-Kurs1-<Version>-Linux-x86_64.AppImage
-```
-
-Falls die AppImage-Datei nicht startet und eine FUSE-Fehlermeldung erscheint (auf manchen
-aktuellen Distributionen ist FUSE2 nicht mehr vorinstalliert): `sudo apt install libfuse2` (Ubuntu/
-Debian) bzw. das FUSE2-Paket der eigenen Distribution nachinstallieren — keine pauschalen
-Systemänderungen (z. B. AppArmor/Sandbox-Funktionen komplett abschalten) nötig oder empfohlen.
-
-### macOS
-
-1. Prozessortyp prüfen:  → „Über diesen Mac“ — steht dort „Chip: Apple M…“, ist das **Apple
-   Silicon** (arm64-Datei); steht dort „Prozessor: Intel …“, ist das **Intel** (x64-Datei).
-2. Passende `.dmg`-Datei öffnen, die App in den Ordner „Programme“ ziehen.
-3. **Gatekeeper:** Da die App (noch) nicht mit einem kostenpflichtigen Apple-Entwicklerzertifikat
-   signiert ist, meldet macOS beim ersten Start eventuell, die App könne nicht geöffnet werden. Nur
-   wenn die Datei von der **offiziellen** Releases-Seite dieses Repositorys stammt: im Finder
-   Rechtsklick auf die App → „Öffnen“ → im Dialog erneut „Öffnen“ bestätigen. Eine **vollständige**
-   Deaktivierung von Gatekeeper wird nicht empfohlen.
+1. [Website öffnen](https://moritzschallenberg.github.io/Learning-Arabic-Tool-FH-Aachen/) — in
+   jedem aktuellen Browser (Chrome, Firefox, Edge, Safari), auch am Tablet/Handy.
+2. Direkt loslegen — kein Konto, keine Installation, kein Download.
+3. Beim nächsten Besuch im selben Browser auf demselben Gerät ist der Fortschritt noch da.
 
 ### Weitere Nutzerinformationen
 
-- **Vollständig offline:** kein Benutzerkonto, keine Cloud, kein Tracking — die App braucht nach
-  der Installation keine Internetverbindung mehr.
-- **Lernfortschritt bleibt lokal**, getrennt vom Programmordner, im vom Betriebssystem
-  vorgesehenen Nutzerdatenverzeichnis (z. B. unter Windows
-  `%APPDATA%/Learning Arabic Tool/user_data/`, unter macOS
-  `~/Library/Application Support/Learning Arabic Tool/user_data/`, unter Linux
-  `~/.config/Learning Arabic Tool/user_data/`) — als JSON-Dateien (`progress.json`,
-  `settings.json`, …), mit automatischer `.bak`-Sicherung der zuletzt gültigen Version.
-- **Fortschritt sichern/übertragen:** den kompletten `user_data/`-Ordner kopieren; auf einem
-  anderen Rechner an derselben Stelle wieder einspielen (App vorher schließen).
-- **Update auf eine neue Version:** neue Version installieren/entpacken wie oben — der
-  Lernfortschritt bleibt erhalten, da er getrennt vom Programm gespeichert wird.
-- **Deinstallation:** über die normalen Betriebssystem-Wege (siehe oben je Plattform); der
-  Lernfortschritt bleibt dabei standardmäßig erhalten (siehe oben), bis er manuell gelöscht wird.
-- **Prüfsumme kontrollieren** (optional, für besonders vorsichtige Nutzer:innen):
-  `sha256sum <heruntergeladene Datei>` (Linux/macOS) bzw. `CertUtil -hashfile <Datei> SHA256`
-  (Windows) und mit dem passenden Eintrag in `SHA256SUMS.txt` vergleichen.
+- **Kein Benutzerkonto, keine Cloud, kein Tracking:** der Lernfortschritt wird ausschließlich im
+  lokalen Speicher des Browsers (`localStorage`) auf diesem Gerät abgelegt — er verlässt das Gerät
+  nie und wird an niemanden übertragen.
+- **Geräte-/browsergebunden:** der Fortschritt ist an **diesen Browser auf diesem Gerät** gebunden
+  — ein anderer Browser oder ein anderes Gerät startet ohne den bisherigen Fortschritt. Browser-
+  Daten löschen (z. B. „Browserdaten löschen“ → „Websitedaten“) entfernt auch den Lernfortschritt.
+- **Internetverbindung:** zum ersten Laden der Seite nötig; danach bereits geladene Inhalte
+  funktionieren auch bei kurzzeitig fehlender Verbindung weiter (kein Offline-Vollzugriff ohne
+  erneutes Laden — ein installierbarer Offline-Modus ist als spätere Ausbaustufe denkbar, siehe
+  ROADMAP).
 - **Fehler melden:** über [GitHub Issues](https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachen/issues).
 - **Nichtkommerzielle Einschränkung** (ElevenLabs-Audios) und **sprachlich ungeprüfter Beta-Status**:
   siehe die Hinweise ganz oben sowie [NOTICE-AUDIO.md](NOTICE-AUDIO.md).
@@ -130,18 +63,31 @@ Grundsystems (neuer Kurs, neue Sprache, neue App):
 git clone https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachen.git
 cd Learning-Arabic-Tool-FH-Aachen
 npm ci
-npm start
+npm start          # Desktop-Entwicklungsmodus (Electron) -- schnellster Weg zum Entwickeln
 ```
 
 ## Für die Entwicklung
 
 Zum Entwickeln/Testen wird **Node.js** (Version 18 oder neuer) benötigt — ausschließlich auf dem
-Entwicklungsrechner, nicht bei den späteren Nutzer:innen der fertigen App.
+Entwicklungsrechner, nie für Nutzer:innen der Website.
 
 ```bash
-npm install     # installiert Electron + electron-builder
-npm start       # startet die App im Entwicklungsmodus
+npm install     # installiert Electron + electron-builder (weiterhin für die lokale Entwicklung)
+npm start       # startet die App im Electron-Entwicklungsmodus
 ```
+
+### Website lokal bauen und ansehen
+
+```bash
+npm run build:web                       # baut die statische Website nach docs/
+npx http-server docs -p 8080            # oder: python3 -m http.server 8080 --directory docs
+```
+
+`docs/` wird bewusst **nicht** committet (siehe `.gitignore`) — `.github/workflows/pages.yml` baut
+sie bei jedem Push auf `main` frisch und veröffentlicht sie über GitHub Pages. Die Website teilt
+sich denselben Renderer-Code (`src/js/`, `src/css/`) mit der Electron-App; nur `src/js/webApi.js`
+(Browser-Ersatz für `preload.js` -- `localStorage`/`fetch()` statt Electron-IPC/Dateisystem) ist
+web-spezifisch, siehe `DEVELOPMENT_FOUNDATION.md`.
 
 ### Lokaler Sprachprüf-Arbeitsbereich (Entwicklungsauftrag 12)
 
@@ -165,7 +111,11 @@ npm run audio:verify            # rein lesende Konsistenzprüfung
 
 Siehe `AUDIO_GENERATION_GUIDE.md` für Details (Statusmodell, Kostenschutz, Provider-Einrichtung).
 
-### Fertige Pakete lokal bauen
+### Desktop-Installer lokal bauen (optional, nicht mehr der Hauptverteilweg)
+
+Seit „Website statt Installer" der primäre Verteilweg für Endnutzer:innen die Website ist,
+werden diese Installer nicht mehr automatisch veröffentlicht — die Befehle funktionieren aber
+weiterhin für eigene, lokale Zwecke:
 
 ```bash
 npm run build:win     # Windows-Installer (.exe)
@@ -208,21 +158,20 @@ für den behobenen Anzeigefehler (`test/unit/progressStats.test.js`, `test/unit/
 (wenn auch minimalem) HTML-Parser und CSS-Selektor-Matching bereit — bewusst kein jsdom, damit
 `npm test` ohne zusätzliche Downloads läuft.
 
-### Automatischer Multi-Plattform-Build (GitHub Actions) — überarbeitet in Entwicklungsauftrag 19
+### GitHub Actions: Website-Deployment (primär) und Desktop-Build (optional)
 
-`.github/workflows/build.yml` unterscheidet jetzt bewusst zwei Anlässe (Abschnitt 13):
+**`.github/workflows/pages.yml`** — der jetzt primäre, automatische Workflow: bei jedem Push auf
+`main` erst `npm run lint` + `npm run validate:course` + `npm test`, dann `npm run build:web` und
+Veröffentlichung des Ergebnisses über GitHub Pages (`actions/upload-pages-artifact` +
+`actions/deploy-pages`). Einmaliger, manueller Schritt (nicht per Workflow setzbar): Repository →
+Settings → Pages → Source: „GitHub Actions" auswählen.
 
-- **Push/Pull-Request auf `main`:** nur die schnelle Prüfung — `npm ci` + `npm run lint` +
-  `npm run validate:course` + `npm test`. **Keine** drei großen Plattform-Builds bei jedem Commit.
-- **Versionstag (`v*`) oder manueller Start:** zusätzlich eine Build-Matrix (Windows, Ubuntu/Linux,
-  macOS — Letzteres baut sowohl Intel- als auch Apple-Silicon-DMGs), jeweils gefolgt von
-  `npm run release:verify` GEGEN DAS TATSÄCHLICH GEBAUTE PAKET. Erst danach sammelt ein einziger,
-  separater Release-Job alle Plattform-Artefakte ein, erzeugt `SHA256SUMS.txt` und veröffentlicht
-  **genau ein** öffentliches Prerelease (kein Draft) — bewusst NICHT mehr, wie zuvor, aus jedem der
-  drei Matrix-Jobs unabhängig heraus (das hätte zu mehreren parallelen Releases führen können).
-  Vor jedem Release wird zusätzlich geprüft, dass `package.json`-Version und Git-Tag exakt
-  übereinstimmen — bei Abweichung schlägt der Workflow fehl. Rechte: standardmäßig nur Lesezugriff,
-  `contents: write` ausschließlich im Release-Job, ausschließlich `GITHUB_TOKEN`.
+**`.github/workflows/build.yml`** — der frühere, primäre Workflow für Desktop-Installer läuft seit
+„Website statt Installer" **nicht mehr automatisch** (kein Push-/Tag-/PR-Trigger mehr), sondern nur
+noch manuell über „Run workflow" im Actions-Tab, für den seltenen Fall, dass doch einmal ein
+Desktop-Installer gebraucht wird: Build-Matrix (Windows, Ubuntu/Linux, macOS Intel+Apple-Silicon),
+`npm run release:verify` gegen das tatsächlich gebaute Paket, ein zentraler Release-Job mit
+`SHA256SUMS.txt` und genau einem Prerelease. Details siehe Kommentar am Kopf der Datei.
 
 ## Architektur
 
@@ -1767,6 +1716,44 @@ Veröffentlichungs-/Lizenz-/Build-Arbeit.
   Versionsgeschichte dieser Datei.
 - **Bewusst nicht Teil dieser Runde:** erneute Sprachprüfung, neue Vokabeln/Theorie/Audio-
   Neuerzeugung, neue Aufgabentypen, Änderung von Grading/SRS/Feedback-Logik.
+
+## Website statt Installer
+
+Nach der ersten Veröffentlichung als Desktop-Installer (siehe oben) auf ausdrücklichen Nutzer-
+wunsch umgestellt: die primäre, automatisch veröffentlichte Verteilform ist jetzt eine **Website**
+über GitHub Pages statt herunterladbarer Plattform-Installer — kein Windows-SmartScreen/macOS-
+Gatekeeper/Multi-Plattform-Build-Ärger mehr, sofort per Link nutzbar.
+
+- **`src/js/webApi.js`** (neu): Browser-Ersatz für `preload.js` mit identischer
+  `window.api.*`-Schnittstelle — der komplette übrige Renderer-Code (`state.js`,
+  `audioPlayer.js`, alle Views) bleibt dadurch **unverändert** und weiß nicht, ob er in Electron
+  oder im Browser läuft. Fortschritt/Einstellungen über `localStorage` (statt Dateisystem),
+  Sprachpaket/Kursdaten über `fetch()` auf dieselben statischen JSON-Dateien (statt IPC), Audio
+  über `fetch()` + Base64-Kodierung im Browser (identisches Rückgabeformat wie bisher).
+- **`src/js/progressStore.js`** isomorph gemacht (dasselbe Muster wie `src/js/srs.js`): die reinen
+  Migrations-/Normalisierungsfunktionen (`migrateProgress`/`migrateSettings`/...) laufen jetzt
+  identisch in Node **und** im Browser; nur die dateibasierten Funktionen bleiben Node-only.
+- **`scripts/buildWebSite.js`** (`npm run build:web`) baut die statische Website nach `docs/`
+  (gitignored, nie committet) — kopiert Renderer + aktives Sprachpaket, fügt zwei zusätzliche
+  `<script>`-Tags in eine Kopie von `src/index.html` ein. `src/index.html`/`main.js`/`preload.js`
+  bleiben unverändert nutzbar für die weiterhin funktionierende lokale Electron-Entwicklung
+  (`npm start`).
+- **`.github/workflows/pages.yml`** (neu, primär): baut und veröffentlicht die Website bei jedem
+  Push auf `main`. **`.github/workflows/build.yml`** (früher primär) läuft seitdem nur noch manuell.
+- **Echt getestet, nicht nur angenommen:** lokaler Webserver + ein echter Browser-Kontext (über
+  Electrons Chromium als Treiber, da in dieser Umgebung kein eigenständiger Chromium-Build
+  verfügbar war) — 0 JavaScript-Fehler, Einstellungen (inkl. arabischer Schriftgröße) speichern
+  und überleben einen Seiten-Reload über `localStorage`, `window.api.loadAudio()` liefert echte,
+  gültige WAV-Daten (per Fetch + Base64 aus derselben Audiodatei wie die Desktop-Version).
+  Vollständige Testsuite (799 Unit- + 6 Integrationstests) weiterhin grün nach den
+  `progressStore.js`-Änderungen.
+- **Abstriche gegenüber der Desktop-App:** Fortschritt ist browser-/gerätegebunden
+  (`localStorage`, kein Datei-Export bisher) statt einer leicht kopierbaren Datei; kein
+  Offline-Vollzugriff ohne erneutes Laden (ein Service Worker für echtes Offline wäre eine
+  spätere Ausbaustufe). Die ElevenLabs-Nichtkommerziell-Einschränkung gilt unverändert weiter.
+- **Bewusst nicht Teil dieser Runde:** Löschen von `main.js`/`preload.js`/der
+  electron-builder-Konfiguration (bleiben als optionaler Desktop-Weg erhalten, siehe
+  `DEVELOPMENT_FOUNDATION.md`), Fortschritts-Export/-Import, Service-Worker-Offline-Modus.
 
 ## Bekannte Einschränkungen
 
