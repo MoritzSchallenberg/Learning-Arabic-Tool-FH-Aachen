@@ -81,7 +81,7 @@ const SettingsView = (() => {
             Ein Teil der Audiodateien (kostenloser ElevenLabs-Tarif) darf nur nichtkommerziell
             verwendet werden und erfordert die obige Namensnennung; der übrige Teil steht unter
             CC BY-SA 4.0, der Anwendungscode unter MIT. Details: LICENSES.md/NOTICE-AUDIO.md im
-            Installationsordner.
+            Quellcode-Repository auf GitHub.
           </p>
           <p class="text-hint">
             Dieses Projekt ist ein eigenständiges studentisches Lernprojekt und keine offizielle

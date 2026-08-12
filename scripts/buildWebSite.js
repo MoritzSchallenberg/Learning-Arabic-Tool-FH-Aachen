@@ -54,6 +54,7 @@ function main() {
   // Verhindert, dass GitHub Pages den Ordner durch Jekyll vorverarbeitet (nicht nötig für eine
   // reine statische JS-Anwendung, könnte sonst z. B. Unterordner mit führendem "_" verschlucken).
   fs.writeFileSync(path.join(OUT_DIR, '.nojekyll'), '', 'utf8');
+  fs.copyFileSync(path.join(ROOT, 'src', 'favicon.png'), path.join(OUT_DIR, 'favicon.png'));
 
   copyDir(path.join(ROOT, 'src', 'css'), path.join(OUT_DIR, 'css'));
   copyDir(path.join(ROOT, 'src', 'js'), path.join(OUT_DIR, 'js'), { exclude: ['review'] });

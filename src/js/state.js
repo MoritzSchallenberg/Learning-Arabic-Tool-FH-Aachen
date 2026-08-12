@@ -1,7 +1,9 @@
-// Zentrale Fortschritts-/Einstellungsverwaltung. Lädt/speichert über die preload-API
-// (main.js schreibt nach app.getPath('userData')/user_data/*.json, atomar + versioniert über
-// src/js/progressStore.js — P0.4). progress hat die Form { _version, languages: { [id]: {...} } },
-// die Migration von altem, unversioniertem Format passiert transparent in main.js beim Laden.
+// Zentrale Fortschritts-/Einstellungsverwaltung. Lädt/speichert ausschließlich über window.api.*
+// (Entwicklungsauftrag "Website statt Installer": in Electron preload.js -> main.js, schreibt nach
+// app.getPath('userData')/user_data/*.json, atomar + versioniert über src/js/progressStore.js —
+// P0.4; auf der Website stattdessen src/js/webApi.js -> localStorage, siehe dort). progress hat
+// die Form { _version, languages: { [id]: {...} } }, die Migration von altem, unversioniertem
+// Format passiert transparent beim Laden (progressStore.js#migrateProgress, in beiden Fällen).
 //
 // Entwicklungsauftrag 3 (Meilenstein B) ergänzt zwei weitere, pro Sprache gespeicherte Bereiche:
 // - theoryProgress: Lesefortschritt je Theorieseite (nicht gelesen/geöffnet/Mini-Check
