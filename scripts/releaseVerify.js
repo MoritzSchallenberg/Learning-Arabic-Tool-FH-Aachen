@@ -56,15 +56,26 @@ function makeAsarSource(asarPath) {
     );
   }
   const entries = asar.listPackage(asarPath); // z. B. ["/main.js", "/src/index.html", ...]
-  const fileSet = new Set(entries.map((e) => e.replace(/^\//, '')));
+  // Auf Windows kann @electron/asar Pfade mit Backslashes zurückgeben (OS-natives path.join
+  // beim internen Durchlaufen) -- alle Vergleiche in diesem Skript arbeiten aber durchgängig mit
+  // Vorwärtsschrägstrichen (das archivinterne Format). Normalisiert-Pfad -> Original-Archivpfad
+  // abbilden, damit exists()/listAll() plattformunabhängig funktionieren, extractFile() aber
+  // weiterhin den vom Archiv selbst gelieferten Original-Pfad bekommt.
+  const byNormalizedPath = new Map();
+  for (const entry of entries) {
+    const original = entry.replace(/^[/\\]/, '');
+    const normalized = original.replace(/\\/g, '/');
+    byNormalizedPath.set(normalized, original);
+  }
   return {
     label: `app.asar (${path.relative(ROOT, asarPath)})`,
     isRealPackage: true,
-    exists(relPath) { return fileSet.has(relPath); },
-    listAll() { return [...fileSet]; },
+    exists(relPath) { return byNormalizedPath.has(relPath); },
+    listAll() { return [...byNormalizedPath.keys()]; },
     readText(relPath) {
-      if (!this.exists(relPath)) return null;
-      return asar.extractFile(asarPath, relPath).toString('utf8');
+      const original = byNormalizedPath.get(relPath);
+      if (original === undefined) return null;
+      return asar.extractFile(asarPath, original).toString('utf8');
     }
   };
 }
@@ -279,4 +290,11 @@ function run() {
   if (failures.length > 0) process.exit(1);
 }
 
-run();
+try {
+  run();
+} catch (err) {
+  // Unerwarteter Fehler nie als roher, unformatierter Absturz zeigen -- gerade auf einer
+  // unbekannten CI-Plattform (Windows/macOS-Runner) soll die Ursache lesbar bleiben.
+  console.error(`\nrelease:verify: FEHLGESCHLAGEN (unerwarteter Fehler): ${err && err.stack ? err.stack : err}`);
+  process.exit(1);
+}
