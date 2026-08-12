@@ -8,7 +8,7 @@ macOS und Linux — ohne dass Nutzer:innen Python, Java oder eine Datenbank inst
 Alle Lerninhalte und der persönliche Fortschritt werden vollständig lokal gespeichert, die App
 funktioniert nach der Installation vollständig offline.
 
-> ⬇️ **[Neueste Version herunterladen](https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachenpublished/releases/latest)**
+> ⬇️ **[Neueste Version herunterladen](https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachen/releases/latest)**
 > — auf der Releases-Seite die Datei für **dein** Betriebssystem wählen (siehe Tabelle unten).
 > **Nicht** die automatisch von GitHub angebotene „Source code (zip)“ herunterladen — das ist der
 > Quellcode für Entwickler:innen, keine startfertige App (siehe „Entwicklerbereich“ ganz unten).
@@ -18,7 +18,7 @@ funktioniert nach der Installation vollständig offline.
 > vollständig von einer Person mit Arabischkenntnissen freigegeben**. Auch die Audiodateien wurden
 > technisch integriert, aber nicht vollständig akustisch geprüft. Bis zur Sprachprüfung sollte
 > diese App **nicht als verbindliches Unterrichtsmaterial** betrachtet werden. Fehler bitte über
-> [GitHub Issues](https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachenpublished/issues)
+> [GitHub Issues](https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachen/issues)
 > melden.
 
 > ℹ️ Ein Teil der ausgelieferten Audiodateien wurde mit dem **kostenlosen ElevenLabs-Tarif** erzeugt
@@ -35,7 +35,7 @@ Kurs, eine neue Sprache oder eine neue App wiederverwendet werden kann.
 
 ## Installation für Nutzer:innen (ohne Programmierkenntnisse)
 
-Lade auf der [Releases-Seite](https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachenpublished/releases/latest)
+Lade auf der [Releases-Seite](https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachen/releases/latest)
 genau EINE der folgenden Dateien herunter (nicht „Source code“):
 
 | Datei (Muster) | Für |
@@ -116,7 +116,7 @@ Systemänderungen (z. B. AppArmor/Sandbox-Funktionen komplett abschalten) nötig
 - **Prüfsumme kontrollieren** (optional, für besonders vorsichtige Nutzer:innen):
   `sha256sum <heruntergeladene Datei>` (Linux/macOS) bzw. `CertUtil -hashfile <Datei> SHA256`
   (Windows) und mit dem passenden Eintrag in `SHA256SUMS.txt` vergleichen.
-- **Fehler melden:** über [GitHub Issues](https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachenpublished/issues).
+- **Fehler melden:** über [GitHub Issues](https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachen/issues).
 - **Nichtkommerzielle Einschränkung** (ElevenLabs-Audios) und **sprachlich ungeprüfter Beta-Status**:
   siehe die Hinweise ganz oben sowie [NOTICE-AUDIO.md](NOTICE-AUDIO.md).
 
@@ -127,8 +127,8 @@ Für alle, die am Code weiterarbeiten möchten — siehe auch
 Grundsystems (neuer Kurs, neue Sprache, neue App):
 
 ```bash
-git clone https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachenpublished.git
-cd Learning-Arabic-Tool-FH-Aachenpublished
+git clone https://github.com/MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachen.git
+cd Learning-Arabic-Tool-FH-Aachen
 npm ci
 npm start
 ```

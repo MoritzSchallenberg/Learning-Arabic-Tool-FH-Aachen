@@ -3347,10 +3347,15 @@ UI-Smoke-Test (Entwicklungsauftrag 18)".
 
 ## 23. Entwicklungsauftrag 19: finale Veröffentlichung von Kurs 1 und Sicherung des Grundsystems (vom Nutzer, 2026-08-12)
 
-Erste öffentliche Version (`v1.0.0-beta.1`) über GitHub Releases im Zielrepository
-`MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachenpublished`. Details siehe README.md, Abschnitt
-"Finale Veröffentlichung von Kurs 1 und Sicherung des Grundsystems (Entwicklungsauftrag 19)", und
-das neue [`DEVELOPMENT_FOUNDATION.md`](DEVELOPMENT_FOUNDATION.md).
+Erste öffentliche Version (`v1.0.0-beta.1`) über GitHub Releases. Ursprünglich im Auftrag als
+Zielrepository benannt: `MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachenpublished` — dieses
+Repository existierte zum Zeitpunkt der Veröffentlichung noch nicht; der Nutzer hat stattdessen
+ausdrücklich das bereits bestehende `MoritzSchallenberg/Learning-Arabic-Tool-FH-Aachen` als Ziel
+bestimmt (per Deploy Key mit Schreibzugriff eingerichtet) und `origin/main` zeigte dort bereits auf
+denselben allerersten Commit wie `feature/arabic-v1` — sauberer Fast-Forward-Push, keine
+Historie überschrieben. Details siehe README.md, Abschnitt "Finale Veröffentlichung von Kurs 1
+und Sicherung des Grundsystems (Entwicklungsauftrag 19)", und das neue
+[`DEVELOPMENT_FOUNDATION.md`](DEVELOPMENT_FOUNDATION.md).
 
 - ElevenLabs-Audiolizenz geklärt (kostenloser Tarif → nichtkommerziell, Namensnennung), neues
   `NOTICE-AUDIO.md`, überarbeitetes `LICENSES.md`, maschinenlesbare
